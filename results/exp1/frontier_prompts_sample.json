@@ -1,0 +1,227 @@
+[
+  {
+    "id": "C-0001-invoice_number-INV_w4-r0",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-1588\nINV-1399\nINV-8698\nINV-7973\nINV-0911\nINV-4170\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-1588\nINV-1399\nINV-8698\nINV-7973\nINV-0911\nINV-4170\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-1588\nINV-1399\nINV-8698\nINV-7973\nINV-0911\nINV-4170\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [8]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 01478 | 13569 | 1789 | 01389\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{4}$"
+  },
+  {
+    "id": "C-0002-invoice_number-INV_w4-r1",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-2264\nINV-6861\nINV-6425\nINV-2477\nINV-6472\nINV-5877\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-2264\nINV-6861\nINV-6425\nINV-2477\nINV-6472\nINV-5877\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-2264\nINV-6861\nINV-6425\nINV-2477\nINV-6472\nINV-5877\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [8]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 256 | 248 | 267 | 12457\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{4}$"
+  },
+  {
+    "id": "C-0003-invoice_number-INV_w4-r2",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-2627\nINV-0586\nINV-0214\nINV-5842\nINV-1083\nINV-9490\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-2627\nINV-0586\nINV-0214\nINV-5842\nINV-1083\nINV-9490\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-2627\nINV-0586\nINV-0214\nINV-5842\nINV-1083\nINV-9490\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [8]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 01259 | 024568 | 12489 | 023467\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{4}$"
+  },
+  {
+    "id": "C-0004-invoice_number-INV_w4-r3",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-5373\nINV-9241\nINV-9689\nINV-8210\nINV-4602\nINV-8837\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-5373\nINV-9241\nINV-9689\nINV-8210\nINV-4602\nINV-8837\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-5373\nINV-9241\nINV-9689\nINV-8210\nINV-4602\nINV-8837\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [8]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 4589 | 2368 | 013478 | 012379\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{4}$"
+  },
+  {
+    "id": "C-0005-invoice_number-INV_w4-r4",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-7874\nINV-5721\nINV-2835\nINV-7699\nINV-0854\nINV-1775\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-7874\nINV-5721\nINV-2835\nINV-7699\nINV-0854\nINV-1775\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-7874\nINV-5721\nINV-2835\nINV-7699\nINV-0854\nINV-1775\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [8]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 01257 | 678 | 23579 | 1459\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{4}$"
+  },
+  {
+    "id": "C-0006-invoice_number-INV_w5-r0",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-83725\nINV-27812\nINV-06176\nINV-95851\nINV-90431\nINV-63499\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-83725\nINV-27812\nINV-06176\nINV-95851\nINV-90431\nINV-63499\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-83725\nINV-27812\nINV-06176\nINV-95851\nINV-90431\nINV-63499\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [9]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 02689 | 03567 | 1478 | 123579 | 12569\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{5}$"
+  },
+  {
+    "id": "C-0007-invoice_number-INV_w5-r1",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-75106\nINV-26148\nINV-83615\nINV-20299\nINV-44613\nINV-51619\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-75106\nINV-26148\nINV-83615\nINV-20299\nINV-44613\nINV-51619\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-75106\nINV-26148\nINV-83615\nINV-20299\nINV-44613\nINV-51619\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [9]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 24578 | 013456 | 126 | 0149 | 35689\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{5}$"
+  },
+  {
+    "id": "C-0008-invoice_number-INV_w5-r2",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-08534\nINV-70424\nINV-76134\nINV-14617\nINV-54420\nINV-14613\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-08534\nINV-70424\nINV-76134\nINV-14617\nINV-54420\nINV-14613\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-08534\nINV-70424\nINV-76134\nINV-14617\nINV-54420\nINV-14613\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [9]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 0157 | 0468 | 1456 | 123 | 0347\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{5}$"
+  },
+  {
+    "id": "C-0009-invoice_number-INV_w5-r3",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-11463\nINV-51102\nINV-03830\nINV-04030\nINV-04263\nINV-71671\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-11463\nINV-51102\nINV-03830\nINV-04030\nINV-04263\nINV-71671\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-11463\nINV-51102\nINV-03830\nINV-04030\nINV-04263\nINV-71671\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [9]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 0157 | 134 | 012468 | 0367 | 0123\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{5}$"
+  },
+  {
+    "id": "C-0010-invoice_number-INV_w5-r4",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-58509\nINV-86801\nINV-54316\nINV-10302\nINV-25021\nINV-52051\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-58509\nINV-86801\nINV-54316\nINV-10302\nINV-25021\nINV-52051\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-58509\nINV-86801\nINV-54316\nINV-10302\nINV-25021\nINV-52051\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [9]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 1258 | 024568 | 0358 | 0125 | 1269\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{5}$"
+  },
+  {
+    "id": "C-0011-invoice_number-INV_w6-r0",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-534479\nINV-672521\nINV-899033\nINV-212668\nINV-692271\nINV-383129\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-534479\nINV-672521\nINV-899033\nINV-212668\nINV-692271\nINV-383129\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-534479\nINV-672521\nINV-899033\nINV-212668\nINV-692271\nINV-383129\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [10]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 23568 | 13789 | 2349 | 012456 | 2367 | 1389\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{6}$"
+  },
+  {
+    "id": "C-0012-invoice_number-INV_w6-r1",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-695631\nINV-439546\nINV-180756\nINV-781724\nINV-664122\nINV-028485\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-695631\nINV-439546\nINV-180756\nINV-781724\nINV-664122\nINV-028485\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-695631\nINV-439546\nINV-180756\nINV-781724\nINV-664122\nINV-028485\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [10]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 01467 | 23689 | 014589 | 14567 | 23458 | 12456\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{6}$"
+  },
+  {
+    "id": "C-0013-invoice_number-INV_w6-r2",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-000714\nINV-655572\nINV-234888\nINV-302265\nINV-490898\nINV-233843\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-000714\nINV-655572\nINV-234888\nINV-302265\nINV-490898\nINV-233843\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-000714\nINV-655572\nINV-234888\nINV-302265\nINV-490898\nINV-233843\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [10]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 02346 | 0359 | 02345 | 2578 | 146789 | 23458\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{6}$"
+  },
+  {
+    "id": "C-0014-invoice_number-INV_w6-r3",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-404915\nINV-321687\nINV-078443\nINV-173675\nINV-127255\nINV-565174\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-404915\nINV-321687\nINV-078443\nINV-173675\nINV-127255\nINV-565174\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-404915\nINV-321687\nINV-078443\nINV-173675\nINV-127255\nINV-565174\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [10]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 01345 | 0267 | 134578 | 12469 | 14578 | 3457\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{6}$"
+  },
+  {
+    "id": "C-0015-invoice_number-INV_w6-r4",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-762872\nINV-045331\nINV-618814\nINV-433760\nINV-012120\nINV-666120\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-762872\nINV-045331\nINV-618814\nINV-433760\nINV-012120\nINV-666120\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-762872\nINV-045331\nINV-618814\nINV-433760\nINV-012120\nINV-666120\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [10]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 0467 | 1346 | 23568 | 1378 | 12367 | 0124\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{6}$"
+  },
+  {
+    "id": "C-0016-invoice_number-INV_w8-r0",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-13139002\nINV-64408186\nINV-95360661\nINV-32496567\nINV-99517946\nINV-43210772\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-13139002\nINV-64408186\nINV-95360661\nINV-32496567\nINV-99517946\nINV-43210772\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-13139002\nINV-64408186\nINV-95360661\nINV-32496567\nINV-99517946\nINV-43210772\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [12]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 13469 | 23459 | 12345 | 01369 | 06789 | 015679 | 04678 | 1267\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{8}$"
+  },
+  {
+    "id": "C-0017-invoice_number-INV_w8-r1",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-51429309\nINV-24108040\nINV-57444860\nINV-71964678\nINV-31845314\nINV-53025441\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-51429309\nINV-24108040\nINV-57444860\nINV-71964678\nINV-31845314\nINV-53025441\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-51429309\nINV-24108040\nINV-57444860\nINV-71964678\nINV-31845314\nINV-53025441\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [12]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 2357 | 1347 | 01489 | 0246 | 4589 | 03468 | 01467 | 01489\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{8}$"
+  },
+  {
+    "id": "C-0018-invoice_number-INV_w8-r2",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-80222324\nINV-56505434\nINV-42531201\nINV-41294321\nINV-44565338\nINV-23283774\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-80222324\nINV-56505434\nINV-42531201\nINV-41294321\nINV-44565338\nINV-23283774\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-80222324\nINV-56505434\nINV-42531201\nINV-41294321\nINV-44565338\nINV-23283774\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [12]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 2458 | 012346 | 25 | 023689 | 12345 | 2347 | 0237 | 148\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{8}$"
+  },
+  {
+    "id": "C-0019-invoice_number-INV_w8-r3",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-92640886\nINV-21547712\nINV-74622102\nINV-29858889\nINV-51088283\nINV-25948935\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-92640886\nINV-21547712\nINV-74622102\nINV-29858889\nINV-51088283\nINV-25948935\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-92640886\nINV-21547712\nINV-74622102\nINV-29858889\nINV-51088283\nINV-25948935\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [12]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 2579 | 12459 | 05689 | 2458 | 0278 | 12789 | 0138 | 23569\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{8}$"
+  },
+  {
+    "id": "C-0020-invoice_number-INV_w8-r4",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-50501714\nINV-17659014\nINV-49425526\nINV-94168370\nINV-83964882\nINV-85729958\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-50501714\nINV-17659014\nINV-49425526\nINV-94168370\nINV-83964882\nINV-85729958\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-50501714\nINV-17659014\nINV-49425526\nINV-94168370\nINV-83964882\nINV-85729958\n</examples>\n\n<features>\ncommon_prefix: 'INV-'\ncommon_suffix: ''\nlengths: [12]\ntoken_signatures: ['upd']\ncolumns: I | N | V | - | 14589 | 034579 | 145679 | 0256 | 14589 | 035789 | 12578 | 02468\n</features>\n"
+    },
+    "gold_regex": "^INV-\\d{8}$"
+  },
+  {
+    "id": "C-0021-invoice_number-INV_year-r0",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-2026-82047\nINV-2026-81776\nINV-2035-03997\nINV-2026-46376\nINV-2031-37853\nINV-2024-42772\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-2026-82047\nINV-2026-81776\nINV-2035-03997\nINV-2026-46376\nINV-2031-37853\nINV-2024-42772\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-2026-82047\nINV-2026-81776\nINV-2035-03997\nINV-2026-46376\nINV-2031-37853\nINV-2024-42772\n</examples>\n\n<features>\ncommon_prefix: 'INV-20'\ncommon_suffix: ''\nlengths: [14]\ntoken_signatures: ['updpd']\ncolumns: I | N | V | - | 2 | 0 | 23 | 1456 | - | 0348 | 12367 | 03789 | 4579 | 2367\n</features>\n"
+    },
+    "gold_regex": "^INV-20(?:2[4-9]|3[0-5])-\\d{5}$"
+  },
+  {
+    "id": "C-0022-invoice_number-INV_year-r1",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-2035-41537\nINV-2028-18371\nINV-2024-23932\nINV-2024-71166\nINV-2028-47266\nINV-2024-39406\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-2035-41537\nINV-2028-18371\nINV-2024-23932\nINV-2024-71166\nINV-2028-47266\nINV-2024-39406\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-2035-41537\nINV-2028-18371\nINV-2024-23932\nINV-2024-71166\nINV-2028-47266\nINV-2024-39406\n</examples>\n\n<features>\ncommon_prefix: 'INV-20'\ncommon_suffix: ''\nlengths: [14]\ntoken_signatures: ['updpd']\ncolumns: I | N | V | - | 2 | 0 | 23 | 458 | - | 12347 | 13789 | 123459 | 0367 | 1267\n</features>\n"
+    },
+    "gold_regex": "^INV-20(?:2[4-9]|3[0-5])-\\d{5}$"
+  },
+  {
+    "id": "C-0023-invoice_number-INV_year-r2",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-2032-34885\nINV-2025-08562\nINV-2033-95702\nINV-2025-19749\nINV-2035-63555\nINV-2030-58464\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-2032-34885\nINV-2025-08562\nINV-2033-95702\nINV-2025-19749\nINV-2035-63555\nINV-2030-58464\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-2032-34885\nINV-2025-08562\nINV-2033-95702\nINV-2025-19749\nINV-2035-63555\nINV-2030-58464\n</examples>\n\n<features>\ncommon_prefix: 'INV-20'\ncommon_suffix: ''\nlengths: [14]\ntoken_signatures: ['updpd']\ncolumns: I | N | V | - | 2 | 0 | 23 | 0235 | - | 013569 | 34589 | 4578 | 04568 | 2459\n</features>\n"
+    },
+    "gold_regex": "^INV-20(?:2[4-9]|3[0-5])-\\d{5}$"
+  },
+  {
+    "id": "C-0024-invoice_number-INV_year-r3",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nINV-2025-97321\nINV-2027-94423\nINV-2031-54061\nINV-2031-18617\nINV-2024-04974\nINV-2029-95061\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nINV-2025-97321\nINV-2027-94423\nINV-2031-54061\nINV-2031-18617\nINV-2024-04974\nINV-2029-95061\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nINV-2025-97321\nINV-2027-94423\nINV-2031-54061\nINV-2031-18617\nINV-2024-04974\nINV-2029-95061\n</examples>\n\n<features>\ncommon_prefix: 'INV-20'\ncommon_suffix: ''\nlengths: [14]\ntoken_signatures: ['updpd']\ncolumns: I | N | V | - | 2 | 0 | 23 | 14579 | - | 0159 | 4578 | 03469 | 1267 | 1347\n</features>\n"
+    },
+    "gold_regex": "^INV-20(?:2[4-9]|3[0-5])-\\d{5}$"
+  },
+  {
+    "id": "C-0151-customer_id-USR_state-r0",
+    "prompts": {
+      "simple": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\n\n<examples>\nUSR-203-DE\nUSR-507-SO\nUSR-627-AM\nUSR-316-VV\nUSR-653-YD\nUSR-234-AU\n</examples>\n",
+      "guarded": "Infer the most useful generalized regular expression describing the common structure of these strings.\n\nReturn only the regex.\nDo not answer with .*, .+, or \\w+.\nDo not memorize the examples as an alternation of the full strings.\nDo not over-generalize past the structure the examples support.\n\n<examples>\nUSR-203-DE\nUSR-507-SO\nUSR-627-AM\nUSR-316-VV\nUSR-653-YD\nUSR-234-AU\n</examples>\n",
+      "features": "Infer the most useful generalized regular expression for these strings.\nYou are also given deterministic structural features. Use them.\nReturn only the regex.\n\n<examples>\nUSR-203-DE\nUSR-507-SO\nUSR-627-AM\nUSR-316-VV\nUSR-653-YD\nUSR-234-AU\n</examples>\n\n<features>\ncommon_prefix: 'USR-'\ncommon_suffix: ''\nlengths: [10]\ntoken_signatures: ['updpu']\ncolumns: U | S | R | - | 2356 | 01235 | 3467 | - | ADSVY | DEMOUV\n</features>\n"
+    },
+    "gold_regex": "^USR-\\d{3}-[A-Z]{2}$"
+  }
+]

@@ -1,0 +1,1837 @@
+{
+  "frontier": {
+    "openai": false,
+    "anthropic": false,
+    "note": "Frontier baselines are part of Gate 1 but were not executed in this run because neither OPENAI_API_KEY nor ANTHROPIC_API_KEY is set."
+  },
+  "benchmarks": {
+    "bench_c": {
+      "n_tasks": 554,
+      "systems": [
+        {
+          "system": "memorize",
+          "n": 554,
+          "semantic_accuracy": 0.5172,
+          "positive_recall": 0.0344,
+          "negative_rejection": 1.0,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 0.01,
+            "p95": 0.021,
+            "p99": 0.033,
+            "mean": 0.012
+          },
+          "mean_char_length": 97.89,
+          "mean_alternations": 5.0,
+          "macro_semantic_accuracy": 0.519,
+          "by_domain": {
+            "account_reference": 0.5,
+            "bank_reference": 0.5,
+            "currency": 0.5,
+            "customer_id": 0.5,
+            "date": 0.5,
+            "document_filename": 0.5167,
+            "doi": 0.5,
+            "email": 0.5,
+            "filename": 0.5,
+            "form_field": 0.6958,
+            "hash": 0.5,
+            "invoice_number": 0.5,
+            "legal_numbering": 0.5042,
+            "log_line": 0.5,
+            "measurement": 0.5062,
+            "ocr_field": 0.5,
+            "order_id": 0.5,
+            "page_reference": 0.5014,
+            "percentage": 0.5188,
+            "phone": 0.5,
+            "postal_code": 0.5,
+            "scientific_id": 0.5,
+            "section_id": 0.5156,
+            "serial": 0.5,
+            "shipping_code": 0.5,
+            "sku": 0.5,
+            "spreadsheet_column": 0.8667,
+            "time": 0.501,
+            "tracking": 0.5,
+            "transaction_id": 0.5,
+            "url": 0.5,
+            "uuid": 0.5,
+            "version": 0.5
+          },
+          "n_evaluated": 554,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.5172
+        },
+        {
+          "system": "heuristic",
+          "n": 554,
+          "semantic_accuracy": 0.9316,
+          "positive_recall": 0.9137,
+          "negative_rejection": 0.9494,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0325,
+          "latency_ms": {
+            "p50": 0.229,
+            "p95": 0.824,
+            "p99": 1.719,
+            "mean": 0.312
+          },
+          "mean_char_length": 25.83,
+          "mean_alternations": 0.0,
+          "macro_semantic_accuracy": 0.9208,
+          "by_domain": {
+            "account_reference": 1.0,
+            "bank_reference": 0.8764,
+            "currency": 0.959,
+            "customer_id": 1.0,
+            "date": 0.9492,
+            "document_filename": 0.9854,
+            "doi": 0.9208,
+            "email": 0.9153,
+            "filename": 0.825,
+            "form_field": 0.8486,
+            "hash": 0.6458,
+            "invoice_number": 0.9983,
+            "legal_numbering": 0.951,
+            "log_line": 0.9153,
+            "measurement": 0.9375,
+            "ocr_field": 0.9569,
+            "order_id": 0.9694,
+            "page_reference": 0.975,
+            "percentage": 0.9667,
+            "phone": 0.9896,
+            "postal_code": 1.0,
+            "scientific_id": 0.9792,
+            "section_id": 0.8615,
+            "serial": 0.7861,
+            "shipping_code": 1.0,
+            "sku": 0.9992,
+            "spreadsheet_column": 0.9125,
+            "time": 0.974,
+            "tracking": 0.8819,
+            "transaction_id": 0.8125,
+            "url": 0.9292,
+            "uuid": 0.7625,
+            "version": 0.9042
+          },
+          "n_evaluated": 554,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.9316
+        },
+        {
+          "system": "grex_default",
+          "n": 554,
+          "semantic_accuracy": 0.5172,
+          "positive_recall": 0.0344,
+          "negative_rejection": 1.0,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 2.071,
+            "p95": 5.512,
+            "p99": 11.544,
+            "mean": 2.707
+          },
+          "mean_char_length": 83.13,
+          "mean_alternations": 4.81,
+          "macro_semantic_accuracy": 0.519,
+          "by_domain": {
+            "account_reference": 0.5,
+            "bank_reference": 0.5,
+            "currency": 0.5,
+            "customer_id": 0.5,
+            "date": 0.5,
+            "document_filename": 0.5167,
+            "doi": 0.5,
+            "email": 0.5,
+            "filename": 0.5,
+            "form_field": 0.6958,
+            "hash": 0.5,
+            "invoice_number": 0.5,
+            "legal_numbering": 0.5042,
+            "log_line": 0.5,
+            "measurement": 0.5062,
+            "ocr_field": 0.5,
+            "order_id": 0.5,
+            "page_reference": 0.5014,
+            "percentage": 0.5188,
+            "phone": 0.5,
+            "postal_code": 0.5,
+            "scientific_id": 0.5,
+            "section_id": 0.5156,
+            "serial": 0.5,
+            "shipping_code": 0.5,
+            "sku": 0.5,
+            "spreadsheet_column": 0.8667,
+            "time": 0.501,
+            "tracking": 0.5,
+            "transaction_id": 0.5,
+            "url": 0.5,
+            "uuid": 0.5,
+            "version": 0.5
+          },
+          "n_evaluated": 554,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.5172
+        },
+        {
+          "system": "grex_digits",
+          "n": 554,
+          "semantic_accuracy": 0.7698,
+          "positive_recall": 0.5434,
+          "negative_rejection": 0.9962,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.568,
+            "p95": 4.475,
+            "p99": 9.775,
+            "mean": 2.113
+          },
+          "mean_char_length": 64.56,
+          "mean_alternations": 2.137,
+          "macro_semantic_accuracy": 0.7572,
+          "by_domain": {
+            "account_reference": 1.0,
+            "bank_reference": 0.7375,
+            "currency": 0.9493,
+            "customer_id": 0.5021,
+            "date": 0.9133,
+            "document_filename": 0.7656,
+            "doi": 0.4958,
+            "email": 0.5,
+            "filename": 0.5,
+            "form_field": 0.9931,
+            "hash": 0.5,
+            "invoice_number": 0.9983,
+            "legal_numbering": 0.7896,
+            "log_line": 0.7333,
+            "measurement": 0.899,
+            "ocr_field": 0.9833,
+            "order_id": 0.6847,
+            "page_reference": 0.95,
+            "percentage": 0.9667,
+            "phone": 0.9448,
+            "postal_code": 0.7507,
+            "scientific_id": 0.7625,
+            "section_id": 0.6458,
+            "serial": 0.5528,
+            "shipping_code": 1.0,
+            "sku": 0.5,
+            "spreadsheet_column": 0.9875,
+            "time": 0.9552,
+            "tracking": 0.6667,
+            "transaction_id": 0.5,
+            "url": 0.5417,
+            "uuid": 0.5,
+            "version": 0.8167
+          },
+          "n_evaluated": 554,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.7698
+        },
+        {
+          "system": "grex_words",
+          "n": 554,
+          "semantic_accuracy": 0.8288,
+          "positive_recall": 0.8997,
+          "negative_rejection": 0.7578,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.434,
+            "p95": 2.035,
+            "p99": 2.609,
+            "mean": 1.497
+          },
+          "mean_char_length": 38.73,
+          "mean_alternations": 0.379,
+          "macro_semantic_accuracy": 0.8176,
+          "by_domain": {
+            "account_reference": 0.8692,
+            "bank_reference": 0.7972,
+            "currency": 0.8736,
+            "customer_id": 0.8785,
+            "date": 0.8592,
+            "document_filename": 0.801,
+            "doi": 0.6458,
+            "email": 0.7472,
+            "filename": 0.7389,
+            "form_field": 0.825,
+            "hash": 0.8208,
+            "invoice_number": 0.8594,
+            "legal_numbering": 0.8208,
+            "log_line": 0.8083,
+            "measurement": 0.8146,
+            "ocr_field": 0.8847,
+            "order_id": 0.8792,
+            "page_reference": 0.8431,
+            "percentage": 0.875,
+            "phone": 0.8167,
+            "postal_code": 0.8667,
+            "scientific_id": 0.7833,
+            "section_id": 0.7583,
+            "serial": 0.7944,
+            "shipping_code": 0.8875,
+            "sku": 0.8758,
+            "spreadsheet_column": 0.7847,
+            "time": 0.8479,
+            "tracking": 0.8736,
+            "transaction_id": 0.8812,
+            "url": 0.5375,
+            "uuid": 0.9125,
+            "version": 0.7208
+          },
+          "n_evaluated": 554,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.8288
+        },
+        {
+          "system": "grex_repetitions",
+          "n": 554,
+          "semantic_accuracy": 0.5171,
+          "positive_recall": 0.0344,
+          "negative_rejection": 0.9998,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 2.111,
+            "p95": 5.938,
+            "p99": 16.003,
+            "mean": 3.008
+          },
+          "mean_char_length": 90.52,
+          "mean_alternations": 4.823,
+          "macro_semantic_accuracy": 0.5189,
+          "by_domain": {
+            "account_reference": 0.5,
+            "bank_reference": 0.5,
+            "currency": 0.5,
+            "customer_id": 0.5,
+            "date": 0.5,
+            "document_filename": 0.5167,
+            "doi": 0.5,
+            "email": 0.5,
+            "filename": 0.5,
+            "form_field": 0.6958,
+            "hash": 0.5,
+            "invoice_number": 0.4991,
+            "legal_numbering": 0.5042,
+            "log_line": 0.5,
+            "measurement": 0.5062,
+            "ocr_field": 0.5,
+            "order_id": 0.5,
+            "page_reference": 0.5014,
+            "percentage": 0.5188,
+            "phone": 0.5,
+            "postal_code": 0.5,
+            "scientific_id": 0.5,
+            "section_id": 0.5156,
+            "serial": 0.5,
+            "shipping_code": 0.5,
+            "sku": 0.5,
+            "spreadsheet_column": 0.8667,
+            "time": 0.5,
+            "tracking": 0.5,
+            "transaction_id": 0.5,
+            "url": 0.5,
+            "uuid": 0.5,
+            "version": 0.5
+          },
+          "n_evaluated": 554,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.5171
+        },
+        {
+          "system": "grex_combined",
+          "n": 554,
+          "semantic_accuracy": 0.8658,
+          "positive_recall": 0.829,
+          "negative_rejection": 0.9027,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.533,
+            "p95": 3.244,
+            "p99": 5.971,
+            "mean": 1.841
+          },
+          "mean_char_length": 54.27,
+          "mean_alternations": 1.014,
+          "macro_semantic_accuracy": 0.8409,
+          "by_domain": {
+            "account_reference": 0.9758,
+            "bank_reference": 0.8056,
+            "currency": 0.9535,
+            "customer_id": 0.9222,
+            "date": 0.9708,
+            "document_filename": 0.8615,
+            "doi": 0.7125,
+            "email": 0.7472,
+            "filename": 0.7444,
+            "form_field": 0.8792,
+            "hash": 0.4875,
+            "invoice_number": 0.9418,
+            "legal_numbering": 0.8917,
+            "log_line": 0.7875,
+            "measurement": 0.9021,
+            "ocr_field": 0.9694,
+            "order_id": 0.9417,
+            "page_reference": 0.9167,
+            "percentage": 0.9667,
+            "phone": 0.9552,
+            "postal_code": 0.9736,
+            "scientific_id": 0.9333,
+            "section_id": 0.8094,
+            "serial": 0.6042,
+            "shipping_code": 1.0,
+            "sku": 0.9275,
+            "spreadsheet_column": 0.8208,
+            "time": 0.949,
+            "tracking": 0.8458,
+            "transaction_id": 0.6375,
+            "url": 0.6292,
+            "uuid": 0.5,
+            "version": 0.7875
+          },
+          "n_evaluated": 554,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.8658
+        },
+        {
+          "system": "fast",
+          "n": 8,
+          "semantic_accuracy": 0.0,
+          "positive_recall": 0.0,
+          "negative_rejection": 0.0,
+          "valid_output_rate": 0.0,
+          "visible_match_rate": 0.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 3931.073,
+            "p95": 4624.175,
+            "p99": 4642.692,
+            "mean": 3853.029
+          },
+          "mean_char_length": 4.0,
+          "mean_alternations": 0.0,
+          "macro_semantic_accuracy": 0.0,
+          "by_domain": {
+            "invoice_number": 0.0
+          },
+          "n_evaluated": 8,
+          "timeouts": 8,
+          "accuracy_on_completed": null
+        }
+      ],
+      "taxonomy": {
+        "memorize": {
+          "variable-length inference": {
+            "n": 230,
+            "rate": 0.4152
+          },
+          "too narrow": {
+            "n": 225,
+            "rate": 0.4061
+          },
+          "optional region": {
+            "n": 69,
+            "rate": 0.1245
+          },
+          "success": {
+            "n": 15,
+            "rate": 0.0271
+          },
+          "OCR noise": {
+            "n": 10,
+            "rate": 0.0181
+          },
+          "alternation": {
+            "n": 5,
+            "rate": 0.009
+          }
+        },
+        "heuristic": {
+          "success": {
+            "n": 402,
+            "rate": 0.7256
+          },
+          "optional region": {
+            "n": 49,
+            "rate": 0.0884
+          },
+          "variable-length inference": {
+            "n": 34,
+            "rate": 0.0614
+          },
+          "character-class inference": {
+            "n": 24,
+            "rate": 0.0433
+          },
+          "too narrow": {
+            "n": 22,
+            "rate": 0.0397
+          },
+          "too_broad": {
+            "n": 18,
+            "rate": 0.0325
+          },
+          "mixed population": {
+            "n": 3,
+            "rate": 0.0054
+          },
+          "OCR noise": {
+            "n": 1,
+            "rate": 0.0018
+          },
+          "alternation": {
+            "n": 1,
+            "rate": 0.0018
+          }
+        },
+        "grex_default": {
+          "variable-length inference": {
+            "n": 230,
+            "rate": 0.4152
+          },
+          "too narrow": {
+            "n": 225,
+            "rate": 0.4061
+          },
+          "optional region": {
+            "n": 69,
+            "rate": 0.1245
+          },
+          "success": {
+            "n": 15,
+            "rate": 0.0271
+          },
+          "OCR noise": {
+            "n": 10,
+            "rate": 0.0181
+          },
+          "alternation": {
+            "n": 5,
+            "rate": 0.009
+          }
+        },
+        "grex_digits": {
+          "success": {
+            "n": 251,
+            "rate": 0.4531
+          },
+          "variable-length inference": {
+            "n": 139,
+            "rate": 0.2509
+          },
+          "too narrow": {
+            "n": 130,
+            "rate": 0.2347
+          },
+          "optional region": {
+            "n": 34,
+            "rate": 0.0614
+          }
+        },
+        "grex_words": {
+          "character-class inference": {
+            "n": 209,
+            "rate": 0.3773
+          },
+          "optional region": {
+            "n": 151,
+            "rate": 0.2726
+          },
+          "variable-length inference": {
+            "n": 109,
+            "rate": 0.1968
+          },
+          "success": {
+            "n": 52,
+            "rate": 0.0939
+          },
+          "too broad": {
+            "n": 20,
+            "rate": 0.0361
+          },
+          "mixed population": {
+            "n": 5,
+            "rate": 0.009
+          },
+          "alternation": {
+            "n": 4,
+            "rate": 0.0072
+          },
+          "semantic class recognition": {
+            "n": 3,
+            "rate": 0.0054
+          },
+          "too_broad": {
+            "n": 1,
+            "rate": 0.0018
+          }
+        },
+        "grex_repetitions": {
+          "variable-length inference": {
+            "n": 230,
+            "rate": 0.4152
+          },
+          "too narrow": {
+            "n": 225,
+            "rate": 0.4061
+          },
+          "optional region": {
+            "n": 69,
+            "rate": 0.1245
+          },
+          "success": {
+            "n": 15,
+            "rate": 0.0271
+          },
+          "OCR noise": {
+            "n": 10,
+            "rate": 0.0181
+          },
+          "alternation": {
+            "n": 5,
+            "rate": 0.009
+          }
+        },
+        "grex_combined": {
+          "success": {
+            "n": 281,
+            "rate": 0.5072
+          },
+          "variable-length inference": {
+            "n": 86,
+            "rate": 0.1552
+          },
+          "optional region": {
+            "n": 74,
+            "rate": 0.1336
+          },
+          "character-class inference": {
+            "n": 54,
+            "rate": 0.0975
+          },
+          "too narrow": {
+            "n": 43,
+            "rate": 0.0776
+          },
+          "too broad": {
+            "n": 12,
+            "rate": 0.0217
+          },
+          "mixed population": {
+            "n": 2,
+            "rate": 0.0036
+          },
+          "semantic class recognition": {
+            "n": 1,
+            "rate": 0.0018
+          },
+          "too_broad": {
+            "n": 1,
+            "rate": 0.0018
+          }
+        },
+        "fast": {
+          "invalid_output": {
+            "n": 8,
+            "rate": 1.0
+          }
+        }
+      }
+    },
+    "bench_b": {
+      "n_tasks": 1500,
+      "systems": [
+        {
+          "system": "memorize",
+          "n": 1500,
+          "semantic_accuracy": 0.5001,
+          "positive_recall": 0.0001,
+          "negative_rejection": 1.0,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 0.007,
+            "p95": 0.016,
+            "p99": 0.023,
+            "mean": 0.008
+          },
+          "mean_char_length": 95.26,
+          "mean_alternations": 4.685,
+          "macro_semantic_accuracy": 0.5,
+          "by_domain": {
+            "currency": 0.5,
+            "date": 0.5003,
+            "filename": 0.5,
+            "invoice_number": 0.5001,
+            "phone": 0.5,
+            "section_id": 0.5,
+            "sku": 0.5,
+            "transaction_id": 0.5,
+            "uuid": 0.5
+          },
+          "n_evaluated": 1500,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.5001
+        },
+        {
+          "system": "heuristic",
+          "n": 1500,
+          "semantic_accuracy": 0.9139,
+          "positive_recall": 0.8871,
+          "negative_rejection": 0.9408,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.066,
+          "latency_ms": {
+            "p50": 0.206,
+            "p95": 1.431,
+            "p99": 2.669,
+            "mean": 0.351
+          },
+          "mean_char_length": 27.83,
+          "mean_alternations": 0.0,
+          "macro_semantic_accuracy": 0.8954,
+          "by_domain": {
+            "currency": 0.9651,
+            "date": 0.9435,
+            "filename": 0.5878,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 0.9484,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 0.614
+          },
+          "n_evaluated": 1500,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.9139
+        },
+        {
+          "system": "grex_default",
+          "n": 1500,
+          "semantic_accuracy": 0.5001,
+          "positive_recall": 0.0001,
+          "negative_rejection": 1.0,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.952,
+            "p95": 6.555,
+            "p99": 11.701,
+            "mean": 2.54
+          },
+          "mean_char_length": 83.11,
+          "mean_alternations": 4.677,
+          "macro_semantic_accuracy": 0.5,
+          "by_domain": {
+            "currency": 0.5,
+            "date": 0.5003,
+            "filename": 0.5,
+            "invoice_number": 0.5001,
+            "phone": 0.5,
+            "section_id": 0.5,
+            "sku": 0.5,
+            "transaction_id": 0.5,
+            "uuid": 0.5
+          },
+          "n_evaluated": 1500,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.5001
+        },
+        {
+          "system": "grex_digits",
+          "n": 1500,
+          "semantic_accuracy": 0.8051,
+          "positive_recall": 0.6203,
+          "negative_rejection": 0.9899,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.546,
+            "p95": 5.325,
+            "p99": 9.182,
+            "mean": 2.01
+          },
+          "mean_char_length": 62.02,
+          "mean_alternations": 1.69,
+          "macro_semantic_accuracy": 0.7473,
+          "by_domain": {
+            "currency": 0.9656,
+            "date": 0.9777,
+            "filename": 0.5,
+            "invoice_number": 0.992,
+            "phone": 1.0,
+            "section_id": 0.7902,
+            "sku": 0.5,
+            "transaction_id": 0.5004,
+            "uuid": 0.5
+          },
+          "n_evaluated": 1500,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.8051
+        },
+        {
+          "system": "grex_words",
+          "n": 1500,
+          "semantic_accuracy": 0.8372,
+          "positive_recall": 0.9112,
+          "negative_rejection": 0.7632,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.458,
+            "p95": 2.015,
+            "p99": 2.316,
+            "mean": 1.518
+          },
+          "mean_char_length": 34.78,
+          "mean_alternations": 0.347,
+          "macro_semantic_accuracy": 0.8294,
+          "by_domain": {
+            "currency": 0.8496,
+            "date": 0.868,
+            "filename": 0.6604,
+            "invoice_number": 0.8645,
+            "phone": 0.9016,
+            "section_id": 0.7122,
+            "sku": 0.8596,
+            "transaction_id": 0.8838,
+            "uuid": 0.8646
+          },
+          "n_evaluated": 1500,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.8372
+        },
+        {
+          "system": "grex_repetitions",
+          "n": 1500,
+          "semantic_accuracy": 0.5,
+          "positive_recall": 0.0001,
+          "negative_rejection": 0.9999,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 2.184,
+            "p95": 9.078,
+            "p99": 17.391,
+            "mean": 3.039
+          },
+          "mean_char_length": 89.86,
+          "mean_alternations": 4.68,
+          "macro_semantic_accuracy": 0.5,
+          "by_domain": {
+            "currency": 0.5,
+            "date": 0.5,
+            "filename": 0.5,
+            "invoice_number": 0.5,
+            "phone": 0.5,
+            "section_id": 0.5,
+            "sku": 0.5,
+            "transaction_id": 0.5,
+            "uuid": 0.5
+          },
+          "n_evaluated": 1500,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.5
+        },
+        {
+          "system": "grex_combined",
+          "n": 1500,
+          "semantic_accuracy": 0.8654,
+          "positive_recall": 0.8027,
+          "negative_rejection": 0.9281,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.533,
+            "p95": 4.823,
+            "p99": 7.288,
+            "mean": 1.882
+          },
+          "mean_char_length": 61.73,
+          "mean_alternations": 0.945,
+          "macro_semantic_accuracy": 0.8373,
+          "by_domain": {
+            "currency": 0.9226,
+            "date": 0.9777,
+            "filename": 0.5342,
+            "invoice_number": 0.9486,
+            "phone": 1.0,
+            "section_id": 0.8094,
+            "sku": 0.9122,
+            "transaction_id": 0.9412,
+            "uuid": 0.49
+          },
+          "n_evaluated": 1500,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.8654
+        },
+        {
+          "system": "fast",
+          "n": 8,
+          "semantic_accuracy": 0.0,
+          "positive_recall": 0.0,
+          "negative_rejection": 0.0,
+          "valid_output_rate": 0.0,
+          "visible_match_rate": 0.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 3089.125,
+            "p95": 6008.547,
+            "p99": 7018.225,
+            "mean": 2563.088
+          },
+          "mean_char_length": 4.0,
+          "mean_alternations": 0.0,
+          "macro_semantic_accuracy": 0.0,
+          "by_domain": {
+            "currency": 0.0,
+            "date": 0.0,
+            "invoice_number": 0.0,
+            "section_id": 0.0,
+            "sku": 0.0
+          },
+          "n_evaluated": 8,
+          "timeouts": 5,
+          "accuracy_on_completed": null
+        }
+      ],
+      "taxonomy": {
+        "memorize": {
+          "too narrow": {
+            "n": 750,
+            "rate": 0.5
+          },
+          "variable-length inference": {
+            "n": 500,
+            "rate": 0.3333
+          },
+          "optional region": {
+            "n": 250,
+            "rate": 0.1667
+          }
+        },
+        "heuristic": {
+          "success": {
+            "n": 1137,
+            "rate": 0.758
+          },
+          "too_broad": {
+            "n": 99,
+            "rate": 0.066
+          },
+          "too narrow": {
+            "n": 93,
+            "rate": 0.062
+          },
+          "variable-length inference": {
+            "n": 81,
+            "rate": 0.054
+          },
+          "optional region": {
+            "n": 58,
+            "rate": 0.0387
+          },
+          "character-class inference": {
+            "n": 31,
+            "rate": 0.0207
+          },
+          "mixed population": {
+            "n": 1,
+            "rate": 0.0007
+          }
+        },
+        "grex_default": {
+          "too narrow": {
+            "n": 750,
+            "rate": 0.5
+          },
+          "variable-length inference": {
+            "n": 500,
+            "rate": 0.3333
+          },
+          "optional region": {
+            "n": 250,
+            "rate": 0.1667
+          }
+        },
+        "grex_digits": {
+          "success": {
+            "n": 850,
+            "rate": 0.5667
+          },
+          "too narrow": {
+            "n": 375,
+            "rate": 0.25
+          },
+          "variable-length inference": {
+            "n": 266,
+            "rate": 0.1773
+          },
+          "optional region": {
+            "n": 9,
+            "rate": 0.006
+          }
+        },
+        "grex_words": {
+          "character-class inference": {
+            "n": 610,
+            "rate": 0.4067
+          },
+          "variable-length inference": {
+            "n": 352,
+            "rate": 0.2347
+          },
+          "optional region": {
+            "n": 308,
+            "rate": 0.2053
+          },
+          "success": {
+            "n": 211,
+            "rate": 0.1407
+          },
+          "semantic class recognition": {
+            "n": 9,
+            "rate": 0.006
+          },
+          "mixed population": {
+            "n": 5,
+            "rate": 0.0033
+          },
+          "too broad": {
+            "n": 5,
+            "rate": 0.0033
+          }
+        },
+        "grex_repetitions": {
+          "too narrow": {
+            "n": 750,
+            "rate": 0.5
+          },
+          "variable-length inference": {
+            "n": 500,
+            "rate": 0.3333
+          },
+          "optional region": {
+            "n": 250,
+            "rate": 0.1667
+          }
+        },
+        "grex_combined": {
+          "success": {
+            "n": 952,
+            "rate": 0.6347
+          },
+          "variable-length inference": {
+            "n": 279,
+            "rate": 0.186
+          },
+          "too narrow": {
+            "n": 125,
+            "rate": 0.0833
+          },
+          "character-class inference": {
+            "n": 122,
+            "rate": 0.0813
+          },
+          "optional region": {
+            "n": 22,
+            "rate": 0.0147
+          }
+        },
+        "fast": {
+          "invalid_output": {
+            "n": 8,
+            "rate": 1.0
+          }
+        }
+      }
+    },
+    "bench_d": {
+      "n_tasks": 320,
+      "systems": [
+        {
+          "system": "memorize",
+          "n": 320,
+          "semantic_accuracy": 0.5002,
+          "positive_recall": 0.0004,
+          "negative_rejection": 1.0,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 0.01,
+            "p95": 0.033,
+            "p99": 0.036,
+            "mean": 0.014
+          },
+          "mean_char_length": 70.75,
+          "mean_alternations": 7.0,
+          "macro_semantic_accuracy": 0.5002,
+          "by_domain": {
+            "ambiguity": 0.5002
+          },
+          "n_evaluated": 320,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.5002
+        },
+        {
+          "system": "heuristic",
+          "n": 320,
+          "semantic_accuracy": 0.8985,
+          "positive_recall": 0.8513,
+          "negative_rejection": 0.9457,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0594,
+          "latency_ms": {
+            "p50": 0.202,
+            "p95": 0.591,
+            "p99": 0.998,
+            "mean": 0.261
+          },
+          "mean_char_length": 16.97,
+          "mean_alternations": 0.0,
+          "macro_semantic_accuracy": 0.8985,
+          "by_domain": {
+            "ambiguity": 0.8985
+          },
+          "n_evaluated": 320,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.8985
+        },
+        {
+          "system": "grex_default",
+          "n": 320,
+          "semantic_accuracy": 0.5002,
+          "positive_recall": 0.0004,
+          "negative_rejection": 1.0,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.782,
+            "p95": 4.406,
+            "p99": 7.041,
+            "mean": 2.134
+          },
+          "mean_char_length": 65.96,
+          "mean_alternations": 6.931,
+          "macro_semantic_accuracy": 0.5002,
+          "by_domain": {
+            "ambiguity": 0.5002
+          },
+          "n_evaluated": 320,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.5002
+        },
+        {
+          "system": "grex_digits",
+          "n": 320,
+          "semantic_accuracy": 0.6793,
+          "positive_recall": 0.3612,
+          "negative_rejection": 0.9974,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.539,
+            "p95": 2.535,
+            "p99": 3.111,
+            "mean": 1.619
+          },
+          "mean_char_length": 39.62,
+          "mean_alternations": 3.281,
+          "macro_semantic_accuracy": 0.6793,
+          "by_domain": {
+            "ambiguity": 0.6793
+          },
+          "n_evaluated": 320,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.6793
+        },
+        {
+          "system": "grex_words",
+          "n": 320,
+          "semantic_accuracy": 0.809,
+          "positive_recall": 0.8906,
+          "negative_rejection": 0.7275,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.428,
+            "p95": 1.734,
+            "p99": 2.021,
+            "mean": 1.441
+          },
+          "mean_char_length": 20.02,
+          "mean_alternations": 0.0,
+          "macro_semantic_accuracy": 0.809,
+          "by_domain": {
+            "ambiguity": 0.809
+          },
+          "n_evaluated": 320,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.809
+        },
+        {
+          "system": "grex_repetitions",
+          "n": 320,
+          "semantic_accuracy": 0.5002,
+          "positive_recall": 0.0004,
+          "negative_rejection": 1.0,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.726,
+            "p95": 4.105,
+            "p99": 5.661,
+            "mean": 2.076
+          },
+          "mean_char_length": 71.68,
+          "mean_alternations": 6.95,
+          "macro_semantic_accuracy": 0.5002,
+          "by_domain": {
+            "ambiguity": 0.5002
+          },
+          "n_evaluated": 320,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.5002
+        },
+        {
+          "system": "grex_combined",
+          "n": 320,
+          "semantic_accuracy": 0.8572,
+          "positive_recall": 0.8255,
+          "negative_rejection": 0.8888,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.264,
+            "p95": 1.641,
+            "p99": 2.005,
+            "mean": 1.313
+          },
+          "mean_char_length": 26.07,
+          "mean_alternations": 0.831,
+          "macro_semantic_accuracy": 0.8572,
+          "by_domain": {
+            "ambiguity": 0.8572
+          },
+          "n_evaluated": 320,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.8572
+        },
+        {
+          "system": "fast",
+          "n": 8,
+          "semantic_accuracy": 0.0,
+          "positive_recall": 0.0,
+          "negative_rejection": 0.0,
+          "valid_output_rate": 0.0,
+          "visible_match_rate": 0.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 3095.657,
+            "p95": 3394.271,
+            "p99": 3476.244,
+            "mean": 3143.992
+          },
+          "mean_char_length": 4.0,
+          "mean_alternations": 0.0,
+          "macro_semantic_accuracy": 0.0,
+          "by_domain": {
+            "ambiguity": 0.0
+          },
+          "n_evaluated": 8,
+          "timeouts": 8,
+          "accuracy_on_completed": null
+        }
+      ],
+      "taxonomy": {
+        "memorize": {
+          "too narrow": {
+            "n": 120,
+            "rate": 0.375
+          },
+          "variable-length inference": {
+            "n": 120,
+            "rate": 0.375
+          },
+          "optional region": {
+            "n": 80,
+            "rate": 0.25
+          }
+        },
+        "heuristic": {
+          "success": {
+            "n": 214,
+            "rate": 0.6687
+          },
+          "variable-length inference": {
+            "n": 49,
+            "rate": 0.1531
+          },
+          "optional region": {
+            "n": 21,
+            "rate": 0.0656
+          },
+          "too_broad": {
+            "n": 19,
+            "rate": 0.0594
+          },
+          "character-class inference": {
+            "n": 11,
+            "rate": 0.0344
+          },
+          "too narrow": {
+            "n": 6,
+            "rate": 0.0187
+          }
+        },
+        "grex_default": {
+          "too narrow": {
+            "n": 120,
+            "rate": 0.375
+          },
+          "variable-length inference": {
+            "n": 120,
+            "rate": 0.375
+          },
+          "optional region": {
+            "n": 80,
+            "rate": 0.25
+          }
+        },
+        "grex_digits": {
+          "variable-length inference": {
+            "n": 106,
+            "rate": 0.3312
+          },
+          "success": {
+            "n": 87,
+            "rate": 0.2719
+          },
+          "too narrow": {
+            "n": 79,
+            "rate": 0.2469
+          },
+          "optional region": {
+            "n": 47,
+            "rate": 0.1469
+          },
+          "character-class inference": {
+            "n": 1,
+            "rate": 0.0031
+          }
+        },
+        "grex_words": {
+          "character-class inference": {
+            "n": 125,
+            "rate": 0.3906
+          },
+          "optional region": {
+            "n": 100,
+            "rate": 0.3125
+          },
+          "variable-length inference": {
+            "n": 56,
+            "rate": 0.175
+          },
+          "too broad": {
+            "n": 20,
+            "rate": 0.0625
+          },
+          "mixed population": {
+            "n": 11,
+            "rate": 0.0344
+          },
+          "success": {
+            "n": 8,
+            "rate": 0.025
+          }
+        },
+        "grex_repetitions": {
+          "too narrow": {
+            "n": 120,
+            "rate": 0.375
+          },
+          "variable-length inference": {
+            "n": 120,
+            "rate": 0.375
+          },
+          "optional region": {
+            "n": 80,
+            "rate": 0.25
+          }
+        },
+        "grex_combined": {
+          "success": {
+            "n": 153,
+            "rate": 0.4781
+          },
+          "variable-length inference": {
+            "n": 92,
+            "rate": 0.2875
+          },
+          "optional region": {
+            "n": 45,
+            "rate": 0.1406
+          },
+          "character-class inference": {
+            "n": 17,
+            "rate": 0.0531
+          },
+          "mixed population": {
+            "n": 10,
+            "rate": 0.0312
+          },
+          "too broad": {
+            "n": 3,
+            "rate": 0.0094
+          }
+        },
+        "fast": {
+          "invalid_output": {
+            "n": 8,
+            "rate": 1.0
+          }
+        }
+      }
+    },
+    "bench_a": {
+      "n_tasks": 1200,
+      "systems": [
+        {
+          "system": "memorize",
+          "n": 1200,
+          "semantic_accuracy": 0.5513,
+          "positive_recall": 0.1025,
+          "negative_rejection": 1.0,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 0.005,
+            "p95": 0.011,
+            "p99": 0.017,
+            "mean": 0.006
+          },
+          "mean_char_length": 43.38,
+          "mean_alternations": 5.027,
+          "macro_semantic_accuracy": 0.5513,
+          "by_domain": {
+            "synthetic": 0.5513
+          },
+          "n_evaluated": 1200,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.5513
+        },
+        {
+          "system": "heuristic",
+          "n": 1200,
+          "semantic_accuracy": 0.8439,
+          "positive_recall": 0.882,
+          "negative_rejection": 0.8058,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.2142,
+          "latency_ms": {
+            "p50": 0.159,
+            "p95": 0.445,
+            "p99": 0.766,
+            "mean": 0.186
+          },
+          "mean_char_length": 22.57,
+          "mean_alternations": 0.0,
+          "macro_semantic_accuracy": 0.8439,
+          "by_domain": {
+            "synthetic": 0.8439
+          },
+          "n_evaluated": 1200,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.8439
+        },
+        {
+          "system": "grex_default",
+          "n": 1200,
+          "semantic_accuracy": 0.5513,
+          "positive_recall": 0.1025,
+          "negative_rejection": 1.0,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.496,
+            "p95": 2.636,
+            "p99": 4.306,
+            "mean": 1.651
+          },
+          "mean_char_length": 36.72,
+          "mean_alternations": 3.877,
+          "macro_semantic_accuracy": 0.5513,
+          "by_domain": {
+            "synthetic": 0.5513
+          },
+          "n_evaluated": 1200,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.5513
+        },
+        {
+          "system": "grex_digits",
+          "n": 1200,
+          "semantic_accuracy": 0.59,
+          "positive_recall": 0.1814,
+          "negative_rejection": 0.9987,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.497,
+            "p95": 2.589,
+            "p99": 3.726,
+            "mean": 1.629
+          },
+          "mean_char_length": 36.27,
+          "mean_alternations": 3.589,
+          "macro_semantic_accuracy": 0.59,
+          "by_domain": {
+            "synthetic": 0.59
+          },
+          "n_evaluated": 1200,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.59
+        },
+        {
+          "system": "grex_words",
+          "n": 1200,
+          "semantic_accuracy": 0.8488,
+          "positive_recall": 0.8948,
+          "negative_rejection": 0.8029,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.34,
+            "p95": 1.703,
+            "p99": 2.166,
+            "mean": 1.366
+          },
+          "mean_char_length": 19.94,
+          "mean_alternations": 0.292,
+          "macro_semantic_accuracy": 0.8488,
+          "by_domain": {
+            "synthetic": 0.8488
+          },
+          "n_evaluated": 1200,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.8488
+        },
+        {
+          "system": "grex_repetitions",
+          "n": 1200,
+          "semantic_accuracy": 0.5516,
+          "positive_recall": 0.1034,
+          "negative_rejection": 0.9999,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 1.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.602,
+            "p95": 2.982,
+            "p99": 4.355,
+            "mean": 1.777
+          },
+          "mean_char_length": 38.33,
+          "mean_alternations": 3.87,
+          "macro_semantic_accuracy": 0.5516,
+          "by_domain": {
+            "synthetic": 0.5516
+          },
+          "n_evaluated": 1200,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.5516
+        },
+        {
+          "system": "grex_combined",
+          "n": 1200,
+          "semantic_accuracy": 0.8675,
+          "positive_recall": 0.8815,
+          "negative_rejection": 0.8536,
+          "valid_output_rate": 1.0,
+          "visible_match_rate": 0.9992,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 1.323,
+            "p95": 1.784,
+            "p99": 2.319,
+            "mean": 1.376
+          },
+          "mean_char_length": 22.23,
+          "mean_alternations": 1.008,
+          "macro_semantic_accuracy": 0.8675,
+          "by_domain": {
+            "synthetic": 0.8675
+          },
+          "n_evaluated": 1200,
+          "timeouts": 0,
+          "accuracy_on_completed": 0.8675
+        },
+        {
+          "system": "fast",
+          "n": 8,
+          "semantic_accuracy": 0.0,
+          "positive_recall": 0.0,
+          "negative_rejection": 0.0,
+          "valid_output_rate": 0.0,
+          "visible_match_rate": 0.0,
+          "catastrophic_rate": 0.0,
+          "latency_ms": {
+            "p50": 3168.47,
+            "p95": 6312.902,
+            "p99": 6916.759,
+            "mean": 3564.951
+          },
+          "mean_char_length": 4.0,
+          "mean_alternations": 0.0,
+          "macro_semantic_accuracy": 0.0,
+          "by_domain": {
+            "synthetic": 0.0
+          },
+          "n_evaluated": 8,
+          "timeouts": 8,
+          "accuracy_on_completed": null
+        }
+      ],
+      "taxonomy": {
+        "memorize": {
+          "variable-length inference": {
+            "n": 680,
+            "rate": 0.5667
+          },
+          "optional region": {
+            "n": 306,
+            "rate": 0.255
+          },
+          "too narrow": {
+            "n": 200,
+            "rate": 0.1667
+          },
+          "success": {
+            "n": 12,
+            "rate": 0.01
+          },
+          "character-class inference": {
+            "n": 2,
+            "rate": 0.0017
+          }
+        },
+        "heuristic": {
+          "success": {
+            "n": 548,
+            "rate": 0.4567
+          },
+          "too_broad": {
+            "n": 257,
+            "rate": 0.2142
+          },
+          "optional region": {
+            "n": 212,
+            "rate": 0.1767
+          },
+          "variable-length inference": {
+            "n": 136,
+            "rate": 0.1133
+          },
+          "character-class inference": {
+            "n": 25,
+            "rate": 0.0208
+          },
+          "too narrow": {
+            "n": 11,
+            "rate": 0.0092
+          },
+          "too broad": {
+            "n": 9,
+            "rate": 0.0075
+          },
+          "mixed population": {
+            "n": 2,
+            "rate": 0.0017
+          }
+        },
+        "grex_default": {
+          "variable-length inference": {
+            "n": 680,
+            "rate": 0.5667
+          },
+          "optional region": {
+            "n": 306,
+            "rate": 0.255
+          },
+          "too narrow": {
+            "n": 200,
+            "rate": 0.1667
+          },
+          "success": {
+            "n": 12,
+            "rate": 0.01
+          },
+          "character-class inference": {
+            "n": 2,
+            "rate": 0.0017
+          }
+        },
+        "grex_digits": {
+          "variable-length inference": {
+            "n": 634,
+            "rate": 0.5283
+          },
+          "optional region": {
+            "n": 286,
+            "rate": 0.2383
+          },
+          "too narrow": {
+            "n": 196,
+            "rate": 0.1633
+          },
+          "success": {
+            "n": 83,
+            "rate": 0.0692
+          },
+          "character-class inference": {
+            "n": 1,
+            "rate": 0.0008
+          }
+        },
+        "grex_words": {
+          "optional region": {
+            "n": 418,
+            "rate": 0.3483
+          },
+          "success": {
+            "n": 375,
+            "rate": 0.3125
+          },
+          "variable-length inference": {
+            "n": 192,
+            "rate": 0.16
+          },
+          "character-class inference": {
+            "n": 123,
+            "rate": 0.1025
+          },
+          "too broad": {
+            "n": 55,
+            "rate": 0.0458
+          },
+          "mixed population": {
+            "n": 37,
+            "rate": 0.0308
+          }
+        },
+        "grex_repetitions": {
+          "variable-length inference": {
+            "n": 679,
+            "rate": 0.5658
+          },
+          "optional region": {
+            "n": 307,
+            "rate": 0.2558
+          },
+          "too narrow": {
+            "n": 200,
+            "rate": 0.1667
+          },
+          "success": {
+            "n": 12,
+            "rate": 0.01
+          },
+          "character-class inference": {
+            "n": 2,
+            "rate": 0.0017
+          }
+        },
+        "grex_combined": {
+          "success": {
+            "n": 496,
+            "rate": 0.4133
+          },
+          "optional region": {
+            "n": 344,
+            "rate": 0.2867
+          },
+          "variable-length inference": {
+            "n": 218,
+            "rate": 0.1817
+          },
+          "character-class inference": {
+            "n": 101,
+            "rate": 0.0842
+          },
+          "too broad": {
+            "n": 25,
+            "rate": 0.0208
+          },
+          "mixed population": {
+            "n": 16,
+            "rate": 0.0133
+          }
+        },
+        "fast": {
+          "invalid_output": {
+            "n": 8,
+            "rate": 1.0
+          }
+        }
+      }
+    }
+  },
+  "hardware": "cloud VM CPU",
+  "sample_efficiency": [
+    [
+      2,
+      0.8108723958333334
+    ],
+    [
+      3,
+      0.8623046875
+    ],
+    [
+      5,
+      0.9254557291666666
+    ],
+    [
+      10,
+      0.9404296875
+    ],
+    [
+      20,
+      0.9534505208333334
+    ]
+  ],
+  "gate1": "On this BENCH-C file the structural heuristic reaches 93.2% micro semantic accuracy and 92.1% macro accuracy across domains. Invoice-number columns are capped so they do not dominate the micro average. grex's combined digit/word/repetition mode is the next symbolic system. Default grex matches the memorization floor. fAST's reference search returned no expression within 3 seconds on the short tasks it was given, so the zero scores are timeouts, not judged regexes. Gate 1 still needs two frontier models on this same file. No API key is configured, so those cells are empty. The decision rule is an 8\u201310 point gap between the best symbolic accuracy and the frontier models. Do not call the gate from the symbolic column alone. If frontier models also land near the heuristic, the spec says not to train a neural model."
+}
