@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Experiment 1 — Gate 1 report</title>
+<style>
+  :root {
+    --ink: #1c1915;
+    --muted: #5c564c;
+    --line: #e2d9c8;
+    --paper: #f6f1e7;
+    --card: #fffdf8;
+    --no: #8d2e2a;
+    --no-bg: #f8e8e2;
+    --yes: #1f6b4a;
+    --bar: #2c4a3e;
+    --frontier: #8a5a12;
+    --gold: #c4a574;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    background: var(--paper);
+    font: 17px/1.5 "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+  }
+  header, main { width: min(1080px, calc(100% - 32px)); margin: 0 auto; }
+  header { padding: 48px 0 12px; }
+  .kicker {
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font: 12px/1.2 "Avenir Next", "Segoe UI", sans-serif;
+    color: var(--muted);
+  }
+  h1 { font-size: 46px; line-height: 1.05; font-weight: 600; margin: 8px 0 12px; }
+  h2 { font-size: 28px; margin: 0 0 8px; }
+  h3 { font-size: 16px; margin: 0 0 8px; font-family: "Avenir Next", "Segoe UI", sans-serif; }
+  p { margin: 0 0 12px; }
+  a { color: var(--no); }
+  .decision {
+    background: var(--no-bg);
+    border: 1px solid #e3c2b8;
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin: 20px 0 28px;
+  }
+  .decision strong {
+    display: block;
+    font: 600 13px/1 "Avenir Next", "Segoe UI", sans-serif;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--no);
+    margin-bottom: 8px;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 18px 0 8px;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+  .stat b { display: block; font-size: 28px; line-height: 1.1; }
+  .stat span { color: var(--muted); font: 13px/1.3 "Avenir Next", "Segoe UI", sans-serif; }
+  .rule {
+    margin: 8px 0 28px;
+    color: var(--muted);
+    font: 14px/1.45 "Avenir Next", "Segoe UI", sans-serif;
+  }
+  nav {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin: 8px 0 28px;
+    font: 14px/1 "Avenir Next", "Segoe UI", sans-serif;
+  }
+  nav a {
+    text-decoration: none;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    background: var(--card);
+    border-radius: 999px;
+    padding: 8px 12px;
+  }
+  section {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 22px 22px 8px;
+    margin-bottom: 16px;
+  }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font: 14px/1.35 "Avenir Next", "Segoe UI", sans-serif; }
+  th, td { text-align: left; padding: 8px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; white-space: nowrap; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
+  tr.heuristic td:first-child { color: var(--yes); font-weight: 700; }
+  tr.frontier td:first-child { color: var(--frontier); font-weight: 700; }
+  .bar { display: flex; align-items: center; gap: 8px; min-width: 140px; }
+  .bar span { display: block; height: 8px; background: var(--bar); border-radius: 99px; }
+  .bar b { font-weight: 650; }
+  .note { color: var(--muted); font: 13px/1.4 "Avenir Next", "Segoe UI", sans-serif; }
+  .tax { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
+  .tax article { border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+  .tax ul { list-style: none; margin: 0; padding: 0; }
+  .tax li { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; border-bottom: 1px solid var(--line); font: 13px/1.3 "Avenir Next", "Segoe UI", sans-serif; }
+  .effs { display: grid; gap: 8px; margin-bottom: 12px; }
+  .eff { display: grid; grid-template-columns: 36px 1fr; align-items: center; gap: 8px; }
+  .eff em { font-style: normal; font: 600 14px/1 "Avenir Next", "Segoe UI", sans-serif; }
+  .gap-pos td:last-child { color: var(--yes); font-weight: 700; }
+  .gap-neg td:last-child { color: var(--no); font-weight: 700; }
+  footer { color: var(--muted); font: 13px/1.4 "Avenir Next", "Segoe UI", sans-serif; padding: 8px 0 40px; }
+  @media (max-width: 800px) {
+    h1 { font-size: 34px; }
+    .stats, .tax { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">Document pattern induction · 25 September 2026</div>
+  <h1>Experiment 1 findings</h1>
+  <p>Can a frontier model infer a useful regular expression from a handful of examples, or do symbolic systems already close the gap? The score is semantic accuracy on hidden strings, not how similar the regex text is to the gold pattern.</p>
+  <div class="decision">
+    <strong>Gate 1 · no</strong>
+    <p>The rule is an 8–10 point gap over the best symbolic system on BENCH-C. The heuristic is at 93.2%. GPT-6 Luna is 95.5% (+2.3 points). GPT-5.6 Terra is 98.1% (+4.9 points). An 8-point clearance would be 101.2%, which is past the top of this metric. No model was trained.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>93.2%</b><span>Heuristic semantic accuracy · BENCH-C · n=554</span></div>
+    <div class="stat"><b>95.5%</b><span>GPT-6 Luna · macro 95.2%</span></div>
+    <div class="stat"><b>98.1%</b><span>GPT-5.6 Terra · macro 97.9%</span></div>
+    <div class="stat"><b>+4.9</b><span>Largest gap, in points. The rule asks for 8–10.</span></div>
+  </div>
+  <p class="rule">Semantic accuracy = (hidden positive recall + hidden negative rejection) / 2. A regex is scored by what it accepts. <code>.*</code> takes the positives and fails the negatives. An alternation of the visible strings rejects the negatives and misses the hidden positives. Both land near 50%.</p>
+  <nav>
+    <a href="#bench_c">BENCH-C</a>
+    <a href="#domains">Domains</a>
+    <a href="#failures">Failures</a>
+    <a href="#bench_b">BENCH-B</a>
+    <a href="#bench_d">BENCH-D</a>
+    <a href="#bench_a">BENCH-A</a>
+    <a href="#protocol">Protocol</a>
+  </nav>
+</header>
+<main>
+  <section id='bench_c'><h2>BENCH-C</h2><p>554 curated document fields. Each task has a specified gold regex, 24 hidden positives, and 24 near-miss negatives. Held out of any future training split. Invoice-number columns are capped at 24 tasks.</p>
+    <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>System</th><th>Semantic</th><th>Macro</th><th>Positive recall</th>
+          <th>Negative rejection</th><th>Valid</th><th>Catastrophic</th>
+          <th>p50 ms</th><th>p95 ms</th>
+        </tr>
+      </thead>
+      <tbody><tr class='memorize'><td>Memorization</td><td><div class="bar sem"><span style="width:51.7%"></span><b>51.7%</b></div></td><td>51.9%</td><td>3.4%</td><td>100.0%</td><td>100.0%</td><td>0.0%</td><td>0.01</td><td>0.02</td></tr><tr class='heuristic'><td>Heuristic</td><td><div class="bar sem"><span style="width:93.2%"></span><b>93.2%</b></div></td><td>92.1%</td><td>91.4%</td><td>94.9%</td><td>100.0%</td><td>3.2%</td><td>0.23</td><td>0.82</td></tr><tr class='grex_default'><td>grex default</td><td><div class="bar sem"><span style="width:51.7%"></span><b>51.7%</b></div></td><td>51.9%</td><td>3.4%</td><td>100.0%</td><td>100.0%</td><td>0.0%</td><td>2.07</td><td>5.51</td></tr><tr class='grex_digits'><td>grex digits</td><td><div class="bar sem"><span style="width:77.0%"></span><b>77.0%</b></div></td><td>75.7%</td><td>54.3%</td><td>99.6%</td><td>100.0%</td><td>0.0%</td><td>1.57</td><td>4.47</td></tr><tr class='grex_words'><td>grex words</td><td><div class="bar sem"><span style="width:82.9%"></span><b>82.9%</b></div></td><td>81.8%</td><td>90.0%</td><td>75.8%</td><td>100.0%</td><td>0.0%</td><td>1.43</td><td>2.04</td></tr><tr class='grex_repetitions'><td>grex repetitions</td><td><div class="bar sem"><span style="width:51.7%"></span><b>51.7%</b></div></td><td>51.9%</td><td>3.4%</td><td>100.0%</td><td>100.0%</td><td>0.0%</td><td>2.11</td><td>5.94</td></tr><tr class='grex_combined'><td>grex combined</td><td><div class="bar sem"><span style="width:86.6%"></span><b>86.6%</b></div></td><td>84.1%</td><td>82.9%</td><td>90.3%</td><td>100.0%</td><td>0.0%</td><td>1.53</td><td>3.24</td></tr><tr class='fast'><td>fAST</td><td><div class="bar sem"><span style="width:0.0%"></span><b>0.0%</b></div></td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>3931.07</td><td>4624.18</td></tr><tr class='frontier'><td>GPT-6 Luna</td><td><div class="bar sem"><span style="width:95.5%"></span><b>95.5%</b></div></td><td>95.2%</td><td>94.4%</td><td>96.5%</td><td>97.3%</td><td>0.0%</td><td>2176.81</td><td>4472.54</td></tr><tr class='frontier'><td>GPT-5.6 Terra</td><td><div class="bar sem"><span style="width:98.1%"></span><b>98.1%</b></div></td><td>97.9%</td><td>97.0%</td><td>99.1%</td><td>99.8%</td><td>0.0%</td><td>1976.23</td><td>4549.80</td></tr></tbody>
+    </table>
+    </div>
+    <p class="note">Frontier latency is API round trip. Symbolic latency is this cloud VM CPU. fAST’s zeros are timeouts on 8 short tasks, not judged regexes.</p>
+    </section>
+  <section id="domains">
+    <h2>Where the models move the score</h2>
+    <p>Macro accuracy keeps a large easy column from deciding the headline. Terra’s largest gains are hashes (+35.4 points), UUIDs (+23.8), serials (+21.4), and transaction ids (+18.8). It stays within 2 points of the heuristic on every other domain. Luna drops on phone numbers (86.5% against the heuristic’s 99.0%), URLs (73.8% against 92.9%), and bank references (65.7% against 87.6%).</p>
+    
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Domain</th><th>Heuristic</th><th>GPT-6 Luna</th><th>GPT-5.6 Terra</th><th>Terra − heuristic</th></tr></thead>
+      <tbody><tr class=''><td>document filename</td><td>98.5%</td><td>97.0%</td><td>96.8%</td><td>-1.8</td></tr><tr class=''><td>postal code</td><td>100.0%</td><td>92.8%</td><td>98.9%</td><td>-1.1</td></tr><tr class=''><td>sku</td><td>99.9%</td><td>97.8%</td><td>98.9%</td><td>-1.0</td></tr><tr class=''><td>bank reference</td><td>87.6%</td><td>65.7%</td><td>87.2%</td><td>-0.4</td></tr><tr class=''><td>account reference</td><td>100.0%</td><td>100.0%</td><td>100.0%</td><td>+0.0</td></tr><tr class=''><td>customer id</td><td>100.0%</td><td>100.0%</td><td>100.0%</td><td>+0.0</td></tr><tr class=''><td>invoice number</td><td>99.8%</td><td>99.8%</td><td>99.8%</td><td>+0.0</td></tr><tr class=''><td>phone</td><td>99.0%</td><td>86.5%</td><td>99.0%</td><td>+0.0</td></tr><tr class=''><td>shipping code</td><td>100.0%</td><td>100.0%</td><td>100.0%</td><td>+0.0</td></tr><tr class=''><td>order id</td><td>96.9%</td><td>97.1%</td><td>97.1%</td><td>+0.1</td></tr><tr class=''><td>email</td><td>91.5%</td><td>80.6%</td><td>92.6%</td><td>+1.1</td></tr><tr class=''><td>percentage</td><td>96.7%</td><td>96.2%</td><td>98.3%</td><td>+1.7</td></tr><tr class=''><td>scientific id</td><td>97.9%</td><td>100.0%</td><td>99.8%</td><td>+1.9</td></tr><tr class='gap-pos'><td>page reference</td><td>97.5%</td><td>98.2%</td><td>99.6%</td><td>+2.1</td></tr><tr class='gap-pos'><td>doi</td><td>92.1%</td><td>97.9%</td><td>94.2%</td><td>+2.1</td></tr><tr class='gap-pos'><td>legal numbering</td><td>95.1%</td><td>96.8%</td><td>97.2%</td><td>+2.1</td></tr><tr class='gap-pos'><td>measurement</td><td>93.8%</td><td>95.3%</td><td>96.2%</td><td>+2.4</td></tr><tr class='gap-pos'><td>time</td><td>97.4%</td><td>99.4%</td><td>100.0%</td><td>+2.6</td></tr><tr class='gap-pos'><td>ocr field</td><td>95.7%</td><td>98.6%</td><td>98.5%</td><td>+2.8</td></tr><tr class='gap-pos'><td>currency</td><td>95.9%</td><td>98.3%</td><td>99.0%</td><td>+3.1</td></tr><tr class='gap-pos'><td>url</td><td>92.9%</td><td>73.8%</td><td>96.2%</td><td>+3.3</td></tr><tr class='gap-pos'><td>date</td><td>94.9%</td><td>98.5%</td><td>98.5%</td><td>+3.6</td></tr><tr class='gap-pos'><td>spreadsheet column</td><td>91.2%</td><td>95.6%</td><td>95.6%</td><td>+4.3</td></tr><tr class='gap-pos'><td>log line</td><td>91.5%</td><td>99.3%</td><td>99.3%</td><td>+7.8</td></tr><tr class='gap-pos'><td>version</td><td>90.4%</td><td>100.0%</td><td>100.0%</td><td>+9.6</td></tr><tr class='gap-pos'><td>tracking</td><td>88.2%</td><td>86.0%</td><td>97.8%</td><td>+9.6</td></tr><tr class='gap-pos'><td>filename</td><td>82.5%</td><td>93.9%</td><td>93.2%</td><td>+10.7</td></tr><tr class='gap-pos'><td>section id</td><td>86.2%</td><td>98.1%</td><td>98.7%</td><td>+12.5</td></tr><tr class='gap-pos'><td>form field</td><td>84.9%</td><td>98.5%</td><td>99.3%</td><td>+14.4</td></tr><tr class='gap-pos'><td>transaction id</td><td>81.2%</td><td>100.0%</td><td>100.0%</td><td>+18.8</td></tr><tr class='gap-pos'><td>serial</td><td>78.6%</td><td>99.9%</td><td>100.0%</td><td>+21.4</td></tr><tr class='gap-pos'><td>uuid</td><td>76.2%</td><td>99.6%</td><td>100.0%</td><td>+23.8</td></tr><tr class='gap-pos'><td>hash</td><td>64.6%</td><td>100.0%</td><td>100.0%</td><td>+35.4</td></tr></tbody>
+    </table>
+    </div>
+    <p class="note">Sorted by Terra’s gap against the heuristic. Macro accuracy is the unweighted mean of these domain scores.</p>
+    
+  </section>
+  <section id="failures">
+    <h2>BENCH-C failure taxonomy</h2>
+    <p>A success is semantic accuracy at least 90%, with positive recall and negative rejection both at least 85%. The heuristic’s remaining misses are mostly optional regions, variable-length spans, and character classes narrower than “alphanumeric.”</p>
+    <div class="tax"><article><h3>Heuristic</h3><ul><li><span>success</span><b>402</b></li><li><span>optional region</span><b>49</b></li><li><span>variable-length inference</span><b>34</b></li><li><span>character-class inference</span><b>24</b></li><li><span>too narrow</span><b>22</b></li><li><span>too_broad</span><b>18</b></li></ul></article><article><h3>grex combined</h3><ul><li><span>success</span><b>281</b></li><li><span>variable-length inference</span><b>86</b></li><li><span>optional region</span><b>74</b></li><li><span>character-class inference</span><b>54</b></li><li><span>too narrow</span><b>43</b></li><li><span>too broad</span><b>12</b></li></ul></article><article><h3>GPT-6 Luna</h3><ul><li><span>success</span><b>494</b></li><li><span>variable-length inference</span><b>22</b></li><li><span>optional region</span><b>20</b></li><li><span>invalid_output</span><b>15</b></li><li><span>character-class inference</span><b>2</b></li><li><span>alternation</span><b>1</b></li></ul></article><article><h3>GPT-5.6 Terra</h3><ul><li><span>success</span><b>514</b></li><li><span>variable-length inference</span><b>21</b></li><li><span>optional region</span><b>16</b></li><li><span>alternation</span><b>1</b></li><li><span>character-class inference</span><b>1</b></li><li><span>invalid_output</span><b>1</b></li></ul></article><article><h3>Memorization</h3><ul><li><span>variable-length inference</span><b>230</b></li><li><span>too narrow</span><b>225</b></li><li><span>optional region</span><b>69</b></li><li><span>success</span><b>15</b></li><li><span>OCR noise</span><b>10</b></li><li><span>alternation</span><b>5</b></li></ul></article><article><h3>fAST</h3><ul><li><span>invalid_output</span><b>8</b></li></ul></article></div>
+  </section>
+  <section id='bench_b'><h2>BENCH-B</h2><p>1,500 document-style synthetic tasks from the same generator family.</p>
+    <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>System</th><th>Semantic</th><th>Macro</th><th>Positive recall</th>
+          <th>Negative rejection</th><th>Valid</th><th>Catastrophic</th>
+          <th>p50 ms</th><th>p95 ms</th>
+        </tr>
+      </thead>
+      <tbody><tr class='memorize'><td>Memorization</td><td><div class="bar sem"><span style="width:50.0%"></span><b>50.0%</b></div></td><td>50.0%</td><td>0.0%</td><td>100.0%</td><td>100.0%</td><td>0.0%</td><td>0.01</td><td>0.02</td></tr><tr class='heuristic'><td>Heuristic</td><td><div class="bar sem"><span style="width:91.4%"></span><b>91.4%</b></div></td><td>89.5%</td><td>88.7%</td><td>94.1%</td><td>100.0%</td><td>6.6%</td><td>0.21</td><td>1.43</td></tr><tr class='grex_default'><td>grex default</td><td><div class="bar sem"><span style="width:50.0%"></span><b>50.0%</b></div></td><td>50.0%</td><td>0.0%</td><td>100.0%</td><td>100.0%</td><td>0.0%</td><td>1.95</td><td>6.55</td></tr><tr class='grex_digits'><td>grex digits</td><td><div class="bar sem"><span style="width:80.5%"></span><b>80.5%</b></div></td><td>74.7%</td><td>62.0%</td><td>99.0%</td><td>100.0%</td><td>0.0%</td><td>1.55</td><td>5.33</td></tr><tr class='grex_words'><td>grex words</td><td><div class="bar sem"><span style="width:83.7%"></span><b>83.7%</b></div></td><td>82.9%</td><td>91.1%</td><td>76.3%</td><td>100.0%</td><td>0.0%</td><td>1.46</td><td>2.02</td></tr><tr class='grex_repetitions'><td>grex repetitions</td><td><div class="bar sem"><span style="width:50.0%"></span><b>50.0%</b></div></td><td>50.0%</td><td>0.0%</td><td>100.0%</td><td>100.0%</td><td>0.0%</td><td>2.18</td><td>9.08</td></tr><tr class='grex_combined'><td>grex combined</td><td><div class="bar sem"><span style="width:86.5%"></span><b>86.5%</b></div></td><td>83.7%</td><td>80.3%</td><td>92.8%</td><td>100.0%</td><td>0.0%</td><td>1.53</td><td>4.82</td></tr><tr class='fast'><td>fAST</td><td><div class="bar sem"><span style="width:0.0%"></span><b>0.0%</b></div></td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>3089.12</td><td>6008.55</td></tr></tbody>
+    </table>
+    </div>
+    <p class="note">fAST returned no expression on 5 of 8 short tasks. A zero is a timeout.</p>
+    </section>
+  <section id="bench_d">
+    <h2>BENCH-D</h2>
+    <p>320 tasks on the same schemas, shown with 2, 3, 5, 10, or 20 visible examples.</p>
+    
+    <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>System</th><th>Semantic</th><th>Macro</th><th>Positive recall</th>
+          <th>Negative rejection</th><th>Valid</th><th>Catastrophic</th>
+          <th>p50 ms</th><th>p95 ms</th>
+        </tr>
+      </thead>
+      <tbody><tr class='memorize'><td>Memorization</td><td><div class="bar sem"><span style="width:50.0%"></span><b>50.0%</b></div></td><td>50.0%</td><td>0.0%</td><td>100.0%</td><td>100.0%</td><td>0.0%</td><td>0.01</td><td>0.03</td></tr><tr class='heuristic'><td>Heuristic</td><td><div class="bar sem"><span style="width:89.8%"></span><b>89.8%</b></div></td><td>89.8%</td><td>85.1%</td><td>94.6%</td><td>100.0%</td><td>5.9%</td><td>0.20</td><td>0.59</td></tr><tr class='grex_default'><td>grex default</td><td><div class="bar sem"><span style="width:50.0%"></span><b>50.0%</b></div></td><td>50.0%</td><td>0.0%</td><td>100.0%</td><td>100.0%</td><td>0.0%</td><td>1.78</td><td>4.41</td></tr><tr class='grex_digits'><td>grex digits</td><td><div class="bar sem"><span style="width:67.9%"></span><b>67.9%</b></div></td><td>67.9%</td><td>36.1%</td><td>99.7%</td><td>100.0%</td><td>0.0%</td><td>1.54</td><td>2.54</td></tr><tr class='grex_words'><td>grex words</td><td><div class="bar sem"><span style="width:80.9%"></span><b>80.9%</b></div></td><td>80.9%</td><td>89.1%</td><td>72.8%</td><td>100.0%</td><td>0.0%</td><td>1.43</td><td>1.73</td></tr><tr class='grex_repetitions'><td>grex repetitions</td><td><div class="bar sem"><span style="width:50.0%"></span><b>50.0%</b></div></td><td>50.0%</td><td>0.0%</td><td>100.0%</td><td>100.0%</td><td>0.0%</td><td>1.73</td><td>4.11</td></tr><tr class='grex_combined'><td>grex combined</td><td><div class="bar sem"><span style="width:85.7%"></span><b>85.7%</b></div></td><td>85.7%</td><td>82.5%</td><td>88.9%</td><td>100.0%</td><td>0.0%</td><td>1.26</td><td>1.64</td></tr><tr class='fast'><td>fAST</td><td><div class="bar sem"><span style="width:0.0%"></span><b>0.0%</b></div></td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>3095.66</td><td>3394.27</td></tr></tbody>
+    </table>
+    </div>
+    <p class="note">Overall heuristic accuracy here mixes every sample size. The curve below splits it. fAST timed out on 8 of 8 short tasks.</p>
+    
+    <h3>Heuristic sample efficiency</h3>
+    <div class="effs"><div class="eff"><em>2</em><div class="bar sem"><span style="width:81.1%"></span><b>81.1%</b></div></div><div class="eff"><em>3</em><div class="bar sem"><span style="width:86.2%"></span><b>86.2%</b></div></div><div class="eff"><em>5</em><div class="bar sem"><span style="width:92.5%"></span><b>92.5%</b></div></div><div class="eff"><em>10</em><div class="bar sem"><span style="width:94.0%"></span><b>94.0%</b></div></div><div class="eff"><em>20</em><div class="bar sem"><span style="width:95.3%"></span><b>95.3%</b></div></div></div>
+  </section>
+  <section id='bench_a'><h2>BENCH-A</h2><p>1,200-task structural split. The generator is the same function used for the 100k/10k/10k draw; this run keeps the review set small.</p>
+    <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>System</th><th>Semantic</th><th>Macro</th><th>Positive recall</th>
+          <th>Negative rejection</th><th>Valid</th><th>Catastrophic</th>
+          <th>p50 ms</th><th>p95 ms</th>
+        </tr>
+      </thead>
+      <tbody><tr class='memorize'><td>Memorization</td><td><div class="bar sem"><span style="width:55.1%"></span><b>55.1%</b></div></td><td>55.1%</td><td>10.2%</td><td>100.0%</td><td>100.0%</td><td>0.0%</td><td>0.01</td><td>0.01</td></tr><tr class='heuristic'><td>Heuristic</td><td><div class="bar sem"><span style="width:84.4%"></span><b>84.4%</b></div></td><td>84.4%</td><td>88.2%</td><td>80.6%</td><td>100.0%</td><td>21.4%</td><td>0.16</td><td>0.45</td></tr><tr class='grex_default'><td>grex default</td><td><div class="bar sem"><span style="width:55.1%"></span><b>55.1%</b></div></td><td>55.1%</td><td>10.2%</td><td>100.0%</td><td>100.0%</td><td>0.0%</td><td>1.50</td><td>2.64</td></tr><tr class='grex_digits'><td>grex digits</td><td><div class="bar sem"><span style="width:59.0%"></span><b>59.0%</b></div></td><td>59.0%</td><td>18.1%</td><td>99.9%</td><td>100.0%</td><td>0.0%</td><td>1.50</td><td>2.59</td></tr><tr class='grex_words'><td>grex words</td><td><div class="bar sem"><span style="width:84.9%"></span><b>84.9%</b></div></td><td>84.9%</td><td>89.5%</td><td>80.3%</td><td>100.0%</td><td>0.0%</td><td>1.34</td><td>1.70</td></tr><tr class='grex_repetitions'><td>grex repetitions</td><td><div class="bar sem"><span style="width:55.2%"></span><b>55.2%</b></div></td><td>55.2%</td><td>10.3%</td><td>100.0%</td><td>100.0%</td><td>0.0%</td><td>1.60</td><td>2.98</td></tr><tr class='grex_combined'><td>grex combined</td><td><div class="bar sem"><span style="width:86.8%"></span><b>86.8%</b></div></td><td>86.8%</td><td>88.1%</td><td>85.4%</td><td>100.0%</td><td>0.0%</td><td>1.32</td><td>1.78</td></tr><tr class='fast'><td>fAST</td><td><div class="bar sem"><span style="width:0.0%"></span><b>0.0%</b></div></td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>0.0%</td><td>3168.47</td><td>6312.90</td></tr></tbody>
+    </table>
+    </div>
+    <p class="note">grex combined is the strongest symbolic system on this structural split. fAST timed out on 8 of 8 short tasks.</p>
+    </section>
+  <section id="protocol">
+    <h2>Protocol</h2>
+    <p>Frontier calls used the simple prompt on <code>data/bench_c.jsonl</code>, 554 tasks, 6 visible strings each. Date 2026-09-25. The requested Terra model was <code>gpt-6-terra</code>. That id returns <code>model_not_found</code>. The Terra model on this key is <code>gpt-5.6-terra</code>. Neither model accepts temperature 0: chat completions allows only the default value 1, and the Responses API rejects the parameter, so temperature was omitted.</p>
+    <p>Default grex matches the memorization floor: it rejects negatives and misses hidden positives. Combined grex (<code>-d -w -r</code>) is the useful grex setting, at 86.6% on BENCH-C. fAST (ICGI 2023, find-abstract-syntax-tree 0.2.1) is wired in, including a translation of its concatenation operator. On this suite it did not finish. Within the cap it returned no expression on the short tasks it was given. A worked example still converts correctly: <code>abc</code>, <code>abcabc</code>, <code>abcabcabc</code> becomes <code>^(?:abc)+$</code>.</p>
+    <p>BENCH-C is a curated catalog of document fields. It is not a scrape of private PDFs. Hidden negatives are near-miss mutations outside the gold regex.</p>
+  </section>
+  <footer>Source tables: results/exp1/exp1_report.md and results/exp1/frontier_bench_c.json. No neural model was trained.</footer>
+</main>
+</body>
+</html>

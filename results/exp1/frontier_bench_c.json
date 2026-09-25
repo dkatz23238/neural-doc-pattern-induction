@@ -1,0 +1,189 @@
+{
+  "prompt": "simple",
+  "date": "2026-09-25",
+  "n_tasks": 554,
+  "heuristic_semantic_accuracy": 0.9316,
+  "temperature_note": "These models reject temperature. Chat completions accepts only the default value 1, and the Responses API rejects the temperature parameter. Calls omit temperature.",
+  "models_requested": [
+    "gpt-6-luna",
+    "gpt-6-terra"
+  ],
+  "models_called": [
+    "gpt-6-luna",
+    "gpt-5.6-terra"
+  ],
+  "model_note": "gpt-6-terra returns model_not_found. Terra is gpt-5.6-terra.",
+  "systems": [
+    {
+      "system": "gpt-6-luna",
+      "n": 554,
+      "semantic_accuracy": 0.9545,
+      "positive_recall": 0.9439,
+      "negative_rejection": 0.9652,
+      "valid_output_rate": 0.9729,
+      "visible_match_rate": 0.9675,
+      "catastrophic_rate": 0.0,
+      "latency_ms": {
+        "p50": 2176.808,
+        "p95": 4472.536,
+        "p99": 5621.939,
+        "mean": 2508.654
+      },
+      "mean_char_length": 23.56,
+      "mean_alternations": 0.473,
+      "macro_semantic_accuracy": 0.9518,
+      "by_domain": {
+        "account_reference": 1.0,
+        "bank_reference": 0.6569,
+        "currency": 0.9826,
+        "customer_id": 1.0,
+        "date": 0.985,
+        "document_filename": 0.9698,
+        "doi": 0.9792,
+        "email": 0.8056,
+        "filename": 0.9389,
+        "form_field": 0.9847,
+        "hash": 1.0,
+        "invoice_number": 0.9983,
+        "legal_numbering": 0.9677,
+        "log_line": 0.9931,
+        "measurement": 0.9531,
+        "ocr_field": 0.9861,
+        "order_id": 0.9708,
+        "page_reference": 0.9819,
+        "percentage": 0.9625,
+        "phone": 0.8646,
+        "postal_code": 0.9285,
+        "scientific_id": 1.0,
+        "section_id": 0.9812,
+        "serial": 0.9986,
+        "shipping_code": 1.0,
+        "sku": 0.9775,
+        "spreadsheet_column": 0.9556,
+        "time": 0.9938,
+        "tracking": 0.8597,
+        "transaction_id": 1.0,
+        "url": 0.7375,
+        "uuid": 0.9958,
+        "version": 1.0
+      },
+      "prompt": "simple",
+      "n_tasks": 554,
+      "date": "2026-09-25",
+      "temperature": null,
+      "temperature_note": "These models reject temperature. Chat completions accepts only the default value 1, and the Responses API rejects the temperature parameter. Calls omit temperature.",
+      "taxonomy": {
+        "success": {
+          "n": 494,
+          "rate": 0.8917
+        },
+        "variable-length inference": {
+          "n": 22,
+          "rate": 0.0397
+        },
+        "optional region": {
+          "n": 20,
+          "rate": 0.0361
+        },
+        "invalid_output": {
+          "n": 15,
+          "rate": 0.0271
+        },
+        "character-class inference": {
+          "n": 2,
+          "rate": 0.0036
+        },
+        "alternation": {
+          "n": 1,
+          "rate": 0.0018
+        }
+      }
+    },
+    {
+      "system": "gpt-5.6-terra",
+      "n": 554,
+      "semantic_accuracy": 0.9808,
+      "positive_recall": 0.9704,
+      "negative_rejection": 0.9912,
+      "valid_output_rate": 0.9982,
+      "visible_match_rate": 0.9928,
+      "catastrophic_rate": 0.0,
+      "latency_ms": {
+        "p50": 1976.233,
+        "p95": 4549.802,
+        "p99": 6390.037,
+        "mean": 2292.902
+      },
+      "mean_char_length": 24.7,
+      "mean_alternations": 0.545,
+      "macro_semantic_accuracy": 0.9792,
+      "by_domain": {
+        "account_reference": 1.0,
+        "bank_reference": 0.8722,
+        "currency": 0.9896,
+        "customer_id": 1.0,
+        "date": 0.985,
+        "document_filename": 0.9677,
+        "doi": 0.9417,
+        "email": 0.9264,
+        "filename": 0.9319,
+        "form_field": 0.9931,
+        "hash": 1.0,
+        "invoice_number": 0.9983,
+        "legal_numbering": 0.9719,
+        "log_line": 0.9931,
+        "measurement": 0.9615,
+        "ocr_field": 0.9847,
+        "order_id": 0.9708,
+        "page_reference": 0.9958,
+        "percentage": 0.9833,
+        "phone": 0.9896,
+        "postal_code": 0.9889,
+        "scientific_id": 0.9979,
+        "section_id": 0.9865,
+        "serial": 1.0,
+        "shipping_code": 1.0,
+        "sku": 0.9892,
+        "spreadsheet_column": 0.9556,
+        "time": 1.0,
+        "tracking": 0.9778,
+        "transaction_id": 1.0,
+        "url": 0.9625,
+        "uuid": 1.0,
+        "version": 1.0
+      },
+      "prompt": "simple",
+      "n_tasks": 554,
+      "date": "2026-09-25",
+      "temperature": null,
+      "temperature_note": "These models reject temperature. Chat completions accepts only the default value 1, and the Responses API rejects the temperature parameter. Calls omit temperature.",
+      "taxonomy": {
+        "success": {
+          "n": 514,
+          "rate": 0.9278
+        },
+        "variable-length inference": {
+          "n": 21,
+          "rate": 0.0379
+        },
+        "optional region": {
+          "n": 16,
+          "rate": 0.0289
+        },
+        "alternation": {
+          "n": 1,
+          "rate": 0.0018
+        },
+        "character-class inference": {
+          "n": 1,
+          "rate": 0.0018
+        },
+        "invalid_output": {
+          "n": 1,
+          "rate": 0.0018
+        }
+      }
+    }
+  ],
+  "gate1": "gpt-6-luna semantic accuracy 95.5% (macro 95.2%), gap vs heuristic +2.3%. gpt-5.6-terra semantic accuracy 98.1% (macro 97.9%), gap vs heuristic +4.9%. Gate 1 is a no. The models do not clear the heuristic by 8\u201310 points. The spec says not to train a neural model."
+}
