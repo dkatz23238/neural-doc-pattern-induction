@@ -2,6 +2,7 @@ import re
 import unittest
 
 from pattern_induction.evaluate import score_regex
+from pattern_induction.frontier import extract_regex, response_text
 from pattern_induction.heuristic import infer_regex
 from pattern_induction.tasks import Task
 
@@ -68,6 +69,24 @@ class EvalTest(unittest.TestCase):
         self.assertEqual(memo.positive_recall, 0.0)
         self.assertEqual(memo.negative_rejection, 1.0)
         self.assertAlmostEqual(memo.semantic_accuracy, 0.5)
+
+
+class FrontierParseTest(unittest.TestCase):
+    def test_extract_regex_strips_fence(self):
+        self.assertEqual(extract_regex("```regex\n^INV-\\d{4}$\n```"), r"^INV-\d{4}$")
+        self.assertEqual(extract_regex("^INV-\\d{4}$"), r"^INV-\d{4}$")
+
+    def test_response_text_reads_message_block(self):
+        payload = {
+            "output": [
+                {"type": "reasoning"},
+                {
+                    "type": "message",
+                    "content": [{"type": "output_text", "text": "^A\\d+$"}],
+                },
+            ]
+        }
+        self.assertEqual(response_text(payload), r"^A\d+$")
 
 
 if __name__ == "__main__":

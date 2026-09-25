@@ -3,7 +3,7 @@
 Semantic accuracy is `(positive recall + negative rejection) / 2` on hidden examples.
 Latency is wall time on this cloud VM CPU, not a laptop.
 
-Frontier baselines are part of Gate 1 but were not executed in this run because neither OPENAI_API_KEY nor ANTHROPIC_API_KEY is set.
+Frontier calls used the simple prompt at the only sampling setting these models accept. `gpt-6-terra` is not on this key. Terra is `gpt-5.6-terra`. Chat completions accepts only temperature 1 for these models, and the Responses API rejects `temperature`, so the parameter was omitted. Date: 2026-09-25. Tasks: 554. Latency below is API round trip, not local CPU.
 
 ## bench_c
 
@@ -17,6 +17,8 @@ Frontier baselines are part of Gate 1 but were not executed in this run because 
 | grex_repetitions | 51.7% | 51.9% | 3.4% | 100.0% | 100.0% | 0.0% | 2.11 | 5.94 |
 | grex_combined | 86.6% | 84.1% | 82.9% | 90.3% | 100.0% | 0.0% | 1.53 | 3.24 |
 | fast | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 3931.07 | 4624.18 |
+| gpt-6-luna | 95.5% | 95.2% | 94.4% | 96.5% | 97.3% | 0.0% | 2176.81 | 4472.54 |
+| gpt-5.6-terra | 98.1% | 97.9% | 97.0% | 99.1% | 99.8% | 0.0% | 1976.23 | 4549.80 |
 
 `fast` returned no expression on 8 of 8 tasks (accuracy on completed runs: None). A zero in the table is a timeout, not a scored regex.
 
@@ -30,6 +32,8 @@ Failure taxonomy:
 - `grex_repetitions`: variable-length inference 230, too narrow 225, optional region 69, success 15, OCR noise 10, alternation 5
 - `grex_combined`: success 281, variable-length inference 86, optional region 74, character-class inference 54, too narrow 43, too broad 12
 - `fast`: invalid_output 8
+- `gpt-6-luna`: success 494, variable-length inference 22, optional region 20, invalid_output 15, character-class inference 2, alternation 1
+- `gpt-5.6-terra`: success 514, variable-length inference 21, optional region 16, alternation 1, character-class inference 1, invalid_output 1
 
 ## bench_b
 
@@ -121,4 +125,13 @@ Failure taxonomy:
 
 ## Gate 1
 
-On this BENCH-C file the structural heuristic reaches 93.2% micro semantic accuracy and 92.1% macro accuracy across domains. Invoice-number columns are capped so they do not dominate the micro average. grex's combined digit/word/repetition mode is the next symbolic system. Default grex matches the memorization floor. fAST's reference search returned no expression within 3 seconds on the short tasks it was given, so the zero scores are timeouts, not judged regexes. Gate 1 still needs two frontier models on this same file. No API key is configured, so those cells are empty. The decision rule is an 8–10 point gap between the best symbolic accuracy and the frontier models. Do not call the gate from the symbolic column alone. If frontier models also land near the heuristic, the spec says not to train a neural model.
+On this BENCH-C file the structural heuristic reaches 93.2% micro semantic accuracy and 92.1% macro accuracy. The simple prompt was scored on 554 tasks on 2026-09-25.
+
+| Model | Semantic accuracy | Macro accuracy | Gap vs heuristic |
+| --- | ---: | ---: | ---: |
+| gpt-6-luna | 95.5% | 95.2% | +2.3 points |
+| gpt-5.6-terra | 98.1% | 97.9% | +4.9 points |
+
+`gpt-6-terra` returns `model_not_found` on this key, so the Terra call is `gpt-5.6-terra`. Neither model accepts temperature 0. The Responses API rejects the parameter, and chat completions accepts only the default value 1, so temperature was omitted.
+
+Gate 1 is a no. Neither model clears the heuristic by 8–10 points. The spec says not to train a neural model, and no training corpus was built.

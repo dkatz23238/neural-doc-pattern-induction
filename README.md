@@ -44,10 +44,10 @@ fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It
 
 ## Frontier models
 
-Gate 1 needs two frontier models on BENCH-C. This environment has no `OPENAI_API_KEY` or `ANTHROPIC_API_KEY`, so those cells are empty on purpose. `results/exp1/frontier_prompts_sample.json` stores the simple prompt, the guarded prompt, and the structural-feature prompt from the spec. Temperature should be 0. Record the model id, date, and sample count with the scores.
+Gate 1 scores two frontier models on BENCH-C with the simple prompt. The pair called here is `gpt-6-luna` and `gpt-5.6-terra` (`gpt-6-terra` is not available on this key). Neither model accepts temperature 0, so the Responses API calls omit it. `results/exp1/frontier_bench_c.json` records the model id, date, and task count. `results/exp1/frontier_prompts_sample.json` stores the simple, guarded, and structural-feature prompts.
 
 ## What this run does not do
 
-No neural model is trained. The spec says to train only after Gate 1 shows an 8–10 point gap between the best symbolic system and frontier models on BENCH-C. Macro accuracy (mean of per-domain scores) is reported beside the micro average so easy invoice-number columns do not decide the gate by themselves.
+No neural model is trained. On the 2026-09-25 BENCH-C run, `gpt-6-luna` scored 95.5% and `gpt-5.6-terra` scored 98.1% semantic accuracy, against a 93.2% heuristic. The gaps are +2.3 and +4.9 points, short of the 8–10 point rule, so Gate 1 is a no. Macro accuracy (mean of per-domain scores) is reported beside the micro average so easy invoice-number columns do not decide the gate by themselves.
 
 BENCH-C is a curated catalog of document fields with a human-specified gold regex for each column. It is not a scrape of private PDFs. Hidden negatives are near-miss mutations that fall outside that regex.
