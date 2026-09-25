@@ -22,7 +22,8 @@ semantic accuracy = (hidden positive recall + hidden negative rejection) / 2
 | `pattern_induction/bench_a.py` | Controlled AST tasks with a shape holdout |
 | `pattern_induction/bench_d.py` | Same schemas shown with 2, 3, 5, 10, or 20 examples |
 | `pattern_induction/frontier.py` | Prompts for the two frontier conditions. No call without an API key |
-| `results/exp1/` | First symbolic run |
+| `results/exp1/` | First symbolic run and the Gate 1 HTML report |
+| `results/exp1/exp1_report.html` | Self-contained findings page |
 
 ## Run
 
