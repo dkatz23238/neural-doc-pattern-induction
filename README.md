@@ -95,6 +95,14 @@ PYTHONPATH=. python scripts/run_membership.py
 
 `results/exp2/membership.md` is the written result.
 
+The renaming run asks whether that membership model is using symbol identity. It renames letters, digits, and separators inside a task, including sending `-` to `§`, and scores the probability change. A second encoder replaces raw codepoints with structural class, a task-local symbol id, and alignment relations. BENCH-C is not scored.
+
+```bash
+PYTHONPATH=. python scripts/run_renaming.py
+```
+
+`results/exp2/renaming.md` is the written result.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.
