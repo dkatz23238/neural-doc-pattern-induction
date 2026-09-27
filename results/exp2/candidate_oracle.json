@@ -1,0 +1,2090 @@
+{
+  "benchmarks": {
+    "bench_c": {
+      "n": 554,
+      "role": "held out of both linear models; primary decision set",
+      "systems": [
+        {
+          "system": "heuristic",
+          "n": 554,
+          "semantic_accuracy": 0.9316,
+          "macro_semantic_accuracy": 0.9208,
+          "by_domain": {
+            "account_reference": 1.0,
+            "bank_reference": 0.8764,
+            "currency": 0.959,
+            "customer_id": 1.0,
+            "date": 0.9492,
+            "document_filename": 0.9854,
+            "doi": 0.9208,
+            "email": 0.9153,
+            "filename": 0.825,
+            "form_field": 0.8486,
+            "hash": 0.6458,
+            "invoice_number": 0.9983,
+            "legal_numbering": 0.951,
+            "log_line": 0.9153,
+            "measurement": 0.9375,
+            "ocr_field": 0.9569,
+            "order_id": 0.9694,
+            "page_reference": 0.975,
+            "percentage": 0.9667,
+            "phone": 0.9896,
+            "postal_code": 1.0,
+            "scientific_id": 0.9792,
+            "section_id": 0.8615,
+            "serial": 0.7861,
+            "shipping_code": 1.0,
+            "sku": 0.9992,
+            "spreadsheet_column": 0.9125,
+            "time": 0.974,
+            "tracking": 0.8819,
+            "transaction_id": 0.8125,
+            "url": 0.9292,
+            "uuid": 0.7625,
+            "version": 0.9042
+          },
+          "positive_recall": 0.9137,
+          "negative_rejection": 0.9494,
+          "unchanged_rate": 1.0,
+          "improved_rate": 0.0,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "random",
+          "n": 554,
+          "semantic_accuracy": 0.9202,
+          "macro_semantic_accuracy": 0.9124,
+          "by_domain": {
+            "account_reference": 0.9558,
+            "bank_reference": 0.9542,
+            "currency": 0.9465,
+            "customer_id": 0.9861,
+            "date": 0.94,
+            "document_filename": 0.9406,
+            "doi": 0.9125,
+            "email": 0.9139,
+            "filename": 0.8347,
+            "form_field": 0.8375,
+            "hash": 0.6844,
+            "invoice_number": 0.9809,
+            "legal_numbering": 0.9313,
+            "log_line": 0.9042,
+            "measurement": 0.9281,
+            "ocr_field": 0.9556,
+            "order_id": 0.9458,
+            "page_reference": 0.9667,
+            "percentage": 0.9604,
+            "phone": 0.9208,
+            "postal_code": 0.9597,
+            "scientific_id": 0.9688,
+            "section_id": 0.8698,
+            "serial": 0.8278,
+            "shipping_code": 0.95,
+            "sku": 0.9775,
+            "spreadsheet_column": 0.8806,
+            "time": 0.9594,
+            "tracking": 0.8861,
+            "transaction_id": 0.8187,
+            "url": 0.8958,
+            "uuid": 0.8583,
+            "version": 0.8583
+          },
+          "positive_recall": 0.9254,
+          "negative_rejection": 0.9149,
+          "unchanged_rate": 0.157,
+          "improved_rate": 0.074,
+          "regressed_rate": 0.2978
+        },
+        {
+          "system": "random_expected",
+          "n": 554,
+          "semantic_accuracy": 0.9219,
+          "macro_semantic_accuracy": 0.9128,
+          "by_domain": {
+            "account_reference": 0.9665,
+            "bank_reference": 0.9053,
+            "currency": 0.9383,
+            "customer_id": 0.9819,
+            "date": 0.9443,
+            "document_filename": 0.9556,
+            "doi": 0.9031,
+            "email": 0.9219,
+            "filename": 0.8304,
+            "form_field": 0.8339,
+            "hash": 0.7134,
+            "invoice_number": 0.9719,
+            "legal_numbering": 0.9294,
+            "log_line": 0.9245,
+            "measurement": 0.9361,
+            "ocr_field": 0.9462,
+            "order_id": 0.9509,
+            "page_reference": 0.9571,
+            "percentage": 0.9602,
+            "phone": 0.9574,
+            "postal_code": 0.9696,
+            "scientific_id": 0.969,
+            "section_id": 0.8645,
+            "serial": 0.8182,
+            "shipping_code": 0.9667,
+            "sku": 0.9802,
+            "spreadsheet_column": 0.8722,
+            "time": 0.9609,
+            "tracking": 0.8845,
+            "transaction_id": 0.8443,
+            "url": 0.8997,
+            "uuid": 0.8,
+            "version": 0.8661
+          }
+        },
+        {
+          "system": "mdl",
+          "n": 554,
+          "semantic_accuracy": 0.9595,
+          "macro_semantic_accuracy": 0.9545,
+          "by_domain": {
+            "account_reference": 1.0,
+            "bank_reference": 0.9486,
+            "currency": 0.959,
+            "customer_id": 1.0,
+            "date": 0.9508,
+            "document_filename": 0.9802,
+            "doi": 0.9208,
+            "email": 0.9153,
+            "filename": 0.8292,
+            "form_field": 0.8542,
+            "hash": 0.9865,
+            "invoice_number": 0.9983,
+            "legal_numbering": 0.951,
+            "log_line": 0.9569,
+            "measurement": 0.9375,
+            "ocr_field": 0.9569,
+            "order_id": 0.9694,
+            "page_reference": 0.975,
+            "percentage": 0.9667,
+            "phone": 0.9896,
+            "postal_code": 1.0,
+            "scientific_id": 0.9792,
+            "section_id": 0.8844,
+            "serial": 0.9417,
+            "shipping_code": 1.0,
+            "sku": 0.9992,
+            "spreadsheet_column": 0.9125,
+            "time": 0.974,
+            "tracking": 0.9833,
+            "transaction_id": 0.95,
+            "url": 0.9292,
+            "uuid": 0.9958,
+            "version": 0.9042
+          },
+          "positive_recall": 0.9478,
+          "negative_rejection": 0.9711,
+          "unchanged_rate": 0.8213,
+          "improved_rate": 0.1282,
+          "regressed_rate": 0.0018
+        },
+        {
+          "system": "rules",
+          "n": 554,
+          "semantic_accuracy": 0.9625,
+          "macro_semantic_accuracy": 0.9574,
+          "by_domain": {
+            "account_reference": 1.0,
+            "bank_reference": 0.9472,
+            "currency": 0.959,
+            "customer_id": 1.0,
+            "date": 0.9775,
+            "document_filename": 0.9802,
+            "doi": 0.9125,
+            "email": 0.9153,
+            "filename": 0.8292,
+            "form_field": 0.8542,
+            "hash": 0.9865,
+            "invoice_number": 0.9983,
+            "legal_numbering": 0.951,
+            "log_line": 0.9569,
+            "measurement": 0.95,
+            "ocr_field": 0.9833,
+            "order_id": 0.9694,
+            "page_reference": 0.975,
+            "percentage": 0.9667,
+            "phone": 0.9896,
+            "postal_code": 1.0,
+            "scientific_id": 0.9792,
+            "section_id": 0.8844,
+            "serial": 0.9417,
+            "shipping_code": 1.0,
+            "sku": 0.9992,
+            "spreadsheet_column": 0.9153,
+            "time": 0.974,
+            "tracking": 0.9833,
+            "transaction_id": 0.9875,
+            "url": 0.9292,
+            "uuid": 0.9958,
+            "version": 0.9042
+          },
+          "positive_recall": 0.9541,
+          "negative_rejection": 0.9708,
+          "unchanged_rate": 0.7852,
+          "improved_rate": 0.1444,
+          "regressed_rate": 0.0072
+        },
+        {
+          "system": "linear_structural",
+          "n": 554,
+          "semantic_accuracy": 0.9432,
+          "macro_semantic_accuracy": 0.9358,
+          "by_domain": {
+            "account_reference": 1.0,
+            "bank_reference": 0.9083,
+            "currency": 0.959,
+            "customer_id": 1.0,
+            "date": 0.9692,
+            "document_filename": 0.9802,
+            "doi": 0.9125,
+            "email": 0.9153,
+            "filename": 0.8375,
+            "form_field": 0.8542,
+            "hash": 0.7375,
+            "invoice_number": 0.9983,
+            "legal_numbering": 0.9479,
+            "log_line": 0.9569,
+            "measurement": 0.95,
+            "ocr_field": 0.9694,
+            "order_id": 0.9569,
+            "page_reference": 0.975,
+            "percentage": 0.9667,
+            "phone": 0.9896,
+            "postal_code": 1.0,
+            "scientific_id": 0.9792,
+            "section_id": 0.8844,
+            "serial": 0.8542,
+            "shipping_code": 1.0,
+            "sku": 0.9992,
+            "spreadsheet_column": 0.9125,
+            "time": 0.974,
+            "tracking": 0.8819,
+            "transaction_id": 0.8438,
+            "url": 0.9375,
+            "uuid": 0.925,
+            "version": 0.9042
+          },
+          "positive_recall": 0.9235,
+          "negative_rejection": 0.9628,
+          "unchanged_rate": 0.7473,
+          "improved_rate": 0.0939,
+          "regressed_rate": 0.0199
+        },
+        {
+          "system": "linear_document",
+          "n": 554,
+          "semantic_accuracy": 0.9501,
+          "macro_semantic_accuracy": 0.9461,
+          "by_domain": {
+            "account_reference": 0.9858,
+            "bank_reference": 0.9083,
+            "currency": 0.959,
+            "customer_id": 0.9785,
+            "date": 0.9708,
+            "document_filename": 0.9594,
+            "doi": 0.9125,
+            "email": 0.9028,
+            "filename": 0.8333,
+            "form_field": 0.8403,
+            "hash": 0.9865,
+            "invoice_number": 0.9792,
+            "legal_numbering": 0.9219,
+            "log_line": 0.9569,
+            "measurement": 0.9458,
+            "ocr_field": 0.9708,
+            "order_id": 0.9542,
+            "page_reference": 0.9625,
+            "percentage": 0.95,
+            "phone": 0.9646,
+            "postal_code": 0.9826,
+            "scientific_id": 0.9708,
+            "section_id": 0.8833,
+            "serial": 0.9611,
+            "shipping_code": 0.9792,
+            "sku": 0.9858,
+            "spreadsheet_column": 0.8514,
+            "time": 0.974,
+            "tracking": 0.9556,
+            "transaction_id": 1.0,
+            "url": 0.9333,
+            "uuid": 0.9958,
+            "version": 0.9042
+          },
+          "positive_recall": 0.9575,
+          "negative_rejection": 0.9426,
+          "unchanged_rate": 0.009,
+          "improved_rate": 0.1426,
+          "regressed_rate": 0.2798
+        },
+        {
+          "system": "oracle_k",
+          "n": 554,
+          "semantic_accuracy": 0.9736,
+          "macro_semantic_accuracy": 0.9712,
+          "by_domain": {
+            "account_reference": 1.0,
+            "bank_reference": 0.9889,
+            "currency": 0.9667,
+            "customer_id": 1.0,
+            "date": 0.9808,
+            "document_filename": 0.9854,
+            "doi": 0.9792,
+            "email": 0.9556,
+            "filename": 0.8583,
+            "form_field": 0.8542,
+            "hash": 0.9958,
+            "invoice_number": 0.9983,
+            "legal_numbering": 0.951,
+            "log_line": 0.9694,
+            "measurement": 0.9833,
+            "ocr_field": 0.9847,
+            "order_id": 0.9694,
+            "page_reference": 0.9917,
+            "percentage": 0.9938,
+            "phone": 1.0,
+            "postal_code": 1.0,
+            "scientific_id": 0.9938,
+            "section_id": 0.9042,
+            "serial": 0.9806,
+            "shipping_code": 1.0,
+            "sku": 0.9992,
+            "spreadsheet_column": 0.9153,
+            "time": 0.9792,
+            "tracking": 0.9833,
+            "transaction_id": 1.0,
+            "url": 0.9875,
+            "uuid": 0.9958,
+            "version": 0.9042
+          },
+          "positive_recall": 0.979,
+          "negative_rejection": 0.9681,
+          "unchanged_rate": 0.7509,
+          "improved_rate": 0.2491,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "oracle_pool",
+          "n": 554,
+          "semantic_accuracy": 0.9791,
+          "macro_semantic_accuracy": 0.9789,
+          "by_domain": {
+            "account_reference": 1.0,
+            "bank_reference": 0.9889,
+            "currency": 0.9701,
+            "customer_id": 1.0,
+            "date": 0.9808,
+            "document_filename": 0.9948,
+            "doi": 0.9958,
+            "email": 0.9569,
+            "filename": 0.8778,
+            "form_field": 0.8542,
+            "hash": 1.0,
+            "invoice_number": 0.9983,
+            "legal_numbering": 0.9844,
+            "log_line": 0.9778,
+            "measurement": 0.9927,
+            "ocr_field": 0.9944,
+            "order_id": 0.9694,
+            "page_reference": 0.9972,
+            "percentage": 0.9958,
+            "phone": 1.0,
+            "postal_code": 1.0,
+            "scientific_id": 0.9938,
+            "section_id": 0.9135,
+            "serial": 0.9917,
+            "shipping_code": 1.0,
+            "sku": 0.9992,
+            "spreadsheet_column": 0.9153,
+            "time": 0.9854,
+            "tracking": 0.9833,
+            "transaction_id": 1.0,
+            "url": 1.0,
+            "uuid": 0.9958,
+            "version": 0.9958
+          },
+          "positive_recall": 0.9891,
+          "negative_rejection": 0.9691,
+          "unchanged_rate": 0.7022,
+          "improved_rate": 0.2978,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "gold",
+          "n": 554,
+          "semantic_accuracy": 1.0,
+          "macro_semantic_accuracy": 1.0,
+          "by_domain": {
+            "account_reference": 1.0,
+            "bank_reference": 1.0,
+            "currency": 1.0,
+            "customer_id": 1.0,
+            "date": 1.0,
+            "document_filename": 1.0,
+            "doi": 1.0,
+            "email": 1.0,
+            "filename": 1.0,
+            "form_field": 1.0,
+            "hash": 1.0,
+            "invoice_number": 1.0,
+            "legal_numbering": 1.0,
+            "log_line": 1.0,
+            "measurement": 1.0,
+            "ocr_field": 1.0,
+            "order_id": 1.0,
+            "page_reference": 1.0,
+            "percentage": 1.0,
+            "phone": 1.0,
+            "postal_code": 1.0,
+            "scientific_id": 1.0,
+            "section_id": 1.0,
+            "serial": 1.0,
+            "shipping_code": 1.0,
+            "sku": 1.0,
+            "spreadsheet_column": 1.0,
+            "time": 1.0,
+            "tracking": 1.0,
+            "transaction_id": 1.0,
+            "url": 1.0,
+            "uuid": 1.0,
+            "version": 1.0
+          }
+        }
+      ],
+      "oracle_sweep": [
+        {
+          "k": 1,
+          "n": 554,
+          "oracle_accuracy": 0.9316
+        },
+        {
+          "k": 2,
+          "n": 554,
+          "oracle_accuracy": 0.9598
+        },
+        {
+          "k": 4,
+          "n": 554,
+          "oracle_accuracy": 0.9667
+        },
+        {
+          "k": 6,
+          "n": 554,
+          "oracle_accuracy": 0.9688
+        },
+        {
+          "k": 8,
+          "n": 554,
+          "oracle_accuracy": 0.9736
+        },
+        {
+          "k": 10,
+          "n": 554,
+          "oracle_accuracy": 0.9762
+        },
+        {
+          "k": "pool",
+          "n": 554,
+          "oracle_accuracy": 0.9791,
+          "mean_pool_size": 37.61
+        }
+      ],
+      "gain_tags": {
+        "n_gain": 138,
+        "mean_gain_when_improved": 0.1686,
+        "tags": {
+          "no_gain": 416,
+          "hex_collapse": 33,
+          "slot_tight": 29,
+          "width": 21,
+          "slot_widen": 13,
+          "optional": 10,
+          "width_aggressive": 8,
+          "affix": 7,
+          "class_widen": 6,
+          "repeat": 6,
+          "catalog": 2,
+          "literal_digit": 2,
+          "class_tighten": 1
+        }
+      },
+      "latency_ms": {
+        "p50": 2.645,
+        "p95": 16.122,
+        "mean": 4.976
+      }
+    },
+    "bench_d": {
+      "n": 320,
+      "role": "held out; same schemas at several sample sizes",
+      "systems": [
+        {
+          "system": "heuristic",
+          "n": 320,
+          "semantic_accuracy": 0.8985,
+          "macro_semantic_accuracy": 0.8985,
+          "by_domain": {
+            "ambiguity": 0.8985
+          },
+          "positive_recall": 0.8513,
+          "negative_rejection": 0.9457,
+          "unchanged_rate": 1.0,
+          "improved_rate": 0.0,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "random",
+          "n": 320,
+          "semantic_accuracy": 0.9028,
+          "macro_semantic_accuracy": 0.9028,
+          "by_domain": {
+            "ambiguity": 0.9028
+          },
+          "positive_recall": 0.8853,
+          "negative_rejection": 0.9203,
+          "unchanged_rate": 0.1625,
+          "improved_rate": 0.125,
+          "regressed_rate": 0.3219
+        },
+        {
+          "system": "random_expected",
+          "n": 320,
+          "semantic_accuracy": 0.8983,
+          "macro_semantic_accuracy": 0.8983,
+          "by_domain": {
+            "ambiguity": 0.8983
+          }
+        },
+        {
+          "system": "mdl",
+          "n": 320,
+          "semantic_accuracy": 0.9217,
+          "macro_semantic_accuracy": 0.9217,
+          "by_domain": {
+            "ambiguity": 0.9217
+          },
+          "positive_recall": 0.8633,
+          "negative_rejection": 0.9802,
+          "unchanged_rate": 0.8719,
+          "improved_rate": 0.1062,
+          "regressed_rate": 0.0094
+        },
+        {
+          "system": "rules",
+          "n": 320,
+          "semantic_accuracy": 0.9376,
+          "macro_semantic_accuracy": 0.9376,
+          "by_domain": {
+            "ambiguity": 0.9376
+          },
+          "positive_recall": 0.8958,
+          "negative_rejection": 0.9794,
+          "unchanged_rate": 0.8219,
+          "improved_rate": 0.1656,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "linear_structural",
+          "n": 320,
+          "semantic_accuracy": 0.935,
+          "macro_semantic_accuracy": 0.935,
+          "by_domain": {
+            "ambiguity": 0.935
+          },
+          "positive_recall": 0.8984,
+          "negative_rejection": 0.9715,
+          "unchanged_rate": 0.5719,
+          "improved_rate": 0.1531,
+          "regressed_rate": 0.0844
+        },
+        {
+          "system": "linear_document",
+          "n": 320,
+          "semantic_accuracy": 0.9103,
+          "macro_semantic_accuracy": 0.9103,
+          "by_domain": {
+            "ambiguity": 0.9103
+          },
+          "positive_recall": 0.9091,
+          "negative_rejection": 0.9115,
+          "unchanged_rate": 0.0,
+          "improved_rate": 0.1594,
+          "regressed_rate": 0.425
+        },
+        {
+          "system": "oracle_k",
+          "n": 320,
+          "semantic_accuracy": 0.9676,
+          "macro_semantic_accuracy": 0.9676,
+          "by_domain": {
+            "ambiguity": 0.9676
+          },
+          "positive_recall": 0.9632,
+          "negative_rejection": 0.972,
+          "unchanged_rate": 0.7063,
+          "improved_rate": 0.2938,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "oracle_pool",
+          "n": 320,
+          "semantic_accuracy": 0.974,
+          "macro_semantic_accuracy": 0.974,
+          "by_domain": {
+            "ambiguity": 0.974
+          },
+          "positive_recall": 0.9743,
+          "negative_rejection": 0.9736,
+          "unchanged_rate": 0.7031,
+          "improved_rate": 0.2969,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "gold",
+          "n": 320,
+          "semantic_accuracy": 1.0,
+          "macro_semantic_accuracy": 1.0,
+          "by_domain": {
+            "ambiguity": 1.0
+          }
+        }
+      ],
+      "oracle_sweep": [
+        {
+          "k": 1,
+          "n": 320,
+          "oracle_accuracy": 0.8985
+        },
+        {
+          "k": 2,
+          "n": 320,
+          "oracle_accuracy": 0.9244
+        },
+        {
+          "k": 4,
+          "n": 320,
+          "oracle_accuracy": 0.9553
+        },
+        {
+          "k": 6,
+          "n": 320,
+          "oracle_accuracy": 0.9553
+        },
+        {
+          "k": 8,
+          "n": 320,
+          "oracle_accuracy": 0.9676
+        },
+        {
+          "k": 10,
+          "n": 320,
+          "oracle_accuracy": 0.9719
+        },
+        {
+          "k": "pool",
+          "n": 320,
+          "oracle_accuracy": 0.974,
+          "mean_pool_size": 24.67
+        }
+      ],
+      "gain_tags": {
+        "n_gain": 94,
+        "mean_gain_when_improved": 0.2352,
+        "tags": {
+          "no_gain": 226,
+          "hex_collapse": 28,
+          "slot_tight": 16,
+          "width_aggressive": 14,
+          "width": 13,
+          "optional": 10,
+          "slot_widen": 9,
+          "literal_digit": 2,
+          "slot_digit_general": 2
+        }
+      },
+      "latency_ms": {
+        "p50": 1.927,
+        "p95": 5.793,
+        "mean": 2.546
+      }
+    },
+    "bench_a_test": {
+      "n": 200,
+      "role": "held-out AST shapes",
+      "systems": [
+        {
+          "system": "heuristic",
+          "n": 200,
+          "semantic_accuracy": 0.84,
+          "macro_semantic_accuracy": 0.84,
+          "by_domain": {
+            "synthetic": 0.84
+          },
+          "positive_recall": 0.8605,
+          "negative_rejection": 0.8195,
+          "unchanged_rate": 1.0,
+          "improved_rate": 0.0,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "random",
+          "n": 200,
+          "semantic_accuracy": 0.8395,
+          "macro_semantic_accuracy": 0.8395,
+          "by_domain": {
+            "synthetic": 0.8395
+          },
+          "positive_recall": 0.8797,
+          "negative_rejection": 0.7993,
+          "unchanged_rate": 0.21,
+          "improved_rate": 0.165,
+          "regressed_rate": 0.305
+        },
+        {
+          "system": "random_expected",
+          "n": 200,
+          "semantic_accuracy": 0.839,
+          "macro_semantic_accuracy": 0.839,
+          "by_domain": {
+            "synthetic": 0.839
+          }
+        },
+        {
+          "system": "mdl",
+          "n": 200,
+          "semantic_accuracy": 0.8653,
+          "macro_semantic_accuracy": 0.8653,
+          "by_domain": {
+            "synthetic": 0.8653
+          },
+          "positive_recall": 0.8553,
+          "negative_rejection": 0.8753,
+          "unchanged_rate": 0.695,
+          "improved_rate": 0.215,
+          "regressed_rate": 0.045
+        },
+        {
+          "system": "rules",
+          "n": 200,
+          "semantic_accuracy": 0.8654,
+          "macro_semantic_accuracy": 0.8654,
+          "by_domain": {
+            "synthetic": 0.8654
+          },
+          "positive_recall": 0.8575,
+          "negative_rejection": 0.8733,
+          "unchanged_rate": 0.64,
+          "improved_rate": 0.23,
+          "regressed_rate": 0.065
+        },
+        {
+          "system": "linear_structural",
+          "n": 200,
+          "semantic_accuracy": 0.8533,
+          "macro_semantic_accuracy": 0.8533,
+          "by_domain": {
+            "synthetic": 0.8533
+          },
+          "positive_recall": 0.8772,
+          "negative_rejection": 0.8292,
+          "unchanged_rate": 0.47,
+          "improved_rate": 0.215,
+          "regressed_rate": 0.15
+        },
+        {
+          "system": "linear_document",
+          "n": 200,
+          "semantic_accuracy": 0.8453,
+          "macro_semantic_accuracy": 0.8453,
+          "by_domain": {
+            "synthetic": 0.8453
+          },
+          "positive_recall": 0.9115,
+          "negative_rejection": 0.779,
+          "unchanged_rate": 0.085,
+          "improved_rate": 0.295,
+          "regressed_rate": 0.35
+        },
+        {
+          "system": "oracle_k",
+          "n": 200,
+          "semantic_accuracy": 0.9029,
+          "macro_semantic_accuracy": 0.9029,
+          "by_domain": {
+            "synthetic": 0.9029
+          },
+          "positive_recall": 0.9475,
+          "negative_rejection": 0.8583,
+          "unchanged_rate": 0.585,
+          "improved_rate": 0.415,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "oracle_pool",
+          "n": 200,
+          "semantic_accuracy": 0.9113,
+          "macro_semantic_accuracy": 0.9113,
+          "by_domain": {
+            "synthetic": 0.9113
+          },
+          "positive_recall": 0.9617,
+          "negative_rejection": 0.8608,
+          "unchanged_rate": 0.525,
+          "improved_rate": 0.475,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "gold",
+          "n": 200,
+          "semantic_accuracy": 1.0,
+          "macro_semantic_accuracy": 1.0,
+          "by_domain": {
+            "synthetic": 1.0
+          }
+        }
+      ],
+      "oracle_sweep": [
+        {
+          "k": 1,
+          "n": 200,
+          "oracle_accuracy": 0.84
+        },
+        {
+          "k": 2,
+          "n": 200,
+          "oracle_accuracy": 0.8705
+        },
+        {
+          "k": 4,
+          "n": 200,
+          "oracle_accuracy": 0.8967
+        },
+        {
+          "k": 6,
+          "n": 200,
+          "oracle_accuracy": 0.9001
+        },
+        {
+          "k": 8,
+          "n": 200,
+          "oracle_accuracy": 0.9029
+        },
+        {
+          "k": 10,
+          "n": 200,
+          "oracle_accuracy": 0.9041
+        },
+        {
+          "k": "pool",
+          "n": 200,
+          "oracle_accuracy": 0.9113,
+          "mean_pool_size": 19.07
+        }
+      ],
+      "gain_tags": {
+        "n_gain": 83,
+        "mean_gain_when_improved": 0.1515,
+        "tags": {
+          "no_gain": 117,
+          "slot_tight": 38,
+          "class_widen": 20,
+          "affix": 7,
+          "width": 6,
+          "slot_widen": 4,
+          "width_aggressive": 4,
+          "class_tighten": 2,
+          "hex_collapse": 1,
+          "literal_digit": 1
+        }
+      },
+      "latency_ms": {
+        "p50": 2.279,
+        "p95": 11.515,
+        "mean": 3.666
+      }
+    },
+    "bench_a_val": {
+      "n": 200,
+      "role": "penalty selection for the structural linear model",
+      "systems": [
+        {
+          "system": "heuristic",
+          "n": 200,
+          "semantic_accuracy": 0.8396,
+          "macro_semantic_accuracy": 0.8396,
+          "by_domain": {
+            "synthetic": 0.8396
+          },
+          "positive_recall": 0.8982,
+          "negative_rejection": 0.781,
+          "unchanged_rate": 1.0,
+          "improved_rate": 0.0,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "random",
+          "n": 200,
+          "semantic_accuracy": 0.8436,
+          "macro_semantic_accuracy": 0.8436,
+          "by_domain": {
+            "synthetic": 0.8436
+          },
+          "positive_recall": 0.9085,
+          "negative_rejection": 0.7788,
+          "unchanged_rate": 0.2,
+          "improved_rate": 0.225,
+          "regressed_rate": 0.29
+        },
+        {
+          "system": "random_expected",
+          "n": 200,
+          "semantic_accuracy": 0.8498,
+          "macro_semantic_accuracy": 0.8498,
+          "by_domain": {
+            "synthetic": 0.8498
+          }
+        },
+        {
+          "system": "mdl",
+          "n": 200,
+          "semantic_accuracy": 0.8832,
+          "macro_semantic_accuracy": 0.8832,
+          "by_domain": {
+            "synthetic": 0.8832
+          },
+          "positive_recall": 0.8947,
+          "negative_rejection": 0.8718,
+          "unchanged_rate": 0.585,
+          "improved_rate": 0.31,
+          "regressed_rate": 0.05
+        },
+        {
+          "system": "rules",
+          "n": 200,
+          "semantic_accuracy": 0.8842,
+          "macro_semantic_accuracy": 0.8842,
+          "by_domain": {
+            "synthetic": 0.8842
+          },
+          "positive_recall": 0.8975,
+          "negative_rejection": 0.871,
+          "unchanged_rate": 0.565,
+          "improved_rate": 0.31,
+          "regressed_rate": 0.055
+        },
+        {
+          "system": "linear_structural",
+          "n": 200,
+          "semantic_accuracy": 0.86,
+          "macro_semantic_accuracy": 0.86,
+          "by_domain": {
+            "synthetic": 0.86
+          },
+          "positive_recall": 0.9005,
+          "negative_rejection": 0.8195,
+          "unchanged_rate": 0.465,
+          "improved_rate": 0.295,
+          "regressed_rate": 0.105
+        },
+        {
+          "system": "linear_document",
+          "n": 200,
+          "semantic_accuracy": 0.8455,
+          "macro_semantic_accuracy": 0.8455,
+          "by_domain": {
+            "synthetic": 0.8455
+          },
+          "positive_recall": 0.916,
+          "negative_rejection": 0.775,
+          "unchanged_rate": 0.065,
+          "improved_rate": 0.335,
+          "regressed_rate": 0.36
+        },
+        {
+          "system": "oracle_k",
+          "n": 200,
+          "semantic_accuracy": 0.9108,
+          "macro_semantic_accuracy": 0.9108,
+          "by_domain": {
+            "synthetic": 0.9108
+          },
+          "positive_recall": 0.9575,
+          "negative_rejection": 0.864,
+          "unchanged_rate": 0.54,
+          "improved_rate": 0.46,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "oracle_pool",
+          "n": 200,
+          "semantic_accuracy": 0.9191,
+          "macro_semantic_accuracy": 0.9191,
+          "by_domain": {
+            "synthetic": 0.9191
+          },
+          "positive_recall": 0.969,
+          "negative_rejection": 0.8692,
+          "unchanged_rate": 0.49,
+          "improved_rate": 0.51,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "gold",
+          "n": 200,
+          "semantic_accuracy": 1.0,
+          "macro_semantic_accuracy": 1.0,
+          "by_domain": {
+            "synthetic": 1.0
+          }
+        }
+      ],
+      "oracle_sweep": [
+        {
+          "k": 1,
+          "n": 200,
+          "oracle_accuracy": 0.8396
+        },
+        {
+          "k": 2,
+          "n": 200,
+          "oracle_accuracy": 0.8817
+        },
+        {
+          "k": 4,
+          "n": 200,
+          "oracle_accuracy": 0.9031
+        },
+        {
+          "k": 6,
+          "n": 200,
+          "oracle_accuracy": 0.905
+        },
+        {
+          "k": 8,
+          "n": 200,
+          "oracle_accuracy": 0.9108
+        },
+        {
+          "k": 10,
+          "n": 200,
+          "oracle_accuracy": 0.9129
+        },
+        {
+          "k": "pool",
+          "n": 200,
+          "oracle_accuracy": 0.9191,
+          "mean_pool_size": 17.91
+        }
+      ],
+      "gain_tags": {
+        "n_gain": 92,
+        "mean_gain_when_improved": 0.1546,
+        "tags": {
+          "no_gain": 108,
+          "slot_tight": 34,
+          "class_widen": 25,
+          "slot_widen": 13,
+          "affix": 8,
+          "width": 5,
+          "width_aggressive": 4,
+          "optional": 2,
+          "class_tighten": 1
+        }
+      },
+      "latency_ms": {
+        "p50": 2.159,
+        "p95": 11.432,
+        "mean": 3.617
+      }
+    },
+    "bench_a_dev": {
+      "n": 800,
+      "role": "training data for the structural linear model",
+      "systems": [
+        {
+          "system": "heuristic",
+          "n": 800,
+          "semantic_accuracy": 0.8459,
+          "macro_semantic_accuracy": 0.8459,
+          "by_domain": {
+            "synthetic": 0.8459
+          },
+          "positive_recall": 0.8832,
+          "negative_rejection": 0.8086,
+          "unchanged_rate": 1.0,
+          "improved_rate": 0.0,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "random",
+          "n": 800,
+          "semantic_accuracy": 0.8517,
+          "macro_semantic_accuracy": 0.8517,
+          "by_domain": {
+            "synthetic": 0.8517
+          },
+          "positive_recall": 0.8988,
+          "negative_rejection": 0.8045,
+          "unchanged_rate": 0.18,
+          "improved_rate": 0.1825,
+          "regressed_rate": 0.3088
+        },
+        {
+          "system": "random_expected",
+          "n": 800,
+          "semantic_accuracy": 0.8487,
+          "macro_semantic_accuracy": 0.8487,
+          "by_domain": {
+            "synthetic": 0.8487
+          }
+        },
+        {
+          "system": "mdl",
+          "n": 800,
+          "semantic_accuracy": 0.8764,
+          "macro_semantic_accuracy": 0.8764,
+          "by_domain": {
+            "synthetic": 0.8764
+          },
+          "positive_recall": 0.8764,
+          "negative_rejection": 0.8764,
+          "unchanged_rate": 0.6787,
+          "improved_rate": 0.2188,
+          "regressed_rate": 0.04
+        },
+        {
+          "system": "rules",
+          "n": 800,
+          "semantic_accuracy": 0.8774,
+          "macro_semantic_accuracy": 0.8774,
+          "by_domain": {
+            "synthetic": 0.8774
+          },
+          "positive_recall": 0.8793,
+          "negative_rejection": 0.8755,
+          "unchanged_rate": 0.65,
+          "improved_rate": 0.2263,
+          "regressed_rate": 0.0525
+        },
+        {
+          "system": "linear_structural",
+          "n": 800,
+          "semantic_accuracy": 0.8643,
+          "macro_semantic_accuracy": 0.8643,
+          "by_domain": {
+            "synthetic": 0.8643
+          },
+          "positive_recall": 0.8939,
+          "negative_rejection": 0.8347,
+          "unchanged_rate": 0.47,
+          "improved_rate": 0.235,
+          "regressed_rate": 0.1225
+        },
+        {
+          "system": "linear_document",
+          "n": 800,
+          "semantic_accuracy": 0.8474,
+          "macro_semantic_accuracy": 0.8474,
+          "by_domain": {
+            "synthetic": 0.8474
+          },
+          "positive_recall": 0.9109,
+          "negative_rejection": 0.784,
+          "unchanged_rate": 0.0663,
+          "improved_rate": 0.2812,
+          "regressed_rate": 0.36
+        },
+        {
+          "system": "oracle_k",
+          "n": 800,
+          "semantic_accuracy": 0.9078,
+          "macro_semantic_accuracy": 0.9078,
+          "by_domain": {
+            "synthetic": 0.9078
+          },
+          "positive_recall": 0.9532,
+          "negative_rejection": 0.8625,
+          "unchanged_rate": 0.5687,
+          "improved_rate": 0.4313,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "oracle_pool",
+          "n": 800,
+          "semantic_accuracy": 0.9168,
+          "macro_semantic_accuracy": 0.9168,
+          "by_domain": {
+            "synthetic": 0.9168
+          },
+          "positive_recall": 0.9672,
+          "negative_rejection": 0.8664,
+          "unchanged_rate": 0.4988,
+          "improved_rate": 0.5012,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "gold",
+          "n": 800,
+          "semantic_accuracy": 1.0,
+          "macro_semantic_accuracy": 1.0,
+          "by_domain": {
+            "synthetic": 1.0
+          }
+        }
+      ],
+      "oracle_sweep": [
+        {
+          "k": 1,
+          "n": 800,
+          "oracle_accuracy": 0.8459
+        },
+        {
+          "k": 2,
+          "n": 800,
+          "oracle_accuracy": 0.8797
+        },
+        {
+          "k": 4,
+          "n": 800,
+          "oracle_accuracy": 0.8996
+        },
+        {
+          "k": 6,
+          "n": 800,
+          "oracle_accuracy": 0.9037
+        },
+        {
+          "k": 8,
+          "n": 800,
+          "oracle_accuracy": 0.9078
+        },
+        {
+          "k": 10,
+          "n": 800,
+          "oracle_accuracy": 0.91
+        },
+        {
+          "k": "pool",
+          "n": 800,
+          "oracle_accuracy": 0.9168,
+          "mean_pool_size": 19.18
+        }
+      ],
+      "gain_tags": {
+        "n_gain": 345,
+        "mean_gain_when_improved": 0.1436,
+        "tags": {
+          "no_gain": 455,
+          "slot_tight": 121,
+          "class_widen": 100,
+          "slot_widen": 40,
+          "width_aggressive": 31,
+          "width": 18,
+          "affix": 10,
+          "optional": 10,
+          "class_tighten": 8,
+          "hex_collapse": 5,
+          "literal_digit": 2
+        }
+      },
+      "latency_ms": {
+        "p50": 2.285,
+        "p95": 12.117,
+        "mean": 3.713
+      }
+    },
+    "bench_b_val": {
+      "n": 302,
+      "role": "penalty selection for the document linear model",
+      "systems": [
+        {
+          "system": "heuristic",
+          "n": 302,
+          "semantic_accuracy": 0.9188,
+          "macro_semantic_accuracy": 0.9056,
+          "by_domain": {
+            "currency": 0.9731,
+            "date": 0.9522,
+            "filename": 0.5871,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 0.9659,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 0.672
+          },
+          "positive_recall": 0.9089,
+          "negative_rejection": 0.9286,
+          "unchanged_rate": 1.0,
+          "improved_rate": 0.0,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "random",
+          "n": 302,
+          "semantic_accuracy": 0.9089,
+          "macro_semantic_accuracy": 0.8965,
+          "by_domain": {
+            "currency": 0.9659,
+            "date": 0.938,
+            "filename": 0.6328,
+            "invoice_number": 0.9738,
+            "phone": 0.9773,
+            "section_id": 0.9545,
+            "sku": 0.982,
+            "transaction_id": 0.9536,
+            "uuid": 0.691
+          },
+          "positive_recall": 0.9123,
+          "negative_rejection": 0.9056,
+          "unchanged_rate": 0.1722,
+          "improved_rate": 0.0662,
+          "regressed_rate": 0.255
+        },
+        {
+          "system": "random_expected",
+          "n": 302,
+          "semantic_accuracy": 0.9145,
+          "macro_semantic_accuracy": 0.9043,
+          "by_domain": {
+            "currency": 0.9636,
+            "date": 0.9416,
+            "filename": 0.6334,
+            "invoice_number": 0.9738,
+            "phone": 0.9655,
+            "section_id": 0.9643,
+            "sku": 0.9825,
+            "transaction_id": 0.9725,
+            "uuid": 0.7415
+          }
+        },
+        {
+          "system": "mdl",
+          "n": 302,
+          "semantic_accuracy": 0.9541,
+          "macro_semantic_accuracy": 0.9515,
+          "by_domain": {
+            "currency": 0.9731,
+            "date": 0.9522,
+            "filename": 0.6724,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 0.9659,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 1.0
+          },
+          "positive_recall": 0.9507,
+          "negative_rejection": 0.9576,
+          "unchanged_rate": 0.7682,
+          "improved_rate": 0.1656,
+          "regressed_rate": 0.0033
+        },
+        {
+          "system": "rules",
+          "n": 302,
+          "semantic_accuracy": 0.9593,
+          "macro_semantic_accuracy": 0.9556,
+          "by_domain": {
+            "currency": 0.9731,
+            "date": 0.9804,
+            "filename": 0.681,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 0.9659,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 1.0
+          },
+          "positive_recall": 0.9613,
+          "negative_rejection": 0.9573,
+          "unchanged_rate": 0.7351,
+          "improved_rate": 0.1987,
+          "regressed_rate": 0.0033
+        },
+        {
+          "system": "linear_structural",
+          "n": 302,
+          "semantic_accuracy": 0.9435,
+          "macro_semantic_accuracy": 0.9352,
+          "by_domain": {
+            "currency": 0.9731,
+            "date": 0.9701,
+            "filename": 0.6957,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 0.9659,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 0.812
+          },
+          "positive_recall": 0.9321,
+          "negative_rejection": 0.955,
+          "unchanged_rate": 0.8113,
+          "improved_rate": 0.1589,
+          "regressed_rate": 0.0033
+        },
+        {
+          "system": "linear_document",
+          "n": 302,
+          "semantic_accuracy": 0.9519,
+          "macro_semantic_accuracy": 0.9488,
+          "by_domain": {
+            "currency": 0.9731,
+            "date": 0.9804,
+            "filename": 0.6638,
+            "invoice_number": 0.9804,
+            "phone": 1.0,
+            "section_id": 0.9659,
+            "sku": 0.992,
+            "transaction_id": 0.9833,
+            "uuid": 1.0
+          },
+          "positive_recall": 0.9641,
+          "negative_rejection": 0.9397,
+          "unchanged_rate": 0.0,
+          "improved_rate": 0.2053,
+          "regressed_rate": 0.1623
+        },
+        {
+          "system": "oracle_k",
+          "n": 302,
+          "semantic_accuracy": 0.9676,
+          "macro_semantic_accuracy": 0.9645,
+          "by_domain": {
+            "currency": 0.9923,
+            "date": 0.9804,
+            "filename": 0.7078,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 1.0,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 1.0
+          },
+          "positive_recall": 0.978,
+          "negative_rejection": 0.9573,
+          "unchanged_rate": 0.7318,
+          "improved_rate": 0.2682,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "oracle_pool",
+          "n": 302,
+          "semantic_accuracy": 0.9691,
+          "macro_semantic_accuracy": 0.9662,
+          "by_domain": {
+            "currency": 0.9928,
+            "date": 0.9804,
+            "filename": 0.7224,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 1.0,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 1.0
+          },
+          "positive_recall": 0.981,
+          "negative_rejection": 0.9573,
+          "unchanged_rate": 0.7318,
+          "improved_rate": 0.2682,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "gold",
+          "n": 302,
+          "semantic_accuracy": 1.0,
+          "macro_semantic_accuracy": 1.0,
+          "by_domain": {
+            "currency": 1.0,
+            "date": 1.0,
+            "filename": 1.0,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 1.0,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 1.0
+          }
+        }
+      ],
+      "oracle_sweep": [
+        {
+          "k": 1,
+          "n": 302,
+          "oracle_accuracy": 0.9188
+        },
+        {
+          "k": 2,
+          "n": 302,
+          "oracle_accuracy": 0.9533
+        },
+        {
+          "k": 4,
+          "n": 302,
+          "oracle_accuracy": 0.9654
+        },
+        {
+          "k": 6,
+          "n": 302,
+          "oracle_accuracy": 0.9654
+        },
+        {
+          "k": 8,
+          "n": 302,
+          "oracle_accuracy": 0.9676
+        },
+        {
+          "k": 10,
+          "n": 302,
+          "oracle_accuracy": 0.9682
+        },
+        {
+          "k": "pool",
+          "n": 302,
+          "oracle_accuracy": 0.9691,
+          "mean_pool_size": 37.91
+        }
+      ],
+      "gain_tags": {
+        "n_gain": 81,
+        "mean_gain_when_improved": 0.1821,
+        "tags": {
+          "no_gain": 221,
+          "hex_collapse": 25,
+          "class_widen": 23,
+          "slot_tight": 14,
+          "width": 12,
+          "optional": 3,
+          "repeat": 2,
+          "slot_widen": 1,
+          "width_aggressive": 1
+        }
+      },
+      "latency_ms": {
+        "p50": 3.526,
+        "p95": 21.875,
+        "mean": 5.076
+      }
+    },
+    "bench_b_train": {
+      "n": 1198,
+      "role": "training data for the document linear model",
+      "systems": [
+        {
+          "system": "heuristic",
+          "n": 1198,
+          "semantic_accuracy": 0.9127,
+          "macro_semantic_accuracy": 0.893,
+          "by_domain": {
+            "currency": 0.963,
+            "date": 0.9415,
+            "filename": 0.588,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 0.9447,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 0.5995
+          },
+          "positive_recall": 0.8816,
+          "negative_rejection": 0.9439,
+          "unchanged_rate": 1.0,
+          "improved_rate": 0.0,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "random",
+          "n": 1198,
+          "semantic_accuracy": 0.9135,
+          "macro_semantic_accuracy": 0.8977,
+          "by_domain": {
+            "currency": 0.9554,
+            "date": 0.9341,
+            "filename": 0.6458,
+            "invoice_number": 0.9843,
+            "phone": 0.9621,
+            "section_id": 0.9466,
+            "sku": 0.9812,
+            "transaction_id": 0.9803,
+            "uuid": 0.689
+          },
+          "positive_recall": 0.9048,
+          "negative_rejection": 0.9221,
+          "unchanged_rate": 0.1561,
+          "improved_rate": 0.0918,
+          "regressed_rate": 0.2362
+        },
+        {
+          "system": "random_expected",
+          "n": 1198,
+          "semantic_accuracy": 0.9117,
+          "macro_semantic_accuracy": 0.8965,
+          "by_domain": {
+            "currency": 0.951,
+            "date": 0.934,
+            "filename": 0.6486,
+            "invoice_number": 0.9785,
+            "phone": 0.9652,
+            "section_id": 0.9452,
+            "sku": 0.9835,
+            "transaction_id": 0.9725,
+            "uuid": 0.6898
+          }
+        },
+        {
+          "system": "mdl",
+          "n": 1198,
+          "semantic_accuracy": 0.9532,
+          "macro_semantic_accuracy": 0.948,
+          "by_domain": {
+            "currency": 0.963,
+            "date": 0.9359,
+            "filename": 0.694,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 0.9388,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 1.0
+          },
+          "positive_recall": 0.9382,
+          "negative_rejection": 0.9682,
+          "unchanged_rate": 0.783,
+          "improved_rate": 0.1477,
+          "regressed_rate": 0.005
+        },
+        {
+          "system": "rules",
+          "n": 1198,
+          "semantic_accuracy": 0.961,
+          "macro_semantic_accuracy": 0.9534,
+          "by_domain": {
+            "currency": 0.9644,
+            "date": 0.9771,
+            "filename": 0.6943,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 0.9447,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 1.0
+          },
+          "positive_recall": 0.9551,
+          "negative_rejection": 0.9669,
+          "unchanged_rate": 0.7446,
+          "improved_rate": 0.1903,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "linear_structural",
+          "n": 1198,
+          "semantic_accuracy": 0.932,
+          "macro_semantic_accuracy": 0.9167,
+          "by_domain": {
+            "currency": 0.963,
+            "date": 0.9625,
+            "filename": 0.7047,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 0.9447,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 0.6753
+          },
+          "positive_recall": 0.902,
+          "negative_rejection": 0.9619,
+          "unchanged_rate": 0.8464,
+          "improved_rate": 0.1152,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "linear_document",
+          "n": 1198,
+          "semantic_accuracy": 0.9547,
+          "macro_semantic_accuracy": 0.9468,
+          "by_domain": {
+            "currency": 0.9644,
+            "date": 0.9771,
+            "filename": 0.6698,
+            "invoice_number": 0.9814,
+            "phone": 1.0,
+            "section_id": 0.9524,
+            "sku": 0.9885,
+            "transaction_id": 0.9877,
+            "uuid": 1.0
+          },
+          "positive_recall": 0.9606,
+          "negative_rejection": 0.9488,
+          "unchanged_rate": 0.0,
+          "improved_rate": 0.1987,
+          "regressed_rate": 0.1494
+        },
+        {
+          "system": "oracle_k",
+          "n": 1198,
+          "semantic_accuracy": 0.9722,
+          "macro_semantic_accuracy": 0.9663,
+          "by_domain": {
+            "currency": 0.9827,
+            "date": 0.9771,
+            "filename": 0.7372,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 1.0,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 1.0
+          },
+          "positive_recall": 0.9777,
+          "negative_rejection": 0.9667,
+          "unchanged_rate": 0.7337,
+          "improved_rate": 0.2663,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "oracle_pool",
+          "n": 1198,
+          "semantic_accuracy": 0.9752,
+          "macro_semantic_accuracy": 0.9696,
+          "by_domain": {
+            "currency": 0.99,
+            "date": 0.9776,
+            "filename": 0.7589,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 1.0,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 1.0
+          },
+          "positive_recall": 0.9836,
+          "negative_rejection": 0.9668,
+          "unchanged_rate": 0.727,
+          "improved_rate": 0.273,
+          "regressed_rate": 0.0
+        },
+        {
+          "system": "gold",
+          "n": 1198,
+          "semantic_accuracy": 1.0,
+          "macro_semantic_accuracy": 1.0,
+          "by_domain": {
+            "currency": 1.0,
+            "date": 1.0,
+            "filename": 1.0,
+            "invoice_number": 1.0,
+            "phone": 1.0,
+            "section_id": 1.0,
+            "sku": 1.0,
+            "transaction_id": 1.0,
+            "uuid": 1.0
+          }
+        }
+      ],
+      "oracle_sweep": [
+        {
+          "k": 1,
+          "n": 1198,
+          "oracle_accuracy": 0.9127
+        },
+        {
+          "k": 2,
+          "n": 1198,
+          "oracle_accuracy": 0.9536
+        },
+        {
+          "k": 4,
+          "n": 1198,
+          "oracle_accuracy": 0.9685
+        },
+        {
+          "k": 6,
+          "n": 1198,
+          "oracle_accuracy": 0.9687
+        },
+        {
+          "k": 8,
+          "n": 1198,
+          "oracle_accuracy": 0.9722
+        },
+        {
+          "k": 10,
+          "n": 1198,
+          "oracle_accuracy": 0.9744
+        },
+        {
+          "k": "pool",
+          "n": 1198,
+          "oracle_accuracy": 0.9752,
+          "mean_pool_size": 39.76
+        }
+      ],
+      "gain_tags": {
+        "n_gain": 319,
+        "mean_gain_when_improved": 0.2233,
+        "tags": {
+          "no_gain": 879,
+          "hex_collapse": 100,
+          "slot_tight": 69,
+          "class_widen": 54,
+          "width": 46,
+          "repeat": 22,
+          "slot_widen": 14,
+          "width_aggressive": 7,
+          "affix": 4,
+          "optional": 3
+        }
+      },
+      "latency_ms": {
+        "p50": 3.622,
+        "p95": 25.989,
+        "mean": 5.698
+      }
+    }
+  },
+  "bench_c_families": [
+    {
+      "failure": "success",
+      "n": 402,
+      "heuristic": 0.9908,
+      "mdl": 0.9909,
+      "rules": 0.9909,
+      "linear_document": 0.977,
+      "linear_structural": 0.9905,
+      "oracle_k": 0.9933,
+      "oracle_pool": 0.9947,
+      "gold": 1.0,
+      "rank_gap": 0.0024,
+      "truncation_gap": 0.0014,
+      "generator_gap": 0.0053
+    },
+    {
+      "failure": "optional region",
+      "n": 50,
+      "heuristic": 0.8529,
+      "mdl": 0.8742,
+      "rules": 0.8871,
+      "linear_document": 0.8712,
+      "linear_structural": 0.8862,
+      "oracle_k": 0.9125,
+      "oracle_pool": 0.93,
+      "gold": 1.0,
+      "rank_gap": 0.0254,
+      "truncation_gap": 0.0175,
+      "generator_gap": 0.07
+    },
+    {
+      "failure": "variable-length inference",
+      "n": 34,
+      "heuristic": 0.8137,
+      "mdl": 0.8137,
+      "rules": 0.8205,
+      "linear_document": 0.8297,
+      "linear_structural": 0.8278,
+      "oracle_k": 0.9234,
+      "oracle_pool": 0.9657,
+      "gold": 1.0,
+      "rank_gap": 0.1029,
+      "truncation_gap": 0.0423,
+      "generator_gap": 0.0343
+    },
+    {
+      "failure": "character-class inference",
+      "n": 27,
+      "heuristic": 0.8063,
+      "mdl": 0.9599,
+      "rules": 0.9823,
+      "linear_document": 0.9614,
+      "linear_structural": 0.8966,
+      "oracle_k": 0.99,
+      "oracle_pool": 0.9946,
+      "gold": 1.0,
+      "rank_gap": 0.0077,
+      "truncation_gap": 0.0046,
+      "generator_gap": 0.0054
+    },
+    {
+      "failure": "too narrow",
+      "n": 22,
+      "heuristic": 0.6061,
+      "mdl": 0.9877,
+      "rules": 0.9877,
+      "linear_document": 0.9877,
+      "linear_structural": 0.6392,
+      "oracle_k": 0.9962,
+      "oracle_pool": 1.0,
+      "gold": 1.0,
+      "rank_gap": 0.0085,
+      "truncation_gap": 0.0038,
+      "generator_gap": 0.0
+    },
+    {
+      "failure": "too_broad",
+      "n": 10,
+      "heuristic": 0.6083,
+      "mdl": 0.6708,
+      "rules": 0.6708,
+      "linear_document": 0.65,
+      "linear_structural": 0.65,
+      "oracle_k": 0.6708,
+      "oracle_pool": 0.6708,
+      "gold": 1.0,
+      "rank_gap": 0.0,
+      "truncation_gap": 0.0,
+      "generator_gap": 0.3292
+    },
+    {
+      "failure": "mixed population",
+      "n": 4,
+      "heuristic": 0.6354,
+      "mdl": 0.9115,
+      "rules": 0.9115,
+      "linear_document": 0.9115,
+      "linear_structural": 0.8281,
+      "oracle_k": 0.9115,
+      "oracle_pool": 0.9115,
+      "gold": 1.0,
+      "rank_gap": 0.0,
+      "truncation_gap": 0.0,
+      "generator_gap": 0.0885
+    },
+    {
+      "failure": "too broad",
+      "n": 3,
+      "heuristic": 0.6806,
+      "mdl": 0.7083,
+      "rules": 0.7083,
+      "linear_document": 0.7083,
+      "linear_structural": 0.7083,
+      "oracle_k": 0.7083,
+      "oracle_pool": 0.7083,
+      "gold": 1.0,
+      "rank_gap": 0.0,
+      "truncation_gap": 0.0,
+      "generator_gap": 0.2917
+    },
+    {
+      "failure": "OCR noise",
+      "n": 1,
+      "heuristic": 0.7917,
+      "mdl": 0.7917,
+      "rules": 1.0,
+      "linear_document": 1.0,
+      "linear_structural": 0.7917,
+      "oracle_k": 1.0,
+      "oracle_pool": 1.0,
+      "gold": 1.0,
+      "rank_gap": 0.0,
+      "truncation_gap": 0.0,
+      "generator_gap": 0.0
+    },
+    {
+      "failure": "alternation",
+      "n": 1,
+      "heuristic": 0.8958,
+      "mdl": 0.8958,
+      "rules": 0.8958,
+      "linear_document": 0.8542,
+      "linear_structural": 0.8958,
+      "oracle_k": 0.8958,
+      "oracle_pool": 0.8958,
+      "gold": 1.0,
+      "rank_gap": 0.0,
+      "truncation_gap": 0.0,
+      "generator_gap": 0.1042
+    }
+  ],
+  "bench_d_sample_size": [
+    {
+      "n_visible": 2,
+      "n": 64,
+      "heuristic": 0.8109,
+      "rules": 0.8587,
+      "oracle_k": 0.9238,
+      "oracle_pool": 0.9447
+    },
+    {
+      "n_visible": 3,
+      "n": 64,
+      "heuristic": 0.8623,
+      "rules": 0.9014,
+      "oracle_k": 0.9613,
+      "oracle_pool": 0.972
+    },
+    {
+      "n_visible": 5,
+      "n": 64,
+      "heuristic": 0.9255,
+      "rules": 0.9583,
+      "oracle_k": 0.9788,
+      "oracle_pool": 0.9792
+    },
+    {
+      "n_visible": 10,
+      "n": 64,
+      "heuristic": 0.9404,
+      "rules": 0.9814,
+      "oracle_k": 0.9857,
+      "oracle_pool": 0.9857
+    },
+    {
+      "n_visible": 20,
+      "n": 64,
+      "heuristic": 0.9535,
+      "rules": 0.9883,
+      "oracle_k": 0.9883,
+      "oracle_pool": 0.9883
+    }
+  ],
+  "protocol": {
+    "k": 8,
+    "features": [
+      "data_bits",
+      "desc_bits",
+      "is_heuristic",
+      "has_hex",
+      "has_broad_alnum",
+      "has_dot",
+      "n_unbounded",
+      "n_ranges",
+      "range_slack",
+      "n_optional",
+      "n_alternations",
+      "n_short_digit_lits",
+      "pattern_len",
+      "n_nodes"
+    ],
+    "structural_train_split": "dev",
+    "structural_train_n": 800,
+    "structural_lambda": 0.1,
+    "structural_val_accuracy": 0.86,
+    "document_train_fold": "bench_b hash % 5 != 0",
+    "document_train_n": 1198,
+    "document_lambda": 100.0,
+    "document_val_accuracy": 0.9519,
+    "bench_c_latency_ms": {
+      "p50": 2.645145999849774,
+      "p95": 16.121817749967708,
+      "mean": 4.975750806858203
+    },
+    "terra_bench_c": 0.9808,
+    "terra_note": "Terra's BENCH-C accuracy is the Gate 1 figure in results/exp1 (gpt-5.6-terra, simple prompt, 2026-09-25). This run does not call a model API."
+  },
+  "interpretation": [
+    "On BENCH-C the heuristic scores 93.2%. The best of 8 symbolic neighbors scores 97.4% (+4.2 points). The full candidate pool scores 97.9%. Gold, which generated the hidden sets, scores 100.0%.",
+    "A uniform draw among those 8 neighbors scores 92.0%. Neighbors are required to match every visible string, so random selection is not a low floor. K=2 already reaches 96.0%; growing the set from 2 to 8 adds 1.4 points, and the patterns left outside the 8 add another 0.5.",
+    "The strongest CPU selector on this file is `rules` at 96.2% (+3.1 points over the heuristic). `mdl` scores 96.0%, `rules` 96.2%, the structural linear model 94.3%, and the document linear model 95.0%. That leaves 1.1 points between `rules` and the 8-candidate oracle.",
+    "Gate 1 `gpt-5.6-terra` scored 98.1% on this same file (+4.9 points over the heuristic). The 8-candidate oracle covers 85% of that gap, and the full pool is 0.2 points from Terra.",
+    "`rules` improves 14.4% of BENCH-C tasks and regresses 0.7%. The structural linear model regresses only 2.0% and leaves the heuristic unchanged on 74.7%, but it gives up accuracy to do that. The document linear model keeps the heuristic on 0.9% of tasks and regresses 28.0%.",
+    "Where the heuristic was already wrong: optional region (n=50): heuristic 85.3%, rules 88.7%, oracle@8 91.2%, pool 93.0%; variable-length inference (n=34): heuristic 81.4%, rules 82.0%, oracle@8 92.3%, pool 96.6%; character-class inference (n=27): heuristic 80.6%, rules 98.2%, oracle@8 99.0%, pool 99.5%; too narrow (n=22): heuristic 60.6%, rules 98.8%, oracle@8 99.6%, pool 100.0%; too_broad (n=10): heuristic 60.8%, rules 67.1%, oracle@8 67.1%, pool 67.1%.",
+    "Inside those families, the widest ranking gap is variable-length inference (+10.3 points between rules and oracle@8). The widest generator gap is too_broad (+32.9 points between the pool and gold).",
+    "On held-out BENCH-A shapes the heuristic scores 84.0%, `rules` 86.5%, the structural linear model 85.3%, and oracle@8 90.3% (pool 91.1%, gold 100.0%). The pool is well short of gold, so a ranker cannot close the structural-composition gap by itself.",
+    "On BENCH-D the oracle lead over `rules` is 6.5 points at 2 visible strings and 0.0 points at 20. Ranking headroom shrinks once the column is observed more times; candidate generation still matters at every sample size.",
+    "A tiny ranker is worth a pilot only as a test of the residual 1.1 points, and only if it beats `rules` on BENCH-C and on the BENCH-A shape holdout while regressing no more often than the structural linear model. The linear feature models did not beat code length, so the pilot has to use the strings themselves, not another regression on regex statistics. Failures where the pool is already near gold are ranking problems. Failures where the pool stays far from gold are generator problems and will not move if the ranker is perfect. Neither result requires a larger model or a 50k-task GPU run until that pilot wins."
+  ]
+}

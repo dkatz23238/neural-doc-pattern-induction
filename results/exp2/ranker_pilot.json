@@ -1,0 +1,1269 @@
+{
+  "runs": [
+    {
+      "name": "cross_structural",
+      "best_epoch": 8,
+      "best_val_semantic_accuracy": 0.8876250052452087,
+      "epochs_ran": 16,
+      "seconds": 94.8672031210001,
+      "parameters": 326497,
+      "history": [
+        {
+          "epoch": 1,
+          "train": {
+            "loss": 1.8350403165817262,
+            "semantic_accuracy": 0.8592187356948853,
+            "top1": 0.33125,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7759923982620238,
+            "semantic_accuracy": 0.8697500133514404,
+            "top1": 0.385,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 2,
+          "train": {
+            "loss": 1.8043268394470215,
+            "semantic_accuracy": 0.8716562509536743,
+            "top1": 0.42875,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7456203651428224,
+            "semantic_accuracy": 0.8813749957084656,
+            "top1": 0.475,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 3,
+          "train": {
+            "loss": 1.7866369438171388,
+            "semantic_accuracy": 0.8760625028610229,
+            "top1": 0.42625,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7247354459762574,
+            "semantic_accuracy": 0.8843750119209289,
+            "top1": 0.465,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 4,
+          "train": {
+            "loss": 1.7744520330429077,
+            "semantic_accuracy": 0.8784062600135804,
+            "top1": 0.4175,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7206689453125,
+            "semantic_accuracy": 0.8820000243186951,
+            "top1": 0.49,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 5,
+          "train": {
+            "loss": 1.7611857748031616,
+            "semantic_accuracy": 0.8814999985694886,
+            "top1": 0.45,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7114020442962647,
+            "semantic_accuracy": 0.8849999880790711,
+            "top1": 0.46,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 6,
+          "train": {
+            "loss": 1.7532105588912963,
+            "semantic_accuracy": 0.8829375028610229,
+            "top1": 0.39875,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7076882600784302,
+            "semantic_accuracy": 0.8863750123977661,
+            "top1": 0.54,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 7,
+          "train": {
+            "loss": 1.738988733291626,
+            "semantic_accuracy": 0.8856874895095825,
+            "top1": 0.45625,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7171897315979003,
+            "semantic_accuracy": 0.8853750276565552,
+            "top1": 0.43,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 8,
+          "train": {
+            "loss": 1.7297784662246705,
+            "semantic_accuracy": 0.8856249976158143,
+            "top1": 0.4125,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7078288078308106,
+            "semantic_accuracy": 0.8876250052452087,
+            "top1": 0.515,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 9,
+          "train": {
+            "loss": 1.719354772567749,
+            "semantic_accuracy": 0.8869687461853027,
+            "top1": 0.415,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7082263374328612,
+            "semantic_accuracy": 0.8862500071525574,
+            "top1": 0.435,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 10,
+          "train": {
+            "loss": 1.7049507474899293,
+            "semantic_accuracy": 0.8918437576293945,
+            "top1": 0.44125,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.718467493057251,
+            "semantic_accuracy": 0.8847500085830688,
+            "top1": 0.46,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 11,
+          "train": {
+            "loss": 1.6931920194625854,
+            "semantic_accuracy": 0.8935000014305114,
+            "top1": 0.44,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7288349866867065,
+            "semantic_accuracy": 0.8838750290870666,
+            "top1": 0.45,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 12,
+          "train": {
+            "loss": 1.679079852104187,
+            "semantic_accuracy": 0.8945937395095825,
+            "top1": 0.46375,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7363941478729248,
+            "semantic_accuracy": 0.8830000185966491,
+            "top1": 0.435,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 13,
+          "train": {
+            "loss": 1.6644043731689453,
+            "semantic_accuracy": 0.8970312666893006,
+            "top1": 0.4575,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.764900107383728,
+            "semantic_accuracy": 0.8785000205039978,
+            "top1": 0.375,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 14,
+          "train": {
+            "loss": 1.6566791725158692,
+            "semantic_accuracy": 0.897999997138977,
+            "top1": 0.47625,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.745510549545288,
+            "semantic_accuracy": 0.8837499856948853,
+            "top1": 0.43,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 15,
+          "train": {
+            "loss": 1.6455282735824586,
+            "semantic_accuracy": 0.900093743801117,
+            "top1": 0.485,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7863617324829102,
+            "semantic_accuracy": 0.8817500162124634,
+            "top1": 0.4,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 16,
+          "train": {
+            "loss": 1.6333947038650514,
+            "semantic_accuracy": 0.9009374856948853,
+            "top1": 0.50375,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7639012289047242,
+            "semantic_accuracy": 0.8791249990463257,
+            "top1": 0.41,
+            "n": 200
+          }
+        }
+      ]
+    },
+    {
+      "name": "pooled_structural",
+      "best_epoch": 9,
+      "best_val_semantic_accuracy": 0.8866249918937683,
+      "epochs_ran": 17,
+      "seconds": 113.64655721400004,
+      "parameters": 326401,
+      "history": [
+        {
+          "epoch": 1,
+          "train": {
+            "loss": 1.8402662324905394,
+            "semantic_accuracy": 0.8563750004768371,
+            "top1": 0.31125,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7859531354904175,
+            "semantic_accuracy": 0.8656249976158142,
+            "top1": 0.365,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 2,
+          "train": {
+            "loss": 1.8096457815170288,
+            "semantic_accuracy": 0.8715312385559082,
+            "top1": 0.42625,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.74922700881958,
+            "semantic_accuracy": 0.8782500147819519,
+            "top1": 0.47,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 3,
+          "train": {
+            "loss": 1.7903660249710083,
+            "semantic_accuracy": 0.8745625138282775,
+            "top1": 0.4025,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7287849617004394,
+            "semantic_accuracy": 0.8784999871253967,
+            "top1": 0.465,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 4,
+          "train": {
+            "loss": 1.7802061891555787,
+            "semantic_accuracy": 0.8780625033378601,
+            "top1": 0.4075,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7241686487197876,
+            "semantic_accuracy": 0.8813750100135803,
+            "top1": 0.505,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 5,
+          "train": {
+            "loss": 1.7702441310882568,
+            "semantic_accuracy": 0.8795937418937683,
+            "top1": 0.445,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7147061014175415,
+            "semantic_accuracy": 0.8831250071525574,
+            "top1": 0.46,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 6,
+          "train": {
+            "loss": 1.766692090034485,
+            "semantic_accuracy": 0.8804687428474426,
+            "top1": 0.41,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7100870656967162,
+            "semantic_accuracy": 0.8848750162124633,
+            "top1": 0.525,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 7,
+          "train": {
+            "loss": 1.7597010612487793,
+            "semantic_accuracy": 0.8819062519073486,
+            "top1": 0.435,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.721955451965332,
+            "semantic_accuracy": 0.8847500085830688,
+            "top1": 0.495,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 8,
+          "train": {
+            "loss": 1.7571614074707032,
+            "semantic_accuracy": 0.882468752861023,
+            "top1": 0.425,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7102149391174317,
+            "semantic_accuracy": 0.8847500014305115,
+            "top1": 0.535,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 9,
+          "train": {
+            "loss": 1.7476689195632935,
+            "semantic_accuracy": 0.8846562480926514,
+            "top1": 0.41625,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7033538818359375,
+            "semantic_accuracy": 0.8866249918937683,
+            "top1": 0.51,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 10,
+          "train": {
+            "loss": 1.7366733264923095,
+            "semantic_accuracy": 0.8857187414169312,
+            "top1": 0.43,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7035708808898926,
+            "semantic_accuracy": 0.8848749995231628,
+            "top1": 0.48,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 11,
+          "train": {
+            "loss": 1.7284443187713623,
+            "semantic_accuracy": 0.8873125147819519,
+            "top1": 0.4225,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7071929788589477,
+            "semantic_accuracy": 0.8843750166893005,
+            "top1": 0.5,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 12,
+          "train": {
+            "loss": 1.723234510421753,
+            "semantic_accuracy": 0.8872499895095826,
+            "top1": 0.4225,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7144920635223388,
+            "semantic_accuracy": 0.885500009059906,
+            "top1": 0.475,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 13,
+          "train": {
+            "loss": 1.714022479057312,
+            "semantic_accuracy": 0.8914999961853027,
+            "top1": 0.44375,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7235514831542968,
+            "semantic_accuracy": 0.8828750085830689,
+            "top1": 0.405,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 14,
+          "train": {
+            "loss": 1.7023474168777466,
+            "semantic_accuracy": 0.8911874914169311,
+            "top1": 0.43375,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.722759599685669,
+            "semantic_accuracy": 0.8854999971389771,
+            "top1": 0.45,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 15,
+          "train": {
+            "loss": 1.6966913747787475,
+            "semantic_accuracy": 0.8920937538146972,
+            "top1": 0.455,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7194551181793214,
+            "semantic_accuracy": 0.8838750123977661,
+            "top1": 0.445,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 16,
+          "train": {
+            "loss": 1.6856764030456544,
+            "semantic_accuracy": 0.8931250023841858,
+            "top1": 0.46875,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7222181224822999,
+            "semantic_accuracy": 0.8809999871253967,
+            "top1": 0.4,
+            "n": 200
+          }
+        },
+        {
+          "epoch": 17,
+          "train": {
+            "loss": 1.6766111040115357,
+            "semantic_accuracy": 0.8955312371253967,
+            "top1": 0.47625,
+            "n": 800
+          },
+          "val": {
+            "loss": 1.7212476825714111,
+            "semantic_accuracy": 0.8841249871253968,
+            "top1": 0.47,
+            "n": 200
+          }
+        }
+      ]
+    },
+    {
+      "name": "cross_document",
+      "best_epoch": 9,
+      "best_val_semantic_accuracy": 0.9662251819837961,
+      "epochs_ran": 17,
+      "seconds": 174.48791568800016,
+      "parameters": 326497,
+      "history": [
+        {
+          "epoch": 1,
+          "train": {
+            "loss": 1.9230994774224563,
+            "semantic_accuracy": 0.9533180354632599,
+            "top1": 0.19198664440734559,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.8162259360812358,
+            "semantic_accuracy": 0.9507450489018927,
+            "top1": 0.2913907284768212,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 2,
+          "train": {
+            "loss": 1.7983691706283265,
+            "semantic_accuracy": 0.9647329056601294,
+            "top1": 0.37145242070116863,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.78915732270045,
+            "semantic_accuracy": 0.9616721892198979,
+            "top1": 0.3609271523178808,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 3,
+          "train": {
+            "loss": 1.7694907934717423,
+            "semantic_accuracy": 0.967341411889893,
+            "top1": 0.44741235392320533,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7625581018182614,
+            "semantic_accuracy": 0.9640728590504223,
+            "top1": 0.423841059602649,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 4,
+          "train": {
+            "loss": 1.7506801566615924,
+            "semantic_accuracy": 0.9700125254852345,
+            "top1": 0.4590984974958264,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7536684393093287,
+            "semantic_accuracy": 0.9657284881894952,
+            "top1": 0.4867549668874172,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 5,
+          "train": {
+            "loss": 1.7408931346886942,
+            "semantic_accuracy": 0.9712646130926422,
+            "top1": 0.501669449081803,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7469374715097692,
+            "semantic_accuracy": 0.9659768287709217,
+            "top1": 0.4503311258278146,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 6,
+          "train": {
+            "loss": 1.7337402443654948,
+            "semantic_accuracy": 0.9710141884066624,
+            "top1": 0.4691151919866444,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7436919299182514,
+            "semantic_accuracy": 0.9653973547828119,
+            "top1": 0.347682119205298,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 7,
+          "train": {
+            "loss": 1.7316756636551107,
+            "semantic_accuracy": 0.9707429190111877,
+            "top1": 0.4691151919866444,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7375650413778445,
+            "semantic_accuracy": 0.9651490142013853,
+            "top1": 0.3741721854304636,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 8,
+          "train": {
+            "loss": 1.725238473865146,
+            "semantic_accuracy": 0.9716402445492243,
+            "top1": 0.48580968280467446,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.735182637410448,
+            "semantic_accuracy": 0.9660596342276264,
+            "top1": 0.3344370860927152,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 9,
+          "train": {
+            "loss": 1.7234097231608598,
+            "semantic_accuracy": 0.9711602773013617,
+            "top1": 0.4582637729549249,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7327667632639803,
+            "semantic_accuracy": 0.9662251819837961,
+            "top1": 0.5562913907284768,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 10,
+          "train": {
+            "loss": 1.7195131736924134,
+            "semantic_accuracy": 0.97178632548337,
+            "top1": 0.5267111853088481,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7347266397728824,
+            "semantic_accuracy": 0.965728507136667,
+            "top1": 0.5033112582781457,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 11,
+          "train": {
+            "loss": 1.7170988217817125,
+            "semantic_accuracy": 0.9716402453452796,
+            "top1": 0.4766277128547579,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7376713555380208,
+            "semantic_accuracy": 0.9663079558618811,
+            "top1": 0.48013245033112584,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 12,
+          "train": {
+            "loss": 1.717127555200771,
+            "semantic_accuracy": 0.9718071916863595,
+            "top1": 0.4757929883138564,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7341853506517726,
+            "semantic_accuracy": 0.9658112873304758,
+            "top1": 0.3344370860927152,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 13,
+          "train": {
+            "loss": 1.7154136129930142,
+            "semantic_accuracy": 0.9718489344410586,
+            "top1": 0.4657762938230384,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7326760978888203,
+            "semantic_accuracy": 0.966307968493329,
+            "top1": 0.2582781456953642,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 14,
+          "train": {
+            "loss": 1.715217863777046,
+            "semantic_accuracy": 0.9718697958677162,
+            "top1": 0.4674457429048414,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7347323902395388,
+            "semantic_accuracy": 0.966225194615244,
+            "top1": 0.3344370860927152,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 15,
+          "train": {
+            "loss": 1.7125308639020076,
+            "semantic_accuracy": 0.9718489392173907,
+            "top1": 0.47996661101836396,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7331043323933684,
+            "semantic_accuracy": 0.9663079558618811,
+            "top1": 0.45364238410596025,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 16,
+          "train": {
+            "loss": 1.7116577551639538,
+            "semantic_accuracy": 0.9718697998479929,
+            "top1": 0.44240400667779634,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7325150469281025,
+            "semantic_accuracy": 0.9656457079956863,
+            "top1": 0.39072847682119205,
+            "n": 302
+          }
+        },
+        {
+          "epoch": 17,
+          "train": {
+            "loss": 1.7106823164951026,
+            "semantic_accuracy": 0.9719741332511074,
+            "top1": 0.5125208681135225,
+            "n": 1198
+          },
+          "val": {
+            "loss": 1.7325715434472293,
+            "semantic_accuracy": 0.9663079621776051,
+            "top1": 0.40066225165562913,
+            "n": 302
+          }
+        }
+      ]
+    }
+  ],
+  "splits": {
+    "bench_a_test": {
+      "role": "Held-out AST shapes. This is the structural decision split.",
+      "systems": [
+        {
+          "n": 200,
+          "semantic_accuracy": 0.84,
+          "macro_semantic_accuracy": 0.84,
+          "improved_rate": 0.0,
+          "regressed_rate": 0.0,
+          "unchanged_rate": 1.0,
+          "system": "heuristic"
+        },
+        {
+          "n": 200,
+          "semantic_accuracy": 0.8654,
+          "macro_semantic_accuracy": 0.8654,
+          "improved_rate": 0.23,
+          "regressed_rate": 0.065,
+          "unchanged_rate": 0.705,
+          "system": "rules"
+        },
+        {
+          "n": 200,
+          "semantic_accuracy": 0.9029,
+          "macro_semantic_accuracy": 0.9029,
+          "improved_rate": 0.415,
+          "regressed_rate": 0.0,
+          "unchanged_rate": 0.585,
+          "system": "oracle_k"
+        },
+        {
+          "n": 200,
+          "semantic_accuracy": 0.87,
+          "macro_semantic_accuracy": 0.87,
+          "improved_rate": 0.28,
+          "regressed_rate": 0.2,
+          "unchanged_rate": 0.52,
+          "system": "cross_structural"
+        },
+        {
+          "n": 200,
+          "semantic_accuracy": 0.8735,
+          "macro_semantic_accuracy": 0.8735,
+          "improved_rate": 0.305,
+          "regressed_rate": 0.195,
+          "unchanged_rate": 0.5,
+          "system": "pooled_structural"
+        },
+        {
+          "n": 200,
+          "semantic_accuracy": 0.8431,
+          "macro_semantic_accuracy": 0.8431,
+          "improved_rate": 0.225,
+          "regressed_rate": 0.295,
+          "unchanged_rate": 0.48,
+          "system": "cross_document"
+        }
+      ]
+    },
+    "bench_a_val": {
+      "role": "Used to choose the epoch for the structural models.",
+      "systems": [
+        {
+          "n": 200,
+          "semantic_accuracy": 0.8396,
+          "macro_semantic_accuracy": 0.8396,
+          "improved_rate": 0.0,
+          "regressed_rate": 0.0,
+          "unchanged_rate": 1.0,
+          "system": "heuristic"
+        },
+        {
+          "n": 200,
+          "semantic_accuracy": 0.8842,
+          "macro_semantic_accuracy": 0.8842,
+          "improved_rate": 0.31,
+          "regressed_rate": 0.055,
+          "unchanged_rate": 0.635,
+          "system": "rules"
+        },
+        {
+          "n": 200,
+          "semantic_accuracy": 0.9108,
+          "macro_semantic_accuracy": 0.9108,
+          "improved_rate": 0.46,
+          "regressed_rate": 0.0,
+          "unchanged_rate": 0.54,
+          "system": "oracle_k"
+        },
+        {
+          "n": 200,
+          "semantic_accuracy": 0.8876,
+          "macro_semantic_accuracy": 0.8876,
+          "improved_rate": 0.345,
+          "regressed_rate": 0.115,
+          "unchanged_rate": 0.54,
+          "system": "cross_structural"
+        },
+        {
+          "n": 200,
+          "semantic_accuracy": 0.8866,
+          "macro_semantic_accuracy": 0.8866,
+          "improved_rate": 0.355,
+          "regressed_rate": 0.11,
+          "unchanged_rate": 0.535,
+          "system": "pooled_structural"
+        },
+        {
+          "n": 200,
+          "semantic_accuracy": 0.8603,
+          "macro_semantic_accuracy": 0.8603,
+          "improved_rate": 0.3,
+          "regressed_rate": 0.32,
+          "unchanged_rate": 0.38,
+          "system": "cross_document"
+        }
+      ]
+    },
+    "bench_a_dev": {
+      "role": "Training data for the structural models.",
+      "systems": [
+        {
+          "n": 800,
+          "semantic_accuracy": 0.8459,
+          "macro_semantic_accuracy": 0.8459,
+          "improved_rate": 0.0,
+          "regressed_rate": 0.0,
+          "unchanged_rate": 1.0,
+          "system": "heuristic"
+        },
+        {
+          "n": 800,
+          "semantic_accuracy": 0.8774,
+          "macro_semantic_accuracy": 0.8774,
+          "improved_rate": 0.2263,
+          "regressed_rate": 0.0525,
+          "unchanged_rate": 0.7212,
+          "system": "rules"
+        },
+        {
+          "n": 800,
+          "semantic_accuracy": 0.9078,
+          "macro_semantic_accuracy": 0.9078,
+          "improved_rate": 0.4313,
+          "regressed_rate": 0.0,
+          "unchanged_rate": 0.5687,
+          "system": "oracle_k"
+        },
+        {
+          "n": 800,
+          "semantic_accuracy": 0.8882,
+          "macro_semantic_accuracy": 0.8882,
+          "improved_rate": 0.2975,
+          "regressed_rate": 0.1225,
+          "unchanged_rate": 0.58,
+          "system": "cross_structural"
+        },
+        {
+          "n": 800,
+          "semantic_accuracy": 0.8851,
+          "macro_semantic_accuracy": 0.8851,
+          "improved_rate": 0.3038,
+          "regressed_rate": 0.1437,
+          "unchanged_rate": 0.5525,
+          "system": "pooled_structural"
+        },
+        {
+          "n": 800,
+          "semantic_accuracy": 0.8525,
+          "macro_semantic_accuracy": 0.8525,
+          "improved_rate": 0.2387,
+          "regressed_rate": 0.3137,
+          "unchanged_rate": 0.4475,
+          "system": "cross_document"
+        }
+      ]
+    },
+    "bench_c": {
+      "role": "Untouched document tasks. Not used to train or to stop.",
+      "systems": [
+        {
+          "n": 554,
+          "semantic_accuracy": 0.9316,
+          "macro_semantic_accuracy": 0.9208,
+          "improved_rate": 0.0,
+          "regressed_rate": 0.0,
+          "unchanged_rate": 1.0,
+          "system": "heuristic"
+        },
+        {
+          "n": 554,
+          "semantic_accuracy": 0.9625,
+          "macro_semantic_accuracy": 0.9574,
+          "improved_rate": 0.1444,
+          "regressed_rate": 0.0072,
+          "unchanged_rate": 0.8484,
+          "system": "rules"
+        },
+        {
+          "n": 554,
+          "semantic_accuracy": 0.9736,
+          "macro_semantic_accuracy": 0.9712,
+          "improved_rate": 0.2491,
+          "regressed_rate": 0.0,
+          "unchanged_rate": 0.7509,
+          "system": "oracle_k"
+        },
+        {
+          "n": 554,
+          "semantic_accuracy": 0.939,
+          "macro_semantic_accuracy": 0.9292,
+          "improved_rate": 0.083,
+          "regressed_rate": 0.0578,
+          "unchanged_rate": 0.8592,
+          "system": "cross_structural"
+        },
+        {
+          "n": 554,
+          "semantic_accuracy": 0.9456,
+          "macro_semantic_accuracy": 0.9381,
+          "improved_rate": 0.1047,
+          "regressed_rate": 0.0289,
+          "unchanged_rate": 0.8664,
+          "system": "pooled_structural"
+        },
+        {
+          "n": 554,
+          "semantic_accuracy": 0.9433,
+          "macro_semantic_accuracy": 0.9353,
+          "improved_rate": 0.1516,
+          "regressed_rate": 0.1606,
+          "unchanged_rate": 0.6877,
+          "system": "cross_document"
+        }
+      ]
+    },
+    "bench_d": {
+      "role": "Same schemas at several sample sizes. Not used to train or to stop.",
+      "systems": [
+        {
+          "n": 320,
+          "semantic_accuracy": 0.8985,
+          "macro_semantic_accuracy": 0.8985,
+          "improved_rate": 0.0,
+          "regressed_rate": 0.0,
+          "unchanged_rate": 1.0,
+          "system": "heuristic"
+        },
+        {
+          "n": 320,
+          "semantic_accuracy": 0.9376,
+          "macro_semantic_accuracy": 0.9376,
+          "improved_rate": 0.1656,
+          "regressed_rate": 0.0,
+          "unchanged_rate": 0.8344,
+          "system": "rules"
+        },
+        {
+          "n": 320,
+          "semantic_accuracy": 0.9676,
+          "macro_semantic_accuracy": 0.9676,
+          "improved_rate": 0.2938,
+          "regressed_rate": 0.0,
+          "unchanged_rate": 0.7063,
+          "system": "oracle_k"
+        },
+        {
+          "n": 320,
+          "semantic_accuracy": 0.9227,
+          "macro_semantic_accuracy": 0.9227,
+          "improved_rate": 0.1281,
+          "regressed_rate": 0.0531,
+          "unchanged_rate": 0.8187,
+          "system": "cross_structural"
+        },
+        {
+          "n": 320,
+          "semantic_accuracy": 0.9304,
+          "macro_semantic_accuracy": 0.9304,
+          "improved_rate": 0.1812,
+          "regressed_rate": 0.0688,
+          "unchanged_rate": 0.75,
+          "system": "pooled_structural"
+        },
+        {
+          "n": 320,
+          "semantic_accuracy": 0.9288,
+          "macro_semantic_accuracy": 0.9288,
+          "improved_rate": 0.1656,
+          "regressed_rate": 0.0969,
+          "unchanged_rate": 0.7375,
+          "system": "cross_document"
+        }
+      ]
+    },
+    "bench_b_val": {
+      "role": "Used to choose the epoch for the document model. Families overlap BENCH-C.",
+      "systems": [
+        {
+          "n": 302,
+          "semantic_accuracy": 0.9188,
+          "macro_semantic_accuracy": 0.9056,
+          "improved_rate": 0.0,
+          "regressed_rate": 0.0,
+          "unchanged_rate": 1.0,
+          "system": "heuristic"
+        },
+        {
+          "n": 302,
+          "semantic_accuracy": 0.9593,
+          "macro_semantic_accuracy": 0.9556,
+          "improved_rate": 0.1987,
+          "regressed_rate": 0.0033,
+          "unchanged_rate": 0.798,
+          "system": "rules"
+        },
+        {
+          "n": 302,
+          "semantic_accuracy": 0.9676,
+          "macro_semantic_accuracy": 0.9645,
+          "improved_rate": 0.2682,
+          "regressed_rate": 0.0,
+          "unchanged_rate": 0.7318,
+          "system": "oracle_k"
+        },
+        {
+          "n": 302,
+          "semantic_accuracy": 0.9365,
+          "macro_semantic_accuracy": 0.9282,
+          "improved_rate": 0.1556,
+          "regressed_rate": 0.0497,
+          "unchanged_rate": 0.7947,
+          "system": "cross_structural"
+        },
+        {
+          "n": 302,
+          "semantic_accuracy": 0.9393,
+          "macro_semantic_accuracy": 0.9306,
+          "improved_rate": 0.1656,
+          "regressed_rate": 0.0397,
+          "unchanged_rate": 0.7947,
+          "system": "pooled_structural"
+        },
+        {
+          "n": 302,
+          "semantic_accuracy": 0.9662,
+          "macro_semantic_accuracy": 0.9631,
+          "improved_rate": 0.2583,
+          "regressed_rate": 0.0132,
+          "unchanged_rate": 0.7285,
+          "system": "cross_document"
+        }
+      ]
+    }
+  },
+  "bench_c_families": [
+    {
+      "failure": "success",
+      "n": 402,
+      "heuristic": 0.9908,
+      "rules": 0.9909,
+      "oracle_k": 0.9933,
+      "cross_structural": 0.9898,
+      "pooled_structural": 0.9901,
+      "cross_document": 0.9814
+    },
+    {
+      "failure": "optional region",
+      "n": 50,
+      "heuristic": 0.8529,
+      "rules": 0.8871,
+      "oracle_k": 0.9125,
+      "cross_structural": 0.8546,
+      "pooled_structural": 0.8683,
+      "cross_document": 0.8717
+    },
+    {
+      "failure": "variable-length inference",
+      "n": 34,
+      "heuristic": 0.8137,
+      "rules": 0.8205,
+      "oracle_k": 0.9234,
+      "cross_structural": 0.8431,
+      "pooled_structural": 0.8431,
+      "cross_document": 0.8107
+    },
+    {
+      "failure": "character-class inference",
+      "n": 27,
+      "heuristic": 0.8063,
+      "rules": 0.9823,
+      "oracle_k": 0.99,
+      "cross_structural": 0.8472,
+      "pooled_structural": 0.8912,
+      "cross_document": 0.9105
+    },
+    {
+      "failure": "too narrow",
+      "n": 22,
+      "heuristic": 0.6061,
+      "rules": 0.9877,
+      "oracle_k": 0.9962,
+      "cross_structural": 0.678,
+      "pooled_structural": 0.7538,
+      "cross_document": 0.8532
+    },
+    {
+      "failure": "too_broad",
+      "n": 10,
+      "heuristic": 0.6083,
+      "rules": 0.6708,
+      "oracle_k": 0.6708,
+      "cross_structural": 0.6646,
+      "pooled_structural": 0.6646,
+      "cross_document": 0.6583
+    },
+    {
+      "failure": "mixed population",
+      "n": 4,
+      "heuristic": 0.6354,
+      "rules": 0.9115,
+      "oracle_k": 0.9115,
+      "cross_structural": 0.6667,
+      "pooled_structural": 0.6667,
+      "cross_document": 0.7344
+    },
+    {
+      "failure": "too broad",
+      "n": 3,
+      "heuristic": 0.6806,
+      "rules": 0.7083,
+      "oracle_k": 0.7083,
+      "cross_structural": 0.7083,
+      "pooled_structural": 0.7083,
+      "cross_document": 0.7083
+    },
+    {
+      "failure": "OCR noise",
+      "n": 1,
+      "heuristic": 0.7917,
+      "rules": 1.0,
+      "oracle_k": 1.0,
+      "cross_structural": 0.7917,
+      "pooled_structural": 0.7917,
+      "cross_document": 1.0
+    },
+    {
+      "failure": "alternation",
+      "n": 1,
+      "heuristic": 0.8958,
+      "rules": 0.8958,
+      "oracle_k": 0.8958,
+      "cross_structural": 0.8958,
+      "pooled_structural": 0.8958,
+      "cross_document": 0.8958
+    }
+  ],
+  "family_systems": [
+    "heuristic",
+    "rules",
+    "oracle_k",
+    "cross_structural",
+    "pooled_structural",
+    "cross_document"
+  ],
+  "protocol": {
+    "tau": 0.05,
+    "lr": 0.0003,
+    "batch_size": 32,
+    "epochs": 40,
+    "patience": 8,
+    "max_len": 128,
+    "seed": 0,
+    "truncated_inputs": 31,
+    "structural_train_n": 800,
+    "document_train_n": 1198,
+    "note": "Structural models train on BENCH-A dev and stop on BENCH-A val semantic accuracy. The document model trains on the BENCH-B hash fold used in the oracle experiment and stops on the held-out fifth of BENCH-B. Soft targets use hidden semantic accuracy. Model inputs are only the visible strings and the candidate regex text."
+  },
+  "interpretation": [
+    "On held-out BENCH-A shapes, the code-length rule scores 86.5% and the 8-candidate oracle scores 90.3%. Cross-attention, trained on BENCH-A dev, scores 87.0%. The pooled model scores 87.4%.",
+    "On untouched BENCH-C, the rule scores 96.2% and the oracle scores 97.4%. The structural cross-attention model scores 93.9% (regressions 5.8%). The document-trained cross-attention model scores 94.3% (regressions 16.1%).",
+    "Neither training distribution beats the code-length rule by a point on its decision split. Train loss can still fall. The ranking signal in this candidate set is not something these tiny nets pick up beyond compression, so a larger GPU run of the same ranker is not justified.",
+    "Cross-attention and the pooled model are within half a point on BENCH-A test. Candidate-specific attention is not earning its keep at this size."
+  ]
+}
