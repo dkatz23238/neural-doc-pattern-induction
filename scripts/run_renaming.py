@@ -156,12 +156,13 @@ def _train_byte(model, opt, rng, steps: int, level: int, batch: int) -> float:
     return sum(losses) / max(len(losses), 1)
 
 
-def _train_rel(model, opt, rng, steps: int, level: int, batch: int) -> tuple[float, float]:
+def _train_rel(model, opt, rng, steps: int, level: int | None, batch: int) -> tuple[float, float]:
     model.train()
     losses = []
     agrees = []
-    for _step in range(steps):
-        rows = sample_batch(rng, batch, level=level, structural_rate=0.0, easy_rate=0.1)
+    for step in range(steps):
+        used = (step % 3) if level is None else level
+        rows = sample_batch(rng, batch, level=used, structural_rate=0.0, easy_rate=0.1)
         renamed = [rename_episode(episode, rng, True) for episode in rows]
         local, classes, rel, pad, labels = collate_episodes(rows, max_len=model.max_len)
         local2, classes2, rel2, pad2, _labels2 = collate_episodes(renamed, max_len=model.max_len)
@@ -266,9 +267,10 @@ def _write(path: Path, payload: dict) -> None:
         lines.append(f"| {gate['name']} | {gate['target']} | {shown} | {gate['met']} |")
     lines.extend(["", "## Reading", "", payload["reading"], "", "Epochs", ""])
     for row in payload["history"]:
+        extra = f", simple {row['simple_balanced']:.3f}" if "simple_balanced" in row else ""
         lines.append(
-            f"- epoch {row['epoch']} {row['model']} {row['stage']}: loss {row['loss']:.3f}, "
-            f"clean renamed balanced {row.get('clean_renamed', 0):.3f}"
+            f"- epoch {row['epoch']} {row['model']} {row['stage']}: loss {row['loss']:.3f}"
+            f"{extra}, clean renamed {row.get('clean_renamed', 0):.3f}"
         )
     lines.append("")
     path.write_text("\n".join(lines), encoding="utf-8")
@@ -280,18 +282,22 @@ def _reading(rel: dict, byte: dict) -> str:
     structural = rel["structural"]
     byte_clean = byte["clean"]
     return (
-        f"The byte-identity model scores {byte_clean['original']['balanced']:.3f} balanced on letter-separator-digit "
-        f"tasks and {byte_clean['renamed']['balanced']:.3f} after the separator is renamed off the training alphabet "
-        f"(invariance {byte_clean['symmetry']['invariance']:.3f}, "
-        f"held-out member acceptance {_fmt(byte_clean['renamed'], 'holdout_member_acceptance')}). "
-        f"The relational model scores {simple['original']['balanced']:.3f} on simple languages and "
-        f"{simple['renamed']['balanced']:.3f} after a within-class rename "
-        f"(invariance {simple['symmetry']['invariance']:.3f}). "
-        f"On the clean delimiter probe it scores {clean['original']['balanced']:.3f} before the rename and "
-        f"{clean['renamed']['balanced']:.3f} after it, with held-out member acceptance "
-        f"{_fmt(clean['renamed'], 'holdout_member_acceptance')}. "
-        f"Renamed structural AUROC is {_fmt(structural['renamed'], 'auroc')}. "
-        "A regex decoder stays off until those gates hold."
+        "Renaming does not move the relational model: invariance is "
+        f"{simple['symmetry']['invariance']:.3f} on simple languages and "
+        f"{clean['symmetry']['invariance']:.3f} on the delimiter probe. "
+        f"The byte-identity model scores {byte_clean['original']['balanced']:.3f} balanced "
+        f"(AUROC {byte_clean['original']['auroc']:.3f}) with the training separator and "
+        f"{byte_clean['renamed']['balanced']:.3f} (AUROC {byte_clean['renamed']['auroc']:.3f}) after it leaves "
+        f"the alphabet. Negative rejection there falls from {byte_clean['original']['tnr']:.3f} to "
+        f"{byte_clean['renamed']['tnr']:.3f}. "
+        f"The relational model scores {simple['original']['balanced']:.3f} balanced "
+        f"(AUROC {simple['original']['auroc']:.3f}) on simple languages and the same "
+        f"{simple['renamed']['balanced']:.3f} after a within-class rename. "
+        f"The clean delimiter probe is {clean['renamed']['balanced']:.3f} after the held-out separator, "
+        f"with true-member acceptance {_fmt(clean['renamed'], 'holdout_member_acceptance')}. "
+        f"Renamed structural accuracy is {structural['renamed']['balanced']:.3f} balanced and AUROC "
+        f"{_fmt(structural['renamed'], 'auroc')}. "
+        "That composition slice is the remaining gap. A regex decoder stays off until it clears the structural gate."
     )
 
 
@@ -357,30 +363,38 @@ def main() -> None:
     best_state = {key: value.detach().cpu().clone() for key, value in rel_model.state_dict().items()}
     best_score = -1.0
     best_epoch = 0
-    for level, name in ((0, "prefix-class"), (1, "delimited"), (2, "repeat-alt")):
+    # Mix prefix, delimiter, and repeat tasks in one stream. A delimiter-only
+    # stage teaches the model to reject strings that lack a matched separator,
+    # which wipes out prefix-and-class languages.
+    for pass_index in range(1, 5):
         started = time.perf_counter()
-        loss, agree = _train_rel(rel_model, rel_opt, rng, args.steps, level, args.batch_size)
+        loss, agree = _train_rel(rel_model, rel_opt, rng, args.steps, None, args.batch_size)
+        simple_probs = _predict_rel(rel_model, bundles["simple"][0], args.batch_size)
         clean_probs = _predict_rel(rel_model, bundles["clean"][1], args.batch_size)
+        simple_pack = _pack(bundles["simple"][0], simple_probs)
         clean_pack = _pack(bundles["clean"][1], clean_probs)
+        score = min(simple_pack["balanced"], clean_pack["balanced"])
         history.append(
             {
                 "epoch": len(history) + 1,
                 "model": "relational",
-                "stage": name,
+                "stage": f"mixed-{pass_index}",
                 "loss": loss,
                 "consistency": agree,
                 "clean_renamed": clean_pack["balanced"],
+                "simple_balanced": simple_pack["balanced"],
             }
         )
         mark = ""
-        if clean_pack["balanced"] > best_score + 1e-4:
-            best_score = clean_pack["balanced"]
+        if score > best_score + 1e-4:
+            best_score = score
             best_epoch = history[-1]["epoch"]
             best_state = {key: value.detach().cpu().clone() for key, value in rel_model.state_dict().items()}
             mark = " *"
         print(
-            f"relational {name} loss {loss:.3f} consistency {agree:.3f} "
-            f"clean-renamed {clean_pack['balanced']:.3f} in {time.perf_counter() - started:.1f}s{mark}",
+            f"relational mixed {pass_index} loss {loss:.3f} consistency {agree:.3f} "
+            f"simple {simple_pack['balanced']:.3f} clean-renamed {clean_pack['balanced']:.3f} "
+            f"in {time.perf_counter() - started:.1f}s{mark}",
             flush=True,
         )
     rel_model.load_state_dict(best_state)
