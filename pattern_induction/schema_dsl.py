@@ -128,10 +128,27 @@ def heldout_family(root: Node) -> str | None:
     return None
 
 
+def normalize(node):
+    """Map a punct 'class' onto a punct literal slot. Membership is still the matcher's."""
+    if not isinstance(node, dict):
+        return node
+    node = dict(node)
+    if node.get("type") == "class" and node.get("class") == "punct":
+        node["type"] = "literal_slot"
+        node["min"] = 1
+        node["max"] = 1
+        node.setdefault("role", "sep")
+    if isinstance(node.get("child"), dict):
+        node["child"] = normalize(node["child"])
+    if isinstance(node.get("children"), list):
+        node["children"] = [normalize(child) for child in node["children"]]
+    return node
+
+
 def compile_schema(payload: dict, allow_heldout: bool = False) -> CompiledSchema:
     if not isinstance(payload, dict):
         raise SchemaError("schema_not_object")
-    raw = payload.get("schema", payload)
+    raw = normalize(payload.get("schema", payload))
     confusable = payload.get("confusable") or payload.get("confusable_structures") or []
     if isinstance(confusable, dict):
         confusable = [confusable]

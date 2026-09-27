@@ -59,6 +59,8 @@ def _interpretation(mean_auroc: float, worst_auroc: float, invariance: float, ex
         return "major success on held-out composition"
     if mean_auroc >= 0.82:
         return "data moved composition, short of the 0.90 bar"
+    if mean_auroc >= 0.78 and worst_auroc >= 0.65:
+        return "composition rose from the atomic baseline and remains short of the 0.82 band"
     return "data alone is not solving composition"
 
 

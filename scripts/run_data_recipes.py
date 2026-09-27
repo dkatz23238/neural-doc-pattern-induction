@@ -36,15 +36,29 @@ def _summary(root: Path) -> None:
         "D3 and D4 may include the eval families as contrasts. D0, D1, and D2 do not. Repeat counts in teacher schemas stay at or below 3, so four and five repetitions remain an extrapolation test.",
         "Held-out composition AUROC is the mean of prefix+repeat, repeat+optional, and prefix+alternation. The worst of those three is reported beside it. Renaming invariance below 0.99 rejects a recipe.",
         "",
-        "| Recipe | Seed | Composition mean | Worst | Repeat 4–5 | Invariance | Exposes eval family | Reading |",
+        "| Recipe | Seed | Composition mean | Worst | Repeat 4–5 | Invariance | Exposes eval family | Band |",
         "| --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
+
+    def band_label(row: dict) -> str:
+        mean = row["composition_auroc"]
+        worst = row["worst_composition"]["auroc"]
+        if row["min_invariance"] < 0.99:
+            return "reject: invariance moved"
+        if mean > 0.90 and worst > 0.85:
+            return "major success"
+        if mean >= 0.82:
+            return "mean in the 0.82–0.87 band; worst slice under 0.85"
+        if mean >= 0.78:
+            return "above the atomic baseline, short of 0.82"
+        return "near the atomic baseline"
+
     for row in rows:
         worst = row["worst_composition"]
         lines.append(
             f"| {row['recipe']} | {row['seed']} | {row['composition_auroc']:.3f} | "
             f"{worst['family']} {worst['auroc']:.3f} | {row['repeat_extra_auroc']:.3f} | "
-            f"{row['min_invariance']:.3f} | {row['exposes_eval_family']} | {row['interpretation']} |"
+            f"{row['min_invariance']:.3f} | {row['exposes_eval_family']} | {band_label(row)} |"
         )
     lines.extend(["", "## Slices", ""])
     for row in rows:
@@ -68,7 +82,53 @@ def _summary(root: Path) -> None:
             )
         lines.append("")
     ledger = load_ledger(root)
-    lines.append(f"Teacher spend recorded in the ledger: ${ledger['spent_usd']:.4f} across {ledger['calls']} calls.")
+    lines.extend(["## Reading", ""])
+    by_recipe: dict[str, list[dict]] = {}
+    for row in rows:
+        by_recipe.setdefault(row["recipe"], []).append(row)
+
+    def band(recipe: str) -> str:
+        group = by_recipe.get(recipe) or []
+        if not group:
+            return ""
+        means = [row["composition_auroc"] for row in group]
+        worsts = [row["worst_composition"]["auroc"] for row in group]
+        extras = [row["repeat_extra_auroc"] for row in group]
+        exposed = group[0]["exposes_eval_family"]
+        return (
+            f"{recipe} composition mean {min(means):.3f}–{max(means):.3f} over {len(group)} "
+            f"{'seed' if len(group) == 1 else 'seeds'}, "
+            f"worst slice {min(worsts):.3f}–{max(worsts):.3f}, "
+            f"repeat 4–5 AUROC {min(extras):.3f}–{max(extras):.3f}. "
+            f"Eval families in that bank: {exposed if exposed else 'none'}."
+        )
+
+    lines.append(
+        "The success bar for this phase is a held-out composition mean above 0.90 and a worst mixture above 0.85, with renaming invariance still about 1. "
+        "A mean from 0.82 to 0.87 is evidence that the curriculum matters. A mean near 0.75 means the data variable did not move the model. "
+        "A mean above 0.93 with repeat-depth extrapolation still strong would be the point to attach a decoder. Invariance under 0.99 rejects the recipe."
+    )
+    lines.append("")
+    for recipe in ("d0", "d1", "d2", "d3", "d4"):
+        text = band(recipe)
+        if text:
+            lines.append(text)
+    lines.append("")
+    lines.append(
+        "D1 and D2 keep the three eval mixtures out of the training bank. Their means sit around 0.81, and one D2 seed reaches the 0.82–0.87 band. "
+        "The worst mixture stays below 0.85 on every seed. Prefix+repeat rises from the atomic 0.548 into the mid 0.70s or low 0.80s, and it is still the weak slice on several seeds. "
+        "Repeat depths 4 and 5 drop from the atomic 0.935 into the low 0.80s, so the composition gain trades away some depth extrapolation."
+    )
+    lines.append(
+        "D3 contrasts one structural attachment at a time. Its bank includes a repeat-then-optional language, and that eval slice does not become the strong one. "
+        "D4 adds failure-targeted schemas, including prefix+repeat itself, and the mean does not rise. "
+        "No recipe reaches the 0.90 / 0.85 bar. Invariance stays 1.000, so none are rejected for a broken rename. The decoder stays off."
+    )
+    lines.append("")
+    lines.append(
+        f"Teacher spend recorded in the ledger: ${ledger['spent_usd']:.4f} across {ledger['calls']} calls. "
+        "Rates used for that figure are $2 / $12 per million input / output tokens for gpt-5.6-terra."
+    )
     lines.append("")
     path = base / "summary.md"
     path.write_text("\n".join(lines) + "\n")
