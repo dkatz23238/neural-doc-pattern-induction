@@ -1169,7 +1169,7 @@ def _bucket_key(item: Candidate, heuristic: str, tag: str) -> tuple:
     return (abs(len(item.pattern) - len(heuristic)), len(item.pattern), item.pattern)
 
 
-def _order(items: list[Candidate], heuristic: str) -> list[Candidate]:
+def _order(items: list[Candidate], heuristic: str, priority: tuple[str, ...] = TAG_PRIORITY) -> list[Candidate]:
     buckets: dict[str, list[Candidate]] = {}
     first: Candidate | None = None
     for item in items:
@@ -1180,7 +1180,7 @@ def _order(items: list[Candidate], heuristic: str) -> list[Candidate]:
     for tag, bucket in buckets.items():
         bucket.sort(key=lambda item, tag=tag: _bucket_key(item, heuristic, tag))
         buckets[tag] = bucket
-    tags = [tag for tag in TAG_PRIORITY if tag in buckets]
+    tags = [tag for tag in priority if tag in buckets]
     tags.extend(sorted(tag for tag in buckets if tag not in tags))
     ordered: list[Candidate] = []
     if first is not None:
@@ -1211,5 +1211,63 @@ def presented_candidates(strings: list[str], k: int = 8, pool_limit: int = 80) -
     if not shown:
         heuristic = infer_regex(strings)
         shown = [Candidate(heuristic, "heuristic")]
+        pool = shown
+    return shown, pool
+
+
+# New structural families are interleaved with the families that already win,
+# so Oracle@8 still sees hex collapse and slot rebuilds.
+EXPANDED_PRIORITY = (
+    "heuristic",
+    "mixture",
+    "repeat_motif",
+    "grouping",
+    "hex_collapse",
+    "slot_digit_general",
+    "slot_tight",
+    "optional_span",
+    "delimiter_split",
+    "segment",
+    "span_merge",
+    "primitive",
+    "align",
+    "ast_search",
+    "literal_digit",
+    "width",
+    "width_aggressive",
+    "class_tighten",
+    "class_widen",
+    "affix",
+    "catalog",
+    "repeat",
+    "optional",
+    "slot_widen",
+    "delimiter",
+)
+
+
+def expanded_candidates(
+    strings: list[str],
+    k: int = 8,
+    pool_limit: int = 160,
+) -> tuple[list[Candidate], list[Candidate]]:
+    """Union the local neighborhood with structural generators.
+
+    The heuristic stays first. Later slots round-robin across tags so a new
+    family is not buried behind dozens of single-site edits.
+    """
+    from pattern_induction.structural import structural_candidates
+
+    heuristic = infer_regex(strings)
+    merged: dict[str, str] = {}
+    for item in propose_patterns(strings, pool_limit=max(pool_limit, 80)):
+        merged.setdefault(item.pattern, item.tag)
+    for item in structural_candidates(strings):
+        merged.setdefault(item.pattern, item.tag)
+    kept = [Candidate(pattern, tag) for pattern, tag in merged.items() if _keep(pattern, strings, heuristic)]
+    ordered = _order(kept, heuristic, EXPANDED_PRIORITY)
+    pool = ordered[:pool_limit]
+    shown = pool[:k] if pool else [Candidate(heuristic, "heuristic")]
+    if not pool:
         pool = shown
     return shown, pool

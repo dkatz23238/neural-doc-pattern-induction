@@ -1,0 +1,739 @@
+{
+  "reading": [
+    "On BENCH-C the previous oracle@8 scores 97.4%. The structural pool reaches oracle@8 99.1%, oracle@16 99.5%, and a full-pool oracle of 99.6%. The code-length rule on that pool scores 95.4%, against 96.2% on the old 8 (regressions 6.1% versus 0.7%).",
+    "Repeated groups, optional spans, and sentinel alternation put the right regex in the first 8 to 16 candidates. Mean pool size stays under 50. K=64 does not move the oracle past K=32. Candidate generation is the right direction on document fields.",
+    "Too-broad fields go from oracle 67.1% to 99.6%, and the rule reaches 86.2%; variable-length oracle reaches 99.8% while the rule stays at 83.8%; too-narrow fields, already solved by the old rule, fall to rule 71.4% against oracle 100.0%.",
+    "The pool contains the better regex. The rule does not take it. Literals are free in the cost model, so a pattern that clings to the visible strings can be shorter than the pattern that survives the hidden set.",
+    "On held-out BENCH-A shapes the oracle only moves from 90.3% to 91.7%. The rule there scores 85.7% against 86.5% on the old 8. Deep synthetic alternations are still outside this generator."
+  ],
+  "groups": {
+    "C": {
+      "note": "Curated document fields. Not used to design the generators beyond the failure list.",
+      "n": 554,
+      "systems": [
+        {
+          "semantic_accuracy": 0.9316,
+          "macro": 0.9208,
+          "improved": 0.0,
+          "regressed": 0.0,
+          "unchanged": 1.0,
+          "n": 554,
+          "system": "heuristic"
+        },
+        {
+          "semantic_accuracy": 0.9625,
+          "macro": 0.9574,
+          "improved": 0.1444,
+          "regressed": 0.0072,
+          "unchanged": 0.8484,
+          "n": 554,
+          "system": "baseline_rules"
+        },
+        {
+          "semantic_accuracy": 0.9736,
+          "macro": 0.9712,
+          "improved": 0.2491,
+          "regressed": 0.0,
+          "unchanged": 0.7509,
+          "n": 554,
+          "system": "baseline_oracle_8"
+        },
+        {
+          "semantic_accuracy": 0.9791,
+          "macro": 0.9789,
+          "improved": 0.2978,
+          "regressed": 0.0,
+          "unchanged": 0.7022,
+          "n": 554,
+          "system": "baseline_oracle_pool"
+        },
+        {
+          "semantic_accuracy": 0.9536,
+          "macro": 0.9483,
+          "improved": 0.1751,
+          "regressed": 0.0596,
+          "unchanged": 0.7653,
+          "n": 554,
+          "system": "rules_8"
+        },
+        {
+          "semantic_accuracy": 0.991,
+          "macro": 0.9904,
+          "improved": 0.3538,
+          "regressed": 0.0,
+          "unchanged": 0.6462,
+          "n": 554,
+          "system": "oracle_8"
+        },
+        {
+          "semantic_accuracy": 0.9953,
+          "macro": 0.9954,
+          "improved": 0.3917,
+          "regressed": 0.0,
+          "unchanged": 0.6083,
+          "n": 554,
+          "system": "oracle_16"
+        },
+        {
+          "semantic_accuracy": 0.9959,
+          "macro": 0.9959,
+          "improved": 0.3971,
+          "regressed": 0.0,
+          "unchanged": 0.6029,
+          "n": 554,
+          "system": "oracle_32"
+        },
+        {
+          "semantic_accuracy": 0.996,
+          "macro": 0.996,
+          "improved": 0.4007,
+          "regressed": 0.0,
+          "unchanged": 0.5993,
+          "n": 554,
+          "system": "oracle_64"
+        },
+        {
+          "semantic_accuracy": 0.954,
+          "macro": 0.9488,
+          "improved": 0.204,
+          "regressed": 0.0614,
+          "unchanged": 0.7347,
+          "n": 554,
+          "system": "rules_pool"
+        },
+        {
+          "semantic_accuracy": 0.996,
+          "macro": 0.996,
+          "improved": 0.4007,
+          "regressed": 0.0,
+          "unchanged": 0.5993,
+          "n": 554,
+          "system": "oracle_pool"
+        }
+      ],
+      "families": [
+        {
+          "failure": "success",
+          "n": 402,
+          "heuristic": 0.9908,
+          "baseline_oracle_8": 0.9933,
+          "oracle_32": 0.9971,
+          "oracle_pool": 0.9974,
+          "rules_pool": 0.9872
+        },
+        {
+          "failure": "optional region",
+          "n": 50,
+          "heuristic": 0.8529,
+          "baseline_oracle_8": 0.9125,
+          "oracle_32": 0.9821,
+          "oracle_pool": 0.9821,
+          "rules_pool": 0.9333
+        },
+        {
+          "failure": "variable-length inference",
+          "n": 34,
+          "heuristic": 0.8137,
+          "baseline_oracle_8": 0.9234,
+          "oracle_32": 0.9975,
+          "oracle_pool": 0.9975,
+          "rules_pool": 0.8376
+        },
+        {
+          "failure": "character-class inference",
+          "n": 27,
+          "heuristic": 0.8063,
+          "baseline_oracle_8": 0.99,
+          "oracle_32": 0.9954,
+          "oracle_pool": 0.9954,
+          "rules_pool": 0.919
+        },
+        {
+          "failure": "too narrow",
+          "n": 22,
+          "heuristic": 0.6061,
+          "baseline_oracle_8": 0.9962,
+          "oracle_32": 1.0,
+          "oracle_pool": 1.0,
+          "rules_pool": 0.714
+        },
+        {
+          "failure": "too_broad",
+          "n": 10,
+          "heuristic": 0.6083,
+          "baseline_oracle_8": 0.6708,
+          "oracle_32": 0.9958,
+          "oracle_pool": 0.9958,
+          "rules_pool": 0.8625
+        },
+        {
+          "failure": "mixed population",
+          "n": 4,
+          "heuristic": 0.6354,
+          "baseline_oracle_8": 0.9115,
+          "oracle_32": 1.0,
+          "oracle_pool": 1.0,
+          "rules_pool": 0.8542
+        },
+        {
+          "failure": "too broad",
+          "n": 3,
+          "heuristic": 0.6806,
+          "baseline_oracle_8": 0.7083,
+          "oracle_32": 1.0,
+          "oracle_pool": 1.0,
+          "rules_pool": 0.6528
+        },
+        {
+          "failure": "OCR noise",
+          "n": 1,
+          "heuristic": 0.7917,
+          "baseline_oracle_8": 1.0,
+          "oracle_32": 1.0,
+          "oracle_pool": 1.0,
+          "rules_pool": 1.0
+        },
+        {
+          "failure": "alternation",
+          "n": 1,
+          "heuristic": 0.8958,
+          "baseline_oracle_8": 0.8958,
+          "oracle_32": 1.0,
+          "oracle_pool": 1.0,
+          "rules_pool": 1.0
+        }
+      ],
+      "winner_tags": [
+        [
+          "heuristic",
+          178
+        ],
+        [
+          "ast_search",
+          90
+        ],
+        [
+          "width_aggressive",
+          88
+        ],
+        [
+          "slot_tight",
+          32
+        ],
+        [
+          "hex_collapse",
+          29
+        ],
+        [
+          "segment",
+          29
+        ],
+        [
+          "delimiter_split",
+          17
+        ],
+        [
+          "width",
+          16
+        ],
+        [
+          "grouping",
+          15
+        ],
+        [
+          "optional_span",
+          13
+        ],
+        [
+          "repeat_motif",
+          12
+        ],
+        [
+          "span_merge",
+          11
+        ]
+      ],
+      "mean_baseline_pool": 37.6101083032491,
+      "mean_expanded_pool": 48.67689530685921,
+      "mean_latency_ms": 53.18491640794521
+    },
+    "A-test": {
+      "note": "Held-out AST shapes.",
+      "n": 200,
+      "systems": [
+        {
+          "semantic_accuracy": 0.84,
+          "macro": 0.84,
+          "improved": 0.0,
+          "regressed": 0.0,
+          "unchanged": 1.0,
+          "n": 200,
+          "system": "heuristic"
+        },
+        {
+          "semantic_accuracy": 0.8654,
+          "macro": 0.8654,
+          "improved": 0.23,
+          "regressed": 0.065,
+          "unchanged": 0.705,
+          "n": 200,
+          "system": "baseline_rules"
+        },
+        {
+          "semantic_accuracy": 0.9029,
+          "macro": 0.9029,
+          "improved": 0.415,
+          "regressed": 0.0,
+          "unchanged": 0.585,
+          "n": 200,
+          "system": "baseline_oracle_8"
+        },
+        {
+          "semantic_accuracy": 0.9113,
+          "macro": 0.9113,
+          "improved": 0.475,
+          "regressed": 0.0,
+          "unchanged": 0.525,
+          "n": 200,
+          "system": "baseline_oracle_pool"
+        },
+        {
+          "semantic_accuracy": 0.858,
+          "macro": 0.858,
+          "improved": 0.255,
+          "regressed": 0.095,
+          "unchanged": 0.65,
+          "n": 200,
+          "system": "rules_8"
+        },
+        {
+          "semantic_accuracy": 0.907,
+          "macro": 0.907,
+          "improved": 0.445,
+          "regressed": 0.0,
+          "unchanged": 0.555,
+          "n": 200,
+          "system": "oracle_8"
+        },
+        {
+          "semantic_accuracy": 0.9136,
+          "macro": 0.9136,
+          "improved": 0.48,
+          "regressed": 0.0,
+          "unchanged": 0.52,
+          "n": 200,
+          "system": "oracle_16"
+        },
+        {
+          "semantic_accuracy": 0.9164,
+          "macro": 0.9164,
+          "improved": 0.495,
+          "regressed": 0.0,
+          "unchanged": 0.505,
+          "n": 200,
+          "system": "oracle_32"
+        },
+        {
+          "semantic_accuracy": 0.9167,
+          "macro": 0.9167,
+          "improved": 0.495,
+          "regressed": 0.0,
+          "unchanged": 0.505,
+          "n": 200,
+          "system": "oracle_64"
+        },
+        {
+          "semantic_accuracy": 0.8568,
+          "macro": 0.8568,
+          "improved": 0.265,
+          "regressed": 0.105,
+          "unchanged": 0.63,
+          "n": 200,
+          "system": "rules_pool"
+        },
+        {
+          "semantic_accuracy": 0.9167,
+          "macro": 0.9167,
+          "improved": 0.495,
+          "regressed": 0.0,
+          "unchanged": 0.505,
+          "n": 200,
+          "system": "oracle_pool"
+        }
+      ],
+      "families": [],
+      "winner_tags": [
+        [
+          "heuristic",
+          48
+        ],
+        [
+          "ast_search",
+          33
+        ],
+        [
+          "slot_tight",
+          33
+        ],
+        [
+          "class_widen",
+          30
+        ],
+        [
+          "width_aggressive",
+          19
+        ],
+        [
+          "width",
+          11
+        ],
+        [
+          "affix",
+          7
+        ],
+        [
+          "slot_widen",
+          7
+        ],
+        [
+          "segment",
+          4
+        ],
+        [
+          "mixture",
+          3
+        ],
+        [
+          "span_merge",
+          2
+        ],
+        [
+          "class_tighten",
+          1
+        ]
+      ],
+      "mean_baseline_pool": 19.07,
+      "mean_expanded_pool": 24.21,
+      "mean_latency_ms": 25.300636864956232
+    },
+    "A-dev": {
+      "note": "BENCH-A development shapes, reported so the test split is not the only structural number.",
+      "n": 800,
+      "systems": [
+        {
+          "semantic_accuracy": 0.8459,
+          "macro": 0.8459,
+          "improved": 0.0,
+          "regressed": 0.0,
+          "unchanged": 1.0,
+          "n": 800,
+          "system": "heuristic"
+        },
+        {
+          "semantic_accuracy": 0.8774,
+          "macro": 0.8774,
+          "improved": 0.2263,
+          "regressed": 0.0525,
+          "unchanged": 0.7212,
+          "n": 800,
+          "system": "baseline_rules"
+        },
+        {
+          "semantic_accuracy": 0.9078,
+          "macro": 0.9078,
+          "improved": 0.4313,
+          "regressed": 0.0,
+          "unchanged": 0.5687,
+          "n": 800,
+          "system": "baseline_oracle_8"
+        },
+        {
+          "semantic_accuracy": 0.9168,
+          "macro": 0.9168,
+          "improved": 0.5012,
+          "regressed": 0.0,
+          "unchanged": 0.4988,
+          "n": 800,
+          "system": "baseline_oracle_pool"
+        },
+        {
+          "semantic_accuracy": 0.8677,
+          "macro": 0.8677,
+          "improved": 0.24,
+          "regressed": 0.09,
+          "unchanged": 0.67,
+          "n": 800,
+          "system": "rules_8"
+        },
+        {
+          "semantic_accuracy": 0.9145,
+          "macro": 0.9145,
+          "improved": 0.4713,
+          "regressed": 0.0,
+          "unchanged": 0.5288,
+          "n": 800,
+          "system": "oracle_8"
+        },
+        {
+          "semantic_accuracy": 0.9206,
+          "macro": 0.9206,
+          "improved": 0.505,
+          "regressed": 0.0,
+          "unchanged": 0.495,
+          "n": 800,
+          "system": "oracle_16"
+        },
+        {
+          "semantic_accuracy": 0.9226,
+          "macro": 0.9226,
+          "improved": 0.5162,
+          "regressed": 0.0,
+          "unchanged": 0.4838,
+          "n": 800,
+          "system": "oracle_32"
+        },
+        {
+          "semantic_accuracy": 0.9231,
+          "macro": 0.9231,
+          "improved": 0.5238,
+          "regressed": 0.0,
+          "unchanged": 0.4763,
+          "n": 800,
+          "system": "oracle_64"
+        },
+        {
+          "semantic_accuracy": 0.8672,
+          "macro": 0.8672,
+          "improved": 0.2625,
+          "regressed": 0.0988,
+          "unchanged": 0.6388,
+          "n": 800,
+          "system": "rules_pool"
+        },
+        {
+          "semantic_accuracy": 0.9231,
+          "macro": 0.9231,
+          "improved": 0.5238,
+          "regressed": 0.0,
+          "unchanged": 0.4763,
+          "n": 800,
+          "system": "oracle_pool"
+        }
+      ],
+      "families": [],
+      "winner_tags": [
+        [
+          "ast_search",
+          188
+        ],
+        [
+          "heuristic",
+          155
+        ],
+        [
+          "class_widen",
+          122
+        ],
+        [
+          "slot_tight",
+          88
+        ],
+        [
+          "width_aggressive",
+          86
+        ],
+        [
+          "width",
+          46
+        ],
+        [
+          "slot_widen",
+          44
+        ],
+        [
+          "mixture",
+          18
+        ],
+        [
+          "segment",
+          12
+        ],
+        [
+          "class_tighten",
+          10
+        ],
+        [
+          "affix",
+          9
+        ],
+        [
+          "optional",
+          9
+        ]
+      ],
+      "mean_baseline_pool": 19.17875,
+      "mean_expanded_pool": 24.29,
+      "mean_latency_ms": 27.308326218757202
+    },
+    "D": {
+      "note": "Same schemas at several sample sizes.",
+      "n": 320,
+      "systems": [
+        {
+          "semantic_accuracy": 0.8985,
+          "macro": 0.8985,
+          "improved": 0.0,
+          "regressed": 0.0,
+          "unchanged": 1.0,
+          "n": 320,
+          "system": "heuristic"
+        },
+        {
+          "semantic_accuracy": 0.9376,
+          "macro": 0.9376,
+          "improved": 0.1656,
+          "regressed": 0.0,
+          "unchanged": 0.8344,
+          "n": 320,
+          "system": "baseline_rules"
+        },
+        {
+          "semantic_accuracy": 0.9676,
+          "macro": 0.9676,
+          "improved": 0.2938,
+          "regressed": 0.0,
+          "unchanged": 0.7063,
+          "n": 320,
+          "system": "baseline_oracle_8"
+        },
+        {
+          "semantic_accuracy": 0.974,
+          "macro": 0.974,
+          "improved": 0.2969,
+          "regressed": 0.0,
+          "unchanged": 0.7031,
+          "n": 320,
+          "system": "baseline_oracle_pool"
+        },
+        {
+          "semantic_accuracy": 0.9017,
+          "macro": 0.9017,
+          "improved": 0.1906,
+          "regressed": 0.1219,
+          "unchanged": 0.6875,
+          "n": 320,
+          "system": "rules_8"
+        },
+        {
+          "semantic_accuracy": 0.9618,
+          "macro": 0.9618,
+          "improved": 0.375,
+          "regressed": 0.0,
+          "unchanged": 0.625,
+          "n": 320,
+          "system": "oracle_8"
+        },
+        {
+          "semantic_accuracy": 0.9782,
+          "macro": 0.9782,
+          "improved": 0.4031,
+          "regressed": 0.0,
+          "unchanged": 0.5969,
+          "n": 320,
+          "system": "oracle_16"
+        },
+        {
+          "semantic_accuracy": 0.98,
+          "macro": 0.98,
+          "improved": 0.4031,
+          "regressed": 0.0,
+          "unchanged": 0.5969,
+          "n": 320,
+          "system": "oracle_32"
+        },
+        {
+          "semantic_accuracy": 0.9806,
+          "macro": 0.9806,
+          "improved": 0.4031,
+          "regressed": 0.0,
+          "unchanged": 0.5969,
+          "n": 320,
+          "system": "oracle_64"
+        },
+        {
+          "semantic_accuracy": 0.9089,
+          "macro": 0.9089,
+          "improved": 0.1969,
+          "regressed": 0.125,
+          "unchanged": 0.6781,
+          "n": 320,
+          "system": "rules_pool"
+        },
+        {
+          "semantic_accuracy": 0.9806,
+          "macro": 0.9806,
+          "improved": 0.4031,
+          "regressed": 0.0,
+          "unchanged": 0.5969,
+          "n": 320,
+          "system": "oracle_pool"
+        }
+      ],
+      "families": [],
+      "winner_tags": [
+        [
+          "width_aggressive",
+          99
+        ],
+        [
+          "heuristic",
+          95
+        ],
+        [
+          "hex_collapse",
+          33
+        ],
+        [
+          "delimiter_split",
+          22
+        ],
+        [
+          "slot_tight",
+          15
+        ],
+        [
+          "span_merge",
+          12
+        ],
+        [
+          "ast_search",
+          11
+        ],
+        [
+          "optional",
+          9
+        ],
+        [
+          "width",
+          9
+        ],
+        [
+          "slot_widen",
+          5
+        ],
+        [
+          "literal_digit",
+          3
+        ],
+        [
+          "repeat_motif",
+          3
+        ]
+      ],
+      "mean_baseline_pool": 24.66875,
+      "mean_expanded_pool": 34.13125,
+      "mean_latency_ms": 19.152527990607382
+    }
+  },
+  "n": 2074
+}

@@ -55,6 +55,14 @@ PYTHONPATH=. python scripts/run_ranker_pilot.py
 
 `results/exp2/ranker_pilot.md` records train loss, validation semantic accuracy, and the held-out comparison with the code-length rule. On this CPU run neither the shape-trained model nor the document-trained model beats that rule by a point on its decision split, and cross-attention stays within half a point of the pooled model on BENCH-A test.
 
+The structural-generator run asks a different question: can a small pool contain the right kind of regex, rather than only mutations of the heuristic. It adds span merging, delimiter and repeat structure, optional spans, sentinel alternation, and a short code-length beam.
+
+```bash
+PYTHONPATH=. python scripts/run_structural_oracle.py
+```
+
+`results/exp2/structural_oracle.md` reports oracle@8, oracle@16, oracle@32, and the code-length rule on that pool. BENCH-C is scored only.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.
