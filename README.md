@@ -39,6 +39,14 @@ python -m unittest tests.test_core
 
 `generate_benchmarks.py` writes a review-sized suite (about 550 BENCH-C tasks, 1,500 BENCH-B, 320 BENCH-D, 1,200 BENCH-A). The BENCH-A generator is the same function used for the 100k/10k/10k corpus; pass `--bench-a-dev 100000 --bench-a-val 10000 --bench-a-test 10000` for the full split. Shape buckets are hashed, so the larger draw keeps the same held-out shapes.
 
+The candidate-oracle run does not train a neural net. It builds a small symbolic neighborhood of the heuristic, scores the best candidate in that neighborhood on the hidden set, and compares that ceiling with two label-free scorers and a ridge regression on visible features.
+
+```bash
+PYTHONPATH=. python scripts/run_candidate_oracle.py
+```
+
+`results/exp2/candidate_oracle.md` is the written result. BENCH-C is not used to fit the linear models.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.
