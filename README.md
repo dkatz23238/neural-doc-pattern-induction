@@ -79,6 +79,14 @@ PYTHONPATH=. python scripts/run_override.py
 
 `results/exp2/override.md` is the written result.
 
+The latent-schema run stops ranking candidates. A tiny set encoder predicts literal spans, classes, repeats, optional tails, and alternations, and a compiler turns that schema into a regex. Epochs stop on a shifted synthetic split. BENCH-C is scored once.
+
+```bash
+PYTHONPATH=. python scripts/run_schema.py
+```
+
+`results/exp2/schema.md` is the written result.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.
