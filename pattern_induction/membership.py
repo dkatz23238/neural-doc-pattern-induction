@@ -11,12 +11,14 @@ from __future__ import annotations
 
 import random
 import re
+import string
 from dataclasses import dataclass, field, replace
 
 from pattern_induction.candidates import expanded_candidates, pattern_cost
 from pattern_induction.heuristic import infer_regex
 from pattern_induction.schema import (
     ALT_LEN,
+    CHAR_SLOTS,
     CHARSET_POOL,
     CHARSETS,
     ITOS,
@@ -27,8 +29,12 @@ from pattern_induction.schema import (
     KIND_REP,
     MAX_HI,
     MAX_REP,
+    STOI,
+    TRAIN_DELIMS,
     UNK,
     Part,
+    compile_parts,
+    encode_text,
     sample_string,
     sample_task,
 )
@@ -251,6 +257,28 @@ def _encode_literal(chars: list[str]) -> tuple[int, ...]:
     return encode_text("".join(chars), CHAR_SLOTS)
 
 
+def _easy_negative(
+    support: list[str],
+    compiled: re.Pattern[str],
+    rng: random.Random,
+    shift: bool,
+) -> str | None:
+    """A gross mismatch: shuffled or heavily rewritten, still rejected by the gold regex."""
+    text = rng.choice(support)
+    chars = list(text)
+    if len(chars) < 2:
+        return None
+    rng.shuffle(chars)
+    alphabet = _alphabet(support, shift)
+    if compiled.fullmatch("".join(chars)):
+        for index in range(0, len(chars), 2):
+            chars[index] = rng.choice(alphabet)
+    cand = "".join(chars)
+    if _clean(cand, shift) and compiled.fullmatch(cand) is None:
+        return cand
+    return None
+
+
 def structural_negative(
     support: list[str],
     gold: str,
@@ -295,6 +323,53 @@ def structural_negative(
     return None
 
 
+def _negative_episode(
+    parts: list[Part],
+    support: list[str],
+    pattern: str,
+    compiled: re.Pattern[str],
+    rng: random.Random,
+    shift: bool,
+    structural_rate: float,
+    split: str,
+    easy_rate: float = 0.0,
+) -> Episode | None:
+    """Draw a near miss.
+
+    Edits of one support string overlap the examples more than a fresh member
+    does, so they are not the whole mixture. Schema samples are fresh strings
+    from a wrong language and do not reward that shortcut.
+    """
+    roll = rng.random()
+    if easy_rate and roll < easy_rate:
+        order = ("easy", "schema", "structural", "edit")
+    elif roll < easy_rate + 0.4:
+        order = ("schema", "structural", "edit", "easy")
+    elif structural_rate and roll < easy_rate + 0.4 + structural_rate:
+        order = ("structural", "schema", "edit", "easy")
+    else:
+        order = ("edit", "schema", "structural", "easy")
+    for kind in order:
+        if kind == "easy":
+            text = _easy_negative(support, compiled, rng, shift)
+            if text is not None:
+                return Episode(support, text, 0, pattern, split, "easy")
+        elif kind == "structural":
+            text = structural_negative(support, pattern, compiled, rng, shift)
+            if text is not None:
+                return Episode(support, text, 0, pattern, split, "structural")
+        elif kind == "schema":
+            text = _schema_negative(parts, compiled, rng, shift)
+            if text is not None:
+                return Episode(support, text, 0, pattern, split, "schema")
+        else:
+            edited = _edit_negative(rng.choice(support), compiled, rng, shift, support)
+            if edited is not None:
+                query, name = edited
+                return Episode(support, query, 0, pattern, split, name)
+    return None
+
+
 def make_episode(
     rng: random.Random,
     shift: bool,
@@ -303,6 +378,7 @@ def make_episode(
     structural_rate: float,
     prefer_hard: bool,
     split: str,
+    easy_rate: float = 0.0,
 ) -> Episode | None:
     drawn = _language(rng, shift, n_support, prefer_hard)
     if drawn is None:
@@ -314,20 +390,258 @@ def make_episode(
             return None
         query, flags = positive
         return Episode(support, query, 1, pattern, split, "positive", flags)
-    if structural_rate and rng.random() < structural_rate:
-        text = structural_negative(support, pattern, compiled, rng, shift)
-        if text is not None:
-            return Episode(support, text, 0, pattern, split, "structural")
-    if rng.random() < 0.5:
-        text = _schema_negative(parts, compiled, rng, shift)
-        if text is not None:
-            return Episode(support, text, 0, pattern, split, "schema")
-    base = rng.choice(support)
-    edited = _edit_negative(base, compiled, rng, shift, support)
-    if edited is None:
+    return _negative_episode(parts, support, pattern, compiled, rng, shift, structural_rate, split, easy_rate)
+
+
+def sample_pair(
+    rng: random.Random,
+    shift: bool,
+    n_support: int,
+    structural_rate: float,
+    prefer_hard: bool,
+    split: str,
+    easy_rate: float,
+) -> tuple[Episode, Episode] | None:
+    """One positive and one negative drawn from the same support set."""
+    drawn = _language(rng, shift, n_support, prefer_hard)
+    if drawn is None:
         return None
-    query, kind = edited
-    return Episode(support, query, 0, pattern, split, kind)
+    parts, support, pattern, compiled = drawn
+    # An exact support string is a positive with total overlap. Without these,
+    # fresh members overlap the set less than one-character edits do, and the
+    # label is anti-correlated with surface copying.
+    if rng.random() < 0.35:
+        pos = Episode(support, rng.choice(support), 1, pattern, split, "positive", [])
+    else:
+        positive = _positive(parts, compiled, rng, shift)
+        if positive is None:
+            return None
+        query, flags = positive
+        pos = Episode(support, query, 1, pattern, split, "positive", flags)
+    neg = _negative_episode(parts, support, pattern, compiled, rng, shift, structural_rate, split, easy_rate)
+    if neg is None:
+        return None
+    return pos, neg
+
+
+def _lit_part(text: str, optional: int = 0) -> Part:
+    return Part(KIND_LIT, optional, lo=len(text), hi=len(text), chars=encode_text(text, CHAR_SLOTS))
+
+
+def _cls_part(name: str, lo: int, hi: int) -> Part:
+    return Part(KIND_CLS, 0, CHARSETS.index(name), lo, hi)
+
+
+def _rep_part(name: str, lo: int, hi: int, delim: str, rep_lo: int, rep_hi: int) -> Part:
+    return Part(KIND_REP, 0, CHARSETS.index(name), lo, hi, rep_lo, rep_hi, STOI[delim])
+
+
+def _alt_part(options: list[str]) -> Part:
+    chars: list[int] = []
+    for option in options[: CHAR_SLOTS // ALT_LEN]:
+        chars.extend(encode_text(option, ALT_LEN))
+    if len(chars) < CHAR_SLOTS:
+        chars.extend([0] * (CHAR_SLOTS - len(chars)))
+    return Part(KIND_ALT, 0, lo=min(len(options), CHAR_SLOTS // ALT_LEN), chars=tuple(chars))
+
+
+def _vary_class(rng: random.Random) -> tuple[str, int, int]:
+    name = rng.choice(("digit", "upper", "lower", "alnum", "hex", "word"))
+    if rng.random() < 0.6:
+        width = rng.randint(2, 6)
+        return name, width, width
+    lo = rng.randint(1, 3)
+    hi = rng.randint(lo + 1, min(8, lo + 3))
+    return name, lo, hi
+
+
+def _prefix(rng: random.Random, lo: int = 1, hi: int = 4) -> str:
+    alphabet = string.ascii_letters
+    return "".join(rng.choice(alphabet) for _ in range(rng.randint(lo, hi)))
+
+
+def _draw_parts(rng: random.Random, level: int) -> list[Part]:
+    """Easier languages first. Level 3 is the full schema sampler, handled elsewhere."""
+    if level <= 0:
+        name, lo, hi = _vary_class(rng)
+        parts = [_cls_part(name, lo, hi)]
+        if rng.random() < 0.8:
+            parts.insert(0, _lit_part(_prefix(rng)))
+        return parts
+    if level == 1:
+        delim = rng.choice(TRAIN_DELIMS)
+        n_fields = 2 if rng.random() < 0.75 else 3
+        parts = []
+        if rng.random() < 0.5:
+            parts.append(_lit_part(_prefix(rng, 1, 3)))
+        for _index in range(n_fields):
+            if parts:
+                parts.append(_lit_part(delim))
+            name, lo, hi = _vary_class(rng)
+            parts.append(_cls_part(name, lo, hi))
+        return parts
+    roll = rng.random()
+    if roll < 0.45:
+        delim = rng.choice(TRAIN_DELIMS)
+        name, lo, hi = _vary_class(rng)
+        rep_lo = rng.randint(1, 2)
+        rep_hi = rng.randint(rep_lo, min(MAX_REP, rep_lo + 2))
+        parts = []
+        if rng.random() < 0.7:
+            parts.append(_lit_part(_prefix(rng, 1, 3)))
+        parts.append(_cls_part(name, lo, hi))
+        parts.append(_rep_part(name, lo, hi, delim, rep_lo, rep_hi))
+        return parts
+    if roll < 0.75:
+        name, lo, hi = _vary_class(rng)
+        tail = rng.choice((".pdf", ".txt", ".log"))
+        return [_cls_part(name, max(lo, 2), max(hi, lo)), _lit_part(tail, optional=1)]
+    options = []
+    length = rng.randint(2, ALT_LEN)
+    alphabet = string.ascii_uppercase if rng.random() < 0.5 else string.ascii_lowercase
+    while len(options) < rng.randint(2, 4):
+        token = "".join(rng.choice(alphabet) for _ in range(length))
+        if token not in options:
+            options.append(token)
+    return [_alt_part(options)]
+
+
+def _outside_char(name: str) -> str:
+    if name in ("digit", "hex", "hex_upper"):
+        return "Z"
+    if name in ("upper", "upper_alnum"):
+        return "a"
+    if name in ("lower", "lower_alnum", "lower_word"):
+        return "1"
+    return "!"
+
+
+def _break_positive(parts: list[Part], compiled: re.Pattern[str], rng: random.Random) -> tuple[str, str] | None:
+    """Change one literal, class, or repeat so the gold regex rejects the string."""
+    for _ in range(10):
+        pieces: list[str] = []
+        metas: list[Part] = []
+        for part in parts:
+            if part.kind == KIND_END:
+                break
+            if part.optional and rng.random() < 0.5:
+                continue
+            text, _flags = _piece(part, rng)
+            if text:
+                pieces.append(text)
+                metas.append(part)
+        if not pieces:
+            continue
+        index = rng.randrange(len(pieces))
+        part = metas[index]
+        text = pieces[index]
+        kind = "edit"
+        if part.kind == KIND_LIT and text:
+            chars = list(text)
+            slot = rng.randrange(len(chars))
+            chars[slot] = "Q" if chars[slot] != "Q" else "7"
+            pieces[index] = "".join(chars)
+            kind = "edit"
+        elif part.kind == KIND_CLS:
+            name = CHARSETS[part.charset]
+            if rng.random() < 0.5:
+                width = part.hi + 1 if part.hi < MAX_HI else max(0, part.lo - 1)
+                pool = CHARSET_POOL[name]
+                pieces[index] = "".join(rng.choice(pool) for _ in range(width))
+                kind = "repeat"
+            else:
+                chars = list(text) or ["0"]
+                chars[rng.randrange(len(chars))] = _outside_char(name)
+                pieces[index] = "".join(chars)
+                kind = "class"
+        elif part.kind == KIND_REP:
+            name = CHARSETS[part.charset]
+            if rng.random() < 0.5:
+                pieces[index] = ""
+            else:
+                extra, _flags = _piece(part, rng)
+                pieces[index] = text + extra
+            kind = "repeat"
+        else:
+            chars = list(text)
+            if chars:
+                chars[0] = "Q" if chars[0] != "Q" else "7"
+                pieces[index] = "".join(chars)
+        cand = "".join(pieces)
+        if _clean(cand, False) and compiled.fullmatch(cand) is None:
+            return cand, kind
+    return None
+
+
+def _curriculum_language(rng: random.Random, level: int, n_support: int):
+    for _ in range(30):
+        parts = _draw_parts(rng, level)
+        pattern = compile_parts(parts)
+        if pattern is None:
+            continue
+        try:
+            compiled = re.compile(pattern)
+        except re.error:
+            continue
+        support: list[str] = []
+        for _ in range(n_support * 6):
+            if len(support) >= n_support:
+                break
+            text, _flags = sample_annotated(parts, rng)
+            if _clean(text, False) and compiled.fullmatch(text):
+                support.append(text)
+        if len(support) < n_support:
+            continue
+        if not all(compiled.fullmatch(text) for text in support):
+            continue
+        optional = [part.text() for part in parts if part.optional and part.kind == KIND_LIT and part.text()]
+        if optional and any(sum(token in text for text in support) in (0, len(support)) for token in optional):
+            continue
+        return parts, support, pattern, compiled
+    return None
+
+
+def sample_curriculum_pair(
+    rng: random.Random,
+    level: int,
+    n_support: int,
+    structural_rate: float,
+    easy_rate: float,
+    split: str,
+) -> tuple[Episode, Episode] | None:
+    if level >= 3:
+        return sample_pair(rng, False, n_support, structural_rate, True, split, easy_rate)
+    drawn = _curriculum_language(rng, level, n_support)
+    if drawn is None:
+        return None
+    parts, support, pattern, compiled = drawn
+    if rng.random() < 0.25:
+        pos = Episode(support, rng.choice(support), 1, pattern, split, "positive", [])
+    else:
+        positive = _positive(parts, compiled, rng, False)
+        if positive is None:
+            return None
+        query, flags = positive
+        pos = Episode(support, query, 1, pattern, split, "positive", flags)
+    broken = _break_positive(parts, compiled, rng)
+    if broken is not None and rng.random() < 0.75:
+        query, kind = broken
+        neg = Episode(support, query, 0, pattern, split, kind)
+    else:
+        neg = _negative_episode(
+            parts,
+            support,
+            pattern,
+            compiled,
+            rng,
+            False,
+            structural_rate if level >= 1 else 0.0,
+            split,
+            easy_rate,
+        )
+    if neg is None:
+        return None
+    return pos, neg
 
 
 def sample_batch(
@@ -336,26 +650,71 @@ def sample_batch(
     shift: bool = False,
     structural_rate: float = 0.3,
     prefer_hard: bool = False,
+    easy_rate: float = 0.35,
+    level: int = 3,
 ) -> list[Episode]:
     rows: list[Episode] = []
     guard = 0
+    split = "train" if not shift else "ood"
     while len(rows) < batch and guard < batch * 40:
         guard += 1
-        label = len(rows) % 2
-        episode = make_episode(
-            rng,
-            shift,
-            label,
-            rng.randint(2, MAX_SUPPORT),
-            structural_rate if label == 0 else 0.0,
-            prefer_hard or rng.random() < 0.55,
-            "train" if not shift else "ood",
-        )
-        if episode is not None:
-            rows.append(episode)
+        n_support = rng.randint(2, MAX_SUPPORT)
+        if level >= 3:
+            pair = sample_pair(
+                rng,
+                shift,
+                n_support,
+                structural_rate,
+                prefer_hard or rng.random() < 0.55,
+                split,
+                easy_rate,
+            )
+        else:
+            pair = sample_curriculum_pair(rng, level, n_support, structural_rate, easy_rate, split)
+        if pair is None:
+            continue
+        rows.extend(pair)
     if len(rows) < batch:
         raise RuntimeError("could not fill a membership batch")
-    return rows
+    return rows[:batch]
+
+
+def build_curriculum_split(rng: random.Random, n_languages: int, level: int, n_support: int = 4) -> list[Episode]:
+    """Fresh positives and near misses from one curriculum level. Train alphabet only."""
+    episodes: list[Episode] = []
+    guard = 0
+    split = f"level{level}"
+    while len(episodes) < n_languages * 4 and guard < n_languages * 16:
+        guard += 1
+        drawn = _curriculum_language(rng, level, n_support)
+        if drawn is None:
+            continue
+        parts, support, pattern, compiled = drawn
+        rows: list[Episode] = []
+        for _ in range(6):
+            if sum(item.label for item in rows) >= 2:
+                break
+            positive = _positive(parts, compiled, rng, False)
+            if positive is None:
+                continue
+            query, flags = positive
+            rows.append(Episode(support, query, 1, pattern, split, "positive", flags))
+        for _ in range(8):
+            if sum(1 for item in rows if item.label == 0) >= 2:
+                break
+            broken = _break_positive(parts, compiled, rng)
+            episode = (
+                Episode(support, broken[0], 0, pattern, split, broken[1])
+                if broken is not None
+                else _negative_episode(parts, support, pattern, compiled, rng, False, 0.0, split, 0.0)
+            )
+            if episode is not None:
+                rows.append(episode)
+        positives = [item for item in rows if item.label == 1][:2]
+        negatives = [item for item in rows if item.label == 0][:2]
+        if len(positives) == 2 and len(negatives) == 2:
+            episodes.extend(positives + negatives)
+    return episodes
 
 
 def build_split(
@@ -388,20 +747,9 @@ def build_split(
         for _ in range(8):
             if sum(1 for item in rows if item.label == 0) >= 2:
                 break
-            episode = None
-            if structural_rate and rng.random() < structural_rate:
-                text = structural_negative(support, pattern, compiled, rng, shift)
-                if text is not None:
-                    episode = Episode(support, text, 0, pattern, split, "structural")
-            if episode is None and rng.random() < 0.5:
-                text = _schema_negative(parts, compiled, rng, shift)
-                if text is not None:
-                    episode = Episode(support, text, 0, pattern, split, "schema")
-            if episode is None:
-                edited = _edit_negative(rng.choice(support), compiled, rng, shift, support)
-                if edited is not None:
-                    query, kind = edited
-                    episode = Episode(support, query, 0, pattern, split, kind)
+            episode = _negative_episode(
+                parts, support, pattern, compiled, rng, shift, structural_rate, split, easy_rate=0.0
+            )
             if episode is not None:
                 rows.append(episode)
         positives = [item for item in rows if item.label == 1][:2]

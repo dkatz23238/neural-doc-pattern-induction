@@ -15,6 +15,11 @@ from torch import nn
 
 from pattern_induction.membership import MAX_LEN, MAX_SUPPORT, PAD_ID, Episode, byte_flags
 
+# Unit-vector dots are about 1 for the same byte and about 0 otherwise.
+# The support is hundreds of bytes long, so the pointer needs a wide gap
+# before softmax or it stays almost uniform.
+POINTER_SCALE = 12.0
+
 
 class MembershipNet(nn.Module):
     def __init__(
@@ -26,7 +31,7 @@ class MembershipNet(nn.Module):
         max_len: int = MAX_LEN,
         max_support: int = MAX_SUPPORT,
         id_dim: int = 48,
-        dropout: float = 0.1,
+        dropout: float = 0.05,
     ):
         super().__init__()
         self.max_len = max_len
@@ -43,6 +48,9 @@ class MembershipNet(nn.Module):
         self.pos = nn.Embedding(max_len, d_model)
         self.role = nn.Embedding(2, d_model)
         self.which = nn.Embedding(max_support + 1, d_model)
+        nn.init.normal_(self.pos.weight, std=0.02)
+        nn.init.normal_(self.role.weight, std=0.02)
+        nn.init.normal_(self.which.weight, std=0.02)
         block = nn.TransformerEncoderLayer(
             d_model=d_model,
             nhead=heads,
@@ -76,10 +84,13 @@ class MembershipNet(nn.Module):
         support = encoded[:, :-1]
         query_id = F.embedding(tokens[:, -1], self.identity)
         support_id = F.embedding(tokens[:, :-1], self.identity).reshape(batch, (slots - 1) * length, -1)
-        scores = torch.matmul(query_id, support_id.transpose(-1, -2)) / (query_id.size(-1) ** 0.5)
         support_pad = pad[:, :-1].reshape(batch, (slots - 1) * length)
-        scores = scores.masked_fill(support_pad[:, None, :], -1e4)
-        pointed = torch.matmul(torch.softmax(scores, dim=-1), support.reshape(batch, (slots - 1) * length, self.d_model))
+        cosine = torch.matmul(query_id, support_id.transpose(-1, -2))
+        cosine = cosine.masked_fill(support_pad[:, None, :], -2.0)
+        pointed = torch.matmul(
+            torch.softmax(cosine * POINTER_SCALE, dim=-1),
+            support.reshape(batch, (slots - 1) * length, self.d_model),
+        )
         has_support = (~support_pad).any(dim=1).float()
         query = query + pointed * has_support[:, None, None]
         live = (~pad[:, -1]).float().unsqueeze(-1)
@@ -128,7 +139,12 @@ def membership_loss(
         aux = F.binary_cross_entropy_with_logits(inv_logit[known], invariant[known])
     else:
         aux = logit.new_zeros(())
-    return bce + aux_weight * aux, bce.detach(), aux.detach()
+    # Training batches are (positive, negative) pairs that share a support set.
+    if logit.numel() >= 2 and logit.numel() % 2 == 0:
+        rank = F.softplus(logit[1::2] - logit[0::2]).mean()
+    else:
+        rank = logit.new_zeros(())
+    return bce + aux_weight * aux + 0.5 * rank, bce.detach(), aux.detach()
 
 
 def parameter_count(model: nn.Module) -> int:

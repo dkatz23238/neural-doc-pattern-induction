@@ -12,7 +12,13 @@ from pattern_induction.membership import (
     sample_batch,
     structural_negative,
 )
-from pattern_induction.membership_net import MembershipNet, collate, membership_loss, parameter_count
+from pattern_induction.membership_net import (
+    POINTER_SCALE,
+    MembershipNet,
+    collate,
+    membership_loss,
+    parameter_count,
+)
 from pattern_induction.schema import compile_parts, sample_task
 
 
@@ -37,6 +43,18 @@ class DataTest(unittest.TestCase):
         self.assertGreaterEqual(len(episodes), 16)
         self.assertTrue(any(episode.held_out() for episode in episodes))
         for episode in episodes:
+            compiled = re.compile(episode.pattern)
+            matched = compiled.fullmatch(episode.query) is not None
+            self.assertEqual(matched, bool(episode.label))
+
+    def test_curriculum_pairs_respect_the_holdout(self):
+        rng = random.Random(5)
+        batch = sample_batch(rng, 8, level=0, structural_rate=0.0, easy_rate=0.0)
+        self.assertEqual(len(batch), 8)
+        for episode in batch:
+            blob = "".join(episode.support) + episode.query
+            for ch in HELD_OUT:
+                self.assertNotIn(ch, blob)
             compiled = re.compile(episode.pattern)
             matched = compiled.fullmatch(episode.query) is not None
             self.assertEqual(matched, bool(episode.label))
@@ -81,6 +99,12 @@ class ModelTest(unittest.TestCase):
         self.assertGreater(auroc([0, 0, 1, 1], [0.1, 0.2, 0.8, 0.9]), 0.99)
         self.assertLess(auroc([0, 1], [0.9, 0.1]), 0.01)
         self.assertAlmostEqual(auroc([0, 1, 0, 1], [0.4, 0.4, 0.4, 0.4]), 0.5)
+
+    def test_pointer_scale_peaks_on_the_matching_byte(self):
+        logits = torch.zeros(6 * 48)
+        logits[0] = POINTER_SCALE
+        weight = torch.softmax(logits, dim=0)
+        self.assertGreater(float(weight[0]), 0.9)
 
     def test_schema_samples_still_compile(self):
         pattern = compile_parts(sample_task(random.Random(4), 3, shift=True)[0])

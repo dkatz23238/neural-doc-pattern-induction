@@ -1,0 +1,661 @@
+{
+  "parameters": 1877186,
+  "best_epoch": 6,
+  "best_ood_balanced": 0.5562499999999999,
+  "history": [
+    {
+      "epoch": 1,
+      "stage": "prefix-class",
+      "loss": 1.0141062650084496,
+      "bce": 0.6257677462697029,
+      "aux": 0.4855075201392174,
+      "ood_balanced": 0.528125,
+      "ood_accuracy": 0.528125,
+      "ood_auroc": 0.5376171875,
+      "id_balanced": 0.5330188679245284,
+      "simple_balanced": 0.84375,
+      "simple_auroc": 0.90078125
+    },
+    {
+      "epoch": 2,
+      "stage": "delimited",
+      "loss": 0.8663367265462876,
+      "bce": 0.5869773867229621,
+      "aux": 0.1661708980612457,
+      "ood_balanced": 0.5328125,
+      "ood_accuracy": 0.5328125,
+      "ood_auroc": 0.548525390625,
+      "id_balanced": 0.5141509433962264,
+      "simple_balanced": 0.68125,
+      "simple_auroc": 0.8771875
+    },
+    {
+      "epoch": 3,
+      "stage": "repeat-alt",
+      "loss": 0.8444784419735273,
+      "bce": 0.5658717482288679,
+      "aux": 0.18994492675953856,
+      "ood_balanced": 0.5328125,
+      "ood_accuracy": 0.5328125,
+      "ood_auroc": 0.5603515625,
+      "id_balanced": 0.5424528301886793,
+      "simple_balanced": 0.83125,
+      "simple_auroc": 0.88203125
+    },
+    {
+      "epoch": 4,
+      "stage": "full",
+      "loss": 1.0796208769083022,
+      "bce": 0.6852550713221232,
+      "aux": 0.2792307697236538,
+      "ood_balanced": 0.54375,
+      "ood_accuracy": 0.54375,
+      "ood_auroc": 0.5781640625,
+      "id_balanced": 0.5943396226415094,
+      "simple_balanced": 0.71875,
+      "simple_auroc": 0.81
+    },
+    {
+      "epoch": 5,
+      "stage": "full",
+      "loss": 1.0399730718135833,
+      "bce": 0.6721421701709429,
+      "aux": 0.2239626400421063,
+      "ood_balanced": 0.5515625,
+      "ood_accuracy": 0.5515625,
+      "ood_auroc": 0.582392578125,
+      "id_balanced": 0.5801886792452831,
+      "simple_balanced": 0.71875,
+      "simple_auroc": 0.809375
+    },
+    {
+      "epoch": 6,
+      "stage": "full",
+      "loss": 1.005082921385765,
+      "bce": 0.6577818835775058,
+      "aux": 0.19454320949191847,
+      "ood_balanced": 0.5562499999999999,
+      "ood_accuracy": 0.55625,
+      "ood_auroc": 0.58998046875,
+      "id_balanced": 0.6320754716981132,
+      "simple_balanced": 0.7375,
+      "simple_auroc": 0.789375
+    },
+    {
+      "epoch": 7,
+      "stage": "full",
+      "loss": 0.9796765870849291,
+      "bce": 0.6474355802933375,
+      "aux": 0.1826051247950333,
+      "ood_balanced": 0.5484374999999999,
+      "ood_accuracy": 0.5484375,
+      "ood_auroc": 0.60662109375,
+      "id_balanced": 0.6415094339622641,
+      "simple_balanced": 0.69375,
+      "simple_auroc": 0.774375
+    }
+  ],
+  "ood": {
+    "model": {
+      "n": 640,
+      "accuracy": 0.5563,
+      "balanced": 0.5562,
+      "tpr": 0.4437,
+      "tnr": 0.6687,
+      "kinds": {
+        "class": {
+          "n": 3,
+          "accuracy": 0.6667
+        },
+        "edit": {
+          "n": 11,
+          "accuracy": 0.6364
+        },
+        "positive": {
+          "n": 320,
+          "accuracy": 0.4437
+        },
+        "repeat": {
+          "n": 33,
+          "accuracy": 0.5455
+        },
+        "schema": {
+          "n": 92,
+          "accuracy": 0.837
+        },
+        "structural": {
+          "n": 181,
+          "accuracy": 0.6077
+        }
+      },
+      "auroc": 0.59
+    },
+    "heuristic": {
+      "n": 640,
+      "accuracy": 0.7156,
+      "balanced": 0.7156,
+      "tpr": 0.8844,
+      "tnr": 0.5469,
+      "kinds": {
+        "class": {
+          "n": 3,
+          "accuracy": 0.6667
+        },
+        "edit": {
+          "n": 11,
+          "accuracy": 0.5455
+        },
+        "positive": {
+          "n": 320,
+          "accuracy": 0.8844
+        },
+        "repeat": {
+          "n": 33,
+          "accuracy": 0.6364
+        },
+        "schema": {
+          "n": 92,
+          "accuracy": 0.587
+        },
+        "structural": {
+          "n": 181,
+          "accuracy": 0.5083
+        }
+      }
+    },
+    "rules": {
+      "n": 640,
+      "accuracy": 0.8203,
+      "balanced": 0.8203,
+      "tpr": 0.8656,
+      "tnr": 0.775,
+      "kinds": {
+        "class": {
+          "n": 3,
+          "accuracy": 1.0
+        },
+        "edit": {
+          "n": 11,
+          "accuracy": 0.7273
+        },
+        "positive": {
+          "n": 320,
+          "accuracy": 0.8656
+        },
+        "repeat": {
+          "n": 33,
+          "accuracy": 0.7273
+        },
+        "schema": {
+          "n": 92,
+          "accuracy": 0.8804
+        },
+        "structural": {
+          "n": 181,
+          "accuracy": 0.7293
+        }
+      }
+    },
+    "versus_heuristic": {
+      "heuristic_errors": 182,
+      "recovery": 0.6043956043956044,
+      "heuristic_correct": 458,
+      "preservation": 0.537117903930131
+    },
+    "versus_rules": {
+      "heuristic_errors": 115,
+      "recovery": 0.5043478260869565,
+      "heuristic_correct": 525,
+      "preservation": 0.5676190476190476
+    },
+    "held_out": {
+      "model": {
+        "n": 332,
+        "accuracy": 0.5211,
+        "balanced": 0.5211,
+        "tpr": 0.247,
+        "tnr": 0.7952,
+        "kinds": {
+          "edit": {
+            "n": 5,
+            "accuracy": 0.8
+          },
+          "positive": {
+            "n": 166,
+            "accuracy": 0.247
+          },
+          "repeat": {
+            "n": 16,
+            "accuracy": 0.6875
+          },
+          "schema": {
+            "n": 66,
+            "accuracy": 0.8636
+          },
+          "structural": {
+            "n": 79,
+            "accuracy": 0.7595
+          }
+        },
+        "auroc": 0.5709
+      },
+      "heuristic": {
+        "n": 332,
+        "accuracy": 0.6596,
+        "balanced": 0.6596,
+        "tpr": 0.8133,
+        "tnr": 0.506,
+        "kinds": {
+          "edit": {
+            "n": 5,
+            "accuracy": 0.6
+          },
+          "positive": {
+            "n": 166,
+            "accuracy": 0.8133
+          },
+          "repeat": {
+            "n": 16,
+            "accuracy": 0.625
+          },
+          "schema": {
+            "n": 66,
+            "accuracy": 0.6364
+          },
+          "structural": {
+            "n": 79,
+            "accuracy": 0.3671
+          }
+        }
+      }
+    }
+  },
+  "ood_n2": {
+    "model": {
+      "n": 212,
+      "accuracy": 0.5189,
+      "balanced": 0.5189,
+      "tpr": 0.1792,
+      "tnr": 0.8585,
+      "kinds": {
+        "class": {
+          "n": 2,
+          "accuracy": 1.0
+        },
+        "edit": {
+          "n": 8,
+          "accuracy": 0.625
+        },
+        "positive": {
+          "n": 106,
+          "accuracy": 0.1792
+        },
+        "repeat": {
+          "n": 20,
+          "accuracy": 0.9
+        },
+        "schema": {
+          "n": 40,
+          "accuracy": 0.975
+        },
+        "structural": {
+          "n": 36,
+          "accuracy": 0.75
+        }
+      },
+      "auroc": 0.5526
+    },
+    "heuristic": {
+      "n": 212,
+      "accuracy": 0.5094,
+      "balanced": 0.5094,
+      "tpr": 0.2547,
+      "tnr": 0.7642,
+      "kinds": {
+        "class": {
+          "n": 2,
+          "accuracy": 1.0
+        },
+        "edit": {
+          "n": 8,
+          "accuracy": 0.5
+        },
+        "positive": {
+          "n": 106,
+          "accuracy": 0.2547
+        },
+        "repeat": {
+          "n": 20,
+          "accuracy": 0.9
+        },
+        "schema": {
+          "n": 40,
+          "accuracy": 0.9
+        },
+        "structural": {
+          "n": 36,
+          "accuracy": 0.5833
+        }
+      }
+    },
+    "rules": {
+      "n": 212,
+      "accuracy": 0.5,
+      "balanced": 0.5,
+      "tpr": 0.1698,
+      "tnr": 0.8302,
+      "kinds": {
+        "class": {
+          "n": 2,
+          "accuracy": 1.0
+        },
+        "edit": {
+          "n": 8,
+          "accuracy": 0.875
+        },
+        "positive": {
+          "n": 106,
+          "accuracy": 0.1698
+        },
+        "repeat": {
+          "n": 20,
+          "accuracy": 0.8
+        },
+        "schema": {
+          "n": 40,
+          "accuracy": 0.975
+        },
+        "structural": {
+          "n": 36,
+          "accuracy": 0.6667
+        }
+      }
+    },
+    "versus_heuristic": {
+      "heuristic_errors": 104,
+      "recovery": 0.3269230769230769,
+      "heuristic_correct": 108,
+      "preservation": 0.7037037037037037
+    },
+    "versus_rules": {
+      "heuristic_errors": 106,
+      "recovery": 0.2830188679245283,
+      "heuristic_correct": 106,
+      "preservation": 0.7547169811320755
+    },
+    "held_out": {
+      "model": {
+        "n": 164,
+        "accuracy": 0.5244,
+        "balanced": 0.5244,
+        "tpr": 0.1585,
+        "tnr": 0.8902,
+        "kinds": {
+          "class": {
+            "n": 1,
+            "accuracy": 1.0
+          },
+          "edit": {
+            "n": 6,
+            "accuracy": 0.6667
+          },
+          "positive": {
+            "n": 82,
+            "accuracy": 0.1585
+          },
+          "repeat": {
+            "n": 18,
+            "accuracy": 0.8889
+          },
+          "schema": {
+            "n": 32,
+            "accuracy": 0.9688
+          },
+          "structural": {
+            "n": 25,
+            "accuracy": 0.84
+          }
+        },
+        "auroc": 0.5598
+      },
+      "heuristic": {
+        "n": 164,
+        "accuracy": 0.4939,
+        "balanced": 0.4939,
+        "tpr": 0.2317,
+        "tnr": 0.7561,
+        "kinds": {
+          "class": {
+            "n": 1,
+            "accuracy": 1.0
+          },
+          "edit": {
+            "n": 6,
+            "accuracy": 0.5
+          },
+          "positive": {
+            "n": 82,
+            "accuracy": 0.2317
+          },
+          "repeat": {
+            "n": 18,
+            "accuracy": 0.9444
+          },
+          "schema": {
+            "n": 32,
+            "accuracy": 0.9062
+          },
+          "structural": {
+            "n": 25,
+            "accuracy": 0.48
+          }
+        }
+      }
+    }
+  },
+  "id": {
+    "model": {
+      "n": 212,
+      "accuracy": 0.6321,
+      "balanced": 0.6321,
+      "tpr": 0.8019,
+      "tnr": 0.4623,
+      "kinds": {
+        "class": {
+          "n": 1,
+          "accuracy": 0.0
+        },
+        "edit": {
+          "n": 14,
+          "accuracy": 0.5
+        },
+        "positive": {
+          "n": 106,
+          "accuracy": 0.8019
+        },
+        "repeat": {
+          "n": 26,
+          "accuracy": 0.3846
+        },
+        "schema": {
+          "n": 36,
+          "accuracy": 0.6111
+        },
+        "structural": {
+          "n": 29,
+          "accuracy": 0.3448
+        }
+      },
+      "auroc": 0.6498
+    },
+    "heuristic": {
+      "n": 212,
+      "accuracy": 0.7736,
+      "balanced": 0.7736,
+      "tpr": 0.8868,
+      "tnr": 0.6604,
+      "kinds": {
+        "class": {
+          "n": 1,
+          "accuracy": 0.0
+        },
+        "edit": {
+          "n": 14,
+          "accuracy": 0.4286
+        },
+        "positive": {
+          "n": 106,
+          "accuracy": 0.8868
+        },
+        "repeat": {
+          "n": 26,
+          "accuracy": 0.8077
+        },
+        "schema": {
+          "n": 36,
+          "accuracy": 0.6111
+        },
+        "structural": {
+          "n": 29,
+          "accuracy": 0.7241
+        }
+      }
+    },
+    "rules": {
+      "n": 212,
+      "accuracy": 0.8821,
+      "balanced": 0.8821,
+      "tpr": 0.934,
+      "tnr": 0.8302,
+      "kinds": {
+        "class": {
+          "n": 1,
+          "accuracy": 1.0
+        },
+        "edit": {
+          "n": 14,
+          "accuracy": 0.7857
+        },
+        "positive": {
+          "n": 106,
+          "accuracy": 0.934
+        },
+        "repeat": {
+          "n": 26,
+          "accuracy": 0.9615
+        },
+        "schema": {
+          "n": 36,
+          "accuracy": 0.75
+        },
+        "structural": {
+          "n": 29,
+          "accuracy": 0.8276
+        }
+      }
+    },
+    "versus_heuristic": {
+      "heuristic_errors": 48,
+      "recovery": 0.5625,
+      "heuristic_correct": 164,
+      "preservation": 0.6524390243902439
+    },
+    "versus_rules": {
+      "heuristic_errors": 25,
+      "recovery": 0.56,
+      "heuristic_correct": 187,
+      "preservation": 0.6417112299465241
+    },
+    "held_out": {
+      "model": {
+        "n": 0,
+        "balanced": 0.0,
+        "auroc": 0.0
+      },
+      "heuristic": {
+        "n": 0,
+        "balanced": 0.0
+      }
+    }
+  },
+  "bench_c": {
+    "note": "Untouched document tasks, scored once, not used to stop. Queries longer than 48 bytes were dropped (240). Held-out characters in this probe are #*=~\u00a7.",
+    "model": {
+      "n": 26352,
+      "accuracy": 0.5079,
+      "balanced": 0.5079,
+      "tpr": 0.5498,
+      "tnr": 0.4659,
+      "kinds": {
+        "negative": {
+          "n": 13176,
+          "accuracy": 0.4659
+        },
+        "positive": {
+          "n": 13176,
+          "accuracy": 0.5498
+        }
+      },
+      "auroc": 0.4946
+    },
+    "heuristic": {
+      "n": 26352,
+      "accuracy": 0.9355,
+      "balanced": 0.9355,
+      "tpr": 0.9215,
+      "tnr": 0.9494,
+      "kinds": {
+        "negative": {
+          "n": 13176,
+          "accuracy": 0.9494
+        },
+        "positive": {
+          "n": 13176,
+          "accuracy": 0.9215
+        }
+      }
+    },
+    "rules": {
+      "n": 26352,
+      "accuracy": 0.9575,
+      "balanced": 0.9575,
+      "tpr": 0.9276,
+      "tnr": 0.9873,
+      "kinds": {
+        "negative": {
+          "n": 13176,
+          "accuracy": 0.9873
+        },
+        "positive": {
+          "n": 13176,
+          "accuracy": 0.9276
+        }
+      }
+    },
+    "versus_heuristic": {
+      "heuristic_errors": 1701,
+      "recovery": 0.42563198118753676,
+      "heuristic_correct": 24651,
+      "preservation": 0.5135288629264533
+    }
+  },
+  "reading": "The network learns the primitive task and does not transfer it. Prefix-and-class languages in the training alphabet reach 0.844 balanced (AUROC 0.901). On the shifted split the selected checkpoint scores 0.556 balanced (AUROC 0.590) against 0.716 for the structural heuristic and 0.820 for the code-length rule. Where a query actually contains a held-out delimiter byte, balanced accuracy is 0.521 and true members are accepted only 24.7% of the time: an unfamiliar byte is treated as evidence against membership, rather than as a delimiter that is constant across the support. In-distribution full schemas reach 0.632 against the heuristic's 0.774. BENCH-C, scored once, is 0.508 against 0.935. The model is right on 60.4% of the heuristic's mistakes and on 53.7% of the heuristic's successes, so it is not a residual corrector either. Stage 1 does not yet show a language representation that a regex decoder can sit on.",
+  "protocol": {
+    "selection": "shifted synthetic balanced accuracy",
+    "held_out_bytes": [
+      "#",
+      "*",
+      "=",
+      "~",
+      "\u00a7"
+    ],
+    "train_structural_negative_rate": 0.3,
+    "curriculum": [
+      "prefix-class",
+      "delimited",
+      "repeat-alt",
+      "full"
+    ],
+    "aux": "invariant versus variable bytes on positive queries"
+  }
+}

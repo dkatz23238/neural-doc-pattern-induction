@@ -1,9 +1,9 @@
 """Stage 1: does a small set-conditioned model learn the language?
 
 The model sees a few positive strings and a query, and predicts membership.
-It trains on synthetic schemas whose delimiter bytes stay in a closed set.
-Selection uses a shifted split: held-out delimiters, longer spans, and the
-harder constructions. BENCH-C is scored once and does not stop training.
+Training starts with prefixes and character classes, then delimiters, repeats,
+and the full schema mixture. Delimiter bytes in the stopping split never appear
+in training. BENCH-C is scored once and does not stop training.
 """
 
 from __future__ import annotations
@@ -18,6 +18,7 @@ import torch
 
 from pattern_induction.membership import (
     HELD_OUT,
+    build_curriculum_split,
     build_split,
     decisions_for,
     disagreement,
@@ -98,7 +99,8 @@ def _write_markdown(path: Path, payload: dict) -> None:
         "",
         "Stage 1 asks whether a small model can represent the language behind a few strings.",
         "The input is the support set and one query. The output is the probability that the query belongs.",
-        "Training schemas never contain `#`, `~`, `*`, `=`, or `§`. The selection split uses those bytes, longer classes, and the harder constructions (repeats, alternations, optional spans).",
+        "Training starts on prefixes and classes, then delimited fields, then repeats and alternations, then the full schema mixture. "
+        "Those schemas never contain `#`, `~`, `*`, `=`, or `§`. The selection split uses those bytes, longer classes, and the harder constructions.",
         "Bytes keep a frozen identity code, so an unseen delimiter still matches itself, and a pointer copies the aligned support state onto the query.",
         "An auxiliary head marks literal and delimiter bytes on positive queries. There is no regex decoder in this run.",
         "",
@@ -131,6 +133,9 @@ def _write_markdown(path: Path, payload: dict) -> None:
         "",
         "## Few-shot and in-distribution",
         "",
+        "Prefix-and-class languages in the training alphabet are logged as `simple` on each epoch. "
+        "That slice is not used to stop.",
+        "",
         f"Shifted languages shown with only 2 supports: model {payload['ood_n2']['model']['balanced']:.3f}, "
         f"heuristic {payload['ood_n2']['heuristic']['balanced']:.3f}, "
         f"rule {payload['ood_n2']['rules']['balanced']:.3f}.",
@@ -157,7 +162,8 @@ def _write_markdown(path: Path, payload: dict) -> None:
     ]
     for row in payload["history"]:
         lines.append(
-            f"- epoch {row['epoch']}: loss {row['loss']:.3f}, "
+            f"- epoch {row['epoch']} ({row.get('stage', 'full')}): loss {row['loss']:.3f}, bce {row.get('bce', 0):.3f}, "
+            f"simple {row.get('simple_balanced', 0):.3f}, "
             f"shifted balanced {row['ood_balanced']:.3f}, "
             f"in-distribution balanced {row['id_balanced']:.3f}"
         )
@@ -209,17 +215,17 @@ def _reading(ood: dict) -> str:
     return (
         f"On the shifted split the model scores {model:.3f} balanced against the heuristic's {heuristic:.3f} "
         f"({gap:+.1%} points). Recovery of heuristic errors is {recovery:.1%} and preservation is {preservation:.1%}. "
-        "This does not yet show a membership model that is substantially better than the symbolic inducer "
-        "on unseen structure. The representation is not adequate to carry a decoder on its own."
+        "An unfamiliar byte is still treated as evidence against membership, rather than as a delimiter shared by the support. "
+        "This does not yet show a language representation that a regex decoder can sit on."
     )
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--epochs", type=int, default=8)
-    parser.add_argument("--steps", type=int, default=350)
+    parser.add_argument("--epochs", type=int, default=4, help="Full-schema passes. Earlier curriculum stages run once.")
+    parser.add_argument("--steps", type=int, default=300)
     parser.add_argument("--batch-size", type=int, default=12)
-    parser.add_argument("--lr", type=float, default=5e-4)
+    parser.add_argument("--lr", type=float, default=3e-4)
     parser.add_argument("--patience", type=int, default=3)
     parser.add_argument("--languages", type=int, default=160)
     parser.add_argument("--seed", type=int, default=0)
@@ -232,9 +238,10 @@ def main() -> None:
     ood = build_split(random.Random(1_000), args.languages, True, 6, 0.45, True, "ood")
     ood_n2 = build_split(random.Random(2_000), max(40, args.languages // 3), True, 2, 0.35, True, "ood2")
     id_eval = build_split(random.Random(3_000), max(40, args.languages // 3), False, 6, 0.25, False, "id")
+    simple = build_curriculum_split(random.Random(4_000), max(30, args.languages // 4), level=0, n_support=4)
     held = sum(episode.held_out() for episode in ood)
     print(
-        f"ood {len(ood)} held-out-byte {held} ood2 {len(ood_n2)} id {len(id_eval)}",
+        f"ood {len(ood)} held-out-byte {held} ood2 {len(ood_n2)} id {len(id_eval)} simple {len(simple)}",
         flush=True,
     )
     model = MembershipNet()
@@ -245,52 +252,83 @@ def main() -> None:
     best_epoch = 0
     stall = 0
     history = []
-    for epoch in range(1, args.epochs + 1):
-        started = time.perf_counter()
-        model.train()
-        losses = []
-        for _step in range(args.steps):
-            batch = sample_batch(rng, args.batch_size, shift=False, structural_rate=0.3)
-            tokens, pad, labels, invariant = collate(batch)
-            optimizer.zero_grad(set_to_none=True)
-            logit, inv_logit = model(tokens, pad)
-            loss, _bce, _aux = membership_loss(logit, inv_logit, labels, invariant)
-            loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-            optimizer.step()
-            losses.append(float(loss.detach()))
-        mean_loss = sum(losses) / max(len(losses), 1)
-        ood_scores = _predict(model, ood, args.batch_size)
-        id_scores = _predict(model, id_eval, args.batch_size)
-        ood_report = summarize(ood, _accept(ood_scores), ood_scores)
-        id_report = summarize(id_eval, _accept(id_scores), id_scores)
-        history.append(
-            {
-                "epoch": epoch,
-                "loss": mean_loss,
-                "ood_balanced": ood_report["balanced"],
-                "ood_accuracy": ood_report["accuracy"],
-                "ood_auroc": ood_report["auroc"],
-                "id_balanced": id_report["balanced"],
-            }
-        )
-        mark = ""
-        if ood_report["balanced"] > best_score + 1e-4:
-            best_score = ood_report["balanced"]
-            best_epoch = epoch
-            best_state = {key: value.detach().cpu().clone() for key, value in model.state_dict().items()}
-            stall = 0
-            mark = " *"
-        else:
-            stall += 1
-        print(
-            f"epoch {epoch:02d} loss {mean_loss:.3f} shifted {ood_report['balanced']:.3f} "
-            f"auroc {ood_report['auroc']:.3f} id {id_report['balanced']:.3f} "
-            f"in {time.perf_counter() - started:.1f}s{mark}",
-            flush=True,
-        )
-        if stall >= args.patience:
-            break
+    stages = (
+        ("prefix-class", 0, 1),
+        ("delimited", 1, 1),
+        ("repeat-alt", 2, 1),
+        ("full", 3, args.epochs),
+    )
+    epoch = 0
+    for stage_name, level, passes in stages:
+        stall = 0
+        for _pass in range(passes):
+            epoch += 1
+            started = time.perf_counter()
+            model.train()
+            losses = []
+            bces = []
+            auxes = []
+            for _step in range(args.steps):
+                batch = sample_batch(
+                    rng,
+                    args.batch_size,
+                    shift=False,
+                    structural_rate=0.3 if level >= 2 else 0.0,
+                    easy_rate=0.2,
+                    level=level,
+                )
+                tokens, pad, labels, invariant = collate(batch)
+                optimizer.zero_grad(set_to_none=True)
+                logit, inv_logit = model(tokens, pad)
+                loss, bce, aux = membership_loss(logit, inv_logit, labels, invariant)
+                loss.backward()
+                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+                optimizer.step()
+                losses.append(float(loss.detach()))
+                bces.append(float(bce))
+                auxes.append(float(aux))
+            mean_loss = sum(losses) / max(len(losses), 1)
+            mean_bce = sum(bces) / max(len(bces), 1)
+            mean_aux = sum(auxes) / max(len(auxes), 1)
+            ood_scores = _predict(model, ood, args.batch_size)
+            id_scores = _predict(model, id_eval, args.batch_size)
+            simple_scores = _predict(model, simple, args.batch_size)
+            ood_report = summarize(ood, _accept(ood_scores), ood_scores)
+            id_report = summarize(id_eval, _accept(id_scores), id_scores)
+            simple_report = summarize(simple, _accept(simple_scores), simple_scores)
+            history.append(
+                {
+                    "epoch": epoch,
+                    "stage": stage_name,
+                    "loss": mean_loss,
+                    "bce": mean_bce,
+                    "aux": mean_aux,
+                    "ood_balanced": ood_report["balanced"],
+                    "ood_accuracy": ood_report["accuracy"],
+                    "ood_auroc": ood_report["auroc"],
+                    "id_balanced": id_report["balanced"],
+                    "simple_balanced": simple_report["balanced"],
+                    "simple_auroc": simple_report["auroc"],
+                }
+            )
+            mark = ""
+            if ood_report["balanced"] > best_score + 1e-4:
+                best_score = ood_report["balanced"]
+                best_epoch = epoch
+                best_state = {key: value.detach().cpu().clone() for key, value in model.state_dict().items()}
+                stall = 0
+                mark = " *"
+            elif level == 3:
+                stall += 1
+            print(
+                f"epoch {epoch:02d} {stage_name} loss {mean_loss:.3f} bce {mean_bce:.3f} aux {mean_aux:.3f} "
+                f"shifted {ood_report['balanced']:.3f} auroc {ood_report['auroc']:.3f} "
+                f"simple {simple_report['balanced']:.3f} id {id_report['balanced']:.3f} "
+                f"in {time.perf_counter() - started:.1f}s{mark}",
+                flush=True,
+            )
+            if level == 3 and stall >= args.patience:
+                break
     model.load_state_dict(best_state)
     print("scoring final splits", flush=True)
     ood_final = _evaluate_split(model, ood, args.batch_size)
@@ -337,6 +375,7 @@ def main() -> None:
             "selection": "shifted synthetic balanced accuracy",
             "held_out_bytes": sorted(HELD_OUT),
             "train_structural_negative_rate": 0.3,
+            "curriculum": ["prefix-class", "delimited", "repeat-alt", "full"],
             "aux": "invariant versus variable bytes on positive queries",
         },
     }
