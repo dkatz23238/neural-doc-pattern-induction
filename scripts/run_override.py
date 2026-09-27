@@ -401,6 +401,27 @@ def _interpret(selected: dict, bench_c: dict) -> list[str]:
             "This sits between the stop line and the promising band. "
             "The residual headroom is still open, and this run does not clear either gate."
         )
+    val = selected.get("val") or {}
+    if val:
+        lines.append(
+            f"On the held-out formats the same checkpoint scores {_pct(val['semantic_accuracy'])} "
+            f"with regressions {_pct(val['regressed'])}. That margin did not survive the shift to BENCH-C."
+        )
+    pooled = by_name.get("pooled")
+    if pooled is not None and selected["name"] != "pooled":
+        lines.append(
+            f"The pooled model, which lost the validation comparison, scores {_pct(pooled['semantic_accuracy'])} "
+            f"on BENCH-C with regressions {_pct(pooled['regressed'])}."
+        )
+    broad = next((row for row in bench_c.get("families", []) if row["failure"] == "too_broad"), None)
+    classes = next((row for row in bench_c.get("families", []) if row["failure"] == "character-class inference"), None)
+    if broad and classes:
+        lines.append(
+            f"Too-broad failures move from {_pct(broad['rules'])} with the old rule to {_pct(broad['residual'])} "
+            f"(oracle {_pct(broad['oracle_16'] if 'oracle_16' in broad else broad['oracle'])}, n={broad['n']}). "
+            f"Character-class columns move from {_pct(classes['rules'])} to {_pct(classes['residual'])} "
+            f"(n={classes['n']})."
+        )
     lines.append(
         "Epoch and threshold were frozen on held-out formatting variants before BENCH-C was scored. "
         "Training compositions and BENCH-C still share document families, so this number is an upper bound on transfer."

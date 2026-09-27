@@ -1,0 +1,559 @@
+{
+  "selected": {
+    "name": "cross",
+    "cross_attention": true,
+    "lam": 5.0,
+    "epoch": 2,
+    "threshold": 0.2,
+    "score": 0.9798,
+    "parameters": 619010,
+    "val": {
+      "semantic_accuracy": 0.9798,
+      "macro": 0.9798,
+      "improved": 0.35,
+      "regressed": 0.0175,
+      "unchanged": 0.6325,
+      "override_rate": 0.4275,
+      "false_override": 0.0725,
+      "n": 400,
+      "threshold": 0.2
+    },
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss": 2.930046178102493,
+        "threshold": 0.1,
+        "val_accuracy": 0.9719,
+        "val_regressed": 0.0475,
+        "val_override": 0.64
+      },
+      {
+        "epoch": 2,
+        "train_loss": 2.707634779214859,
+        "threshold": 0.2,
+        "val_accuracy": 0.9798,
+        "val_regressed": 0.0175,
+        "val_override": 0.4275
+      },
+      {
+        "epoch": 3,
+        "train_loss": 2.653679214715958,
+        "threshold": 0.2,
+        "val_accuracy": 0.9771,
+        "val_regressed": 0.065,
+        "val_override": 0.825
+      },
+      {
+        "epoch": 4,
+        "train_loss": 2.622676869034767,
+        "threshold": 0.4,
+        "val_accuracy": 0.9581,
+        "val_regressed": 0.0025,
+        "val_override": 0.275
+      },
+      {
+        "epoch": 5,
+        "train_loss": 2.6094656974077224,
+        "threshold": 0.4,
+        "val_accuracy": 0.9722,
+        "val_regressed": 0.0125,
+        "val_override": 0.385
+      },
+      {
+        "epoch": 6,
+        "train_loss": 2.5922319430112837,
+        "threshold": 0.2,
+        "val_accuracy": 0.9591,
+        "val_regressed": 0.0675,
+        "val_override": 0.6475
+      }
+    ]
+  },
+  "runs": [
+    {
+      "name": "cross",
+      "cross_attention": true,
+      "lam": 5.0,
+      "epoch": 2,
+      "threshold": 0.2,
+      "score": 0.9798,
+      "parameters": 619010,
+      "val": {
+        "semantic_accuracy": 0.9798,
+        "macro": 0.9798,
+        "improved": 0.35,
+        "regressed": 0.0175,
+        "unchanged": 0.6325,
+        "override_rate": 0.4275,
+        "false_override": 0.0725,
+        "n": 400,
+        "threshold": 0.2
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 2.930046178102493,
+          "threshold": 0.1,
+          "val_accuracy": 0.9719,
+          "val_regressed": 0.0475,
+          "val_override": 0.64
+        },
+        {
+          "epoch": 2,
+          "train_loss": 2.707634779214859,
+          "threshold": 0.2,
+          "val_accuracy": 0.9798,
+          "val_regressed": 0.0175,
+          "val_override": 0.4275
+        },
+        {
+          "epoch": 3,
+          "train_loss": 2.653679214715958,
+          "threshold": 0.2,
+          "val_accuracy": 0.9771,
+          "val_regressed": 0.065,
+          "val_override": 0.825
+        },
+        {
+          "epoch": 4,
+          "train_loss": 2.622676869034767,
+          "threshold": 0.4,
+          "val_accuracy": 0.9581,
+          "val_regressed": 0.0025,
+          "val_override": 0.275
+        },
+        {
+          "epoch": 5,
+          "train_loss": 2.6094656974077224,
+          "threshold": 0.4,
+          "val_accuracy": 0.9722,
+          "val_regressed": 0.0125,
+          "val_override": 0.385
+        },
+        {
+          "epoch": 6,
+          "train_loss": 2.5922319430112837,
+          "threshold": 0.2,
+          "val_accuracy": 0.9591,
+          "val_regressed": 0.0675,
+          "val_override": 0.6475
+        }
+      ]
+    },
+    {
+      "name": "pooled",
+      "cross_attention": false,
+      "lam": 5.0,
+      "epoch": 1,
+      "threshold": 0.4,
+      "score": 0.9686,
+      "parameters": 618882,
+      "val": {
+        "semantic_accuracy": 0.9686,
+        "macro": 0.9685,
+        "improved": 0.315,
+        "regressed": 0.0175,
+        "unchanged": 0.6675,
+        "override_rate": 0.31,
+        "false_override": 0.0725,
+        "n": 400,
+        "threshold": 0.4
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 2.9464125442504883,
+          "threshold": 0.4,
+          "val_accuracy": 0.9686,
+          "val_regressed": 0.0175,
+          "val_override": 0.31
+        },
+        {
+          "epoch": 2,
+          "train_loss": 2.6963492846488952,
+          "threshold": 0.1,
+          "val_accuracy": 0.9799,
+          "val_regressed": 0.07,
+          "val_override": 0.9525
+        },
+        {
+          "epoch": 3,
+          "train_loss": 2.644064314365387,
+          "threshold": 0.4,
+          "val_accuracy": 0.9679,
+          "val_regressed": 0.02,
+          "val_override": 0.4
+        },
+        {
+          "epoch": 4,
+          "train_loss": 2.623756592273712,
+          "threshold": 0.4,
+          "val_accuracy": 0.9674,
+          "val_regressed": 0.015,
+          "val_override": 0.3725
+        },
+        {
+          "epoch": 5,
+          "train_loss": 2.6092625749111176,
+          "threshold": 0.4,
+          "val_accuracy": 0.9674,
+          "val_regressed": 0.01,
+          "val_override": 0.37
+        }
+      ]
+    }
+  ],
+  "features": [
+    "alt_data_per_string",
+    "alt_desc_bits",
+    "alt_is_heuristic",
+    "alt_literal_chars",
+    "alt_alt_literal_chars",
+    "alt_n_alternations",
+    "alt_n_alt_arms",
+    "alt_class_breadth",
+    "alt_n_unbounded",
+    "alt_range_slack",
+    "alt_n_optional",
+    "alt_n_exact",
+    "alt_n_nodes",
+    "alt_fixed_fraction",
+    "alt_pattern_len",
+    "alt_has_dot",
+    "alt_has_hex",
+    "alt_n_repeats",
+    "alt_digit_cost",
+    "rule_data_per_string",
+    "rule_desc_bits",
+    "rule_is_heuristic",
+    "rule_literal_chars",
+    "rule_alt_literal_chars",
+    "rule_n_alternations",
+    "rule_n_alt_arms",
+    "rule_class_breadth",
+    "rule_n_unbounded",
+    "rule_range_slack",
+    "rule_n_optional",
+    "rule_n_exact",
+    "rule_n_nodes",
+    "rule_fixed_fraction",
+    "rule_pattern_len",
+    "rule_has_dot",
+    "rule_has_hex",
+    "rule_n_repeats",
+    "rule_digit_cost",
+    "diff_data_per_string",
+    "diff_desc_bits",
+    "diff_is_heuristic",
+    "diff_literal_chars",
+    "diff_alt_literal_chars",
+    "diff_n_alternations",
+    "diff_n_alt_arms",
+    "diff_class_breadth",
+    "diff_n_unbounded",
+    "diff_range_slack",
+    "diff_n_optional",
+    "diff_n_exact",
+    "diff_n_nodes",
+    "diff_fixed_fraction",
+    "diff_pattern_len",
+    "diff_has_dot",
+    "diff_has_hex",
+    "diff_n_repeats",
+    "diff_digit_cost"
+  ],
+  "n_train": 1600,
+  "n_val": 400,
+  "groups": {
+    "OOD-val": {
+      "note": "Held-out formatting variants. Used to choose epoch, threshold, and architecture.",
+      "n": 400,
+      "systems": [
+        {
+          "semantic_accuracy": 0.8608,
+          "macro": 0.8601,
+          "improved": 0.0,
+          "regressed": 0.0,
+          "unchanged": 1.0,
+          "override_rate": 0.0,
+          "false_override": 0.0,
+          "n": 400,
+          "system": "heuristic",
+          "label": "heuristic"
+        },
+        {
+          "semantic_accuracy": 0.9,
+          "macro": 0.8991,
+          "improved": 0.2125,
+          "regressed": 0.0025,
+          "unchanged": 0.785,
+          "override_rate": 0.0,
+          "false_override": 0.0,
+          "n": 400,
+          "system": "rules",
+          "label": "old code-length rule"
+        },
+        {
+          "semantic_accuracy": 0.9798,
+          "macro": 0.9798,
+          "improved": 0.35,
+          "regressed": 0.0175,
+          "unchanged": 0.6325,
+          "override_rate": 0.4275,
+          "false_override": 0.0725,
+          "n": 400,
+          "system": "cross",
+          "label": "cross residual"
+        },
+        {
+          "semantic_accuracy": 0.9686,
+          "macro": 0.9685,
+          "improved": 0.315,
+          "regressed": 0.0175,
+          "unchanged": 0.6675,
+          "override_rate": 0.31,
+          "false_override": 0.0725,
+          "n": 400,
+          "system": "pooled",
+          "label": "pooled residual"
+        },
+        {
+          "semantic_accuracy": 0.9909,
+          "macro": 0.9908,
+          "improved": 0.4,
+          "regressed": 0.0,
+          "unchanged": 0.6,
+          "override_rate": 0.3075,
+          "false_override": 0.0,
+          "n": 400,
+          "system": "oracle",
+          "label": "oracle on R0 and the alternatives"
+        }
+      ],
+      "families": []
+    },
+    "C": {
+      "note": "Untouched document tasks, scored once. Families overlap the training compositions.",
+      "n": 554,
+      "systems": [
+        {
+          "semantic_accuracy": 0.9316,
+          "macro": 0.9208,
+          "improved": 0.0,
+          "regressed": 0.0,
+          "unchanged": 1.0,
+          "override_rate": 0.0,
+          "false_override": 0.0,
+          "n": 554,
+          "system": "heuristic",
+          "label": "heuristic"
+        },
+        {
+          "semantic_accuracy": 0.9625,
+          "macro": 0.9574,
+          "improved": 0.1444,
+          "regressed": 0.0072,
+          "unchanged": 0.8484,
+          "override_rate": 0.0,
+          "false_override": 0.0,
+          "n": 554,
+          "system": "rules",
+          "label": "old code-length rule"
+        },
+        {
+          "semantic_accuracy": 0.9686,
+          "macro": 0.9627,
+          "improved": 0.2491,
+          "regressed": 0.1191,
+          "unchanged": 0.6318,
+          "override_rate": 0.4477,
+          "false_override": 0.1426,
+          "n": 554,
+          "system": "cross",
+          "label": "cross residual"
+        },
+        {
+          "semantic_accuracy": 0.965,
+          "macro": 0.9577,
+          "improved": 0.1841,
+          "regressed": 0.0812,
+          "unchanged": 0.7347,
+          "override_rate": 0.1877,
+          "false_override": 0.0866,
+          "n": 554,
+          "system": "pooled",
+          "label": "pooled residual"
+        },
+        {
+          "semantic_accuracy": 0.9953,
+          "macro": 0.9954,
+          "improved": 0.3917,
+          "regressed": 0.0,
+          "unchanged": 0.6083,
+          "override_rate": 0.2798,
+          "false_override": 0.0,
+          "n": 554,
+          "system": "oracle",
+          "label": "oracle on R0 and the alternatives"
+        }
+      ],
+      "families": [
+        {
+          "failure": "success",
+          "n": 402,
+          "heuristic": 0.9908,
+          "rules": 0.9909,
+          "oracle": 0.9968,
+          "residual": 0.9826
+        },
+        {
+          "failure": "optional region",
+          "n": 50,
+          "heuristic": 0.8529,
+          "rules": 0.8871,
+          "oracle": 0.9783,
+          "residual": 0.9463
+        },
+        {
+          "failure": "variable-length inference",
+          "n": 34,
+          "heuristic": 0.8137,
+          "rules": 0.8205,
+          "oracle": 0.9969,
+          "residual": 0.8848
+        },
+        {
+          "failure": "character-class inference",
+          "n": 27,
+          "heuristic": 0.8063,
+          "rules": 0.9823,
+          "oracle": 0.9954,
+          "residual": 0.9028
+        },
+        {
+          "failure": "too narrow",
+          "n": 22,
+          "heuristic": 0.6061,
+          "rules": 0.9877,
+          "oracle": 1.0,
+          "residual": 0.9735
+        },
+        {
+          "failure": "too_broad",
+          "n": 10,
+          "heuristic": 0.6083,
+          "rules": 0.6708,
+          "oracle": 0.9958,
+          "residual": 0.975
+        },
+        {
+          "failure": "mixed population",
+          "n": 4,
+          "heuristic": 0.6354,
+          "rules": 0.9115,
+          "oracle": 1.0,
+          "residual": 1.0
+        },
+        {
+          "failure": "too broad",
+          "n": 3,
+          "heuristic": 0.6806,
+          "rules": 0.7083,
+          "oracle": 1.0,
+          "residual": 0.9236
+        },
+        {
+          "failure": "OCR noise",
+          "n": 1,
+          "heuristic": 0.7917,
+          "rules": 1.0,
+          "oracle": 1.0,
+          "residual": 1.0
+        },
+        {
+          "failure": "alternation",
+          "n": 1,
+          "heuristic": 0.8958,
+          "rules": 0.8958,
+          "oracle": 1.0,
+          "residual": 0.9167
+        }
+      ]
+    },
+    "D": {
+      "note": "Sample-size curve. Not used to fit or to choose the threshold.",
+      "n": 320,
+      "systems": [
+        {
+          "semantic_accuracy": 0.8985,
+          "macro": 0.8985,
+          "improved": 0.0,
+          "regressed": 0.0,
+          "unchanged": 1.0,
+          "override_rate": 0.0,
+          "false_override": 0.0,
+          "n": 320,
+          "system": "heuristic",
+          "label": "heuristic"
+        },
+        {
+          "semantic_accuracy": 0.9376,
+          "macro": 0.9376,
+          "improved": 0.1656,
+          "regressed": 0.0,
+          "unchanged": 0.8344,
+          "override_rate": 0.0,
+          "false_override": 0.0,
+          "n": 320,
+          "system": "rules",
+          "label": "old code-length rule"
+        },
+        {
+          "semantic_accuracy": 0.9061,
+          "macro": 0.9061,
+          "improved": 0.2188,
+          "regressed": 0.1375,
+          "unchanged": 0.6438,
+          "override_rate": 0.3406,
+          "false_override": 0.1437,
+          "n": 320,
+          "system": "cross",
+          "label": "cross residual"
+        },
+        {
+          "semantic_accuracy": 0.9092,
+          "macro": 0.9092,
+          "improved": 0.2156,
+          "regressed": 0.1156,
+          "unchanged": 0.6687,
+          "override_rate": 0.2062,
+          "false_override": 0.1219,
+          "n": 320,
+          "system": "pooled",
+          "label": "pooled residual"
+        },
+        {
+          "semantic_accuracy": 0.9782,
+          "macro": 0.9782,
+          "improved": 0.4031,
+          "regressed": 0.0,
+          "unchanged": 0.5969,
+          "override_rate": 0.2625,
+          "false_override": 0.0,
+          "n": 320,
+          "system": "oracle",
+          "label": "oracle on R0 and the alternatives"
+        }
+      ],
+      "families": []
+    }
+  },
+  "reading": [
+    "The val-selected residual model is cross (\u03bb=5.0, epoch 2, threshold 0.2). On BENCH-C it scores 96.9% with regressions 11.9%. The old rule scores 96.2% (regressions 0.7%). Oracle on the same alternatives is 99.5%.",
+    "This stops the neural selector. Accuracy is at most 97%, or regressions exceed 3%.",
+    "On the held-out formats the same checkpoint scores 98.0% with regressions 1.8%. That margin did not survive the shift to BENCH-C.",
+    "The pooled model, which lost the validation comparison, scores 96.5% on BENCH-C with regressions 8.1%.",
+    "Too-broad failures move from 67.1% with the old rule to 97.5% (oracle 99.6%, n=10). Character-class columns move from 98.2% to 90.3% (n=27).",
+    "Epoch and threshold were frozen on held-out formatting variants before BENCH-C was scored. Training compositions and BENCH-C still share document families, so this number is an upper bound on transfer."
+  ]
+}
