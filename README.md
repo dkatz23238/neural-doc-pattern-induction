@@ -111,6 +111,15 @@ PYTHONPATH=. python scripts/run_compose.py
 
 `results/exp2/compose.md` is the written result.
 
+The data-recipe run freezes that model. Same parameter band, optimizer, 1200 steps, batch, loss, and evaluation slices. D0 repeats the atomic curriculum. D1 adds other compositions and holds the eval languages out. D2 and D3 train on schemas proposed by `gpt-5.6-terra` and accepted by the compiler. D4 adds templates aimed at the remaining failures. Teacher calls are cached under `teacher_runs/` and `data/teacher/`. The spend cap in code is $12.
+
+```bash
+PYTHONPATH=. python scripts/run_data_recipes.py --stage teacher --prompt composition_v1.md --kind schemas
+PYTHONPATH=. python scripts/run_data_recipes.py --stage train --recipe d0
+```
+
+`results/data_recipe/summary.md` is the written result.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.

@@ -1,0 +1,16 @@
+recipe: d0
+question: Atomic curriculum, the frozen baseline.
+model: SpanNet
+parameters_band: [900000, 1050000]
+steps: 1200
+batch: 12
+lr: 0.0008
+weight_decay: 0.01
+eval_every: 100
+eval_n: 80
+final_n: 160
+selection: mean AUROC of primitive, repeat, optional, alternation
+loss: composition_loss
+allow_heldout_eval_families: false
+repeat_cap: 3
+seed: 0
