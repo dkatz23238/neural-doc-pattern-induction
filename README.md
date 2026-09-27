@@ -87,6 +87,14 @@ PYTHONPATH=. python scripts/run_schema.py
 
 `results/exp2/schema.md` is the written result.
 
+The membership run is the first stage of a set-conditioned inducer. A token-level model predicts whether a new string belongs to the language of a few examples. Literal identity uses a frozen byte code and a pointer, not a closed output vocabulary. Training and the stopping split use disjoint delimiter bytes. BENCH-C is scored once.
+
+```bash
+PYTHONPATH=. python scripts/run_membership.py
+```
+
+`results/exp2/membership.md` is the written result.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.
