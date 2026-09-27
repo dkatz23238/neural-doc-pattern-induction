@@ -1,0 +1,31 @@
+{
+  "model": "gpt-5.6-terra",
+  "prompt": "minimal_pairs_v1.md",
+  "response_sha256": "178cd9aa0f439ffa14c17bedc722a7bbc4b9fb14117b98a81a68bfdde5516fe9",
+  "usage": {
+    "input_tokens": 328,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 2525,
+    "output_tokens_details": {
+      "reasoning_tokens": 1813
+    },
+    "total_tokens": 2853
+  },
+  "cost_usd": 0.030956,
+  "cost_estimated": false,
+  "spent_usd": 0.119496,
+  "compiler_version": "dsl-1",
+  "accepted": 4,
+  "rejected": 0,
+  "seconds": 24.309,
+  "accepted_ids": [
+    "prefix_repeat_group",
+    "optional_tail_scope",
+    "shared_prefix_alternation",
+    "separator_scope"
+  ],
+  "reject_reasons": []
+}

@@ -1,0 +1,69 @@
+{
+  "raw": "{\"schemas\":[{\"id\":\"optional_prefix_binding\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"optional\",\"child\":{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":1,\"max\":3}},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":1,\"max\":3},{\"type\":\"optional\",\"child\":{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}}},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]}]},{\"id\":\"repeat_unit_binding\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}]}},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]}}]}]},{\"id\":\"alternation_scope\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":2}},{\"type\":\"alt\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":3},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":3}]},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"alt\",\"children\":[{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":2}},{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":3}]},{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":2}},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":3}]}]},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]}]},{\"id\":\"optional_alternation_binding\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2}},{\"type\":\"optional\",\"child\":{\"type\":\"alt\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":3}]}},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2}},{\"type\":\"alt\",\"children\":[{\"type\":\"optional\",\"child\":{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":3}]},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]}]}]}",
+  "usage": {
+    "input_tokens": 367,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 2156,
+    "output_tokens_details": {
+      "reasoning_tokens": 1284
+    },
+    "total_tokens": 2523
+  },
+  "payload": {
+    "id": "resp_0554059b56353a3a006ab99f46fc2487d28af438fe92c41475",
+    "model": "gpt-5.6-terra",
+    "status": "completed",
+    "incomplete_details": null,
+    "error": null,
+    "usage": {
+      "input_tokens": 367,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 0
+      },
+      "output_tokens": 2156,
+      "output_tokens_details": {
+        "reasoning_tokens": 1284
+      },
+      "total_tokens": 2523
+    },
+    "reasoning": {
+      "context": "all_turns",
+      "effort": "low",
+      "mode": "standard",
+      "summary": null
+    },
+    "output": [
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "id": "msg_0554059b56353a3a006ab99f5585d087d288991dd989f4b532",
+        "type": "message",
+        "status": "completed",
+        "content": [
+          {
+            "type": "output_text",
+            "annotations": [],
+            "logprobs": [],
+            "text": "{\"schemas\":[{\"id\":\"optional_prefix_binding\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"optional\",\"child\":{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":1,\"max\":3}},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":1,\"max\":3},{\"type\":\"optional\",\"child\":{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}}},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]}]},{\"id\":\"repeat_unit_binding\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}]}},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]}}]}]},{\"id\":\"alternation_scope\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":2}},{\"type\":\"alt\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":3},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":3}]},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"alt\",\"children\":[{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":2}},{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":3}]},{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":2}},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":3}]}]},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]}]},{\"id\":\"optional_alternation_binding\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2}},{\"type\":\"optional\",\"child\":{\"type\":\"alt\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":3}]}},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2}},{\"type\":\"alt\",\"children\":[{\"type\":\"optional\",\"child\":{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":3}]},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]}]}]}"
+          }
+        ],
+        "phase": "final_answer",
+        "role": "assistant"
+      }
+    ]
+  }
+}

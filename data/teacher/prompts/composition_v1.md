@@ -2,7 +2,7 @@ Return JSON only. No prose.
 
 You design string languages for a tiny model that already understands single operators (a constant prefix, a repeated numeric group, an optional mark, a bare alternation) and fails when those operators are attached in new ways.
 
-Emit 8 schemas in this DSL. Each schema is a JSON object the student's compiler will check. Do not emit strings as examples. The compiler instantiates symbols itself.
+Emit 4 schemas in this DSL. Each schema is a JSON object the student's compiler will check. Do not emit strings as examples. The compiler instantiates symbols itself.
 
 Node types:
 - {"type":"seq","children":[...]} with 2 to 4 children

@@ -1,0 +1,81 @@
+{
+  "spent_usd": 0.119496,
+  "calls": 4,
+  "budget_usd": 12.0,
+  "events": [
+    {
+      "run": "run_0001",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.0312,
+      "usage": {
+        "input_tokens": 0,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 0,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 0
+      },
+      "accepted": 0,
+      "cost_estimated": true,
+      "note": "incomplete response, usage empty, charged at the output cap"
+    },
+    {
+      "run": "run_0002",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.030734,
+      "usage": {
+        "input_tokens": 367,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2500,
+        "output_tokens_details": {
+          "reasoning_tokens": 1644
+        },
+        "total_tokens": 2867
+      },
+      "accepted": 0
+    },
+    {
+      "run": "run_0003",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.026606,
+      "usage": {
+        "input_tokens": 367,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2156,
+        "output_tokens_details": {
+          "reasoning_tokens": 1284
+        },
+        "total_tokens": 2523
+      },
+      "accepted": 4
+    },
+    {
+      "run": "run_0004",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.030956,
+      "usage": {
+        "input_tokens": 328,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2525,
+        "output_tokens_details": {
+          "reasoning_tokens": 1813
+        },
+        "total_tokens": 2853
+      },
+      "accepted": 4
+    }
+  ]
+}

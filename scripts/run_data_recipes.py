@@ -98,6 +98,7 @@ def main() -> None:
             args.kind,
             args.allow_heldout,
             failure_packet=packet,
+            max_output_tokens=8000,
         )
         print(json.dumps(metadata, indent=2), flush=True)
     elif args.stage == "train":

@@ -1,0 +1,75 @@
+{
+  "raw": "{\"schemas\":[{\"id\":\"optional_repeat_scope\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"optional\",\"child\":{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4}}},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"optional\",\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4}}},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]}]},{\"id\":\"alt_scope_suffix\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"alt\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]},\"confusable\":[{\"type\":\"alt\",\"children\":[{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]},{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]}]}]},{\"id\":\"repeat_group_boundary\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"digit\",\"min\":1,\"max\":4}]}},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4}},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]}]},{\"id\":\"optional_group_boundary\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"optional\",\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"alt\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]}},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"optional\",\"child\":{\"type\":\"alt\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]}},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4}",
+  "usage": {
+    "input_tokens": 367,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 2500,
+    "output_tokens_details": {
+      "reasoning_tokens": 1644
+    },
+    "total_tokens": 2867
+  },
+  "payload": {
+    "id": "resp_0a2ac620406c93ce006ab99efa624087d2815dbcc3c3a3efa9",
+    "model": "gpt-5.6-terra",
+    "status": "incomplete",
+    "incomplete_details": {
+      "reason": "max_output_tokens"
+    },
+    "error": null,
+    "usage": {
+      "input_tokens": 367,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 0
+      },
+      "output_tokens": 2500,
+      "output_tokens_details": {
+        "reasoning_tokens": 1644
+      },
+      "total_tokens": 2867
+    },
+    "reasoning": {
+      "context": "all_turns",
+      "effort": "low",
+      "mode": "standard",
+      "summary": null
+    },
+    "output": [
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "id": "msg_0a2ac620406c93ce006ab99f0c89d487d28c5c294f472d8393",
+        "type": "message",
+        "status": "incomplete",
+        "content": [
+          {
+            "type": "output_text",
+            "annotations": [],
+            "logprobs": [],
+            "text": "{\"schemas\":[{\"id\":\"optional_repeat_scope\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"optional\",\"child\":{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4}}},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"optional\",\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4}}},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]}]},{\"id\":\"alt_scope_suffix\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"alt\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]},\"confusable\":[{\"type\":\"alt\",\"children\":[{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]},{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]}]}]},{\"id\":\"repeat_group_boundary\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"digit\",\"min\":1,\"max\":4}]}},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4}},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]}]},{\"id\":\"optional_group_boundary\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"optional\",\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"alt\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]}},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"optional\",\"child\":{\"type\":\"alt\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":4}]}},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4}"
+          }
+        ],
+        "phase": "final_answer",
+        "role": "assistant"
+      }
+    ]
+  }
+}

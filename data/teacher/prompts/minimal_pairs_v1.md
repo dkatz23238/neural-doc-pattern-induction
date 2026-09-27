@@ -1,6 +1,6 @@
 Return JSON only. No prose.
 
-Design 6 pairs of string languages. The two languages in a pair must differ by one structural attachment, so they can emit similar strings for different reasons.
+Design 4 pairs of string languages. The two languages in a pair must differ by one structural attachment, so they can emit similar strings for different reasons.
 
 Use this DSL. The compiler instantiates symbols and decides membership. Do not include example strings.
 

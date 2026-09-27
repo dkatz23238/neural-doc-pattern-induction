@@ -94,7 +94,8 @@ def train_recipe(root: Path, recipe: str, seed: int = 0) -> dict:
     banks = recipe_sources(root)
     if recipe not in banks:
         raise RuntimeError(f"{recipe} has no validated template bank")
-    bank, exposes = banks[recipe]
+    bank, _exposes = banks[recipe]
+    exposes = sorted({item.heldout for item in (bank or []) if item.heldout})
     out = root / "results" / "data_recipe" / recipe / f"seed_{seed}"
     out.mkdir(parents=True, exist_ok=True)
     torch.set_num_threads(4)

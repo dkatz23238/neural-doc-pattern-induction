@@ -72,7 +72,15 @@ def call_teacher(model: str, prompt: str, max_output_tokens: int, timeout: float
     key = os.environ.get("OPENAI_API_KEY")
     if not key:
         raise RuntimeError("OPENAI_API_KEY is not set")
-    body = json.dumps({"model": model, "input": prompt, "max_output_tokens": max_output_tokens}).encode()
+    body = json.dumps(
+        {
+            "model": model,
+            "input": prompt,
+            "max_output_tokens": max_output_tokens,
+            # The default medium effort can consume the whole output cap before any JSON is emitted.
+            "reasoning": {"effort": "low"},
+        }
+    ).encode()
     delay = 1.0
     last_error = ""
     for _ in range(4):
@@ -99,6 +107,27 @@ def call_teacher(model: str, prompt: str, max_output_tokens: int, timeout: float
     raise RuntimeError(last_error or "teacher call failed")
 
 
+def _balanced_values(text: str) -> list:
+    decoder = json.JSONDecoder()
+    values = []
+    index = 0
+    while index < len(text):
+        start = text.find("{", index)
+        bracket = text.find("[", index)
+        if start < 0 and bracket < 0:
+            break
+        if start < 0 or (bracket >= 0 and bracket < start):
+            start = bracket
+        try:
+            value, end = decoder.raw_decode(text[start:])
+        except json.JSONDecodeError:
+            index = start + 1
+            continue
+        values.append(value)
+        index = start + max(end, 1)
+    return values
+
+
 def extract_payload(text: str) -> dict:
     raw = text.strip()
     fenced = raw
@@ -109,21 +138,22 @@ def extract_payload(text: str) -> dict:
             rest = rest.split("\n", 1)[1]
         end = rest.find("```")
         fenced = rest[:end] if end >= 0 else rest
-    decoder = json.JSONDecoder()
-    for candidate in (fenced, raw):
-        candidate = candidate.strip()
-        for index, char in enumerate(candidate):
-            if char not in "{[":
-                continue
-            try:
-                value, _end = decoder.raw_decode(candidate[index:])
-            except json.JSONDecodeError:
-                continue
-            if isinstance(value, dict):
-                return value
-            if isinstance(value, list):
-                return {"schemas": value}
-    raise SchemaError("no_json")
+    values = _balanced_values(fenced) or _balanced_values(raw)
+    for value in values:
+        if isinstance(value, dict) and isinstance(value.get("schemas"), list):
+            return {"schemas": [item for item in value["schemas"] if isinstance(item, dict)], "pairs": []}
+        if isinstance(value, dict) and isinstance(value.get("pairs"), list):
+            return {"schemas": [], "pairs": [item for item in value["pairs"] if isinstance(item, dict)]}
+    schemas = []
+    pairs = []
+    for value in values:
+        if isinstance(value, dict) and "schema" in value:
+            schemas.append(value)
+        elif isinstance(value, dict) and ("schema_a" in value or "A" in value):
+            pairs.append(value)
+    if not schemas and not pairs:
+        raise SchemaError("no_json")
+    return {"schemas": schemas, "pairs": pairs}
 
 
 def _append_jsonl(path: Path, record: dict) -> None:
@@ -209,7 +239,7 @@ def generate(
     allow_heldout: bool,
     failure_packet: str = "",
     model: str = TEACHER_MODEL,
-    max_output_tokens: int = 2500,
+    max_output_tokens: int = 8000,
 ) -> dict:
     """One teacher call. kind is 'schemas' or 'pairs'."""
     prompt_path = root / "data" / "teacher" / "prompts" / prompt_name
@@ -235,6 +265,14 @@ def generate(
             raise
     raw = response_text(payload)
     usage = payload.get("usage") or {}
+    cost_estimated = False
+    if not (usage.get("input_tokens") or usage.get("output_tokens")) and payload.get("status") == "incomplete":
+        usage = {
+            "input_tokens": max(1, len(prompt) // 4),
+            "output_tokens": max_output_tokens,
+            "note": "provider usage was empty on an incomplete response; charged at the output cap",
+        }
+        cost_estimated = True
     cost = estimate_cost(model, usage)
     response_hash = _sha(raw)
     run_dir = _next_run_dir(root)
@@ -249,7 +287,22 @@ def generate(
         "compiler_version": COMPILER_VERSION,
     }
     (run_dir / "request.json").write_text(json.dumps(request, indent=2) + "\n")
-    (run_dir / "response.json").write_text(json.dumps({"raw": raw, "usage": usage, "payload": payload}, indent=2) + "\n")
+    public = {
+        "id": payload.get("id"),
+        "model": payload.get("model"),
+        "status": payload.get("status"),
+        "incomplete_details": payload.get("incomplete_details"),
+        "error": payload.get("error"),
+        "usage": payload.get("usage") or {},
+        "reasoning": payload.get("reasoning"),
+        "output": [
+            {"type": item.get("type"), "summary": item.get("summary")}
+            if item.get("type") == "reasoning"
+            else {key: value for key, value in item.items() if key != "encrypted_content"}
+            for item in payload.get("output") or []
+        ],
+    }
+    (run_dir / "response.json").write_text(json.dumps({"raw": raw, "usage": usage, "payload": public}, indent=2) + "\n")
     accepted: list[dict] = []
     rejected: list[dict] = []
     try:
@@ -302,6 +355,7 @@ def generate(
         "response_sha256": response_hash,
         "usage": usage,
         "cost_usd": round(cost, 6),
+        "cost_estimated": cost_estimated,
         "spent_usd": ledger["spent_usd"],
         "compiler_version": COMPILER_VERSION,
         "accepted": len(accepted),

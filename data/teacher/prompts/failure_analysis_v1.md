@@ -1,6 +1,6 @@
 Return JSON only. No prose.
 
-A frozen 1M-parameter model scored the episodes below. It already learns a single operator. These episodes are the ones it still misses. Design 6 schemas that isolate the structural distinction behind the mistakes. The compiler will check every schema and will throw away anything it cannot execute.
+A frozen 1M-parameter model scored the episodes below. It already learns a single operator. These episodes are the ones it still misses. Design 4 schemas that isolate the structural distinction behind the mistakes. The compiler will check every schema and will throw away anything it cannot execute.
 
 DSL:
 - {"type":"seq","children":[...]} with 2 to 4 children
