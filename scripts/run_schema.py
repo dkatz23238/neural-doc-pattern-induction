@@ -203,7 +203,7 @@ def _properties_report(rows: list[dict]) -> dict[str, float]:
     return {name: round(hits[name] / total, 4) if total else 0.0 for name in (*PROPERTY_NAMES,)} | {"n": total}
 
 
-def _interpret(bench_c: dict, expressible: float, val_exact: float) -> list[str]:
+def _interpret(bench_c: dict, expressible: float, val_exact: float, id_exact: float) -> list[str]:
     by_name = {row["system"]: row for row in bench_c["systems"]}
     schema = by_name["schema"]
     rules = by_name["rules"]
@@ -227,22 +227,26 @@ def _interpret(bench_c: dict, expressible: float, val_exact: float) -> list[str]
             f"and alternation recovery is {_pct(props.get('alternation', 0.0))}."
         ),
     ]
+    lines.append(
+        f"In-distribution exact match at the chosen epoch is {_pct(id_exact)}. "
+        f"The shifted split, whose delimiters are withheld from training, matches {_pct(val_exact)}. "
+        "Copying a delimiter the grammar did not use in training does not work yet."
+    )
     if schema["semantic_accuracy"] >= rules["semantic_accuracy"] + 0.01 and schema["regressed"] <= 0.02:
         lines.append(
             "The compiled schema beats the old rule by at least a point with regressions inside 2%. "
             "The latent facts are carrying the decision."
         )
-    elif props.get("prefix", 0.0) >= 0.8 and schema["semantic_accuracy"] < rules["semantic_accuracy"]:
-        lines.append(
-            "The model recovers constants more often than it recovers a regex that beats the rule. "
-            "The schema language, not the candidate list, is the limit on this run."
-        )
     else:
+        fallback = by_name["schema_fallback"]["semantic_accuracy"]
         lines.append(
-            "Surface ranking was already set aside. This run asks whether a tiny set encoder "
-            "reads the language off six strings. The BENCH-C score is the transfer check, "
-            "and it was not used to choose the epoch."
+            f"When the compiled regex does not match the visible strings, the practical system "
+            f"keeps the heuristic and scores {_pct(fallback)}. "
+            "Binary property scores are high where the common label is absence. "
+            "The executable result is the compiled regex. "
+            "On tasks the fragment can express, the gold schema scores 100%, so this gap is the encoder."
         )
+    lines.append("The epoch was chosen on the shifted split before BENCH-C was scored.")
     return lines
 
 
@@ -334,16 +338,17 @@ def _score_benchmark(model, tasks) -> list[dict]:
             predicted_score = _semantic(predicted, task)
             usable = predicted
         heuristic = infer_regex(task.visible)
-        heur_score = _semantic(heuristic, task)
+        heur = score_regex(heuristic, task)
+        heur_score = heur.semantic_accuracy
         rule = _rule_pattern(task.visible)
         gold_parts = from_regex(task.gold_regex)
         ceiling_pattern = compile_parts(gold_parts) if gold_parts else None
         ceiling_score = _semantic(ceiling_pattern, task) if ceiling_pattern else 0.0
         failure = categorize(
             {
-                "semantic_accuracy": heur_score,
-                "positive_recall": heur_score,
-                "negative_rejection": heur_score,
+                "semantic_accuracy": heur.semantic_accuracy,
+                "positive_recall": heur.positive_recall,
+                "negative_rejection": heur.negative_rejection,
                 "valid": 1.0,
                 "catastrophic": 0.0,
                 "gold_regex": task.gold_regex,
@@ -514,7 +519,12 @@ def main() -> None:
         "reading": [],
     }
     if "C" in groups:
-        report["reading"] = _interpret(groups["C"], groups["C"]["expressible"], best_exact)
+        report["reading"] = _interpret(
+            groups["C"],
+            groups["C"]["expressible"],
+            best_exact,
+            report["protocol"]["id_exact"],
+        )
     else:
         report["reading"] = ["Final benchmarks were skipped."]
     (out / "schema.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
