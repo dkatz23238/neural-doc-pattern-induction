@@ -47,6 +47,14 @@ PYTHONPATH=. python scripts/run_candidate_oracle.py
 
 `results/exp2/candidate_oracle.md` is the written result. BENCH-C is not used to fit the linear models.
 
+The CPU ranker pilot trains the tiny cross-attention model and a pooled ablation. Structural models train on BENCH-A dev and stop on BENCH-A val semantic accuracy. A document model trains on the BENCH-B fold. BENCH-C is scored once and is not used to stop.
+
+```bash
+PYTHONPATH=. python scripts/run_ranker_pilot.py
+```
+
+`results/exp2/ranker_pilot.md` records train loss, validation semantic accuracy, and the held-out comparison with the code-length rule. On this CPU run neither the shape-trained model nor the document-trained model beats that rule by a point on its decision split, and cross-attention stays within half a point of the pooled model on BENCH-A test.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.
@@ -57,6 +65,6 @@ Gate 1 scores two frontier models on BENCH-C with the simple prompt. The pair ca
 
 ## What this run does not do
 
-No neural model is trained. On the 2026-09-25 BENCH-C run, `gpt-6-luna` scored 95.5% and `gpt-5.6-terra` scored 98.1% semantic accuracy, against a 93.2% heuristic. The gaps are +2.3 and +4.9 points, short of the 8–10 point rule, so Gate 1 is a no. Macro accuracy (mean of per-domain scores) is reported beside the micro average so easy invoice-number columns do not decide the gate by themselves.
+Gate 1 does not train a local model. On the 2026-09-25 BENCH-C run, `gpt-6-luna` scored 95.5% and `gpt-5.6-terra` scored 98.1% semantic accuracy, against a 93.2% heuristic. The gaps are +2.3 and +4.9 points, short of the 8–10 point rule, so Gate 1 is a no. Macro accuracy (mean of per-domain scores) is reported beside the micro average so easy invoice-number columns do not decide the gate by themselves.
 
 BENCH-C is a curated catalog of document fields with a human-specified gold regex for each column. It is not a scrape of private PDFs. Hidden negatives are near-miss mutations that fall outside that regex.
