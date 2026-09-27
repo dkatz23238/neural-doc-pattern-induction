@@ -238,25 +238,63 @@ def _pct(value: float) -> str:
     return f"{value * 100:.1f}%"
 
 
-def _interpret(bench_c: dict) -> list[str]:
+def _family_line(bench_c: dict, label: str) -> dict | None:
+    for row in bench_c.get("families", []):
+        if row["failure"] == label:
+            return row
+    return None
+
+
+def _interpret(bench_c: dict, protocol: dict | None = None, bench_d: dict | None = None) -> list[str]:
     by_name = {row["system"]: row for row in bench_c["systems"]}
     oracle = by_name["oracle_16"]["semantic_accuracy"]
     learned = by_name["listwise"]["semantic_accuracy"]
     gated = by_name["gated"]["semantic_accuracy"]
     rules = by_name["rules_old8"]["semantic_accuracy"]
+    alt = by_name["alt_cost"]
     best = max(learned, gated)
     best_name = "listwise" if learned >= gated else "gated"
     best_row = by_name[best_name]
     lines = [
         (
             f"On the frozen 16-candidate pool, BENCH-C oracle is {_pct(oracle)}. "
-            f"The old code-length rule scores {_pct(rules)}. "
-            f"Ungated listwise scores {_pct(learned)} "
+            f"The old code-length rule scores {_pct(rules)} "
+            f"(regressions {_pct(by_name['rules_old8']['regressed'])}). "
+            f"Listwise linear scores {_pct(learned)} "
             f"(regressions {_pct(by_name['listwise']['regressed'])}). "
             f"The confidence-gated scorer scores {_pct(gated)} "
-            f"(regressions {_pct(by_name['gated']['regressed'])})."
+            f"(regressions {_pct(by_name['gated']['regressed'])}). "
+            f"Charging alternation literals by hand scores {_pct(alt['semantic_accuracy'])} "
+            f"(regressions {_pct(alt['regressed'])})."
         )
     ]
+    if protocol is not None:
+        val_grid = protocol.get("margin_grid", {}).get("grid", [])
+        if val_grid:
+            strict = [row for row in val_grid if row["margin"] >= 0.05]
+            if strict and all(abs(row["semantic_accuracy"] - strict[0]["semantic_accuracy"]) < 1e-9 for row in strict):
+                lines.append(
+                    f"The chosen margin is {protocol['margin']}. "
+                    f"On the BENCH-B validation fold, margin 0 regresses "
+                    f"{_pct(val_grid[0]['regressed'])} of tasks and scores "
+                    f"{_pct(val_grid[0]['semantic_accuracy'])}, so it stays inside the 2% budget and wins. "
+                    f"Every margin of 0.05 or wider scores {_pct(strict[0]['semantic_accuracy'])} there, "
+                    "matching the old rule. The gate does not produce a setting between trusting the "
+                    "listwise model on every task and falling back on every task."
+                )
+    broad = _family_line(bench_c, "too_broad")
+    success = _family_line(bench_c, "success")
+    variable = _family_line(bench_c, "variable-length inference")
+    if broad and success and variable:
+        lines.append(
+            f"The gain sits on the heuristic's too-broad failures "
+            f"(old rule {_pct(broad['rules_old8'])}, listwise {_pct(broad['listwise'])}, "
+            f"oracle {_pct(broad['oracle_16'])}, n={broad['n']}). "
+            f"The success majority moves the other way "
+            f"(heuristic {_pct(success['heuristic'])}, listwise {_pct(success['listwise'])}, n={success['n']}). "
+            f"Variable-length stays far from the ceiling "
+            f"(listwise {_pct(variable['listwise'])}, oracle {_pct(variable['oracle_16'])}, n={variable['n']})."
+        )
     if best >= 0.98 and best_row["regressed"] <= 0.02:
         lines.append(
             f"The {best_name} scorer clears the gate: about 98% or better on BENCH-C "
@@ -270,14 +308,24 @@ def _interpret(bench_c: dict) -> list[str]:
     else:
         gap = oracle - best
         lines.append(
-            f"The cheap scorer leaves {gap * 100:.1f} points on the table versus oracle@16. "
-            "The selection headroom is real, and this linear listwise model does not take it. "
+            f"This misses the gate of about 98% BENCH-C with regressions under 2%. "
+            f"The cheap scorer leaves {gap * 100:.1f} points versus oracle@16, "
+            "and it regresses more tasks than the old rule. "
             "A tiny neural ranker trained listwise on the same frozen pool is the next selector, "
-            "not a larger candidate generator."
+            "not a larger candidate generator. It still has to keep the regression rate near the old rule's."
+        )
+    if bench_d is not None:
+        d_by = {row["system"]: row for row in bench_d["systems"]}
+        lines.append(
+            f"BENCH-D was not used for selection. There the listwise scorer scores "
+            f"{_pct(d_by['listwise']['semantic_accuracy'])}, the old rule "
+            f"{_pct(d_by['rules_old8']['semantic_accuracy'])}, and oracle@16 "
+            f"{_pct(d_by['oracle_16']['semantic_accuracy'])}."
         )
     lines.append(
         "BENCH-B and BENCH-C share document field families, so this BENCH-C number is an upper bound "
-        "on transfer. The margin, penalty, and temperature were chosen on the BENCH-B validation fold."
+        "on transfer. Temperature, L2, and the margin were frozen on the BENCH-B validation fold "
+        "before BENCH-C was scored."
     )
     return lines
 
@@ -464,7 +512,7 @@ def main() -> None:
         "groups": groups,
         "reading": [],
     }
-    report["reading"] = _interpret(groups["C"])
+    report["reading"] = _interpret(groups["C"], report["protocol"], groups["D"])
     (out / "selector.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     (out / "selector.md").write_text(render_markdown(report), encoding="utf-8")
     print("\n".join(report["reading"]))
