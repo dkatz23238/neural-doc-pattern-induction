@@ -145,37 +145,29 @@ def _row(name: str, report: dict) -> str:
 
 def _reading(payload: dict) -> str:
     slices = payload["slices"]
-    primitive = slices["primitive"]["original"]["auroc"]
-    repeat = slices["repeat"]["original"]["auroc"]
-    optional = slices["optional"]["original"]["auroc"]
-    alt = slices["alternation"]["original"]["auroc"]
-    extra = slices["repeat_extra"]["original"]["auroc"]
-    internal = slices["optional_internal"]["original"]["auroc"]
-    compositions = payload["composition_auroc"]
-    invariance = payload["min_invariance"]
-    drop = repeat - extra
-    if extra >= repeat - 0.05:
-        repeat_note = f"Four and five repetitions score {extra:.3f}, in line with the 1–3 training range ({repeat:.3f})."
-    elif drop <= 0.15 and extra >= 0.75:
-        repeat_note = (
-            f"Four and five repetitions score {extra:.3f} against {repeat:.3f} inside the training range. "
-            "The drop is limited."
-        )
-    else:
-        repeat_note = (
-            f"Four and five repetitions score {extra:.3f} against {repeat:.3f} inside the training range. "
-            "That fall is what memorizing the observed depths looks like."
-        )
+
+    def view(name: str) -> dict:
+        return slices[name]["original"]
+
+    prim, repeat, optional, alt = (view(name) for name in SELECT_FAMILIES)
+    extra, internal = (view(name) for name in EXTRA_FAMILIES)
+    pre_rep, rep_opt, pre_alt = (view(name) for name in COMP_FAMILIES)
     return (
-        f"Symbol renaming still does not move the probabilities. The lowest invariance across these slices is {invariance:.3f}. "
-        f"Primitive languages score AUROC {primitive:.3f}. "
-        f"In-range repeats score {repeat:.3f}, optional tails {optional:.3f}, and bare alternations {alt:.3f}. "
-        f"{repeat_note} "
-        f"An optional group in the middle, which training never showed, scores {internal:.3f}. "
-        f"The mean AUROC on prefix+repeat, repeat+optional, and prefix+alternation is {compositions:.3f}. "
-        "Those three mixtures were absent from training. "
-        "A regex decoder stays off while a gate on this list is still open. "
-        "The membership question and the decoding question stay separate."
+        f"A within-class rename leaves every probability in place. Invariance is {payload['min_invariance']:.3f} on every slice, including when a separator becomes a held-out mark.\n\n"
+        f"The atomic operators clear the AUROC gates. Primitive prefix-plus-class is AUROC {prim['auroc']:.3f} (balanced {prim['balanced']:.3f}). "
+        f"Repeats of 1–3 are AUROC {repeat['auroc']:.3f} (balanced {repeat['balanced']:.3f}). "
+        f"Optional tails are AUROC {optional['auroc']:.3f} (balanced {optional['balanced']:.3f}). "
+        f"Bare alternations are AUROC {alt['auroc']:.3f} (balanced {alt['balanced']:.3f}).\n\n"
+        f"Longer repeats still rank above broken strings of the same depth: AUROC {extra['auroc']:.3f}, negative rejection {extra['tnr']:.3f}. "
+        f"True-member acceptance falls from {repeat['member_acceptance']:.3f} inside the training depths to {extra['member_acceptance']:.3f}, and balanced accuracy from {repeat['balanced']:.3f} to {extra['balanced']:.3f}. "
+        f"An optional group in the middle, absent from training, keeps AUROC {internal['auroc']:.3f} and negative rejection {internal['tnr']:.3f}. "
+        f"True-member acceptance there is {internal['member_acceptance']:.3f}, so balanced accuracy is {internal['balanced']:.3f}.\n\n"
+        f"The three held-out mixtures land in different places. "
+        f"Prefix plus alternation is AUROC {pre_alt['auroc']:.3f} (balanced {pre_alt['balanced']:.3f}). "
+        f"Repeat plus an optional tail is AUROC {rep_opt['auroc']:.3f} (balanced {rep_opt['balanced']:.3f}, true-member acceptance {rep_opt['member_acceptance']:.3f}). "
+        f"Prefix plus repeat is AUROC {pre_rep['auroc']:.3f} (balanced {pre_rep['balanced']:.3f}, true-member acceptance {pre_rep['member_acceptance']:.3f}). "
+        f"The mean of those three AUROCs is {payload['composition_auroc']:.3f}. "
+        "The composition gate stays open, so the regex decoder stays off."
     )
 
 
