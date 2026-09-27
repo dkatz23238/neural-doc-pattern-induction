@@ -71,6 +71,14 @@ PYTHONPATH=. python scripts/run_selector.py
 
 `results/exp2/selector.md` is the written result.
 
+The residual-override run asks a narrower question: starting from that old rule, when should a different candidate in the frozen 16 replace it? The target is the hidden-accuracy gap. False overrides are weighted more heavily than missed gains. Training and validation use disjoint document formats, and BENCH-C is scored once.
+
+```bash
+PYTHONPATH=. python scripts/run_override.py
+```
+
+`results/exp2/override.md` is the written result.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.
