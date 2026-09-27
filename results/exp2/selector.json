@@ -1,0 +1,490 @@
+{
+  "protocol": {
+    "tau": 0.05,
+    "l2": 0.01,
+    "step": 1,
+    "val_accuracy": 0.9850165562913908,
+    "pointwise_l2": 0.1,
+    "pointwise_val": 0.9633278145695364,
+    "margin": 0.0,
+    "margin_grid": {
+      "grid": [
+        {
+          "semantic_accuracy": 0.985,
+          "macro": 0.987,
+          "improved": 0.2119,
+          "regressed": 0.0099,
+          "unchanged": 0.7781,
+          "n": 302,
+          "margin": 0.0
+        },
+        {
+          "semantic_accuracy": 0.9593,
+          "macro": 0.9556,
+          "improved": 0.1987,
+          "regressed": 0.0033,
+          "unchanged": 0.798,
+          "n": 302,
+          "margin": 0.05
+        },
+        {
+          "semantic_accuracy": 0.9593,
+          "macro": 0.9556,
+          "improved": 0.1987,
+          "regressed": 0.0033,
+          "unchanged": 0.798,
+          "n": 302,
+          "margin": 0.1
+        },
+        {
+          "semantic_accuracy": 0.9593,
+          "macro": 0.9556,
+          "improved": 0.1987,
+          "regressed": 0.0033,
+          "unchanged": 0.798,
+          "n": 302,
+          "margin": 0.2
+        },
+        {
+          "semantic_accuracy": 0.9593,
+          "macro": 0.9556,
+          "improved": 0.1987,
+          "regressed": 0.0033,
+          "unchanged": 0.798,
+          "n": 302,
+          "margin": 0.35
+        },
+        {
+          "semantic_accuracy": 0.9593,
+          "macro": 0.9556,
+          "improved": 0.1987,
+          "regressed": 0.0033,
+          "unchanged": 0.798,
+          "n": 302,
+          "margin": 0.5
+        },
+        {
+          "semantic_accuracy": 0.9593,
+          "macro": 0.9556,
+          "improved": 0.1987,
+          "regressed": 0.0033,
+          "unchanged": 0.798,
+          "n": 302,
+          "margin": 0.7
+        }
+      ],
+      "chosen": {
+        "semantic_accuracy": 0.985,
+        "macro": 0.987,
+        "improved": 0.2119,
+        "regressed": 0.0099,
+        "unchanged": 0.7781,
+        "n": 302,
+        "margin": 0.0
+      },
+      "budget": 0.02,
+      "eligible": true
+    },
+    "k": 16,
+    "features": [
+      "data_per_string",
+      "desc_bits",
+      "is_heuristic",
+      "literal_chars",
+      "alt_literal_chars",
+      "n_alternations",
+      "n_alt_arms",
+      "class_breadth",
+      "n_unbounded",
+      "range_slack",
+      "n_optional",
+      "n_exact",
+      "n_nodes",
+      "fixed_fraction",
+      "pattern_len",
+      "has_dot",
+      "has_hex",
+      "n_repeats",
+      "digit_cost",
+      "rel_data_per_string",
+      "rel_desc_bits",
+      "rel_literal_chars",
+      "rel_alt_literal_chars",
+      "rel_class_breadth",
+      "rel_n_nodes",
+      "rel_fixed_fraction",
+      "rel_digit_cost",
+      "rel_n_unbounded"
+    ],
+    "n_train": 1198,
+    "n_val": 302
+  },
+  "groups": {
+    "B-val": {
+      "note": "Validation fold. Used to choose temperature, L2, and the margin.",
+      "n": 302,
+      "systems": [
+        {
+          "semantic_accuracy": 0.9188,
+          "macro": 0.9056,
+          "improved": 0.0,
+          "regressed": 0.0,
+          "unchanged": 1.0,
+          "n": 302,
+          "system": "heuristic"
+        },
+        {
+          "semantic_accuracy": 0.9593,
+          "macro": 0.9556,
+          "improved": 0.1987,
+          "regressed": 0.0033,
+          "unchanged": 0.798,
+          "n": 302,
+          "system": "rules_old8"
+        },
+        {
+          "semantic_accuracy": 0.9551,
+          "macro": 0.9474,
+          "improved": 0.1821,
+          "regressed": 0.0132,
+          "unchanged": 0.8046,
+          "n": 302,
+          "system": "rules_16"
+        },
+        {
+          "semantic_accuracy": 0.9625,
+          "macro": 0.9559,
+          "improved": 0.1954,
+          "regressed": 0.0033,
+          "unchanged": 0.8013,
+          "n": 302,
+          "system": "alt_cost"
+        },
+        {
+          "semantic_accuracy": 0.9633,
+          "macro": 0.9594,
+          "improved": 0.2086,
+          "regressed": 0.1192,
+          "unchanged": 0.6722,
+          "n": 302,
+          "system": "pointwise"
+        },
+        {
+          "semantic_accuracy": 0.985,
+          "macro": 0.987,
+          "improved": 0.2119,
+          "regressed": 0.0099,
+          "unchanged": 0.7781,
+          "n": 302,
+          "system": "listwise"
+        },
+        {
+          "semantic_accuracy": 0.985,
+          "macro": 0.987,
+          "improved": 0.2119,
+          "regressed": 0.0099,
+          "unchanged": 0.7781,
+          "n": 302,
+          "system": "gated"
+        },
+        {
+          "semantic_accuracy": 0.9959,
+          "macro": 0.9964,
+          "improved": 0.3046,
+          "regressed": 0.0,
+          "unchanged": 0.6954,
+          "n": 302,
+          "system": "oracle_16"
+        }
+      ],
+      "families": []
+    },
+    "C": {
+      "note": "Untouched document tasks. Families overlap BENCH-B, so this is an upper bound on transfer.",
+      "n": 554,
+      "systems": [
+        {
+          "semantic_accuracy": 0.9316,
+          "macro": 0.9208,
+          "improved": 0.0,
+          "regressed": 0.0,
+          "unchanged": 1.0,
+          "n": 554,
+          "system": "heuristic"
+        },
+        {
+          "semantic_accuracy": 0.9625,
+          "macro": 0.9574,
+          "improved": 0.1444,
+          "regressed": 0.0072,
+          "unchanged": 0.8484,
+          "n": 554,
+          "system": "rules_old8"
+        },
+        {
+          "semantic_accuracy": 0.954,
+          "macro": 0.9487,
+          "improved": 0.2022,
+          "regressed": 0.0596,
+          "unchanged": 0.7383,
+          "n": 554,
+          "system": "rules_16"
+        },
+        {
+          "semantic_accuracy": 0.9531,
+          "macro": 0.9476,
+          "improved": 0.1498,
+          "regressed": 0.0181,
+          "unchanged": 0.8321,
+          "n": 554,
+          "system": "alt_cost"
+        },
+        {
+          "semantic_accuracy": 0.9542,
+          "macro": 0.9451,
+          "improved": 0.2094,
+          "regressed": 0.2581,
+          "unchanged": 0.5325,
+          "n": 554,
+          "system": "pointwise"
+        },
+        {
+          "semantic_accuracy": 0.969,
+          "macro": 0.9648,
+          "improved": 0.204,
+          "regressed": 0.074,
+          "unchanged": 0.722,
+          "n": 554,
+          "system": "listwise"
+        },
+        {
+          "semantic_accuracy": 0.969,
+          "macro": 0.9648,
+          "improved": 0.204,
+          "regressed": 0.074,
+          "unchanged": 0.722,
+          "n": 554,
+          "system": "gated"
+        },
+        {
+          "semantic_accuracy": 0.9953,
+          "macro": 0.9954,
+          "improved": 0.3917,
+          "regressed": 0.0,
+          "unchanged": 0.6083,
+          "n": 554,
+          "system": "oracle_16"
+        }
+      ],
+      "families": [
+        {
+          "failure": "success",
+          "n": 402,
+          "heuristic": 0.9908,
+          "rules_old8": 0.9909,
+          "rules_16": 0.9875,
+          "alt_cost": 0.99,
+          "pointwise": 0.9716,
+          "listwise": 0.9823,
+          "gated": 0.9823,
+          "oracle_16": 0.9968
+        },
+        {
+          "failure": "optional region",
+          "n": 50,
+          "heuristic": 0.8529,
+          "rules_old8": 0.8871,
+          "rules_16": 0.9333,
+          "alt_cost": 0.895,
+          "pointwise": 0.8942,
+          "listwise": 0.9229,
+          "gated": 0.9229,
+          "oracle_16": 0.9783
+        },
+        {
+          "failure": "variable-length inference",
+          "n": 34,
+          "heuristic": 0.8137,
+          "rules_old8": 0.8205,
+          "rules_16": 0.8358,
+          "alt_cost": 0.8266,
+          "pointwise": 0.8438,
+          "listwise": 0.8456,
+          "gated": 0.8456,
+          "oracle_16": 0.9969
+        },
+        {
+          "failure": "character-class inference",
+          "n": 27,
+          "heuristic": 0.8063,
+          "rules_old8": 0.9823,
+          "rules_16": 0.9236,
+          "alt_cost": 0.9236,
+          "pointwise": 0.9699,
+          "listwise": 0.9946,
+          "gated": 0.9946,
+          "oracle_16": 0.9954
+        },
+        {
+          "failure": "too narrow",
+          "n": 22,
+          "heuristic": 0.6061,
+          "rules_old8": 0.9877,
+          "rules_16": 0.7045,
+          "alt_cost": 0.7045,
+          "pointwise": 0.9953,
+          "listwise": 1.0,
+          "gated": 1.0,
+          "oracle_16": 1.0
+        },
+        {
+          "failure": "too_broad",
+          "n": 10,
+          "heuristic": 0.6083,
+          "rules_old8": 0.6708,
+          "rules_16": 0.8625,
+          "alt_cost": 0.8625,
+          "pointwise": 0.8,
+          "listwise": 0.9625,
+          "gated": 0.9625,
+          "oracle_16": 0.9958
+        },
+        {
+          "failure": "mixed population",
+          "n": 4,
+          "heuristic": 0.6354,
+          "rules_old8": 0.9115,
+          "rules_16": 0.8542,
+          "alt_cost": 0.8542,
+          "pointwise": 1.0,
+          "listwise": 1.0,
+          "gated": 1.0,
+          "oracle_16": 1.0
+        },
+        {
+          "failure": "too broad",
+          "n": 3,
+          "heuristic": 0.6806,
+          "rules_old8": 0.7083,
+          "rules_16": 0.6528,
+          "alt_cost": 0.8958,
+          "pointwise": 0.8958,
+          "listwise": 0.8958,
+          "gated": 0.8958,
+          "oracle_16": 1.0
+        },
+        {
+          "failure": "OCR noise",
+          "n": 1,
+          "heuristic": 0.7917,
+          "rules_old8": 1.0,
+          "rules_16": 1.0,
+          "alt_cost": 1.0,
+          "pointwise": 1.0,
+          "listwise": 1.0,
+          "gated": 1.0,
+          "oracle_16": 1.0
+        },
+        {
+          "failure": "alternation",
+          "n": 1,
+          "heuristic": 0.8958,
+          "rules_old8": 0.8958,
+          "rules_16": 1.0,
+          "alt_cost": 1.0,
+          "pointwise": 0.8542,
+          "listwise": 0.8958,
+          "gated": 0.8958,
+          "oracle_16": 1.0
+        }
+      ]
+    },
+    "D": {
+      "note": "Sample-size curve. Not used to fit or to choose the margin.",
+      "n": 320,
+      "systems": [
+        {
+          "semantic_accuracy": 0.8985,
+          "macro": 0.8985,
+          "improved": 0.0,
+          "regressed": 0.0,
+          "unchanged": 1.0,
+          "n": 320,
+          "system": "heuristic"
+        },
+        {
+          "semantic_accuracy": 0.9376,
+          "macro": 0.9376,
+          "improved": 0.1656,
+          "regressed": 0.0,
+          "unchanged": 0.8344,
+          "n": 320,
+          "system": "rules_old8"
+        },
+        {
+          "semantic_accuracy": 0.9067,
+          "macro": 0.9067,
+          "improved": 0.1938,
+          "regressed": 0.125,
+          "unchanged": 0.6813,
+          "n": 320,
+          "system": "rules_16"
+        },
+        {
+          "semantic_accuracy": 0.9301,
+          "macro": 0.9301,
+          "improved": 0.1469,
+          "regressed": 0.0312,
+          "unchanged": 0.8219,
+          "n": 320,
+          "system": "alt_cost"
+        },
+        {
+          "semantic_accuracy": 0.9107,
+          "macro": 0.9107,
+          "improved": 0.1906,
+          "regressed": 0.4875,
+          "unchanged": 0.3219,
+          "n": 320,
+          "system": "pointwise"
+        },
+        {
+          "semantic_accuracy": 0.917,
+          "macro": 0.917,
+          "improved": 0.1875,
+          "regressed": 0.0938,
+          "unchanged": 0.7188,
+          "n": 320,
+          "system": "listwise"
+        },
+        {
+          "semantic_accuracy": 0.917,
+          "macro": 0.917,
+          "improved": 0.1875,
+          "regressed": 0.0938,
+          "unchanged": 0.7188,
+          "n": 320,
+          "system": "gated"
+        },
+        {
+          "semantic_accuracy": 0.9782,
+          "macro": 0.9782,
+          "improved": 0.4031,
+          "regressed": 0.0,
+          "unchanged": 0.5969,
+          "n": 320,
+          "system": "oracle_16"
+        }
+      ],
+      "families": []
+    }
+  },
+  "reading": [
+    "On the frozen 16-candidate pool, BENCH-C oracle is 99.5%. The old code-length rule scores 96.2% (regressions 0.7%). Listwise linear scores 96.9% (regressions 7.4%). The confidence-gated scorer scores 96.9% (regressions 7.4%). Charging alternation literals by hand scores 95.3% (regressions 1.8%).",
+    "The chosen margin is 0.0. On the BENCH-B validation fold, margin 0 regresses 1.0% of tasks and scores 98.5%, so it stays inside the 2% budget and wins. Every margin of 0.05 or wider scores 95.9% there, matching the old rule. The gate does not produce a setting between trusting the listwise model on every task and falling back on every task.",
+    "The gain sits on the heuristic's too-broad failures (old rule 67.1%, listwise 96.2%, oracle 99.6%, n=10). The success majority moves the other way (heuristic 99.1%, listwise 98.2%, n=402). Variable-length stays far from the ceiling (listwise 84.6%, oracle 99.7%, n=34).",
+    "This misses the gate of about 98% BENCH-C with regressions under 2%. The cheap scorer leaves 2.6 points versus oracle@16, and it regresses more tasks than the old rule. A tiny neural ranker trained listwise on the same frozen pool is the next selector, not a larger candidate generator. It still has to keep the regression rate near the old rule's.",
+    "BENCH-D was not used for selection. There the listwise scorer scores 91.7%, the old rule 93.8%, and oracle@16 97.8%.",
+    "BENCH-B and BENCH-C share document field families, so this BENCH-C number is an upper bound on transfer. Temperature, L2, and the margin were frozen on the BENCH-B validation fold before BENCH-C was scored."
+  ]
+}
