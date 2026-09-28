@@ -80,6 +80,7 @@ def flatten(prog: Prog) -> Prog:
         cls=prog.cls,
         lo=prog.lo,
         hi=prog.hi,
+        spec=prog.spec,
         children=[flatten(child) for child in prog.children],
     )
 
@@ -125,6 +126,18 @@ def _atoms(exact: set[str]) -> list[tuple[str, str]]:
         if any(ch not in exact for ch in pool):
             atoms.append(("fresh", name))
     return atoms
+
+
+def _set_symbols(spec: str, atoms: list[tuple[str, str]]) -> list[int]:
+    from pattern_induction.charset import char_in_spec
+
+    found = []
+    for index, (kind, payload) in enumerate(atoms):
+        if kind == "exact" and char_in_spec(payload, spec):
+            found.append(index)
+        elif kind == "fresh" and payload in _FRESH_POOL and all(char_in_spec(ch, spec) for ch in _FRESH_POOL[payload]):
+            found.append(index)
+    return found
 
 
 def _class_atoms(cls: str, atoms: list[tuple[str, str]]) -> list[int]:
@@ -183,6 +196,29 @@ def _compile(prog: Prog, atoms: list[tuple[str, str]], supports: list[str]) -> _
                 if count >= lo:
                     accept.add(cursor)
             return entry, accept
+        if prog.op == "SET":
+            lo = max(1, min(prog.lo, prog.hi))
+            hi = max(lo, prog.hi)
+            # A wide set is one node in the executor. The automaton stops at
+            # the repeat cap and leaves grouping to the string battery.
+            if hi > OPEN:
+                return None
+            symbols = _set_symbols(prog.spec, atoms)
+            if not symbols:
+                return None
+            entry = nfa.new()
+            cursor = entry
+            accept: set[int] = set()
+            for count in range(1, hi + 1):
+                nxt = nfa.new()
+                for symbol in symbols:
+                    nfa.edge(cursor, symbol, nxt)
+                cursor = nxt
+                if count >= lo:
+                    accept.add(cursor)
+            return entry, accept
+        if prog.op == "INT":
+            return None
         if prog.op == "SEQ" and prog.children:
             built = [node(child) for child in prog.children]
             if any(item is None for item in built):

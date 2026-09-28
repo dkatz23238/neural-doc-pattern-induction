@@ -12,6 +12,7 @@ import random
 import re
 from dataclasses import dataclass, field
 
+from pattern_induction.charset import integer_matches, integer_regex, spec_matches
 from pattern_induction.compose import (
     Alternation,
     OptionalInternal,
@@ -59,6 +60,7 @@ class Prog:
     cls: str = "digit"
     lo: int = 1
     hi: int = 1
+    spec: str = ""
     children: list["Prog"] = field(default_factory=list)
 
     def nodes(self) -> int:
@@ -123,6 +125,24 @@ def advance(prog: Prog, text: str, supports: list[str], index: int = 0) -> tuple
             for width in range(lo, hi + 1):
                 chunk = text[cursor : cursor + width]
                 if len(chunk) == width and class_ok(chunk, node.cls):
+                    found.append(cursor + width)
+            result = tuple(found)
+        elif node.op == "SET":
+            found = []
+            lo = max(1, min(node.lo, node.hi))
+            hi = max(lo, node.hi)
+            for width in range(lo, hi + 1):
+                chunk = text[cursor : cursor + width]
+                if len(chunk) == width and spec_matches(node.spec, chunk):
+                    found.append(cursor + width)
+            result = tuple(found)
+        elif node.op == "INT":
+            found = []
+            lo = max(1, min(node.lo, node.hi))
+            hi = max(lo, node.hi)
+            for width in range(lo, hi + 1):
+                chunk = text[cursor : cursor + width]
+                if len(chunk) == width and integer_matches(node.spec, chunk, lo, hi):
                     found.append(cursor + width)
             result = tuple(found)
         elif node.op == "OPT" and node.children:
@@ -197,6 +217,14 @@ def to_regex(prog: Prog, supports: list[str]) -> str:
             lo = max(1, min(node.lo, node.hi))
             hi = max(lo, node.hi)
             return body + quant(lo, hi)
+        if node.op == "SET":
+            lo = max(1, min(node.lo, node.hi))
+            hi = max(lo, node.hi)
+            return "[" + node.spec + "]" + quant(lo, hi)
+        if node.op == "INT":
+            lo = max(1, min(node.lo, node.hi))
+            hi = max(lo, node.hi)
+            return integer_regex(node.spec, lo, hi)
         if node.op == "OPT" and node.children:
             return "(?:" + piece(node.children[0]) + ")?"
         if node.op == "ALT" and len(node.children) >= 2:
@@ -215,6 +243,10 @@ def describe(prog: Prog) -> str:
         return f"COPY({prog.slot}:{prog.start}-{prog.end})"
     if prog.op == "CLS":
         return f"{prog.cls}{{{prog.lo},{prog.hi}}}"
+    if prog.op == "SET":
+        return f"SET[{prog.spec}]{{{prog.lo},{prog.hi}}}"
+    if prog.op == "INT":
+        return f"INT[{prog.spec}]{{{prog.lo},{prog.hi}}}"
     if prog.op == "REPEAT" and prog.children:
         return f"REP{prog.lo}-{prog.hi}({describe(prog.children[0])})"
     if prog.op == "OPT" and prog.children:
@@ -317,7 +349,16 @@ def gold_compose(family: str, lang, supports: list[str]) -> Prog | None:
 
 def _shift_copies(prog: Prog, offset: int) -> Prog:
     if prog.op == "COPY":
-        return Prog("COPY", slot=prog.slot, start=prog.start + offset, end=prog.end + offset, cls=prog.cls, lo=prog.lo, hi=prog.hi)
+        return Prog(
+            "COPY",
+            slot=prog.slot,
+            start=prog.start + offset,
+            end=prog.end + offset,
+            cls=prog.cls,
+            lo=prog.lo,
+            hi=prog.hi,
+            spec=prog.spec,
+        )
     return Prog(
         prog.op,
         slot=prog.slot,
@@ -326,6 +367,7 @@ def _shift_copies(prog: Prog, offset: int) -> Prog:
         cls=prog.cls,
         lo=prog.lo,
         hi=prog.hi,
+        spec=prog.spec,
         children=[_shift_copies(child, offset) for child in prog.children],
     )
 

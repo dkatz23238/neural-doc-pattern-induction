@@ -35,13 +35,22 @@ class DslCoverTest(unittest.TestCase):
             cover = cover_regex(pattern)
             self.assertEqual(cover.status, "open", pattern)
 
-    def test_partial_ranges_and_mixed_classes_are_outside(self):
+    def test_partial_ranges_and_mixed_classes_are_in_fragment(self):
+        exact = (
+            r"^INV-20(?:2[4-9]|3[0-5])-\d{5}$",
+            r"^(?:19|20)\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$",
+            r"^1Z[A-Z0-9]{16}$",
+            r"^[A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2}$",
+        )
+        for pattern in exact:
+            cover = cover_regex(pattern)
+            self.assertEqual(cover.status, "exact", pattern)
+        opened = cover_regex(r"^[a-z0-9_]+\.(?:pdf|docx|xlsx|csv|txt|png)$")
+        self.assertEqual(opened.status, "open")
+        self.assertEqual(opened.reason, "unbounded")
+
+    def test_word_and_space_classes_stay_outside(self):
         cases = {
-            r"^INV-20(?:2[4-9]|3[0-5])-\d{5}$": "partial_range",
-            r"^(?:19|20)\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$": "partial_range",
-            r"^[a-z0-9_]+\.(?:pdf|docx|xlsx|csv|txt|png)$": "mixed_class",
-            r"^1Z[A-Z0-9]{16}$": "mixed_class",
-            r"^[A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2}$": "mixed_class",
             r"^[\w\-]+_副本\.docx$": "word_class",
             r"^§\s?\d{1,2}(?:\.\d{1,2}){1,3}$": "space_class",
         }
@@ -49,6 +58,26 @@ class DslCoverTest(unittest.TestCase):
             cover = cover_regex(pattern)
             self.assertEqual(cover.status, "no", pattern)
             self.assertEqual(cover.reason, reason, pattern)
+
+    def test_bench_c_exact_patterns_stay_exact_and_coverage_clears_90(self):
+        import json
+
+        tasks = read_jsonl(Path("data/bench_c.jsonl"))
+        previous = json.loads(Path("results/needle/bench_split.json").read_text())
+        by_id = {row["id"]: row for row in previous["rows"]}
+        exact = open_ = outside = 0
+        for task in tasks:
+            cover = cover_regex(task.gold_regex)
+            if by_id[task.id]["dsl"] == "exact":
+                self.assertEqual(cover.status, "exact", task.gold_regex)
+            if cover.status == "exact":
+                exact += 1
+            elif cover.status == "open":
+                open_ += 1
+            else:
+                outside += 1
+        self.assertGreater((exact + open_) / len(tasks), 0.90)
+        self.assertLess(outside, 40)
 
     def test_every_bench_regex_classifies(self):
         tasks = read_jsonl(Path("data/bench_c.jsonl"))

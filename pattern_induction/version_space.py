@@ -138,6 +138,13 @@ def _pack_repeat(lo: int, hi: int, child: Prog) -> Prog | None:
     """
     if lo == 1 and hi == 1:
         return child
+    if child.op == "SET" and child.lo == child.hi:
+        if child.lo == 1:
+            return Prog("SET", spec=child.spec, lo=lo, hi=hi)
+        if lo == hi:
+            width = child.lo * lo
+            return Prog("SET", spec=child.spec, lo=width, hi=width)
+        return None
     if child.op != "CLS" or child.lo != child.hi:
         return None
     if child.lo == 1:
@@ -173,6 +180,8 @@ def _copy_in_class(copy: Prog, cls: Prog, supports: list[str]) -> bool:
 def _fuse(left: Prog, right: Prog, supports: list[str]) -> Prog | None:
     if left.op == "CLS" and right.op == "CLS" and left.cls == right.cls:
         return Prog("CLS", cls=left.cls, lo=left.lo + right.lo, hi=left.hi + right.hi)
+    if left.op == "SET" and right.op == "SET" and left.spec == right.spec:
+        return Prog("SET", spec=left.spec, lo=left.lo + right.lo, hi=left.hi + right.hi)
     if left.op == "COPY" and right.op == "COPY":
         literal = _copy_text(left, supports) + _copy_text(right, supports)
         if not literal:
@@ -296,6 +305,14 @@ def _atom_chunks(supports: list[str], hyps: list[Hyp]) -> dict[int, list[_Chunk]
             lo = max(1, int(hyp.lo))
             hi = max(lo, int(hyp.hi))
             prog = Prog("CLS", cls=hyp.cls, lo=lo, hi=hi)
+        elif hyp.kind == "set" and hyp.cls:
+            lo = max(1, int(hyp.lo))
+            hi = max(lo, int(hyp.hi))
+            prog = Prog("SET", spec=hyp.cls, lo=lo, hi=hi)
+        elif hyp.kind == "int" and ":" in hyp.cls:
+            lo = max(1, int(hyp.lo))
+            hi = max(lo, int(hyp.hi))
+            prog = Prog("INT", spec=hyp.cls, lo=lo, hi=hi)
         if prog is None:
             continue
         if hyp.end in advance(prog, text, supports, hyp.start):

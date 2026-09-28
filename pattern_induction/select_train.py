@@ -84,7 +84,7 @@ def _load_scope(root: Path) -> ScopeNet:
     return model
 
 
-def complete_assembly(supports: list[str], hyps: list):
+def complete_assembly(supports: list[str], hyps: list, v2: bool = False):
     """Union alignment facts with the frozen chart, then pack equivalent cells.
 
     The four supports already show exact class widths, literal heads, optional
@@ -93,19 +93,29 @@ def complete_assembly(supports: list[str], hyps: list):
     the tight program. A chart the alignment does not extend is assembled
     exactly as before. Equivalent concatenations collapse only on the union,
     after the facts have been composed.
+
+    ``v2`` adds character-set and integer-range facts. The default leaves
+    Synthesis v1 bit-identical.
     """
     viewed = supports[:MAX_SUPPORT]
+    sources = list(document_facts(viewed))
+    if v2:
+        from pattern_induction.charset import v2_facts
+
+        sources.extend(v2_facts(viewed))
     extra = []
-    for hyp in document_facts(viewed):
-        if any(same_fact(hyp, kept, True) for kept in hyps):
+    kept = list(hyps)
+    for hyp in sources:
+        if any(same_fact(hyp, item, True) for item in kept):
             continue
         extra.append(hyp)
+        kept.append(hyp)
     if not extra:
         return assemble(supports, hyps)
     return assemble(supports, hyps + extra, wrap_optional_alt=True, pack=True)
 
 
-def synthesize_assembly(scope: ScopeNet, task: Task):
+def synthesize_assembly(scope: ScopeNet, task: Task, v2: bool = False):
     supports = task.supports[:MAX_SUPPORT]
     batch = collate_scope([task])
     hyps = hypotheses_from_scope(scope, batch, [supports], LOCAL_K)[0]
@@ -113,11 +123,11 @@ def synthesize_assembly(scope: ScopeNet, task: Task):
         if any(same_fact(hyp, kept, False) for kept in hyps):
             continue
         hyps.append(hyp)
-    return complete_assembly(task.supports, hyps)
+    return complete_assembly(task.supports, hyps, v2=v2)
 
 
-def synthesize(scope: ScopeNet, task: Task) -> list:
-    return [prog for prog, _score in synthesize_assembly(scope, task).programs]
+def synthesize(scope: ScopeNet, task: Task, v2: bool = False) -> list:
+    return [prog for prog, _score in synthesize_assembly(scope, task, v2=v2).programs]
 
 
 def load_selector(root: Path) -> tuple[ScopeNet, WitnessNet, GrammarPrior]:
@@ -152,7 +162,7 @@ def _bits(prog, supports: list[str], battery: list[str]) -> tuple[bool, ...]:
     return tuple(bool(execute(prog, text, supports)) for text in battery)
 
 
-def _stability(scope: ScopeNet, task: Task, families: list[list]) -> dict[int, float]:
+def _stability(scope: ScopeNet, task: Task, families: list[list], v2: bool = False) -> dict[int, float]:
     battery = boundary_strings(task.supports)
     target = {index: _bits(group[0], task.supports, battery) for index, group in enumerate(families)}
     hits = {index: 0 for index in target}
@@ -160,7 +170,7 @@ def _stability(scope: ScopeNet, task: Task, families: list[list]) -> dict[int, f
     if not subsets:
         return {index: 1.0 for index in target}
     for subset in subsets:
-        programs = synthesize(scope, Task(task.family, subset, task.program, []))
+        programs = synthesize(scope, Task(task.family, subset, task.program, []), v2=v2)
         found = {_bits(prog, subset, battery) for prog in programs}
         for index, signature in target.items():
             if signature in found:
@@ -184,8 +194,9 @@ def select_program(
     prior: GrammarPrior,
     task: Task,
     with_stability: bool = True,
+    v2: bool = False,
 ) -> tuple:
-    programs = synthesize(scope, task)
+    programs = synthesize(scope, task, v2=v2)
     if len(programs) >= LARGE_CHART:
         chosen, count = _select_large(programs, task.supports, witness, prior)
         return chosen, programs, count
@@ -198,7 +209,7 @@ def select_program(
     # Stability only breaks a tie inside the witness band. A unique witness
     # winner is already decided, so the subset resynthesis can be skipped.
     if with_stability and len(families) > 1 and len(task.supports) >= 3 and not _witness_decides(families, task.supports, judgments):
-        stability = _stability(scope, task, families)
+        stability = _stability(scope, task, families, v2=v2)
     chosen = choose_family(families, task.supports, judgments, prior, stability, TIE)
     return chosen, programs, len(families)
 

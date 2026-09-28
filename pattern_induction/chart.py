@@ -459,6 +459,10 @@ def _key(prog: Prog) -> str:
         return f"COPY({prog.slot}:{prog.start}-{prog.end})"
     if prog.op == "CLS":
         return f"{prog.cls}{{{prog.lo},{prog.hi}}}"
+    if prog.op == "SET":
+        return f"SET[{prog.spec}]{{{prog.lo},{prog.hi}}}"
+    if prog.op == "INT":
+        return f"INT[{prog.spec}]{{{prog.lo},{prog.hi}}}"
     if prog.op == "REPEAT" and prog.children:
         return f"REP{prog.lo}-{prog.hi}({_key(prog.children[0])})"
     if prog.op == "OPT" and prog.children:
@@ -479,9 +483,9 @@ def same_fact(fact: Hyp, hyp: Hyp, bounds: bool) -> bool:
         return fact.start == hyp.start and fact.end == hyp.end and fact.slot2 == hyp.slot2 and fact.start2 == hyp.start2 and fact.end2 == hyp.end2
     if fact.start != hyp.start or fact.end != hyp.end:
         return False
-    if fact.kind == "cls" and fact.cls != hyp.cls:
+    if fact.kind in {"cls", "set", "int"} and fact.cls != hyp.cls:
         return False
-    if bounds and fact.kind in {"cls", "repeat"} and (fact.lo != hyp.lo or fact.hi != hyp.hi):
+    if bounds and fact.kind in {"cls", "repeat", "set", "int"} and (fact.lo != hyp.lo or fact.hi != hyp.hi):
         return False
     return True
 
