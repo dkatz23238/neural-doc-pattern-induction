@@ -1,0 +1,81 @@
+{
+  "arch": "needle-cpu",
+  "contingent_optional": true,
+  "retrained": false,
+  "parameters": 1226128,
+  "witness_parameters": 102741,
+  "atomic_top1": 1.0,
+  "ood_top1": 1.0,
+  "ood_semantic": 1.0,
+  "ood_oracle": 1.0,
+  "worst_family": "prefix_repeat",
+  "worst_top1": 1.0,
+  "min_invariance": 1.0,
+  "interpretation": "semantic top-1 cleared the stretch line on held-out composition",
+  "families": {
+    "primitive": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 137.375,
+      "n": 16
+    },
+    "repeat": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 421.125,
+      "n": 16
+    },
+    "optional": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 70.375,
+      "n": 16
+    },
+    "alternation": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 75.0,
+      "n": 16
+    },
+    "prefix_repeat": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 718.3125,
+      "n": 16
+    },
+    "repeat_optional": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 4.5625,
+      "n": 16
+    },
+    "prefix_alt": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 91.9375,
+      "n": 16
+    },
+    "optional_internal": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 613.5,
+      "n": 16
+    },
+    "repeat_extra": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 547.6875,
+      "n": 16
+    }
+  },
+  "seconds": 1026.5942823886871
+}
