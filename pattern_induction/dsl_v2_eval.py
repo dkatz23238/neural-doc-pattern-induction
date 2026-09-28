@@ -268,38 +268,51 @@ def render_markdown(payload: dict) -> str:
     lines = [
         "## DSL v2",
         "",
-        "Character sets and integer ranges are read off the supports and added only when "
-        "assembly asks for them. Synthesis v1, the frozen recognizer, and the recorded exact-slice "
-        "gates stay in place. BENCH-E stays sealed.",
+        "Character sets and integer ranges are read off the four supports and added only when assembly asks for them. "
+        "Synthesis v1 stays the default, so the recorded exact-slice gates are unchanged. "
+        "The recognizer is not retrained. BENCH-E stays sealed.",
         "",
-        f"DSL exact {dsl['exact']}, open {dsl['open']}, outside {dsl['no']}. "
-        f"Exact or open coverage {dsl['exact_or_open_rate']:.3f} of {dsl['n']}.",
+        f"Of {dsl['n']} BENCH-C patterns, {dsl['exact']} are exact, {dsl['open']} are open, and {dsl['no']} stay outside. "
+        f"Exact or open coverage is {dsl['exact_or_open_rate']:.3f}. "
+        "The 25 outside patterns are word classes, space classes, month-name alternations, and five IPv4 addresses whose octet tree is still 20 nodes.",
         "",
-        f"Partial ranges and mixed classes: {payload['target_n']} tasks, {payload['expressible_n']} expressible. "
-        f"Recoverable-support oracle {payload['recoverable_oracle']:.3f}. "
-        f"Synthesis oracle {payload['synthesis_oracle']:.3f}. "
-        f"Recoverable synthesis coverage {payload['recoverable_synthesis_coverage']:.3f}. "
-        f"Selector accuracy {selector:.3f}. "
-        f"Selector given a perfect candidate {conditional:.3f}. "
-        f"Headline semantic accuracy {headline:.3f}. "
-        f"Empty charts on expressible tasks {payload['empty_expressible']}. "
-        f"Timeouts {payload['timeouts']}. "
-        f"Max programs {payload['max_programs']}. "
-        f"Seconds {payload['seconds']:.0f}.",
+        f"The 154 partial-range and mixed-class tasks are the measurement set. {payload['expressible_n']} of them are expressible. "
+        f"Assembly timeouts are {payload['assemble_timeouts']}. "
+        f"Empty charts on expressible tasks: {payload['empty_expressible']}. "
+        f"Max chart {payload['max_programs']} programs. Wall time {payload['seconds']:.0f}s.",
+        "",
+        f"Synthesis oracle on these 154 tasks is {payload['synthesis_oracle']:.3f} ({payload['synthesis_perfect']}/{payload['target_n']}). "
+        f"Deterministic facts alone reach {payload['deterministic_oracle']:.3f}. "
+        "The neural chart supplies the rest.",
+        "",
+        f"A broad reading, the widest character set on each span with integer hulls removed, is hidden-set perfect on {payload['recoverable_oracle']:.3f} of the 154. "
+        f"Every one of those charts contains that program ({payload['recoverable_synthesis_coverage']:.3f} recoverable synthesis coverage). "
+        "The broad reading is lower than the synthesis oracle because an integer hull or a neural program is sometimes the one that matches the hidden set. "
+        "The remaining misses are unobserved numeric endpoints, supports cut at 32 characters, or a shape these facts do not name.",
+        "",
+        f"Selector accuracy on the 154 is {selector:.3f}. "
+        f"Given a hidden-set-perfect program, and excluding selector timeouts, accuracy is {conditional:.3f}. "
+        f"Selector timeouts are {payload['selector_timeouts']}. "
+        "They are stability resynthesis on large charts. Assembly itself finished.",
+        "",
+        f"Headline semantic accuracy, with the frozen exact-slice scores kept and these 154 tasks rescored, is {headline:.3f}. "
+        "Selector timeouts abstain at 0.5 inside that headline.",
         "",
         "| Metric | Value |",
         "| --- | --- |",
         f"| DSL exact/open coverage | {dsl['exact_or_open_rate']:.3f} |",
-        f"| Recoverable-support oracle | {payload['recoverable_oracle']:.3f} |",
+        f"| Expressible partial/mixed tasks | {payload['expressible_n']}/{payload['target_n']} |",
+        f"| Broad-set recoverable oracle | {payload['recoverable_oracle']:.3f} |",
         f"| Recoverable synthesis coverage | {payload['recoverable_synthesis_coverage']:.3f} |",
-        f"| Synthesis oracle | {payload['synthesis_oracle']:.3f} |",
+        f"| Synthesis oracle on partial/mixed | {payload['synthesis_oracle']:.3f} |",
         f"| Selector given perfect candidate | {conditional:.3f} |",
         f"| BENCH-C semantic accuracy | {headline:.3f} |",
         f"| Empty charts on expressible tasks | {payload['empty_expressible']} |",
-        f"| Timeouts | {payload['timeouts']} |",
+        f"| Assembly timeouts | {payload['assemble_timeouts']} |",
+        f"| Selector timeouts | {payload['selector_timeouts']} |",
         "",
     ]
-    return "\n".join(lines)
+    return "\n".join(lines) + "\n"
 
 
 def _main() -> None:
