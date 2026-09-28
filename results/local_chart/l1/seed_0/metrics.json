@@ -1,0 +1,327 @@
+{
+  "arch": "l1",
+  "seed": 0,
+  "parameters": 1068179,
+  "steps": 1200,
+  "batch": 8,
+  "local_k": 8,
+  "generator_version": "dsl-1",
+  "template_bank_hash": "e0245d392f894537",
+  "selected_step": 1200,
+  "select_local": 1.0,
+  "atomic_local": 1.0,
+  "ood_local": 0.7661805555555555,
+  "ood_local_at_1": 0.40498638344226573,
+  "ood_oracle": 0.2375,
+  "ood_top1": 0.0,
+  "repeat_extra_local": 1.0,
+  "min_invariance": 1.0,
+  "interpretation": "gold local structure is in the top hypotheses and the chart is not assembling a correct program",
+  "families": {
+    "primitive": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": null,
+        "alt": null,
+        "pair": null,
+        "cut": 1.0,
+        "mean": 1.0
+      },
+      "local_at_1": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": null,
+        "alt": null,
+        "pair": null,
+        "cut": 1.0,
+        "mean": 1.0
+      },
+      "local_recall": 1.0,
+      "local_recall_at_1": 1.0,
+      "top1": 1.0,
+      "oracle": 1.0,
+      "support": 1.0,
+      "programs": 8.0,
+      "n": 16
+    },
+    "repeat": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": 1.0,
+        "optional": null,
+        "alt": null,
+        "pair": 1.0,
+        "cut": 1.0,
+        "mean": 1.0
+      },
+      "local_at_1": {
+        "copy": 0.5,
+        "cls": 0.3333333333333333,
+        "repeat": 1.0,
+        "optional": null,
+        "alt": null,
+        "pair": 0.6666666666666666,
+        "cut": 0.3333333333333333,
+        "mean": 0.5666666666666667
+      },
+      "local_recall": 1.0,
+      "local_recall_at_1": 0.5666666666666667,
+      "top1": 0.0,
+      "oracle": 0.25,
+      "support": 0.0,
+      "programs": 8.0,
+      "n": 16
+    },
+    "optional": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": 1.0,
+        "alt": null,
+        "pair": null,
+        "cut": 1.0,
+        "mean": 1.0
+      },
+      "local_at_1": {
+        "copy": 0.6575342465753424,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": 1.0,
+        "alt": null,
+        "pair": null,
+        "cut": 0.6575342465753424,
+        "mean": 0.8287671232876712
+      },
+      "local_recall": 1.0,
+      "local_recall_at_1": 0.8287671232876712,
+      "top1": 1.0,
+      "oracle": 1.0,
+      "support": 1.0,
+      "programs": 8.0,
+      "n": 16
+    },
+    "alternation": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": null,
+        "alt": 1.0,
+        "pair": null,
+        "cut": null,
+        "mean": 1.0
+      },
+      "local_at_1": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": null,
+        "alt": 0.8125,
+        "pair": null,
+        "cut": null,
+        "mean": 0.9375
+      },
+      "local_recall": 1.0,
+      "local_recall_at_1": 0.9375,
+      "top1": 0.0,
+      "oracle": 0.25,
+      "support": 0.5,
+      "programs": 8.0,
+      "n": 16
+    },
+    "prefix_repeat": {
+      "local": {
+        "copy": 1.0,
+        "cls": 0.0,
+        "repeat": 0.0,
+        "optional": null,
+        "alt": null,
+        "pair": 1.0,
+        "cut": 1.0,
+        "mean": 0.6
+      },
+      "local_at_1": {
+        "copy": 0.3333333333333333,
+        "cls": 0.0,
+        "repeat": 0.0,
+        "optional": null,
+        "alt": null,
+        "pair": 0.6666666666666666,
+        "cut": 0.25,
+        "mean": 0.25
+      },
+      "local_recall": 0.6,
+      "local_recall_at_1": 0.25,
+      "top1": 0.0,
+      "oracle": 0.0,
+      "support": 0.0,
+      "programs": 8.0,
+      "n": 16
+    },
+    "repeat_optional": {
+      "local": {
+        "copy": 1.0,
+        "cls": 0.010416666666666666,
+        "repeat": 0.0,
+        "optional": 0.9375,
+        "alt": null,
+        "pair": 1.0,
+        "cut": 0.78125,
+        "mean": 0.6215277777777778
+      },
+      "local_at_1": {
+        "copy": 0.4444444444444444,
+        "cls": 0.0,
+        "repeat": 0.0,
+        "optional": 0.0625,
+        "alt": null,
+        "pair": 0.75,
+        "cut": 0.25,
+        "mean": 0.2511574074074074
+      },
+      "local_recall": 0.6215277777777778,
+      "local_recall_at_1": 0.2511574074074074,
+      "top1": 0.0,
+      "oracle": 0.0,
+      "support": 0.0,
+      "programs": 8.0,
+      "n": 16
+    },
+    "prefix_alt": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": null,
+        "alt": 0.4375,
+        "pair": null,
+        "cut": 1.0,
+        "mean": 0.859375
+      },
+      "local_at_1": {
+        "copy": 0.4117647058823529,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": null,
+        "alt": 0.25,
+        "pair": null,
+        "cut": 0.5833333333333334,
+        "mean": 0.5612745098039216
+      },
+      "local_recall": 0.859375,
+      "local_recall_at_1": 0.5612745098039216,
+      "top1": 0.0,
+      "oracle": 0.1875,
+      "support": 0.0,
+      "programs": 8.0,
+      "n": 16
+    },
+    "optional_internal": {
+      "local": {
+        "copy": 1.0,
+        "cls": 0.0,
+        "repeat": null,
+        "optional": 1.0,
+        "alt": null,
+        "pair": null,
+        "cut": 1.0,
+        "mean": 0.75
+      },
+      "local_at_1": {
+        "copy": 0.25,
+        "cls": 0.0,
+        "repeat": null,
+        "optional": 1.0,
+        "alt": null,
+        "pair": null,
+        "cut": 0.3333333333333333,
+        "mean": 0.3958333333333333
+      },
+      "local_recall": 0.75,
+      "local_recall_at_1": 0.3958333333333333,
+      "top1": 0.0,
+      "oracle": 0.0,
+      "support": 0.0,
+      "programs": 8.0,
+      "n": 16
+    },
+    "repeat_extra": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": 1.0,
+        "optional": null,
+        "alt": null,
+        "pair": 1.0,
+        "cut": 1.0,
+        "mean": 1.0
+      },
+      "local_at_1": {
+        "copy": 0.5,
+        "cls": 0.3333333333333333,
+        "repeat": 1.0,
+        "optional": null,
+        "alt": null,
+        "pair": 0.6666666666666666,
+        "cut": 0.3333333333333333,
+        "mean": 0.5666666666666667
+      },
+      "local_recall": 1.0,
+      "local_recall_at_1": 0.5666666666666667,
+      "top1": 0.0,
+      "oracle": 1.0,
+      "support": 0.0,
+      "programs": 8.0,
+      "n": 16
+    }
+  },
+  "curve": [
+    {
+      "step": 200,
+      "loss": 0.8528093695640564,
+      "atom": 0.08472931385040283,
+      "select_local": 0.925,
+      "seconds": 19.00900626182556
+    },
+    {
+      "step": 400,
+      "loss": 0.2332189679145813,
+      "atom": 0.03013722412288189,
+      "select_local": 0.9819444444444445,
+      "seconds": 38.07691931724548
+    },
+    {
+      "step": 600,
+      "loss": 0.1827021986246109,
+      "atom": 0.007316526025533676,
+      "select_local": 0.9930555555555556,
+      "seconds": 57.81596922874451
+    },
+    {
+      "step": 800,
+      "loss": 0.09395825117826462,
+      "atom": 0.008775022812187672,
+      "select_local": 0.9791666666666666,
+      "seconds": 77.31349182128906
+    },
+    {
+      "step": 1000,
+      "loss": 0.07424037903547287,
+      "atom": 0.001067054457962513,
+      "select_local": 0.9972222222222222,
+      "seconds": 96.74288749694824
+    },
+    {
+      "step": 1200,
+      "loss": 0.15623489022254944,
+      "atom": 0.0035000548232346773,
+      "select_local": 1.0,
+      "seconds": 116.0306007862091
+    }
+  ]
+}

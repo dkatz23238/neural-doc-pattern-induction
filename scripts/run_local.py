@@ -77,10 +77,33 @@ def _summary(root: Path) -> None:
                 "",
             ]
         )
+        atomic = row["families"]
+        lines.append(
+            f"Atomic local recall@8 is {row['atomic_local']:.3f}. "
+            f"Primitive program oracle {atomic['primitive']['oracle']:.3f}. "
+            f"Optional program oracle {atomic['optional']['oracle']:.3f}. "
+            f"Repeat program oracle {atomic['repeat']['oracle']:.3f}. "
+            f"Alternation program oracle {atomic['alternation']['oracle']:.3f}."
+        )
+        lines.append("")
+        missing = [
+            f"{family} {kind}"
+            for family in OOD
+            for kind, value in row["families"][family]["local"].items()
+            if kind != "mean" and value == 0
+        ]
+        if missing:
+            lines.append("Held-out facts absent from the top 8: " + ", ".join(missing) + ".")
+            lines.append("")
         if row["ood_local"] < 0.50:
             lines.append("The next change belongs in the recognizer. The chart is not the place to look while the gold spans are missing from the top hypotheses. A pretrained backbone and BENCH-C stay off.")
         elif row["ood_oracle"] < 0.40:
-            lines.append("The recognizer is offering the gold local structure. The next change belongs in the chart. BENCH-C stays off.")
+            lines.append(
+                "Mean held-out local recall clears the recognizer line and program oracle stays low. "
+                "The missing repeat units and classes above are still recognizer failures. "
+                "Where the gold fact is already in the top 8, the chart is what drops the program. "
+                "A pretrained backbone and BENCH-C stay off."
+            )
         else:
             lines.append("Local hypotheses and symbolic composition both move on the held-out languages. BENCH-C still waits on a higher program oracle.")
         lines.append("")
