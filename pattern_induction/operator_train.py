@@ -33,12 +33,13 @@ PARAM_HI = 2_000_000
 def _interpretation(mean_auroc: float, worst_auroc: float, invariance: float, extra_auroc: float, atomic_min: float) -> str:
     if invariance < 0.99:
         return "reject: renaming invariance moved"
-    if atomic_min < 0.90:
-        return "atomic operators slipped under the gold schema"
-    if mean_auroc > 0.95 and worst_auroc > 0.85 and extra_auroc > 0.90:
+    composed = mean_auroc > 0.90 and worst_auroc > 0.85 and extra_auroc > 0.90 and atomic_min >= 0.90
+    if mean_auroc > 0.95 and composed:
         return "oracle algebra composes; structure induction is the next bottleneck"
-    if mean_auroc > 0.90 and worst_auroc > 0.85 and extra_auroc > 0.90:
+    if composed:
         return "oracle clears the composition gate and is short of the 0.95 bar"
+    if atomic_min < 0.90:
+        return "gold tree did not make the operator algebra compose, and an atomic operator slipped under 0.90; do not build structure induction"
     return "gold tree did not make the operator algebra compose; do not build structure induction"
 
 
