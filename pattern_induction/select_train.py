@@ -1,8 +1,10 @@
 """Select one language from the frozen version space.
 
-Synthesis is unchanged. Families that accept the same strings are merged, a
-grammar fit on gold schemas breaks near ties, support subsets vote for
-stability, and a tiny witness head judges strings where families disagree.
+The chart and the recognizer stay frozen. A contingent delimiter, present in
+only some supports, adds an optional-suffix hypothesis the top-k list can
+miss. Families that accept the same strings are merged, a grammar fit on gold
+schemas breaks near ties, support subsets vote for stability, and a tiny
+witness head judges strings where families disagree.
 """
 
 from __future__ import annotations
@@ -14,7 +16,8 @@ from pathlib import Path
 
 import torch
 
-from pattern_induction.chart import LOCAL_K
+from pattern_induction.chart import LOCAL_K, same_fact
+from pattern_induction.contingent import contingent_optionals
 from pattern_induction.language import (
     GrammarPrior,
     boundary_strings,
@@ -76,9 +79,29 @@ def _load_scope(root: Path) -> ScopeNet:
 
 
 def synthesize(scope: ScopeNet, task: Task) -> list:
+    supports = task.supports[:MAX_SUPPORT]
     batch = collate_scope([task])
-    hyps = hypotheses_from_scope(scope, batch, [task.supports[:MAX_SUPPORT]], LOCAL_K)[0]
+    hyps = hypotheses_from_scope(scope, batch, [supports], LOCAL_K)[0]
+    for hyp in contingent_optionals(supports):
+        if any(same_fact(hyp, kept, False) for kept in hyps):
+            continue
+        hyps.append(hyp)
     return [prog for prog, _score in assemble(task.supports, hyps).programs]
+
+
+def load_selector(root: Path) -> tuple[ScopeNet, WitnessNet, GrammarPrior]:
+    """Frozen scope recognizer, witness head, and the grammar saved with it."""
+    torch.set_num_threads(4)
+    scope = _load_scope(root)
+    witness = WitnessNet(scope.local)
+    path = root / "results" / "select" / "s1" / "seed_0" / "checkpoint.pt"
+    if not path.exists():
+        raise RuntimeError(f"missing frozen selector at {path}")
+    state = torch.load(path, map_location="cpu", weights_only=True)
+    _load_witness_state(witness, state["head"])
+    prior = GrammarPrior.from_state(state["prior"])
+    witness.encoder.eval()
+    return scope, witness, prior
 
 
 def _subsets(supports: list[str]) -> list[list[str]]:

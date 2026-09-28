@@ -1,0 +1,18 @@
+# Needle CPU. Freeze the selector and ask whether the synthetic result holds.
+arch: needle-cpu
+frozen_scope: results/scope/p2b/seed_0/checkpoint.pt
+frozen_selector: results/select/s1/seed_0/checkpoint.pt
+chart: version_space.assemble
+witness: not retrained
+synthesis: contingent delimiter suffix appended after the locked top 8
+rule: a punctuation mark in a strict subset of the supports, and only when it is the last separator
+shared_separator: does not fire
+gate: same 16 draws and seeds as S1, stability on
+stress:
+  draws: 8
+  stability: on
+  core: [few_support, long_probe, rename, adversarial_width]
+  report: [lower_prefix, nested]
+  survive: core top-1 and oracle at least 0.97, worst core cell at least 0.875
+bench_c: scored once, and only if the stress line holds
+gpu: not started

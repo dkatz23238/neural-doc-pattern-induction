@@ -176,6 +176,14 @@ PYTHONPATH=. python scripts/run_select.py --stage train
 
 `results/select/summary.md` is the written result.
 
+The Needle CPU run freezes that selector. A contingent delimiter, present in only some supports, adds the optional suffix the top-8 list can miss. The same checkpoint is then scored on a wider synthetic stress suite. BENCH-C is scored once, and only if that suite stays near the synthetic line.
+
+```bash
+PYTHONPATH=. python scripts/run_needle.py --stage gate
+```
+
+`results/needle/summary.md` is the written result.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.
