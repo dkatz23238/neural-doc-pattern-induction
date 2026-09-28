@@ -160,6 +160,14 @@ PYTHONPATH=. python scripts/run_version_space.py
 
 `results/version_space/summary.md` is the written result.
 
+The scope run freezes that chart and the L1 weights. Relation heads learn the generator's groups — the same repeated unit, containment, group edges, an optional child, an alternation branch, and a shared prefix or suffix — and the objective is local recall at 8. Held-out recall and the version-space oracle on the model's own facts are written after atomic recall picks the checkpoint. BENCH-C is not scored.
+
+```bash
+PYTHONPATH=. python scripts/run_scope.py --stage train
+```
+
+`results/scope/summary.md` is the written result.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.
