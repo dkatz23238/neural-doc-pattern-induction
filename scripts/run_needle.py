@@ -350,6 +350,10 @@ def _summary(root: Path) -> None:
     if dsl_path.exists():
         lines.append(dsl_path.read_text().rstrip())
         lines.append("")
+    modes_path = root / "results" / "needle" / "selector_modes.md"
+    if modes_path.exists():
+        lines.append(modes_path.read_text().rstrip())
+        lines.append("")
     seal_path = root / "results" / "needle" / "bench_e_seal.json"
     if seal_path.exists():
         seal = json.loads(seal_path.read_text())

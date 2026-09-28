@@ -48,6 +48,11 @@ def charset_spec(chars: set[str]) -> str:
     return "".join(parts)
 
 
+def spec_chars(spec: str) -> set[str]:
+    """Characters named by a character-set body."""
+    return set(_expand(spec))
+
+
 def _expand(spec: str) -> set[str]:
     found: set[str] = set()
     index = 0

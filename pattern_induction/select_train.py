@@ -195,26 +195,154 @@ def select_program(
     task: Task,
     with_stability: bool = True,
     v2: bool = False,
+    stability_mode: str = "resynthesize",
+    operator_witnesses: bool = False,
 ) -> tuple:
     programs = synthesize(scope, task, v2=v2)
+    # The recorded exact-fragment selector resynthesizes and does not split
+    # character sets. That path stays bit-identical.
+    if stability_mode == "resynthesize" and not operator_witnesses:
+        if len(programs) >= LARGE_CHART:
+            chosen, count = _select_large(programs, task.supports, witness, prior)
+            return chosen, programs, count
+        families = group_languages(programs, task.supports)
+        if not families:
+            return None, programs, 0
+        texts = disagreements(families, task.supports) if len(families) > 1 else []
+        judgments = _judgments(witness, task.supports, texts)
+        stability: dict[int, float] = {}
+        # Stability only breaks a tie inside the witness band. A unique witness
+        # winner is already decided, so the subset resynthesis can be skipped.
+        if with_stability and len(families) > 1 and len(task.supports) >= 3 and not _witness_decides(families, task.supports, judgments):
+            stability = _stability(scope, task, families, v2=v2)
+        chosen = choose_family(families, task.supports, judgments, prior, stability, TIE)
+        return chosen, programs, len(families)
+    chosen, programs, count, _info = select_from_programs(
+        programs,
+        task.supports,
+        witness,
+        prior,
+        stability_mode=stability_mode,
+        with_stability=with_stability,
+        operator_witnesses=operator_witnesses,
+        scope=scope,
+        task=task,
+        v2=v2,
+    )
+    return chosen, programs, count
+
+
+def select_from_programs(
+    programs: list,
+    supports: list[str],
+    witness: WitnessNet,
+    prior: GrammarPrior,
+    stability_mode: str = "direct",
+    with_stability: bool = True,
+    operator_witnesses: bool = False,
+    scope: ScopeNet | None = None,
+    task: Task | None = None,
+    v2: bool = False,
+) -> tuple:
+    """Choose a program from a chart that has already been built.
+
+    ``resynthesize`` is mode A. ``cached`` reuses the chart (mode B).
+    ``direct`` scores each candidate's own constraints (mode C).
+    """
     if len(programs) >= LARGE_CHART:
-        chosen, count = _select_large(programs, task.supports, witness, prior)
-        return chosen, programs, count
-    families = group_languages(programs, task.supports)
+        chosen, count = _select_large(programs, supports, witness, prior, operator_witnesses=operator_witnesses)
+        info = {
+            "stability": 0.0,
+            "confidence": 0.0,
+            "margin": 0.0,
+            "families": count,
+            "witness_decided": False,
+            "mode": "large",
+        }
+        return chosen, programs, count, info
+    families = group_languages(programs, supports)
+    if operator_witnesses:
+        from pattern_induction.operator_witness import split_operator_families
+
+        families = split_operator_families(families)
     if not families:
-        return None, programs, 0
-    texts = disagreements(families, task.supports) if len(families) > 1 else []
-    judgments = _judgments(witness, task.supports, texts)
+        return None, programs, 0, {"stability": 0.0, "confidence": 0.0, "margin": 0.0, "families": 0, "witness_decided": False, "mode": stability_mode}
+    texts = disagreements(families, supports) if len(families) > 1 else []
+    judgments = _judgments(witness, supports, texts)
+    if operator_witnesses:
+        from pattern_induction.operator_witness import merge_judgments, operator_judgments
+
+        judgments = merge_judgments(judgments, operator_judgments(families, supports))
+    decided = _witness_decides(families, supports, judgments) if len(families) > 1 else True
     stability: dict[int, float] = {}
-    # Stability only breaks a tie inside the witness band. A unique witness
-    # winner is already decided, so the subset resynthesis can be skipped.
-    if with_stability and len(families) > 1 and len(task.supports) >= 3 and not _witness_decides(families, task.supports, judgments):
-        stability = _stability(scope, task, families, v2=v2)
-    chosen = choose_family(families, task.supports, judgments, prior, stability, TIE)
-    return chosen, programs, len(families)
+    # Resynthesis is skipped once the witness has already picked a language.
+    # Direct and cached scores are cheap, so the router can see them either way.
+    measure = with_stability and len(families) > 1 and len(supports) >= 3
+    if measure and (stability_mode in {"direct", "cached"} or not decided):
+        stability = _stability_for(stability_mode, programs, families, supports, scope, task, v2)
+    chosen = choose_family(families, supports, judgments, prior, stability, TIE)
+    info = _selection_info(chosen, families, supports, judgments, prior, stability, decided, stability_mode)
+    return chosen, programs, len(families), info
 
 
-def _select_large(programs: list, supports: list[str], witness: WitnessNet, prior: GrammarPrior) -> tuple:
+def _stability_for(mode, programs, families, supports, scope, task, v2: bool) -> dict[int, float]:
+    if mode == "direct":
+        from pattern_induction.stability import direct_stability
+
+        return direct_stability(families, supports)
+    if mode == "cached":
+        from pattern_induction.stability import cached_stability
+
+        signatures = {index: _bits(group[0], supports, boundary_strings(supports)) for index, group in enumerate(families)}
+        return cached_stability(programs, supports, signatures)
+    if scope is None or task is None:
+        raise RuntimeError("resynthesis needs the frozen recognizer and the task")
+    return _stability(scope, task, families, v2=v2)
+
+
+def _selection_info(chosen, families, supports, judgments, prior, stability, decided: bool, mode: str) -> dict:
+    evidences = [witness_loglik(group[0], supports, judgments) for group in families]
+    grammars = [max(prior.score(prog) for prog in group) for group in families]
+    chosen_index = 0
+    for index, group in enumerate(families):
+        if chosen in group:
+            chosen_index = index
+            break
+    best = max(evidences) if evidences else 0.0
+    band = [index for index, evidence in enumerate(evidences) if best - evidence <= TIE]
+    grammar_gap = 0.0
+    if len(band) > 1:
+        ordered = sorted((grammars[index] for index in band), reverse=True)
+        grammar_gap = ordered[0] - ordered[1]
+    evidence_gap = 0.0
+    if len(evidences) > 1:
+        ordered_evidence = sorted(evidences, reverse=True)
+        evidence_gap = ordered_evidence[0] - ordered_evidence[1]
+    if len(families) <= 1:
+        confidence = 0.95
+    else:
+        import math
+
+        confidence = 1.0 / (1.0 + math.exp(-grammar_gap))
+    measured = chosen_index in stability
+    return {
+        "stability": stability.get(chosen_index, 1.0 if len(families) <= 1 else 0.0),
+        "stability_measured": measured or len(families) <= 1,
+        "confidence": confidence,
+        "margin": evidence_gap if evidence_gap else grammar_gap,
+        "families": len(families),
+        "witness_decided": decided,
+        "mode": mode,
+    }
+
+
+def _select_large(
+    programs: list,
+    supports: list[str],
+    witness: WitnessNet,
+    prior: GrammarPrior,
+    operator_witnesses: bool = False,
+) -> tuple:
     """Pick a program when the chart is too large to determinize.
 
     Programs that render to the same regex are one language. Different
@@ -246,6 +374,10 @@ def _select_large(programs: list, supports: list[str], witness: WitnessNet, prio
     scored.sort(reverse=True)
     texts = [text for _retint, _balance, _length, text in scored[:8]]
     judgments = _judgments(witness, supports, texts)
+    if operator_witnesses:
+        from pattern_induction.operator_witness import merge_judgments, operator_judgments
+
+        judgments = merge_judgments(judgments, operator_judgments(families, supports))
     evidences = [witness_loglik(group[0], supports, judgments) for group in families]
     best = max(evidences) if evidences else 0.0
     band = []

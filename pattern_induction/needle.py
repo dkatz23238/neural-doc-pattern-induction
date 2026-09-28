@@ -35,7 +35,16 @@ def needle(examples: list[str], root: Path | None = None) -> NeedleResult:
     base = Path(root) if root is not None else Path(".")
     scope, witness, prior = _models(base)
     task = Task("needle", supports, Prog("COPY"), [])
-    chosen, programs, _count = select_program(scope, witness, prior, task, with_stability=True, v2=True)
+    chosen, programs, _count = select_program(
+        scope,
+        witness,
+        prior,
+        task,
+        with_stability=True,
+        v2=True,
+        stability_mode="direct",
+        operator_witnesses=True,
+    )
     if chosen is None:
         return NeedleResult("", None, 0.0, [], "abstain")
     regex = to_regex(chosen, supports)
