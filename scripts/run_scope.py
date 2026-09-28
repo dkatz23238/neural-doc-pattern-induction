@@ -9,7 +9,7 @@ import argparse
 import json
 from pathlib import Path
 
-from pattern_induction.local_train import ALL
+from pattern_induction.local_train import ALL, OOD
 from pattern_induction.scope_train import train_scope
 
 
@@ -84,9 +84,11 @@ def _summary(root: Path) -> None:
                 "A pretrained backbone and BENCH-C stay off."
             )
         elif row["ood_local"] >= 0.95 and row["ood_oracle"] >= 0.90:
+            held_programs = sum(row["families"][family]["programs"] for family in OOD) / len(OOD)
             lines.append(
                 "Local recall and the version-space oracle both cleared their lines on the model's own facts. "
-                "Choosing among the surviving programs is the following experiment. A pretrained backbone and BENCH-C stay off."
+                f"Held-out tasks leave {held_programs:.0f} probe-consistent programs on average. "
+                "Choosing among those programs is the following experiment. A pretrained backbone and BENCH-C stay off."
             )
         else:
             lines.append(
