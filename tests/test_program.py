@@ -111,14 +111,19 @@ class ProposerTest(unittest.TestCase):
         left = feature_batch([task])
         right = feature_batch([type(task)(task.family, renamed.support, task.program, [])])
         self.assertTrue(all(torch.allclose(a, b) for a, b in zip(left, right)))
-        beam = model.propose(*left, 2)[0]
-        other = model.propose(*right, 2)[0]
-        self.assertEqual(len(beam), len(other))
-        self.assertGreater(len(beam), 0)
-        for (prog, _score), (shifted, _other) in zip(beam, other):
+        raw = model.propose(*left, 2)[0]
+        shifted_raw = model.propose(*right, 2)[0]
+        self.assertGreater(len(raw), 0)
+        self.assertEqual(len(raw), len(shifted_raw))
+        for (prog, _score), (shifted, _other) in zip(raw, shifted_raw):
             steps = linearize(prog)
             self.assertTrue(grammar_ok(steps))
             self.assertEqual(steps, linearize(shifted))
+        beam = model.propose(*left, 2, [task.supports])[0]
+        other = model.propose(*right, 2, [renamed.support])[0]
+        self.assertEqual(len(beam), len(other))
+        for (prog, _score), (shifted, _other) in zip(beam, other):
+            self.assertEqual(linearize(prog), linearize(shifted))
 
     def test_query_annotation_is_not_an_input(self):
         # The proposer reads supports only. A renamed annotation object cannot change features.

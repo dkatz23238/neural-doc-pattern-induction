@@ -26,6 +26,7 @@ from pattern_induction.program import (
     OP_STOP,
     Prog,
     Task,
+    accepts_all,
     delinearize,
     feature_batch,
     label_string,
@@ -207,19 +208,21 @@ class Proposer(SpanNet):
         return (chosen * weight).sum(dim=-1)
 
     @torch.no_grad()
-    def propose(self, local, classes, rel, pad, k: int = 16) -> list[list[tuple[Prog, float]]]:
+    def propose(self, local, classes, rel, pad, k: int = 16, supports: list[list[str]] | None = None) -> list[list[tuple[Prog, float]]]:
         """Beam of complete programs, best model score first.
 
         The search varies the opcode, the copied span, the class, the repeat
-        bounds, and the sequence arity. A copy that falls outside its support
-        is dropped before it can grow.
+        bounds, and the sequence arity. Unused arguments stay at the gold
+        defaults. A copy outside its support is dropped, and a finished
+        program that misses a support does not stay in the beam.
         """
         self.eval()
         _encoded, memory, key_pad = self.encode(local, classes, rel, pad)
         lengths = (~pad[:, :-1]).sum(dim=-1)
         results = []
         for row in range(local.shape[0]):
-            results.append(_beam_row(self, memory[row : row + 1], key_pad[row : row + 1], lengths[row], k))
+            row_supports = None if supports is None else supports[row]
+            results.append(_beam_row(self, memory[row : row + 1], key_pad[row : row + 1], lengths[row], row_supports, k))
         return results
 
 
@@ -230,7 +233,7 @@ def _safe_key(key_pad: torch.Tensor) -> torch.Tensor:
     return safe
 
 
-def _beam_row(model: Proposer, memory, key_pad, lengths, k: int) -> list[tuple[Prog, float]]:
+def _beam_row(model: Proposer, memory, key_pad, lengths, supports, k: int) -> list[tuple[Prog, float]]:
     key_pad = _safe_key(key_pad)
     hidden0 = memory.new_zeros(1, model.d_model)
     # steps, logp, stack, hidden, prev op vector, prev arg vector
@@ -248,9 +251,6 @@ def _beam_row(model: Proposer, memory, key_pad, lengths, k: int) -> list[tuple[P
     for _ in range(MAX_PROG):
         expanded = []
         for steps, op_logp, arg_logp, stack, hidden, op_vec, arg_vec in beams:
-            if not stack:
-                finished.append((steps, op_logp, arg_logp))
-                continue
             hidden, logits = model._step(hidden, memory, key_pad, op_vec, arg_vec)
             log_ops = F.log_softmax(logits["op"], dim=-1)[0]
             for choice, extra in _arg_variants(logits, lengths):
@@ -279,11 +279,22 @@ def _beam_row(model: Proposer, memory, key_pad, lengths, k: int) -> list[tuple[P
                     )
                 )
         expanded.sort(key=_admit, reverse=True)
-        beams = expanded[:k]
+        kept = []
+        for item in expanded:
+            steps, op_logp, arg_logp, stack = item[0], item[1], item[2], item[3]
+            if not stack:
+                if supports is not None and not _accepts_supports(steps, supports):
+                    continue
+                finished.append((steps, op_logp, arg_logp))
+                continue
+            kept.append(item)
+            if len(kept) >= k:
+                break
+        beams = kept
         if not beams:
             break
     for steps, op_logp, arg_logp, stack, _hidden, _op, _arg in beams:
-        if not stack:
+        if not stack and (supports is None or _accepts_supports(steps, supports)):
             finished.append((steps, op_logp, arg_logp))
     finished.sort(key=lambda item: (item[1] + item[2]) / max(len(item[0]), 1), reverse=True)
     programs = []
@@ -301,6 +312,14 @@ def _beam_row(model: Proposer, memory, key_pad, lengths, k: int) -> list[tuple[P
         if len(programs) >= k:
             break
     return programs
+
+
+def _accepts_supports(steps: list[dict], supports: list[str]) -> bool:
+    closed = steps + [{"op": OP_STOP, "slot": 0, "start": 0, "end": 0, "cls": 0, "lo": 0, "hi": 0, "nchild": 0}]
+    prog = delinearize(closed)
+    if prog is None:
+        return False
+    return accepts_all(prog, supports, supports)
 
 
 def _copy_fits(choice: dict, lengths) -> bool:
@@ -326,9 +345,7 @@ def _arg_variants(logits: dict[str, torch.Tensor], lengths) -> list[tuple[dict, 
     variants: list[tuple[dict, float]] = []
 
     def emit(op: int, updates: dict, extra: float) -> None:
-        choice = dict(base)
-        choice["op"] = op
-        choice.update(updates)
+        choice = _canonicalize(op, dict(base), updates)
         if op == OP_COPY and not _copy_fits(choice, lengths):
             return
         variants.append((choice, extra))
@@ -369,6 +386,25 @@ def _arg_variants(logits: dict[str, torch.Tensor], lengths) -> list[tuple[dict, 
     emit(OP_OPT, {}, 0.0)
     emit(OP_ALT, {}, 0.0)
     return variants
+
+
+def _canonicalize(op: int, base: dict, updates: dict) -> dict:
+    """Unused arguments stay at the gold defaults so the next step matches teacher forcing."""
+    choice = {"op": op, "slot": 0, "start": 0, "end": 0, "cls": 0, "lo": 0, "hi": 0, "nchild": 0}
+    if op == OP_COPY:
+        choice["slot"] = int(updates.get("slot", base["slot"]))
+        choice["start"] = int(updates.get("start", base["start"]))
+        choice["end"] = int(updates.get("end", base["end"]))
+    elif op == OP_CLS:
+        choice["cls"] = int(updates.get("cls", base["cls"]))
+        choice["lo"] = int(updates.get("lo", base["lo"]))
+        choice["hi"] = int(updates.get("hi", base["hi"]))
+    elif op == OP_SEQ:
+        choice["nchild"] = int(updates.get("nchild", base["nchild"]))
+    elif op == OP_REPEAT:
+        choice["lo"] = int(updates.get("lo", base["lo"]))
+        choice["hi"] = int(updates.get("hi", base["hi"]))
+    return choice
 
 
 def _greedy_args(logits: dict[str, torch.Tensor]) -> dict:

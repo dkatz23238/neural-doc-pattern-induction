@@ -103,7 +103,7 @@ def _score_tasks(model: Proposer, tasks: list[Task], k: int = 16) -> dict:
     beam_n = 0
     for task in tasks:
         batch = collate_tasks([task])
-        beam = model.propose(batch["local"], batch["classes"], batch["rel"], batch["pad"], k)[0]
+        beam = model.propose(batch["local"], batch["classes"], batch["rel"], batch["pad"], k, [task.supports])[0]
         beam_n += len(beam)
         if beam and agrees(beam[0][0], task.supports, task.probe):
             raw1 += 1
@@ -138,8 +138,8 @@ def _invariance(model: Proposer, tasks: list[Task]) -> float:
         right = feature_batch([Task(task.family, renamed.support, task.program, [])])
         if not all(torch.allclose(a, b) for a, b in zip(left, right)):
             continue
-        a = model.propose(*left, 1)[0]
-        b = model.propose(*right, 1)[0]
+        a = model.propose(*left, 1, [task.supports])[0]
+        b = model.propose(*right, 1, [renamed.support])[0]
         if not a and not b:
             matched += 1
             continue
@@ -186,9 +186,9 @@ def train_proposer(root: Path, seed: int = 0) -> dict:
             select_tasks = [
                 sample_compose_task(family, random.Random(1000 + index * 20 + draw), 4)
                 for index, family in enumerate(ATOMIC)
-                for draw in range(4)
+                for draw in range(8)
             ]
-            reports = {family: _score_tasks(model, [task for task in select_tasks if task.family == family], 4) for family in ATOMIC}
+            reports = {family: _score_tasks(model, [task for task in select_tasks if task.family == family], 8) for family in ATOMIC}
             score = sum(reports[family]["top1"] for family in ATOMIC) / len(ATOMIC)
             row = {
                 "step": step,
