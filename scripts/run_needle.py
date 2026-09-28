@@ -323,10 +323,13 @@ def _summary(root: Path) -> None:
                 f"The old code-length rule on eight candidates scored {bench['old_rule']:.3f}. "
                 f"The structural pool oracle at 16 scored {bench['candidate_oracle_16']:.3f}.",
                 "",
-                bench["decision"] + ".",
-                "",
             ]
         )
+        if (root / "results" / "needle" / "bench_split.md").exists():
+            lines.append("The split below separates grammar coverage, synthesis, and selection.")
+        else:
+            lines.append(bench["decision"] + ".")
+        lines.append("")
     elif stress_path.exists() and not json.loads(stress_path.read_text()).get("survives"):
         lines.extend(["## BENCH-C", "", "The stress suite left the synthetic line, so BENCH-C stays unscored.", ""])
     split_path = root / "results" / "needle" / "bench_split.md"

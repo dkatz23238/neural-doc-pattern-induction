@@ -162,6 +162,8 @@ def aggregate(rows: list[dict]) -> dict:
         "fragment": block("fragment", fragment),
         "reasons": dict(reasons),
         "domains": domains,
+        "empty": sum(1 for row in rows if row.get("languages", 0) == 0),
+        "exact_empty": sum(1 for row in exact if row.get("languages", 0) == 0),
     }
 
 
@@ -201,6 +203,25 @@ def render_markdown(summary: dict) -> str:
     if summary["reasons"]:
         rendered = ", ".join(f"{name} {count}" for name, count in sorted(summary["reasons"].items(), key=lambda item: -item[1]))
         lines.extend(["", f"Outside the fragment: {rendered}.", ""])
+    if summary.get("empty") is not None:
+        exact_gap = (1.0 - exact["selector_accuracy"]) * exact["rate"] * 100
+        outside_gap = (1.0 - outside["selector_accuracy"]) * outside["rate"] * 100
+        open_gap = (1.0 - opened["selector_accuracy"]) * opened["rate"] * 100
+        survived = exact["n"] - summary.get("exact_empty", 0)
+        lines.extend(
+            [
+                f"The version space is empty on {summary['empty']} of {summary['n']} tasks. An empty chart abstains and scores 0.500. "
+                f"{summary.get('exact_empty', 0)} of those empty tasks are exact in the fragment, out of {exact['n']} exact tasks. "
+                f"A program survives on the other {survived} exact tasks. "
+                f"When synthesis puts a hidden-set-perfect program in the fragment, selector semantic accuracy is {_pct(fragment['selector_accuracy_given_synthesis'])} "
+                f"and the chosen program is perfect on {_pct(fragment['selector_perfect_given_synthesis'])} of those tasks.",
+                "",
+                f"Against a perfect score, the exact slice contributes {exact_gap:.1f} points, tasks outside the fragment contribute {outside_gap:.1f}, and unbounded quantifiers contribute {open_gap:.1f}. "
+                "The exact-task gap is the empty charts. Selection, once a perfect program is present, stays at the semantic accuracy above. "
+                "A few families also get large: filenames peak around 11 minutes, and dates and versions run to a few thousand languages.",
+                "",
+            ]
+        )
     lines.extend(
         [
             "| Domain | Tasks | Exact | Open | Outside | Selector accuracy | Synthesis oracle | Languages | Seconds |",
