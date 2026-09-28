@@ -58,16 +58,29 @@ def _summary(root: Path) -> None:
                 f"Repeat 4–5 top-1 {row['repeat_extra_top1']:.3f}. Support acceptance {row['ood_support']:.3f}. "
                 f"Renaming invariance {row['min_invariance']:.3f}. Mean programs in the beam {row.get('mean_beam', 0):.1f}.",
                 "",
-                row["interpretation"] + ".",
-                "",
             ]
         )
+        empty = [family for family in ALL if row["families"][family]["beam"] == 0]
+        if empty:
+            lines.append(
+                "No support-consistent program was found for "
+                + ", ".join(empty)
+                + ". Oracle@16 on those families is not a ranking among 16 candidates."
+            )
+            lines.append("")
+        if all(abs(row["families"][family]["oracle16"] - row["families"][family]["top1"]) < 1e-9 for family in ALL):
+            lines.append("Where a program is returned, oracle@16 equals semantic top-1. Extra beam entries did not add a correct language.")
+            lines.append("")
         if row["ood_oracle16"] > 0.98 and row["ood_top1"] > 0.90 and row["repeat_extra_top1"] > 0.90:
             lines.append("The beam contains the right language often enough to treat selection as the next problem. BENCH-C still waits: its closed ranges are outside this grammar.")
         elif row["ood_oracle16"] > 0.90:
             lines.append("The proposer finds a correct program in the beam more often than it emits one. Calibration is ahead of a new encoder. BENCH-C stays off.")
         else:
-            lines.append("The proposer is not putting a semantically correct program in the top 16 on the held-out languages. A pretrained backbone and BENCH-C stay off until this beam does.")
+            lines.append(
+                "The proposer is not putting a semantically correct program in the top 16 on the held-out languages. "
+                "Alternation is solved and the atomic repeat is often exact, including the copied separator. "
+                "The held-out mixtures are not. A pretrained backbone and BENCH-C stay off."
+            )
         lines.append("")
     dest = root / "results" / "programs" / "summary.md"
     dest.parent.mkdir(parents=True, exist_ok=True)
