@@ -1,0 +1,17 @@
+# H1. Span encoder, then group pooling, then a group transformer.
+# Same steps, batch, loss skeleton, checkpoint rule, and eval slices as H0.
+arch: h1
+model: GroupNet
+recipes: [d0, d1]
+steps: 1200
+batch: 12
+lr: 0.0008
+weight_decay: 0.01
+select: [primitive, repeat, optional, alternation]
+aux: [kind, span, bound, role, operator, scope, relation]
+gate:
+  composition_mean: 0.90
+  worst_mixture: 0.85
+  repeat_extra: 0.90
+  invariance: 0.99
+note: Groups are a sequence root, a repeat node, and its units. The mixer is attention.

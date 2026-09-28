@@ -1,0 +1,16 @@
+# H0 control. This file is not loaded by the trainer.
+# The numbers live in results/data_recipe. The model is SpanNet, 945464 parameters.
+arch: h0
+model: SpanNet
+recipes: [d0, d1]
+steps: 1200
+batch: 12
+lr: 0.0008
+weight_decay: 0.01
+select: [primitive, repeat, optional, alternation]
+gate:
+  composition_mean: 0.90
+  worst_mixture: 0.85
+  repeat_extra: 0.90
+  invariance: 0.99
+note: Frozen span stack. Data recipes stay the control for H1 and H2.

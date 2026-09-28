@@ -120,6 +120,14 @@ PYTHONPATH=. python scripts/run_data_recipes.py --stage train --recipe d0
 
 `results/data_recipe/summary.md` is the written result.
 
+The hierarchy run keeps those recipes and that training budget. H0 is the span model above. H1 adds group pooling and a group transformer. H2 replaces the group mixer with typed parent, sibling, repeat-unit, and alignment edges. The teacher cache is reused and is not called again.
+
+```bash
+PYTHONPATH=. python scripts/run_hierarchy.py --stage train --arch h2 --recipe d0
+```
+
+`results/hierarchy/summary.md` is the written result.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.
