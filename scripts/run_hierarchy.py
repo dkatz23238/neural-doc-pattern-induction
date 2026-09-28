@@ -110,31 +110,61 @@ def _summary(root: Path) -> None:
             )
         lines.append("")
     lines.extend(["## Reading", ""])
+
+    def pick(arch: str, recipe: str, seed: int = 0) -> dict | None:
+        for row in rows:
+            if row["arch"] == arch and row["recipe"] == recipe and row["seed"] == seed:
+                return row
+        return None
+
+    def brief(row: dict) -> str:
+        worst = row["worst_composition"]
+        atomic = row.get("atomic_min_auroc")
+        if atomic is None:
+            atomic = min(row["slices"][name]["auroc"] for name in TRAIN_FAMILIES)
+        return (
+            f"composition {row['composition_auroc']:.3f}, worst {worst['family']} {worst['auroc']:.3f}, "
+            f"repeat 4–5 {row['repeat_extra_auroc']:.3f}, atomic min {atomic:.3f}, "
+            f"invariance {row['min_invariance']:.3f}, {row['parameters']} parameters"
+        )
+
+    h0_d0 = pick("h0", "d0")
+    h0_d1 = [row for row in rows if row["arch"] == "h0" and row["recipe"] == "d1"]
     lines.append(
-        "H0 on D0 is the frozen atomic baseline: composition mean 0.748, worst slice prefix+repeat 0.548, repeat 4–5 at 0.935, invariance 1.000. "
-        "H0 on D1 is the best stable data control: the mean sits around 0.81 and repeat 4–5 falls into the low 0.80s. "
-        "A hierarchical run has to beat the H0 number on the same recipe and still clear the absolute gate."
+        "The gate asks for a held-out composition mean above 0.90, a worst mixture above 0.85, repeat depths 4–5 above 0.90, "
+        "atomic operators still near solved, and renaming invariance still about 1. One seed of H1 and one seed of H2 were trained on D0 and on D1. "
+        "D0 isolates the architecture on the atomic curriculum. D1 is the procedural composition bank that already lifted the span model, with the eval languages held out."
     )
+    lines.append("")
+    if h0_d0:
+        lines.append(f"H0 D0 seed 0: {brief(h0_d0)}.")
+    if h0_d1:
+        means = [row["composition_auroc"] for row in h0_d1]
+        worsts = [row["worst_composition"]["auroc"] for row in h0_d1]
+        extras = [row["repeat_extra_auroc"] for row in h0_d1]
+        lines.append(
+            f"H0 D1 over {len(h0_d1)} seeds: composition {min(means):.3f}–{max(means):.3f}, "
+            f"worst slice {min(worsts):.3f}–{max(worsts):.3f}, repeat 4–5 {min(extras):.3f}–{max(extras):.3f}."
+        )
     lines.append("")
     interesting = [row for row in rows if row["arch"] != "h0"]
     if not interesting:
         lines.append("H1 and H2 have not been trained yet.")
     else:
         for row in interesting:
-            worst = row["worst_composition"]
-            lines.append(
-                f"{row['arch']} {row['recipe']} seed {row['seed']}: composition {row['composition_auroc']:.3f}, "
-                f"worst {worst['family']} {worst['auroc']:.3f}, repeat 4–5 {row['repeat_extra_auroc']:.3f}, "
-                f"invariance {row['min_invariance']:.3f}. {_gate(row)}."
-            )
-        met = [row for row in interesting if _gate(row) == "hierarchy gate met"]
+            verdict = _gate(row)
+            lines.append(f"{row['arch'].upper()} {row['recipe'].upper()} seed {row['seed']}: {brief(row)}. {verdict[0].upper() + verdict[1:]}.")
         lines.append("")
+        met = [row for row in interesting if _gate(row) == "hierarchy gate met"]
         if met:
             lines.append("At least one hierarchical run met the gate. That is the point to consider a decoder.")
         else:
             lines.append(
-                "No hierarchical run met the gate. Invariance is the rename check, and a drop below 0.99 would reject the architecture on its own. "
-                "The decoder stays off until the mean, the worst mixture, and repeat-depth extrapolation clear together."
+                "H2 is the stronger mixer. On the atomic curriculum it moves prefix+repeat up from the H0 value of 0.548 and keeps repeat depths 4–5 above 0.90. "
+                "On D1 its composition mean sits just above the H0 D1 range, and the worst mixture remains repeat+optional. "
+                "H1 on D1 stays under the H0 D1 range. Invariance stays 1.000 on every hierarchical seed, so the rename symmetry holds for every run. "
+                "The gain is a few points of AUROC. Explicit group relations preserve that symmetry and, on the atomic curriculum, the depth test. "
+                "The operator algebra the gate asked for is still ahead of both models. The decoder stays off."
             )
     lines.append("")
     path = root / "results" / "hierarchy" / "summary.md"
