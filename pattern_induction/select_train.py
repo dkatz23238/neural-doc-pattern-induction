@@ -78,7 +78,7 @@ def _load_scope(root: Path) -> ScopeNet:
     return model
 
 
-def synthesize(scope: ScopeNet, task: Task) -> list:
+def synthesize_assembly(scope: ScopeNet, task: Task):
     supports = task.supports[:MAX_SUPPORT]
     batch = collate_scope([task])
     hyps = hypotheses_from_scope(scope, batch, [supports], LOCAL_K)[0]
@@ -86,7 +86,11 @@ def synthesize(scope: ScopeNet, task: Task) -> list:
         if any(same_fact(hyp, kept, False) for kept in hyps):
             continue
         hyps.append(hyp)
-    return [prog for prog, _score in assemble(task.supports, hyps).programs]
+    return assemble(task.supports, hyps)
+
+
+def synthesize(scope: ScopeNet, task: Task) -> list:
+    return [prog for prog, _score in synthesize_assembly(scope, task).programs]
 
 
 def load_selector(root: Path) -> tuple[ScopeNet, WitnessNet, GrammarPrior]:

@@ -24,6 +24,8 @@ from pattern_induction.select_train import (
     load_selector,
     select_program,
 )
+from pattern_induction.bench_split import aggregate as split_aggregate
+from pattern_induction.bench_split import fill_synthesis, label_tasks, render_markdown
 from pattern_induction.stress import aggregate, score_rows, stress_cells
 from pattern_induction.tasks import read_jsonl
 
@@ -202,10 +204,38 @@ def _bench(root: Path, force: bool) -> dict | None:
         "decision": decision,
         "domains": {name: sum(values) / len(values) for name, values in sorted(by_domain.items())},
         "lowest": misses,
+        "rows": rows,
         "seconds": time.time() - started,
     }
     _write(root / "results" / "needle" / "bench_c.json", payload)
     print(f"bench semantic {semantic:.3f} macro {macro:.3f} [{decision}]", flush=True)
+    return payload
+
+
+def _split(root: Path) -> dict:
+    scored_path = root / "results" / "needle" / "bench_c.json"
+    if not scored_path.exists():
+        raise RuntimeError("BENCH-C has not been scored")
+    scored = json.loads(scored_path.read_text())
+    saved_rows = scored.get("rows") or []
+    by_id = {row["id"]: row for row in saved_rows}
+    benchmarks = read_jsonl(root / "data" / "bench_c.jsonl")
+    saved_selector = len(by_id) == len(benchmarks)
+    if not saved_selector:
+        by_id = {bench.id: {"accuracy": 0.0} for bench in benchmarks}
+    scope, witness, prior = load_selector(root)
+    rows = label_tasks(benchmarks, by_id)
+    fill_synthesis(scope, witness, prior, benchmarks, rows, saved_selector)
+    summary = split_aggregate(rows)
+    if scored.get("semantic_accuracy") is not None:
+        summary["official_semantic_accuracy"] = scored["semantic_accuracy"]
+    payload = {"summary": summary, "rows": rows}
+    _write(root / "results" / "needle" / "bench_split.json", payload)
+    text = render_markdown(summary)
+    dest = root / "results" / "needle" / "bench_split.md"
+    dest.write_text(text)
+    print(f"wrote {dest}", flush=True)
+    print(text, flush=True)
     return payload
 
 
@@ -299,6 +329,10 @@ def _summary(root: Path) -> None:
         )
     elif stress_path.exists() and not json.loads(stress_path.read_text()).get("survives"):
         lines.extend(["## BENCH-C", "", "The stress suite left the synthetic line, so BENCH-C stays unscored.", ""])
+    split_path = root / "results" / "needle" / "bench_split.md"
+    if split_path.exists():
+        lines.append(split_path.read_text().rstrip())
+        lines.append("")
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text("\n".join(lines) + "\n")
     print(f"wrote {dest}", flush=True)
@@ -306,7 +340,7 @@ def _summary(root: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--stage", choices=("gate", "stress", "bench", "summary"), required=True)
+    parser.add_argument("--stage", choices=("gate", "stress", "bench", "split", "summary"), required=True)
     parser.add_argument("--force-bench", action="store_true")
     args = parser.parse_args()
     torch.set_num_threads(4)
@@ -317,6 +351,8 @@ def main() -> None:
         _stress(root)
     elif args.stage == "bench":
         _bench(root, args.force_bench)
+    elif args.stage == "split":
+        _split(root)
     _summary(root)
 
 
