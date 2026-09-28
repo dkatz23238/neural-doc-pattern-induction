@@ -168,6 +168,14 @@ PYTHONPATH=. python scripts/run_scope.py --stage train
 
 `results/scope/summary.md` is the written result.
 
+The selection run freezes that synthesizer. It merges programs that accept the same strings, scores the survivors with a grammar fit on gold schemas, checks which languages return on support subsets, and trains a small head to judge strings where the remaining languages disagree. Semantic top-1 is the selected program on held-out probes. BENCH-C is not scored.
+
+```bash
+PYTHONPATH=. python scripts/run_select.py --stage train
+```
+
+`results/select/summary.md` is the written result.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.

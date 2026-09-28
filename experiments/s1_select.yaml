@@ -1,0 +1,21 @@
+# S1. Select one language from the frozen version space.
+arch: s1
+frozen: results/scope/p2b/seed_0/checkpoint.pt
+chart: version_space.assemble
+train: [atomic, d1]
+held_out: [prefix_repeat, repeat_optional, prefix_alt, optional_internal, repeat_extra]
+steps: 400
+batch: 16
+lr: 0.001
+repeat_bounds: atomic compose gold, open when the supports do not cap the repeat
+stability: leave-one-out, one leave-two-out when four supports are present, one rotation
+witness: frozen relational encoder plus a small head
+tie: grammar prior within 0.3 nats
+gate:
+  version_space_oracle: 0.985
+  semantic_top1: 0.97
+  stretch_top1: 0.98
+  worst_family: 0.90
+  invariance: 1.000
+  parameters: 1000000-2000000
+note: BENCH-C is outside this pass. The recognizer, chart, and data recipes stay frozen.
