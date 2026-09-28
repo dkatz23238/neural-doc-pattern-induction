@@ -136,6 +136,14 @@ PYTHONPATH=. python scripts/run_operators.py --stage train --arch h3o --recipe d
 
 `results/operator_algebra/summary.md` is the written result.
 
+The synthesis run stops asking a network to approximate operator semantics. P1 proposes a program with the relational encoder and a small grammar decoder. Literals are copied from a support span. A symbolic executor checks the supports, drops impossible programs, and is the semantic judge. BENCH-C is not scored.
+
+```bash
+PYTHONPATH=. python scripts/run_programs.py --stage train
+```
+
+`results/programs/summary.md` is the written result.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.
