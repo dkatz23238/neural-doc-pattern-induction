@@ -534,5 +534,13 @@ def inventory_covers(facts: list[Hyp], supports: list[str]) -> bool:
 
 
 def chart_agrees(prog: Prog, supports: list[str], probe: list[tuple[str, bool]], limit: int = 8) -> bool:
-    programs = compose(supports, gold_facts(prog, supports), limit)
-    return any(agrees(candidate, supports, probe) for candidate, _score in programs)
+    """True when the version space still contains a probe-matching program.
+
+    `limit` is retained so older callers keep working. The version space does
+    not discard a support-consistent program to honor it.
+    """
+    del limit
+    from pattern_induction.version_space import assemble
+
+    built = assemble(supports, gold_facts(prog, supports))
+    return any(agrees(candidate, supports, probe) for candidate, _score in built.programs)
