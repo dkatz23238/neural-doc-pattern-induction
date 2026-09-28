@@ -39,7 +39,7 @@ from pattern_induction.renaming import rename_episode
 from pattern_induction.schema_dsl import GENERATOR_VERSION, bank_hash
 from pattern_induction.scope import ScopeNet, collate_scope, hypotheses_from_scope, total_parameter_count
 from pattern_induction.version_space import assemble
-from pattern_induction.witness_net import WitnessNet, collate_witnesses, witness_loss
+from pattern_induction.witness_net import WitnessNet, collate_witnesses, geometry, witness_loss
 
 SCOPE_CHECKPOINT = "results/scope/p2b/seed_0/checkpoint.pt"
 STEPS = 400
@@ -48,6 +48,18 @@ LR = 1e-3
 TIE = 0.3
 PARAM_LO = 1_000_000
 PARAM_HI = 2_000_000
+
+
+def _witness_state(witness: WitnessNet) -> dict:
+    return {
+        "head": {key: value.detach().cpu().clone() for key, value in witness.head.state_dict().items()},
+        "geom_head": {key: value.detach().cpu().clone() for key, value in witness.geom_head.state_dict().items()},
+    }
+
+
+def _load_witness_state(witness: WitnessNet, state: dict) -> None:
+    witness.head.load_state_dict(state["head"])
+    witness.geom_head.load_state_dict(state["geom_head"])
 
 
 def _load_scope(root: Path) -> ScopeNet:
@@ -244,7 +256,8 @@ def train_selector(root: Path, seed: int = 0) -> dict:
     rng = random.Random(seed)
     scope = _load_scope(root)
     witness = WitnessNet(scope.local)
-    total = total_parameter_count(scope) + sum(param.numel() for param in witness.head.parameters())
+    witness_parameters = sum(param.numel() for param in witness.parameters())
+    total = total_parameter_count(scope) + witness_parameters
     if not PARAM_LO <= total <= PARAM_HI:
         raise RuntimeError(f"selector parameter count {total} left the 1M–2M band")
     prior = _fit_prior(rng, bank)
@@ -255,7 +268,16 @@ def train_selector(root: Path, seed: int = 0) -> dict:
         raise RuntimeError("witness set is too small to train")
     positives = sum(label for _supports, _text, label in rows)
     print(f"s1 witnesses {len(rows)} positive {positives / len(rows):.3f}", flush=True)
-    opt = torch.optim.AdamW(witness.head.parameters(), lr=LR, weight_decay=0.01)
+    # Contrast rows are the actual disagreements. The geometry head sees them
+    # directly, so it trains a little faster than the pooled encoder tower.
+    weights = [4.0 if any(value > 0.0 for value in geometry(supports, text)[8:]) else 1.0 for supports, text, _label in rows]
+    opt = torch.optim.AdamW(
+        [
+            {"params": list(witness.head.parameters()), "lr": LR},
+            {"params": list(witness.geom_head.parameters()), "lr": LR * 10},
+        ],
+        weight_decay=0.01,
+    )
     started = time.time()
     curve = []
     select_tasks = [
@@ -266,18 +288,18 @@ def train_selector(root: Path, seed: int = 0) -> dict:
     base = _score_split(scope, witness, prior, select_tasks, with_stability=False)
     best_score = base["top1"]
     best_step = 0
-    best_head = {key: value.detach().cpu().clone() for key, value in witness.head.state_dict().items()}
+    best_head = _witness_state(witness)
     curve.append({"step": 0, "loss": None, "select_top1": best_score, "seconds": time.time() - started})
     print(f"s1 seed {seed} step 0: atomic top1 {best_score:.3f} ({curve[-1]['seconds']:.0f}s)", flush=True)
     for step in range(1, STEPS + 1):
-        batch_rows = [rows[rng.randrange(len(rows))] for _ in range(BATCH)]
+        batch_rows = rng.choices(rows, weights=weights, k=BATCH)
         batch = collate_witnesses([(supports, text) for supports, text, _label in batch_rows])
         target = torch.tensor([label for _supports, _text, label in batch_rows])
         witness.encoder.eval()
         loss = witness_loss(witness(batch), target)
         opt.zero_grad()
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(witness.head.parameters(), 1.0)
+        torch.nn.utils.clip_grad_norm_(list(witness.parameters()), 1.0)
         opt.step()
         if step % 200 == 0 or step == STEPS:
             witness.encoder.eval()
@@ -290,8 +312,8 @@ def train_selector(root: Path, seed: int = 0) -> dict:
             if report["top1"] >= best_score:
                 best_score = report["top1"]
                 best_step = step
-                best_head = {key: value.detach().cpu().clone() for key, value in witness.head.state_dict().items()}
-    witness.head.load_state_dict(best_head)
+                best_head = _witness_state(witness)
+    _load_witness_state(witness, best_head)
     witness.encoder.eval()
     final = {}
     for index, family in enumerate(ALL):
@@ -315,7 +337,7 @@ def train_selector(root: Path, seed: int = 0) -> dict:
         "arch": "s1",
         "seed": seed,
         "parameters": total,
-        "witness_parameters": sum(param.numel() for param in witness.head.parameters()),
+        "witness_parameters": witness_parameters,
         "steps": STEPS,
         "batch": BATCH,
         "selected_step": best_step,

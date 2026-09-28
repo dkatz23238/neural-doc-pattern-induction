@@ -545,6 +545,8 @@ class GrammarPrior:
         self.cls_n = 0
         self.bounds: Counter[tuple[str, int, int]] = Counter()
         self.bound_n: Counter[str] = Counter()
+        self.cls_bounds: Counter[tuple[str, int, int]] = Counter()
+        self.cls_bound_n: Counter[str] = Counter()
         self.repeat_bounds: Counter[tuple[int, int]] = Counter()
         self.repeat_n = 0
         self.copy_len: Counter[int] = Counter()
@@ -561,6 +563,8 @@ class GrammarPrior:
             self.cls_n += 1
             self.bounds[(prog.op, prog.lo, prog.hi)] += 1
             self.bound_n[prog.op] += 1
+            self.cls_bounds[(prog.cls, prog.lo, prog.hi)] += 1
+            self.cls_bound_n[prog.cls] += 1
         elif prog.op == "REPEAT":
             hi = OPEN if prog.hi >= OPEN else prog.hi
             if repeat_bounds:
@@ -587,7 +591,13 @@ class GrammarPrior:
         total += self._log(self.op[(parent, prog.op)], self.parent[parent], len(OPS))
         if prog.op == "CLS":
             total += self._log(self.cls[prog.cls], self.cls_n, 3)
-            total += self._log(self.bounds[(prog.op, prog.lo, prog.hi)], self.bound_n[prog.op], 8)
+            # Width is a property of the class. A one-character letter class
+            # should not make a one-digit run look likelier than the digit
+            # range the repeat schemas actually use.
+            if self.cls_bound_n[prog.cls]:
+                total += self._log(self.cls_bounds[(prog.cls, prog.lo, prog.hi)], self.cls_bound_n[prog.cls], 8)
+            else:
+                total += self._log(self.bounds[(prog.op, prog.lo, prog.hi)], self.bound_n[prog.op], 8)
         elif prog.op == "REPEAT":
             hi = OPEN if prog.hi >= OPEN else prog.hi
             if self.repeat_n:
@@ -611,6 +621,8 @@ class GrammarPrior:
             "cls_n": self.cls_n,
             "bounds": {f"{op}|{lo}|{hi}": count for (op, lo, hi), count in self.bounds.items()},
             "bound_n": dict(self.bound_n),
+            "cls_bounds": {f"{cls}|{lo}|{hi}": count for (cls, lo, hi), count in self.cls_bounds.items()},
+            "cls_bound_n": dict(self.cls_bound_n),
             "repeat_bounds": {f"{lo}|{hi}": count for (lo, hi), count in self.repeat_bounds.items()},
             "repeat_n": self.repeat_n,
             "copy_len": {str(key): count for key, count in self.copy_len.items()},
@@ -630,6 +642,10 @@ class GrammarPrior:
             {(parts[0], int(parts[1]), int(parts[2])): count for key, count in state["bounds"].items() for parts in [key.split("|")]}
         )
         prior.bound_n = Counter(state["bound_n"])
+        prior.cls_bounds = Counter(
+            {(parts[0], int(parts[1]), int(parts[2])): count for key, count in state.get("cls_bounds", {}).items() for parts in [key.split("|")]}
+        )
+        prior.cls_bound_n = Counter(state.get("cls_bound_n", {}))
         prior.repeat_bounds = Counter(
             {(int(key.split("|")[0]), int(key.split("|")[1])): count for key, count in state["repeat_bounds"].items()}
         )
@@ -656,14 +672,25 @@ def disagreements(families: list[list[Prog]], supports: list[str], limit: int = 
     return [text for _balance, _length, text in scored[:limit]]
 
 
+# One confident witness opens a gap smaller than the grammar tie. Two witnesses
+# that split the same way clear it. A single bad vote therefore cannot replace
+# the schema prior.
+WITNESS_GAP = 0.22
+
+
 def witness_loglik(prog: Prog, supports: list[str], judgments: list[tuple[str, float]]) -> float:
+    """Pairwise evidence from confident witnesses. Uncertain votes abstain."""
     total = 0.0
     for text, prob in judgments:
         if repeat_extension(text, supports):
             continue
-        prob = min(0.98, max(0.02, prob))
-        taken = prob if execute(prog, text, supports) else 1.0 - prob
-        total += math.log(taken)
+        if 0.2 < prob < 0.8:
+            continue
+        accepts = bool(execute(prog, text, supports))
+        if prob >= 0.8:
+            total += WITNESS_GAP if accepts else 0.0
+        else:
+            total += WITNESS_GAP if not accepts else 0.0
     return total
 
 
@@ -675,17 +702,16 @@ def choose_family(
     stability: dict[int, float] | None = None,
     tie: float = 0.3,
 ) -> Prog:
-    """Witness evidence ranks languages. The grammar breaks a near tie."""
+    """Witnesses eliminate languages. The grammar, then stability, breaks a near tie."""
     stability = stability or {}
     ranked = []
     for index, group in enumerate(families):
         evidence = witness_loglik(group[0], supports, judgments)
-        evidence += 0.2 * stability.get(index, 0.0)
         grammar = max(prior.score(prog) for prog in group)
         representative = max(group, key=lambda prog: (prior.score(prog), -prog.nodes()))
-        ranked.append((evidence, grammar, representative))
+        ranked.append((evidence, grammar, stability.get(index, 0.0), representative))
     ranked.sort(key=lambda item: item[0], reverse=True)
     best = ranked[0][0]
     band = [item for item in ranked if best - item[0] <= tie]
-    band.sort(key=lambda item: item[1], reverse=True)
-    return band[0][2]
+    band.sort(key=lambda item: (item[1], item[2]), reverse=True)
+    return band[0][3]

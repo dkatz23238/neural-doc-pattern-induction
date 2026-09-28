@@ -22,7 +22,7 @@ def _summary(root: Path) -> None:
     lines = [
         "# Language selection",
         "",
-        "S1 leaves the scope recognizer and the version-space chart frozen. Syntactic copies and programs that accept the same strings are merged. A grammar fit on gold schemas scores operator choice, class width, repeat bounds, optionality, and literal length. Repeat bounds come from the atomic compose languages, where an unobserved longer repeat stays open. Leave-one-out support subsets and one reordering add a stability nudge. A small head on the frozen relational encoder judges short strings where the remaining languages disagree, and that evidence ranks them. The grammar breaks a near tie.",
+        "S1 leaves the scope recognizer and the version-space chart frozen. Syntactic copies and programs that accept the same strings are merged. A grammar fit on gold schemas scores operator choice, class width conditional on the class, repeat bounds, optionality, and literal length. Repeat bounds come from the atomic compose languages, where an unobserved longer repeat stays open. A small head on the frozen relational encoder, plus contrast features for width, letter affixes, and same-width retints, judges short strings where the remaining languages disagree. One confident witness stays inside the grammar tie; two that split the same way eliminate a language. Stability on support subsets breaks a remaining tie after the grammar.",
         "",
         "The checkpoint is chosen on atomic semantic top-1. Held-out composition is scored after that choice. BENCH-C is not scored.",
         "",

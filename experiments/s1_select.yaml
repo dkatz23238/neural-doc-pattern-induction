@@ -9,8 +9,8 @@ batch: 16
 lr: 0.001
 repeat_bounds: atomic compose gold, open when the supports do not cap the repeat
 stability: leave-one-out, one leave-two-out when four supports are present, one rotation
-witness: frozen relational encoder plus a small head
-tie: grammar prior within 0.3 nats
+witness: frozen relational encoder plus a geometry head on width, affix, and retint contrasts
+tie: grammar prior within 0.3 nats; one confident witness gaps 0.22, two clear the tie
 gate:
   version_space_oracle: 0.985
   semantic_top1: 0.97
