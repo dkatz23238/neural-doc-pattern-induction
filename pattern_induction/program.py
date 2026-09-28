@@ -92,8 +92,20 @@ def _literal(prog: Prog, supports: list[str]) -> str:
     return text[prog.start : prog.end]
 
 
+_MEMBERSHIP: dict[tuple, object] = {}
+_MEMBERSHIP_CAP = 200_000
+
+
+def _membership_key(prog: Prog, text: str, supports: list[str], index: int) -> tuple:
+    return (describe(prog), text, tuple(supports), index)
+
+
 def advance(prog: Prog, text: str, supports: list[str], index: int = 0) -> tuple[int, ...]:
     """Ends reachable by matching `prog` at `index`. The match need not consume `text`."""
+    key = _membership_key(prog, text, supports, index)
+    cached = _MEMBERSHIP.get(key)
+    if isinstance(cached, tuple):
+        return cached
     memo: dict[tuple[int, int], tuple[int, ...]] = {}
 
     def ends(node: Prog, cursor: int) -> tuple[int, ...]:
@@ -146,7 +158,10 @@ def advance(prog: Prog, text: str, supports: list[str], index: int = 0) -> tuple
         memo[key] = result
         return result
 
-    return ends(prog, index)
+    result = ends(prog, index)
+    if len(_MEMBERSHIP) < _MEMBERSHIP_CAP:
+        _MEMBERSHIP[key] = result
+    return result
 
 
 def execute(prog: Prog, text: str, supports: list[str]) -> bool:

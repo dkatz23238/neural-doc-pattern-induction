@@ -1,0 +1,11 @@
+{
+  "benchmark": "BENCH-E",
+  "role": "untouched external split",
+  "scored": false,
+  "inspected": false,
+  "n": 100,
+  "sha256": "f370a1707179ede5212d360751c5fb23ae7b6f507ec75665cd727dffc920ba9d",
+  "seed": 2507,
+  "replicates": 4,
+  "note": "Do not score or inspect until the architecture and the grammar are frozen. BENCH-C is the diagnostic set."
+}

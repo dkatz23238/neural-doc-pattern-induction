@@ -28,6 +28,7 @@ from pattern_induction.bench_split import aggregate as split_aggregate
 from pattern_induction.bench_split import fill_synthesis, label_tasks, render_markdown
 from pattern_induction.stress import aggregate, score_rows, stress_cells
 from pattern_induction.tasks import read_jsonl
+from pattern_induction.transfer_eval import evaluate as evaluate_transfer
 
 
 def _root() -> Path:
@@ -336,14 +337,72 @@ def _summary(root: Path) -> None:
     if split_path.exists():
         lines.append(split_path.read_text().rstrip())
         lines.append("")
+    transfer_path = root / "results" / "needle" / "transfer.md"
+    if transfer_path.exists():
+        lines.append(transfer_path.read_text().rstrip())
+        lines.append("")
+    seal_path = root / "results" / "needle" / "bench_e_seal.json"
+    if seal_path.exists():
+        seal = json.loads(seal_path.read_text())
+        lines.extend(
+            [
+                "## BENCH-E",
+                "",
+                f"Sealed external split, {seal['n']} tasks, sha256 `{seal['sha256']}`. "
+                "Scored: no. Inspected: no. BENCH-C remains the diagnostic set.",
+                "",
+            ]
+        )
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text("\n".join(lines) + "\n")
     print(f"wrote {dest}", flush=True)
 
 
+def _transfer(root: Path) -> dict:
+    payload = evaluate_transfer(root)
+    dest = root / "results" / "needle" / "transfer.json"
+    _write(dest, payload)
+    lines = [
+        "## In-fragment transfer",
+        "",
+        "The model and the grammar stay frozen. A nonempty chart is not rebuilt. "
+        "An empty chart gains facts from an alignment of class runs: a shared text is a copy, "
+        "a varying run is that class at the observed widths, a fixed run sequence that some supports omit is optional, "
+        "and two unrelated skeletons are an alternation. Class width is not held to the repeat cap.",
+        "",
+        f"Exact tasks {payload['exact_n']}. Empty charts before {payload['exact_empty_before']}, "
+        f"after {payload['exact_empty_after']} ({payload['exact_empty_rate']:.3f}). "
+        f"Exact-slice synthesis oracle {payload['exact_synthesis_oracle']:.3f}. "
+        f"Exact-slice selector accuracy {payload['exact_selector_accuracy']:.3f}. "
+        f"Headline selector accuracy, with previously empty tasks rescored and every other task left as scored, "
+        f"{payload['headline_selector_accuracy']:.3f}.",
+        "",
+        f"Rescored {payload['rescored_empty']} previously empty exact tasks in {payload['seconds']:.0f}s. "
+        f"Timeouts {payload['timeouts']}. A timeout still keeps a program found before the clock; "
+        f"the selector is then counted as an abstention.",
+        "",
+        "| Alignment | Empty exact tasks | Filled | Hidden-set perfect | Selector accuracy |",
+        "| --- | --- | --- | --- | --- |",
+    ]
+    for name, view in payload["by_alignment"].items():
+        lines.append(
+            f"| {name} | {view['n']} | {view['filled']} | {view['synthesis_perfect']} | {view['selector_accuracy']:.3f} |"
+        )
+    lines.extend(["",])
+    path = root / "results" / "needle" / "transfer.md"
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(
+        f"transfer exact oracle {payload['exact_synthesis_oracle']:.3f} "
+        f"empty {payload['exact_empty_after']}/{payload['exact_n']} "
+        f"headline {payload['headline_selector_accuracy']:.3f}",
+        flush=True,
+    )
+    return payload
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--stage", choices=("gate", "stress", "bench", "split", "summary"), required=True)
+    parser.add_argument("--stage", choices=("gate", "stress", "bench", "split", "transfer", "summary"), required=True)
     parser.add_argument("--force-bench", action="store_true")
     args = parser.parse_args()
     torch.set_num_threads(4)
@@ -356,6 +415,8 @@ def main() -> None:
         _bench(root, args.force_bench)
     elif args.stage == "split":
         _split(root)
+    elif args.stage == "transfer":
+        _transfer(root)
     _summary(root)
 
 

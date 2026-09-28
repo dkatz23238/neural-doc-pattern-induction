@@ -178,8 +178,10 @@ def _atom_chunks(supports: list[str], hyps: list[Hyp]) -> dict[int, list[_Chunk]
         if hyp.kind == "copy":
             prog = _canonical_copy(hyp.slot, hyp.start, hyp.end, supports)
         elif hyp.kind == "cls" and hyp.cls in {"digit", "upper", "lower"}:
-            lo = max(1, min(int(hyp.lo), OPEN))
-            hi = max(lo, min(int(hyp.hi), OPEN))
+            # A class width is one node and may pass the repeat cap. Repeat
+            # bounds stay capped in `_repeat_chunks`.
+            lo = max(1, int(hyp.lo))
+            hi = max(lo, int(hyp.hi))
             prog = Prog("CLS", cls=hyp.cls, lo=lo, hi=hi)
         if prog is None:
             continue
@@ -266,6 +268,36 @@ def _alt_programs(
     return list(found.values()), truncated
 
 
+def _wrap_documented_alts(
+    supports: list[str],
+    hyps: list[Hyp],
+    optionals: dict[int, list[_Chunk]],
+    alt_progs: list[Prog],
+) -> None:
+    """An optional span we added may be an alternation, not a single literal.
+
+    Only hypotheses with score 0, the ones alignment adds after a chart comes
+    back empty, take this wrap. Neural optionals keep their own score and
+    stay as they were.
+    """
+    if not alt_progs:
+        return
+    for hyp in hyps:
+        if hyp.kind != "optional" or hyp.score != 0.0:
+            continue
+        if hyp.slot < 0 or hyp.slot >= len(supports):
+            continue
+        text = supports[hyp.slot]
+        if not _span_ok(text, hyp.start, hyp.end):
+            continue
+        for alt in alt_progs:
+            if hyp.end not in advance(alt, text, supports, hyp.start):
+                continue
+            optionals[hyp.slot].append(_Chunk(hyp.start, hyp.end, Prog("OPT", children=[alt])))
+    for slot in optionals:
+        optionals[slot] = _unique_chunks(optionals[slot])
+
+
 def _join(parts: list[Prog | None]) -> Prog | None:
     prog: Prog | None = None
     for part in parts:
@@ -275,7 +307,7 @@ def _join(parts: list[Prog | None]) -> Prog | None:
     return prog
 
 
-def assemble(supports: list[str], hyps: list[Hyp]) -> Assembly:
+def assemble(supports: list[str], hyps: list[Hyp], wrap_optional_alt: bool = False) -> Assembly:
     """Support-consistent programs entailed by these hypotheses.
 
     Atoms and repeats form a spine. Each optional and alternation hypothesis
@@ -291,6 +323,10 @@ def assemble(supports: list[str], hyps: list[Hyp]) -> Assembly:
     alts, alt_hit = _alt_programs(supports, hyps, atoms, repeats)
     truncated = truncated or alt_hit
     alt_progs = _dedup([alt.prog for alt in alts])
+    if wrap_optional_alt:
+        documented = [hyp for hyp in hyps if hyp.kind != "alt" or hyp.score == 0.0]
+        doc_alts, _doc_hit = _alt_programs(supports, documented, atoms, repeats)
+        _wrap_documented_alts(supports, hyps, optionals, _dedup([alt.prog for alt in doc_alts]))
     library = sum(len(rows) for rows in atoms.values()) + sum(len(rows) for rows in repeats.values())
     library += sum(len(rows) for rows in optionals.values()) + len(alt_progs)
     cache: dict[tuple[int, int, int], tuple[list[Prog | None], bool]] = {}

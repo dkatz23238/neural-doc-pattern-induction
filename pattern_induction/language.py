@@ -255,7 +255,7 @@ def _closure(nfa: _NFA, states: set[int]) -> frozenset[int]:
     return frozenset(seen)
 
 
-def _determinize(nfa: _NFA) -> _DFA | None:
+def _determinize(nfa: _NFA, cap: int = DFA_CAP) -> _DFA | None:
     start = _closure(nfa, {nfa.start})
     index = {start: 0}
     trans: list[dict[int, int]] = [{}]
@@ -274,7 +274,7 @@ def _determinize(nfa: _NFA) -> _DFA | None:
                 continue
             dest = _closure(nfa, reached)
             if dest not in index:
-                if len(index) >= DFA_CAP:
+                if len(index) >= cap:
                     return None
                 index[dest] = len(index)
                 trans.append({})
@@ -359,10 +359,12 @@ def _canonicalize(dfa: _DFA) -> tuple:
 
 
 def _dfa_key(prog: Prog, atoms: list[tuple[str, str]], supports: list[str]) -> tuple | None:
+    # Equivalence ignores a DFA once it passes 300 states. Stop at that line
+    # instead of expanding to the safety cap and throwing the automaton away.
     nfa = _compile(prog, atoms, supports)
     if nfa is None:
         return None
-    dfa = _determinize(nfa)
+    dfa = _determinize(nfa, 299)
     if dfa is None or dfa.sink + 1 > 300:
         return None
     return _canonicalize(_minimize(dfa))

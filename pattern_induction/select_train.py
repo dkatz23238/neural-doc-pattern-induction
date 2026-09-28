@@ -18,6 +18,7 @@ import torch
 
 from pattern_induction.chart import LOCAL_K, same_fact
 from pattern_induction.contingent import contingent_optionals
+from pattern_induction.document_facts import document_facts
 from pattern_induction.language import (
     GrammarPrior,
     boundary_strings,
@@ -78,6 +79,29 @@ def _load_scope(root: Path) -> ScopeNet:
     return model
 
 
+def complete_assembly(supports: list[str], hyps: list):
+    """Keep a nonempty chart. An empty chart may gain aligned document facts.
+
+    The added facts are copies, classes at the observed widths, optional
+    prefixes or suffixes, and binary alternations. They are stitched only
+    when the frozen hypotheses produced no program, so a chart that already
+    has a language is unchanged. Alignment reads the same supports the
+    recognizer saw.
+    """
+    assembly = assemble(supports, hyps)
+    if assembly.programs:
+        return assembly
+    viewed = supports[:MAX_SUPPORT]
+    extra = []
+    for hyp in document_facts(viewed):
+        if any(same_fact(hyp, kept, True) for kept in hyps):
+            continue
+        extra.append(hyp)
+    if not extra:
+        return assembly
+    return assemble(supports, hyps + extra, wrap_optional_alt=True)
+
+
 def synthesize_assembly(scope: ScopeNet, task: Task):
     supports = task.supports[:MAX_SUPPORT]
     batch = collate_scope([task])
@@ -86,7 +110,7 @@ def synthesize_assembly(scope: ScopeNet, task: Task):
         if any(same_fact(hyp, kept, False) for kept in hyps):
             continue
         hyps.append(hyp)
-    return assemble(task.supports, hyps)
+    return complete_assembly(task.supports, hyps)
 
 
 def synthesize(scope: ScopeNet, task: Task) -> list:
