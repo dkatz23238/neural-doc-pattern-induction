@@ -144,6 +144,14 @@ PYTHONPATH=. python scripts/run_programs.py --stage train
 
 `results/programs/summary.md` is the written result.
 
+The local-chart run keeps that encoder and stops decoding one tree. L1 scores copy spans, classes, repeat units, optional spans, alternation pairs, and sequence cuts independently, and a chart assembles programs from the hypotheses that stay alive. Local recall is the first gate. BENCH-C is not scored.
+
+```bash
+PYTHONPATH=. python scripts/run_local.py --stage train
+```
+
+`results/local_chart/summary.md` is the written result.
+
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 
 fAST is the ICGI 2023 reference implementation (`find-abstract-syntax-tree`). It searches character by character and often returns nothing within a few seconds on document-length strings. The runner records timeouts instead of inventing a regex. Its concatenation operator is translated into a Python regex before scoring.

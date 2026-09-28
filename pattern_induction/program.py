@@ -92,35 +92,33 @@ def _literal(prog: Prog, supports: list[str]) -> str:
     return text[prog.start : prog.end]
 
 
-def execute(prog: Prog, text: str, supports: list[str]) -> bool:
-    """True when the program matches the whole string."""
-    if not text:
-        return False
+def advance(prog: Prog, text: str, supports: list[str], index: int = 0) -> tuple[int, ...]:
+    """Ends reachable by matching `prog` at `index`. The match need not consume `text`."""
     memo: dict[tuple[int, int], tuple[int, ...]] = {}
 
-    def ends(node: Prog, index: int) -> tuple[int, ...]:
-        key = (id(node), index)
+    def ends(node: Prog, cursor: int) -> tuple[int, ...]:
+        key = (id(node), cursor)
         cached = memo.get(key)
         if cached is not None:
             return cached
         if node.op == "COPY":
             literal = _literal(node, supports)
-            result = (index + len(literal),) if literal and text.startswith(literal, index) else ()
+            result = (cursor + len(literal),) if literal and text.startswith(literal, cursor) else ()
         elif node.op == "CLS":
             found = []
             lo = max(1, min(node.lo, node.hi))
             hi = max(lo, node.hi)
             for width in range(lo, hi + 1):
-                chunk = text[index : index + width]
+                chunk = text[cursor : cursor + width]
                 if len(chunk) == width and class_ok(chunk, node.cls):
-                    found.append(index + width)
+                    found.append(cursor + width)
             result = tuple(found)
         elif node.op == "OPT" and node.children:
-            result = (index,) + ends(node.children[0], index)
+            result = (cursor,) + ends(node.children[0], cursor)
         elif node.op == "ALT" and len(node.children) >= 2:
-            result = ends(node.children[0], index) + ends(node.children[1], index)
+            result = ends(node.children[0], cursor) + ends(node.children[1], cursor)
         elif node.op == "SEQ" and node.children:
-            positions: tuple[int, ...] = (index,)
+            positions: tuple[int, ...] = (cursor,)
             for child in node.children:
                 nxt: list[int] = []
                 for pos in positions:
@@ -132,7 +130,7 @@ def execute(prog: Prog, text: str, supports: list[str]) -> bool:
         elif node.op == "REPEAT" and node.children:
             hi = max(node.lo, min(node.hi, OPEN))
             found: list[int] = []
-            positions = (index,)
+            positions = (cursor,)
             for count in range(1, hi + 1):
                 nxt = []
                 for pos in positions:
@@ -148,7 +146,14 @@ def execute(prog: Prog, text: str, supports: list[str]) -> bool:
         memo[key] = result
         return result
 
-    return len(text) in ends(prog, 0)
+    return ends(prog, index)
+
+
+def execute(prog: Prog, text: str, supports: list[str]) -> bool:
+    """True when the program matches the whole string."""
+    if not text:
+        return False
+    return len(text) in advance(prog, text, supports, 0)
 
 
 def accepts_all(prog: Prog, strings: list[str], supports: list[str]) -> bool:
