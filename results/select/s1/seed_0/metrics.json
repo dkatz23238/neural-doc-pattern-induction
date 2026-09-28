@@ -1,0 +1,181 @@
+{
+  "arch": "s1",
+  "seed": 0,
+  "parameters": 1226128,
+  "witness_parameters": 102741,
+  "steps": 400,
+  "batch": 16,
+  "selected_step": 400,
+  "select_top1": 1.0,
+  "generator_version": "dsl-1",
+  "template_bank_hash": "e0245d392f894537",
+  "frozen_checkpoint": "results/scope/p2b/seed_0/checkpoint.pt",
+  "atomic_top1": 1.0,
+  "ood_top1": 0.9875,
+  "ood_semantic": 0.9875,
+  "ood_oracle": 0.9875,
+  "worst_family": "repeat_optional",
+  "worst_top1": 0.9375,
+  "min_invariance": 1.0,
+  "interpretation": "semantic top-1 cleared 97 percent on held-out composition",
+  "families": {
+    "primitive": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 137.375,
+      "n": 16
+    },
+    "repeat": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 421.125,
+      "n": 16
+    },
+    "optional": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 70.375,
+      "n": 16
+    },
+    "alternation": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 75.0,
+      "n": 16
+    },
+    "prefix_repeat": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 718.3125,
+      "n": 16
+    },
+    "repeat_optional": {
+      "top1": 0.9375,
+      "semantic": 0.9375,
+      "oracle": 0.9375,
+      "families": 4.4375,
+      "n": 16
+    },
+    "prefix_alt": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 91.9375,
+      "n": 16
+    },
+    "optional_internal": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 613.5,
+      "n": 16
+    },
+    "repeat_extra": {
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 547.6875,
+      "n": 16
+    }
+  },
+  "curve": [
+    {
+      "step": 0,
+      "loss": null,
+      "select_top1": 1.0,
+      "seconds": 14.072712182998657
+    },
+    {
+      "step": 200,
+      "loss": 0.4026091992855072,
+      "select_top1": 1.0,
+      "seconds": 33.347554445266724
+    },
+    {
+      "step": 400,
+      "loss": 0.2406148463487625,
+      "select_top1": 1.0,
+      "seconds": 52.271979331970215
+    }
+  ],
+  "prior": {
+    "op": {
+      "ROOT|SEQ": 182,
+      "SEQ|COPY": 182,
+      "SEQ|CLS": 282,
+      "ROOT|CLS": 18,
+      "SEQ|REPEAT": 100,
+      "REPEAT|SEQ": 100,
+      "SEQ|OPT": 60,
+      "OPT|COPY": 60,
+      "ROOT|ALT": 40,
+      "ALT|COPY": 80,
+      "ALT|CLS": 80,
+      "SEQ|ALT": 40
+    },
+    "parent": {
+      "ROOT": 240,
+      "SEQ": 664,
+      "REPEAT": 100,
+      "OPT": 60,
+      "ALT": 160
+    },
+    "cls": {
+      "digit": 309,
+      "lower": 51,
+      "upper": 20
+    },
+    "cls_n": 380,
+    "bounds": {
+      "CLS|3|3": 78,
+      "CLS|4|4": 72,
+      "CLS|1|2": 80,
+      "CLS|2|2": 59,
+      "CLS|1|1": 91,
+      "REPEAT|1|3": 30,
+      "REPEAT|1|2": 30
+    },
+    "bound_n": {
+      "CLS": 380,
+      "REPEAT": 60
+    },
+    "cls_bounds": {
+      "digit|3|3": 70,
+      "lower|4|4": 13,
+      "digit|4|4": 59,
+      "lower|3|3": 8,
+      "digit|1|2": 80,
+      "upper|2|2": 20,
+      "digit|1|1": 71,
+      "lower|1|1": 20,
+      "lower|2|2": 10,
+      "digit|2|2": 29
+    },
+    "cls_bound_n": {
+      "digit": 309,
+      "lower": 51,
+      "upper": 20
+    },
+    "repeat_bounds": {
+      "1|8": 40
+    },
+    "repeat_n": 40,
+    "copy_len": {
+      "2": 52,
+      "1": 160,
+      "3": 110
+    },
+    "copy_n": 322,
+    "seq_n": {
+      "2": 192,
+      "3": 80,
+      "4": 10
+    },
+    "seq_total": 282
+  }
+}
