@@ -28,6 +28,7 @@ from pattern_induction.bench_split import aggregate as split_aggregate
 from pattern_induction.bench_split import fill_synthesis, label_tasks, render_markdown
 from pattern_induction.stress import aggregate, score_rows, stress_cells
 from pattern_induction.tasks import read_jsonl
+from pattern_induction.coverage_eval import evaluate as evaluate_coverage
 from pattern_induction.transfer_eval import evaluate as evaluate_transfer
 
 
@@ -341,6 +342,10 @@ def _summary(root: Path) -> None:
     if transfer_path.exists():
         lines.append(transfer_path.read_text().rstrip())
         lines.append("")
+    coverage_path = root / "results" / "needle" / "coverage.md"
+    if coverage_path.exists():
+        lines.append(coverage_path.read_text().rstrip())
+        lines.append("")
     seal_path = root / "results" / "needle" / "bench_e_seal.json"
     if seal_path.exists():
         seal = json.loads(seal_path.read_text())
@@ -400,9 +405,58 @@ def _transfer(root: Path) -> dict:
     return payload
 
 
+def _coverage(root: Path) -> dict:
+    payload = evaluate_coverage(root)
+    _write(root / "results" / "needle" / "coverage.json", payload)
+    path = root / "results" / "needle" / "coverage.md"
+    path.write_text(_coverage_markdown(payload), encoding="utf-8")
+    print(
+        f"coverage oracle {payload['exact_synthesis_oracle']:.3f} "
+        f"ceiling {payload['recoverable_oracle']:.3f}",
+        flush=True,
+    )
+    return payload
+
+
+def _coverage_markdown(payload: dict) -> str:
+    conditional = payload.get("selector_accuracy_given_perfect")
+    selector = payload.get("selector_accuracy")
+    conditional_text = "not rescored" if conditional is None else f"{conditional:.3f}"
+    selector_text = "not rescored" if selector is None else f"{selector:.3f}"
+    lines = [
+        "## Visible coverage",
+        "",
+        "The model and the grammar stay frozen. Alignment facts join a nonempty chart when they name a width, a literal, an optional region, or a binary alternation the frozen hypotheses do not already state. Equivalent concatenations collapse while the chart is built. A chart the alignment does not extend is unchanged.",
+        "",
+        f"Exact tasks {payload['exact_n']}. Empty charts {payload['exact_empty']}. "
+        f"Exact-slice synthesis oracle {payload['exact_synthesis_oracle']:.3f} "
+        f"({payload['exact_synthesis_perfect']}/{payload['exact_n']}). "
+        f"Previously perfect programs kept {payload['previously_perfect_kept']}. "
+        f"Formerly empty charts that contain a hidden-set-perfect program {payload['empty_now_perfect']}.",
+        "",
+        f"Of the {payload['nonempty_misses']} exact tasks that already had a program and no hidden-set-perfect one, "
+        f"{payload['nonempty_misses_recovered']} now contain one. "
+        f"The other {payload['nonempty_misses_remaining']} miss because a bound, a branch, or an optional the gold uses "
+        f"does not appear in the four supports ({payload['remaining_unobserved']} unobserved, "
+        f"{payload['remaining_visible']} still visible to the chart). "
+        f"Across the exact slice, {payload['identifiable_failures']} misses need a fact the supports do not show. "
+        f"The recoverable-from-visible-support oracle is {payload['recoverable_oracle']:.3f}.",
+        "",
+        f"Exact selector accuracy {selector_text}. "
+        f"Selector accuracy given a hidden-set-perfect program {conditional_text}. "
+        f"Selector timeouts {payload.get('selector_timeouts', 0)}.",
+        "",
+    ]
+    return "\n".join(lines) + "\n"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--stage", choices=("gate", "stress", "bench", "split", "transfer", "summary"), required=True)
+    parser.add_argument(
+        "--stage",
+        choices=("gate", "stress", "bench", "split", "transfer", "coverage", "summary"),
+        required=True,
+    )
     parser.add_argument("--force-bench", action="store_true")
     args = parser.parse_args()
     torch.set_num_threads(4)
@@ -417,6 +471,8 @@ def main() -> None:
         _split(root)
     elif args.stage == "transfer":
         _transfer(root)
+    elif args.stage == "coverage":
+        _coverage(root)
     _summary(root)
 
 

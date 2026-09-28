@@ -26,6 +26,7 @@ from pattern_induction.language import (
     disagreements,
     group_languages,
     repeat_extension,
+    witness_loglik,
 )
 from pattern_induction.local_train import ALL, ATOMIC, OOD
 from pattern_induction.membership import Episode
@@ -37,6 +38,7 @@ from pattern_induction.program import (
     feature_batch,
     sample_compose_task,
     sample_dsl_task,
+    to_regex,
 )
 from pattern_induction.recipes import d1_bank
 from pattern_induction.renaming import rename_episode
@@ -50,6 +52,9 @@ STEPS = 400
 BATCH = 16
 LR = 1e-3
 TIE = 0.3
+# Above this, equivalence grouping no longer finishes beside subset resynthesis.
+# Same-regex programs are one language. Distinct regexes stay apart.
+LARGE_CHART = 6000
 PARAM_LO = 1_000_000
 PARAM_HI = 2_000_000
 
@@ -80,17 +85,15 @@ def _load_scope(root: Path) -> ScopeNet:
 
 
 def complete_assembly(supports: list[str], hyps: list):
-    """Keep a nonempty chart. An empty chart may gain aligned document facts.
+    """Union alignment facts with the frozen chart, then pack equivalent cells.
 
-    The added facts are copies, classes at the observed widths, optional
-    prefixes or suffixes, and binary alternations. They are stitched only
-    when the frozen hypotheses produced no program, so a chart that already
-    has a language is unchanged. Alignment reads the same supports the
-    recognizer saw.
+    The four supports already show exact class widths, literal heads, optional
+    regions, and binary alternations. Those facts are added even when the
+    neural chart is nonempty, because a populated chart can still be missing
+    the tight program. A chart the alignment does not extend is assembled
+    exactly as before. Equivalent concatenations collapse only on the union,
+    after the facts have been composed.
     """
-    assembly = assemble(supports, hyps)
-    if assembly.programs:
-        return assembly
     viewed = supports[:MAX_SUPPORT]
     extra = []
     for hyp in document_facts(viewed):
@@ -98,8 +101,8 @@ def complete_assembly(supports: list[str], hyps: list):
             continue
         extra.append(hyp)
     if not extra:
-        return assembly
-    return assemble(supports, hyps + extra, wrap_optional_alt=True)
+        return assemble(supports, hyps)
+    return assemble(supports, hyps + extra, wrap_optional_alt=True, pack=True)
 
 
 def synthesize_assembly(scope: ScopeNet, task: Task):
@@ -183,16 +186,72 @@ def select_program(
     with_stability: bool = True,
 ) -> tuple:
     programs = synthesize(scope, task)
+    if len(programs) >= LARGE_CHART:
+        chosen, count = _select_large(programs, task.supports, witness, prior)
+        return chosen, programs, count
     families = group_languages(programs, task.supports)
     if not families:
         return None, programs, 0
-    stability: dict[int, float] = {}
-    if with_stability and len(families) > 1 and len(task.supports) >= 3:
-        stability = _stability(scope, task, families)
     texts = disagreements(families, task.supports) if len(families) > 1 else []
     judgments = _judgments(witness, task.supports, texts)
+    stability: dict[int, float] = {}
+    # Stability only breaks a tie inside the witness band. A unique witness
+    # winner is already decided, so the subset resynthesis can be skipped.
+    if with_stability and len(families) > 1 and len(task.supports) >= 3 and not _witness_decides(families, task.supports, judgments):
+        stability = _stability(scope, task, families)
     chosen = choose_family(families, task.supports, judgments, prior, stability, TIE)
     return chosen, programs, len(families)
+
+
+def _select_large(programs: list, supports: list[str], witness: WitnessNet, prior: GrammarPrior) -> tuple:
+    """Pick a program when the chart is too large to determinize.
+
+    Programs that render to the same regex are one language. Different
+    regexes stay side by side, so a tighter width is not merged into a
+    broader one. Subset resynthesis is skipped: the witness band on these
+    charts is most of the chart, and the grammar is what breaks that tie.
+    """
+    grouped: dict[str, list] = {}
+    for prog in programs:
+        grouped.setdefault(to_regex(prog, supports), []).append(prog)
+    families = list(grouped.values())
+    if not families:
+        return None, 0
+    battery = boundary_strings(supports)
+    matrix = [
+        tuple(bool(execute(group[0], text, supports)) for text in battery) for group in families
+    ]
+    from pattern_induction.witness_net import geometry
+
+    scored = []
+    for text_index, text in enumerate(battery):
+        if repeat_extension(text, supports):
+            continue
+        accepting = sum(row[text_index] for row in matrix)
+        if accepting and accepting != len(matrix):
+            balance = min(accepting, len(matrix) - accepting)
+            digit_retint = 1 if len(geometry(supports, text)) > 16 and geometry(supports, text)[16] > 0 else 0
+            scored.append((digit_retint, balance, -len(text), text))
+    scored.sort(reverse=True)
+    texts = [text for _retint, _balance, _length, text in scored[:8]]
+    judgments = _judgments(witness, supports, texts)
+    evidences = [witness_loglik(group[0], supports, judgments) for group in families]
+    best = max(evidences) if evidences else 0.0
+    band = []
+    for evidence, group, row in zip(evidences, families, matrix):
+        if best - evidence <= TIE:
+            grammar = max(prior.score(prog) for prog in group)
+            representative = max(group, key=lambda prog: (prior.score(prog), -prog.nodes()))
+            coverage = sum(row)
+            band.append((grammar, coverage, representative))
+    band.sort(key=lambda item: (item[0], item[1]), reverse=True)
+    return band[0][2], len(families)
+
+
+def _witness_decides(families: list[list], supports: list[str], judgments: list[tuple[str, float]]) -> bool:
+    evidences = [witness_loglik(group[0], supports, judgments) for group in families]
+    best = max(evidences)
+    return sum(1 for evidence in evidences if best - evidence <= TIE) <= 1
 
 
 def _semantic(prog, task: Task) -> float:

@@ -287,6 +287,7 @@ def _determinize(nfa: _NFA, cap: int = DFA_CAP) -> _DFA | None:
 
 
 def _minimize(dfa: _DFA) -> _DFA:
+    """Hopcroft minimization. The canonical key matches the table algorithm."""
     count = dfa.sink + 1
 
     def dest(state: int, symbol: int) -> int:
@@ -294,47 +295,64 @@ def _minimize(dfa: _DFA) -> _DFA:
             return dfa.sink
         return dfa.trans[state].get(symbol, dfa.sink)
 
-    marked = [[False] * count for _ in range(count)]
-    for left in range(count):
-        for right in range(left + 1, count):
-            if (left in dfa.accept) != (right in dfa.accept):
-                marked[left][right] = marked[right][left] = True
-    changed = True
-    while changed:
-        changed = False
-        for left in range(count):
-            for right in range(left + 1, count):
-                if marked[left][right]:
+    accept = set(dfa.accept)
+    reject = set(range(count)) - accept
+    part: list[set[int]] = []
+    if accept:
+        part.append(accept)
+    if reject:
+        part.append(reject)
+    loc = [0] * count
+    for index, block in enumerate(part):
+        for state in block:
+            loc[state] = index
+    waiting = {0} if part else set()
+    if len(part) == 2 and len(part[1]) < len(part[0]):
+        waiting = {1}
+    while waiting:
+        splitter_id = waiting.pop()
+        splitter = set(part[splitter_id])
+        for symbol in range(dfa.n_sym):
+            incoming = {state for state in range(count) if dest(state, symbol) in splitter}
+            if not incoming:
+                continue
+            touched: dict[int, list[int]] = {}
+            for state in incoming:
+                touched.setdefault(loc[state], []).append(state)
+            for index, members in touched.items():
+                block = part[index]
+                if len(members) == len(block):
                     continue
-                for symbol in range(dfa.n_sym):
-                    if marked[dest(left, symbol)][dest(right, symbol)]:
-                        marked[left][right] = marked[right][left] = True
-                        changed = True
-                        break
-    class_of = [-1] * count
-    classes: list[int] = []
-    for state in range(count):
-        match = next((rep for rep in classes if not marked[state][rep]), None)
-        if match is None:
-            class_of[state] = len(classes)
-            classes.append(state)
-        else:
-            class_of[state] = class_of[match]
+                move = set(members)
+                stay = block - move
+                part[index] = stay
+                new_index = len(part)
+                part.append(move)
+                for state in move:
+                    loc[state] = new_index
+                if index in waiting:
+                    waiting.add(new_index)
+                elif len(move) <= len(stay):
+                    waiting.add(new_index)
+                else:
+                    waiting.discard(index)
+                    waiting.add(index)
+    class_of = loc
     sink_class = class_of[dfa.sink]
-    live = [cls for cls in range(len(classes)) if cls != sink_class]
+    live = [cls for cls in range(len(part)) if cls != sink_class and part[cls]]
     remap = {cls: index for index, cls in enumerate(live)}
     remap[sink_class] = len(live)
     trans = [{} for _ in live]
-    accept = set()
+    accept_states = set()
     for state in range(dfa.sink):
         here = remap[class_of[state]]
         if state in dfa.accept:
-            accept.add(here)
+            accept_states.add(here)
         for symbol in range(dfa.n_sym):
             nxt = remap[class_of[dest(state, symbol)]]
             if nxt != remap[sink_class]:
                 trans[here][symbol] = nxt
-    return _DFA(remap[class_of[dfa.start]], accept, trans, dfa.n_sym, remap[sink_class])
+    return _DFA(remap[class_of[dfa.start]], accept_states, trans, dfa.n_sym, remap[sink_class])
 
 
 def _canonicalize(dfa: _DFA) -> tuple:

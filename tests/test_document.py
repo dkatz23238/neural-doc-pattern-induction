@@ -1,5 +1,6 @@
 import unittest
 
+from pattern_induction.coverage_eval import gap_kind
 from pattern_induction.contingent import contingent_optionals
 from pattern_induction.chart import Hyp
 from pattern_induction.document_facts import alignment_kind, document_facts
@@ -105,7 +106,7 @@ class DocumentFactTest(unittest.TestCase):
         self.assertEqual(alignment_kind(varied), "none")
         self.assertEqual(document_facts(varied), [])
 
-    def test_a_nonempty_chart_does_not_gain_facts(self):
+    def test_a_chart_the_alignment_does_not_extend_stays_unchanged(self):
         supports = ["AB", "CD", "EF", "GH"]
         hyps = [
             Hyp("cls", slot, 0, 2, score=3.0, cls="upper", lo=2, hi=2) for slot in range(4)
@@ -118,6 +119,90 @@ class DocumentFactTest(unittest.TestCase):
             [prog for prog, _score in done.programs],
         )
         self.assertEqual(len(done.programs), len(first.programs))
+
+    def test_an_exact_width_joins_a_broader_class(self):
+        supports = ["INV-1588", "INV-1399", "INV-8698", "INV-7973"]
+        hyps = []
+        for slot in range(4):
+            hyps.append(Hyp("copy", slot, 0, 4, score=3.0))
+            hyps.append(Hyp("cls", slot, 4, 8, score=3.0, cls="digit", lo=1, hi=8))
+        broad = assemble(supports, hyps)
+        self.assertTrue(broad.programs)
+        self.assertFalse(
+            any(
+                _accepts(prog, "INV-0000", supports) and not _accepts(prog, "INV-000", supports)
+                for prog, _score in broad.programs
+            )
+        )
+        done = complete_assembly(supports, hyps)
+        self.assertTrue(
+            any(
+                _accepts(prog, "INV-0000", supports)
+                and not _accepts(prog, "INV-000", supports)
+                and not _accepts(prog, "INV-00000", supports)
+                and not _accepts(prog, "ABC-1588", supports)
+                for prog, _score in done.programs
+            )
+        )
+
+    def test_adjacent_classes_collapse_to_one_class(self):
+        supports = ["12345", "67890", "11111", "22222"]
+        hyps = []
+        for slot in range(4):
+            hyps.append(Hyp("cls", slot, 0, 2, score=1.0, cls="digit", lo=2, hi=2))
+            hyps.append(Hyp("cls", slot, 2, 5, score=1.0, cls="digit", lo=3, hi=3))
+        unpacked = assemble(supports, hyps)
+        packed = assemble(supports, hyps, pack=True)
+        self.assertTrue(any(prog.op == "SEQ" for prog, _score in unpacked.programs))
+        self.assertTrue(
+            any(prog.op == "CLS" and prog.cls == "digit" and prog.lo == 5 and prog.hi == 5 for prog, _score in packed.programs)
+        )
+        self.assertTrue(
+            all(
+                _accepts(prog, "99999", supports) and not _accepts(prog, "9999", supports)
+                for prog, _score in packed.programs
+            )
+        )
+
+    def test_visible_structure_is_separated_from_an_unobserved_bound(self):
+        self.assertEqual(gap_kind(r"^INV-\d{4}$", ["INV-1588", "INV-1399", "INV-8698", "INV-7973"]), "visible")
+        self.assertEqual(gap_kind(r"^[A-Z]{3}-\d{2}$", ["ABC-12", "ABC-34", "ABC-98", "ABC-55"]), "visible")
+        self.assertEqual(gap_kind(r"^(?:USD|EUR|GBP|JPY|CAD|AUD)$", ["USD", "EUR", "GBP", "JPY"]), "unobserved_branch")
+        self.assertEqual(
+            gap_kind(r"^PMID: \d{7,8}$", ["PMID: 12345678", "PMID: 87654321", "PMID: 11111111", "PMID: 22222222"]),
+            "unobserved_bound",
+        )
+        self.assertEqual(
+            gap_kind(r"^Art\. \d{1,3}(?: bis)?$", ["Art. 6 bis", "Art. 16", "Art. 73", "Art. 10 bis"]),
+            "unobserved_bound",
+        )
+
+    def test_a_one_character_repeat_packs_to_a_class(self):
+        supports = ["12", "34", "56", "78"]
+        unit = Prog("CLS", cls="digit", lo=1, hi=1)
+        repeat = Prog("REPEAT", lo=2, hi=2, children=[unit])
+        from pattern_induction.version_space import _pack
+
+        packed = _pack(repeat, supports)
+        self.assertEqual(packed.op, "CLS")
+        self.assertEqual((packed.lo, packed.hi), (2, 2))
+        varied = Prog("REPEAT", lo=2, hi=3, children=[Prog("CLS", cls="digit", lo=2, hi=2)])
+        self.assertEqual(_pack(varied, supports).op, "REPEAT")
+
+    def test_an_alternation_with_a_redundant_literal_packs_to_the_class(self):
+        supports = ["5", "9", "3", "4"]
+        alt = Prog(
+            "ALT",
+            children=[
+                Prog("COPY", slot=0, start=0, end=1),
+                Prog("CLS", cls="digit", lo=1, hi=1),
+            ],
+        )
+        from pattern_induction.version_space import _pack
+
+        packed = _pack(alt, supports)
+        self.assertEqual(packed.op, "CLS")
+        self.assertEqual((packed.cls, packed.lo, packed.hi), ("digit", 1, 1))
 
 
 if __name__ == "__main__":
