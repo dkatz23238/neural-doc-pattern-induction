@@ -45,5 +45,11 @@ Eight draws per generator setting. Stability stays on. Core cells are two suppor
 | lower_prefix / prefix_alt | report | 1.000 | 1.000 | 81.9 | 134 |
 | nested | report | 0.500 | 0.500 | 2.0 | 6 |
 
-Core semantic top-1 1.000. Core oracle 1.000. Worst core cell few_support 1.000.
+Core semantic top-1 1.000. Core oracle 1.000. Worst core cell few_support 1.000. On the nested stack, top-1 equals the oracle. The misses are the draws whose optional hyphen is also the repeat separator: that character is in every support, so the contingent rule stays quiet and the frozen top-8 does not name the tail.
+
+## BENCH-C
+
+Scored once on 554 tasks, using the first four visible strings and at most 32 characters of each. Semantic accuracy 0.754. Macro 0.741. The old code-length rule on eight candidates scored 0.962. The structural pool oracle at 16 scored 0.995.
+
+external generalization is the next research target.
 
