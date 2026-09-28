@@ -53,6 +53,8 @@ class LanguageSelectionTest(unittest.TestCase):
             ],
         )
         self.assertIn("XK66JY", boundary_strings(supports))
+        doubled = boundary_strings(["NVVV", "NV55VV"])
+        self.assertTrue(any(text.startswith("NV") and text.endswith("VV") and len(text) == 6 and text[2:4].isdigit() and text[2:4] != "55" for text in doubled))
         self.assertTrue(execute(optional, "XK66JY", supports))
         self.assertFalse(execute(literal, "XK66JY", supports))
         self.assertEqual(len(group_languages([optional, literal], supports)), 2)
@@ -112,6 +114,50 @@ class LanguageSelectionTest(unittest.TestCase):
         two = choose_family(families, supports, [("XK66JY", 0.95), ("XK88JY", 0.95)], prior, tie=0.3)
         self.assertFalse(execute(one, "XK66JY", supports))
         self.assertTrue(execute(two, "XK66JY", supports))
+
+    def test_a_grammar_tie_keeps_the_more_general_repeat(self):
+        supports = ["ZT20/7", "ZT2/98/8", "ZT71/60/06/7"]
+        general = Prog(
+            "SEQ",
+            children=[
+                Prog("COPY", slot=0, start=0, end=2),
+                Prog("CLS", cls="digit", lo=1, hi=2),
+                Prog(
+                    "REPEAT",
+                    lo=1,
+                    hi=8,
+                    children=[Prog("SEQ", children=[Prog("COPY", slot=0, start=4, end=5), Prog("CLS", cls="digit", lo=1, hi=2)])],
+                ),
+            ],
+        )
+        paired = Prog(
+            "SEQ",
+            children=[
+                Prog("COPY", slot=0, start=0, end=2),
+                Prog(
+                    "REPEAT",
+                    lo=1,
+                    hi=8,
+                    children=[
+                        Prog(
+                            "SEQ",
+                            children=[
+                                Prog("CLS", cls="digit", lo=1, hi=2),
+                                Prog("COPY", slot=0, start=4, end=5),
+                                Prog("CLS", cls="digit", lo=1, hi=2),
+                            ],
+                        )
+                    ],
+                ),
+            ],
+        )
+        self.assertTrue(execute(general, "ZT5/3/5/56", supports))
+        self.assertFalse(execute(paired, "ZT5/3/5/56", supports))
+        self.assertTrue(any(execute(general, text, supports) and not execute(paired, text, supports) for text in boundary_strings(supports)))
+        prior = GrammarPrior()
+        prior.score = lambda prog, parent="ROOT": 0.0
+        chosen = choose_family([[paired], [general]], supports, [], prior, tie=0.3)
+        self.assertTrue(execute(chosen, "ZT5/3/5/56", supports))
 
     def test_witness_head_is_small_and_finite(self):
         self.assertEqual(parameter_count(SpanNet()), 945464)

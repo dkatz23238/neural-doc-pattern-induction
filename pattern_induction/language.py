@@ -412,10 +412,38 @@ def _edit_run(text: str, delta: int) -> str:
     return text[: right - 1] + text[right:]
 
 
-def _retints(text: str) -> list[str]:
+def _class_pool(kind: str) -> str:
+    if kind == "digit":
+        return string.digits
+    if kind == "upper":
+        return string.ascii_uppercase
+    if kind == "lower":
+        return string.ascii_lowercase
+    return ""
+
+
+def _retint_chars(run: str, supports: list[str]) -> list[str]:
+    """Other characters of this run's class, then fresh ones when the supports have only one."""
+    kind = _class_name(run[0])
+    seen = []
+    for ch in "".join(supports):
+        if _class_name(ch) == kind and ch != run[0] and ch not in seen:
+            seen.append(ch)
+    if seen:
+        return seen[:2]
+    for ch in _class_pool(kind):
+        if ch not in "".join(supports) and ch not in seen:
+            seen.append(ch)
+        if len(seen) >= 2:
+            break
+    return seen
+
+
+def _retints(text: str, supports: list[str] | None = None) -> list[str]:
     """Same-width runs filled with one character of that run's class."""
     rows = []
     start = 0
+    pool = supports if supports is not None else [text]
     for index, ch in enumerate(text + "\0"):
         if index == len(text) or _class_name(ch) != _class_name(text[start]):
             run = text[start:index]
@@ -423,8 +451,7 @@ def _retints(text: str) -> list[str]:
                 uniform = run[0] * len(run)
                 if uniform != run:
                     rows.append(text[:start] + uniform + text[index:])
-                other = next((item for item in text if _class_name(item) == _class_name(run[0]) and item != run[0]), "")
-                if other:
+                for other in _retint_chars(run, pool):
                     rows.append(text[:start] + (other * len(run)) + text[index:])
             start = index
     return rows
@@ -437,6 +464,34 @@ def _swap_run(text: str, supports: list[str]) -> str:
         if other:
             return text[:index] + other + text[index + 1 :]
     return ""
+
+
+def _singleton_chain(text: str) -> str:
+    """One-digit pieces on the support's separator, long enough to be an odd count.
+
+    A repeat of (digit, separator, digit) can still parse some even splits.
+    Three single-digit pieces cannot.
+    """
+    puncts = [ch for ch in text if not ch.isalnum()]
+    if not puncts:
+        return ""
+    sep = max(set(puncts), key=puncts.count)
+    parts = text.split(sep)
+    if len(parts) < 2 or any(part == "" for part in parts):
+        return ""
+    out = []
+    for index, part in enumerate(parts):
+        digits = [ch for ch in part if ch.isdigit()]
+        letters = "".join(ch for ch in part if ch.isalpha())
+        if not digits:
+            return ""
+        if index == 0 and letters:
+            out.append(letters + digits[0])
+        else:
+            out.append(digits[0])
+    if len(out) < 3:
+        out.append(out[-1][-1])
+    return sep.join(out)
 
 
 def _repeat_variants(text: str) -> list[str]:
@@ -471,10 +526,11 @@ def boundary_strings(supports: list[str], limit: int = 36) -> list[str]:
         add(_edit_run(text, 1))
         add(_edit_run(text, -1))
         add(_swap_run(text, supports))
-        for tinted in _retints(text):
+        for tinted in _retints(text, supports):
             add(tinted)
         for variant in _repeat_variants(text):
             add(variant)
+        add(_singleton_chain(text))
     if len(supports) >= 2:
         prefix = _lcp(supports)
         suffix = _lcs(supports)
@@ -660,6 +716,8 @@ class GrammarPrior:
 def disagreements(families: list[list[Prog]], supports: list[str], limit: int = 8) -> list[str]:
     """Short strings where at least two families disagree, skipping pure repeat extensions."""
     battery = boundary_strings(supports)
+    from pattern_induction.witness_net import geometry
+
     scored = []
     for text in battery:
         if repeat_extension(text, supports):
@@ -667,9 +725,11 @@ def disagreements(families: list[list[Prog]], supports: list[str], limit: int = 
         bits = [execute(group[0], text, supports) for group in families]
         if any(bits) and not all(bits):
             balance = min(sum(bits), len(bits) - sum(bits))
-            scored.append((balance, -len(text), text))
+            # Same-width digit retints are the optional-class disagreement.
+            digit_retint = 1 if len(geometry(supports, text)) > 16 and geometry(supports, text)[16] > 0 else 0
+            scored.append((digit_retint, balance, -len(text), text))
     scored.sort(reverse=True)
-    return [text for _balance, _length, text in scored[:limit]]
+    return [text for _retint, _balance, _length, text in scored[:limit]]
 
 
 # One confident witness opens a gap smaller than the grammar tie. Two witnesses
@@ -713,5 +773,10 @@ def choose_family(
     ranked.sort(key=lambda item: item[0], reverse=True)
     best = ranked[0][0]
     band = [item for item in ranked if best - item[0] <= tie]
-    band.sort(key=lambda item: (item[1], item[2]), reverse=True)
-    return band[0][3]
+    battery = boundary_strings(supports)
+    scored = []
+    for evidence, grammar, stable, representative in band:
+        coverage = sum(bool(execute(representative, text, supports)) for text in battery)
+        scored.append((grammar, stable, coverage, representative))
+    scored.sort(key=lambda item: (item[0], item[1], item[2]), reverse=True)
+    return scored[0][3]
