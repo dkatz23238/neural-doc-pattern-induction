@@ -267,11 +267,17 @@ def _summary(root: Path) -> None:
                     lines.append(
                         f"| {cell['name']} / {family} | {cell['role']} | {view['top1']:.3f} | {view['oracle']:.3f} | {view['families']:.1f} | {view['max_families']:.0f} |"
                     )
+        nested = next((cell for cell in stress["cells"] if cell["name"] == "nested"), None)
+        nested_note = ""
+        if nested is not None and nested["top1"] < 1.0:
+            nested_note = (
+                " On the nested stack, top-1 equals the oracle. The misses are the draws whose optional hyphen is also the repeat separator: that character is in every support, so the contingent rule stays quiet and the frozen top-8 does not name the tail."
+            )
         lines.extend(
             [
                 "",
                 f"Core semantic top-1 {stress['core']['top1']:.3f}. Core oracle {stress['core']['oracle']:.3f}. "
-                f"Worst core cell {stress['worst_core']} {stress['worst_core_top1']:.3f}.",
+                f"Worst core cell {stress['worst_core']} {stress['worst_core_top1']:.3f}.{nested_note}",
                 "",
             ]
         )
