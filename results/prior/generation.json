@@ -3,45 +3,294 @@
   "support_dim": 160,
   "feature_dim": 50,
   "max_candidates": 32,
+  "train_families": [
+    "interval",
+    "prefix_interval",
+    "width",
+    "prefix_width",
+    "charset_width",
+    "prefix_charset",
+    "prefix_optional",
+    "suffix_width",
+    "repeat_width",
+    "lexicon",
+    "prefix_lexicon",
+    "stem_lexicon"
+  ],
+  "ood_families": [
+    "prefix_charset_optional",
+    "repeat_interval",
+    "lexicon_suffix"
+  ],
   "splits": [
     {
+      "tasks": 50000,
+      "unique_signatures": 1881,
+      "unique_combinations": 12,
+      "signature_entropy_bits": 9.544,
+      "top_signatures": [
+        {
+          "signature": "SEQ(lower{3,3},COPY(0:3-4),LEX[file_extension])",
+          "count": 725
+        },
+        {
+          "signature": "SEQ(lower{4,4},COPY(0:4-5),LEX[file_extension])",
+          "count": 720
+        },
+        {
+          "signature": "SEQ(lower{6,6},COPY(0:6-7),LEX[file_extension])",
+          "count": 718
+        },
+        {
+          "signature": "SEQ(lower{2,2},COPY(0:2-3),LEX[file_extension])",
+          "count": 710
+        },
+        {
+          "signature": "SEQ(lower{5,5},COPY(0:5-6),LEX[file_extension])",
+          "count": 698
+        },
+        {
+          "signature": "LEX[mass_unit]",
+          "count": 336
+        },
+        {
+          "signature": "LEX[http_1_0]",
+          "count": 322
+        },
+        {
+          "signature": "LEX[month_abbr_upper]",
+          "count": 310
+        },
+        {
+          "signature": "LEX[month_abbr_lower]",
+          "count": 302
+        },
+        {
+          "signature": "LEX[iso4217]",
+          "count": 298
+        }
+      ],
+      "top_combinations": [
+        {
+          "combination": "interval",
+          "count": 7145
+        },
+        {
+          "combination": "prefix_interval",
+          "count": 7144
+        },
+        {
+          "combination": "width",
+          "count": 3572
+        },
+        {
+          "combination": "prefix_width",
+          "count": 3572
+        },
+        {
+          "combination": "charset_width",
+          "count": 3572
+        },
+        {
+          "combination": "prefix_optional",
+          "count": 3572
+        },
+        {
+          "combination": "suffix_width",
+          "count": 3572
+        },
+        {
+          "combination": "repeat_width",
+          "count": 3572
+        },
+        {
+          "combination": "lexicon",
+          "count": 3572
+        },
+        {
+          "combination": "prefix_lexicon",
+          "count": 3571
+        }
+      ],
+      "exact_duplicate_fraction": 0.02166,
+      "duplicate_support_fraction": 0.02672,
+      "singleton_signature_fraction": 0.00092,
+      "max_signature_fraction": 0.0145,
+      "novel_signature_fraction": 0.03762,
       "split": "train",
       "kept": 50000,
       "attempts": 50008,
-      "oracle": 0.9998400255959047,
-      "by_family": {
-        "interval": 10003,
-        "charset": 10003,
-        "lexicon": 10001,
-        "width": 10001,
-        "prefix": 9992
-      }
+      "oracle": 0.9998400255959047
     },
     {
+      "tasks": 10000,
+      "unique_signatures": 1444,
+      "unique_combinations": 12,
+      "signature_entropy_bits": 9.407,
+      "top_signatures": [
+        {
+          "signature": "SEQ(lower{2,2},COPY(0:2-3),LEX[file_extension])",
+          "count": 155
+        },
+        {
+          "signature": "SEQ(lower{3,3},COPY(0:3-4),LEX[file_extension])",
+          "count": 148
+        },
+        {
+          "signature": "SEQ(lower{6,6},COPY(0:6-7),LEX[file_extension])",
+          "count": 148
+        },
+        {
+          "signature": "SEQ(lower{4,4},COPY(0:4-5),LEX[file_extension])",
+          "count": 135
+        },
+        {
+          "signature": "SEQ(lower{5,5},COPY(0:5-6),LEX[file_extension])",
+          "count": 126
+        },
+        {
+          "signature": "LEX[month_abbr_lower]",
+          "count": 71
+        },
+        {
+          "signature": "LEX[http_iana]",
+          "count": 66
+        },
+        {
+          "signature": "LEX[month_full_upper]",
+          "count": 65
+        },
+        {
+          "signature": "INT[1:9]{1,1}",
+          "count": 64
+        },
+        {
+          "signature": "LEX[month_abbr_upper]",
+          "count": 64
+        }
+      ],
+      "top_combinations": [
+        {
+          "combination": "interval",
+          "count": 1432
+        },
+        {
+          "combination": "prefix_interval",
+          "count": 1432
+        },
+        {
+          "combination": "width",
+          "count": 716
+        },
+        {
+          "combination": "prefix_width",
+          "count": 716
+        },
+        {
+          "combination": "charset_width",
+          "count": 716
+        },
+        {
+          "combination": "prefix_charset",
+          "count": 715
+        },
+        {
+          "combination": "prefix_optional",
+          "count": 713
+        },
+        {
+          "combination": "suffix_width",
+          "count": 712
+        },
+        {
+          "combination": "repeat_width",
+          "count": 712
+        },
+        {
+          "combination": "lexicon",
+          "count": 712
+        }
+      ],
+      "exact_duplicate_fraction": 0.0075,
+      "duplicate_support_fraction": 0.0108,
+      "singleton_signature_fraction": 0.0416,
+      "max_signature_fraction": 0.0155,
+      "novel_signature_fraction": 0.1444,
       "split": "val",
       "kept": 10000,
-      "attempts": 10000,
-      "oracle": 1.0,
-      "by_family": {
-        "interval": 2000,
-        "charset": 2000,
-        "lexicon": 2000,
-        "width": 2000,
-        "prefix": 2000
-      }
+      "attempts": 10001,
+      "oracle": 0.9999000099990001
     },
     {
+      "tasks": 20000,
+      "unique_signatures": 2858,
+      "unique_combinations": 3,
+      "signature_entropy_bits": 8.111,
+      "top_signatures": [
+        {
+          "signature": "SEQ(LEX[month_abbr],COPY(0:3-4),COPY(0:4-6))",
+          "count": 604
+        },
+        {
+          "signature": "SEQ(LEX[iso4217],COPY(0:3-4),COPY(0:4-7))",
+          "count": 562
+        },
+        {
+          "signature": "SEQ(LEX[month_abbr_upper],COPY(0:3-4),COPY(0:4-5))",
+          "count": 559
+        },
+        {
+          "signature": "SEQ(LEX[month_abbr_upper],COPY(0:3-4),COPY(0:4-6))",
+          "count": 558
+        },
+        {
+          "signature": "SEQ(LEX[month_abbr_upper],COPY(0:3-4),COPY(0:4-7))",
+          "count": 554
+        },
+        {
+          "signature": "SEQ(LEX[iso4217],COPY(0:3-4),COPY(0:4-6))",
+          "count": 543
+        },
+        {
+          "signature": "SEQ(LEX[month_abbr],COPY(0:3-4),COPY(0:4-7))",
+          "count": 538
+        },
+        {
+          "signature": "SEQ(LEX[iso4217],COPY(0:3-4),COPY(0:4-5))",
+          "count": 532
+        },
+        {
+          "signature": "SEQ(LEX[month_abbr],COPY(0:3-4),COPY(0:4-5))",
+          "count": 528
+        },
+        {
+          "signature": "SEQ(OPT(SEQ(COPY(0:0-2),COPY(0:2-3))),SET[0-9A-Z]{3,3})",
+          "count": 362
+        }
+      ],
+      "top_combinations": [
+        {
+          "combination": "prefix_charset_optional",
+          "count": 6669
+        },
+        {
+          "combination": "lexicon_suffix",
+          "count": 6667
+        },
+        {
+          "combination": "repeat_interval",
+          "count": 6664
+        }
+      ],
+      "exact_duplicate_fraction": 0.00025,
+      "duplicate_support_fraction": 0.00025,
+      "singleton_signature_fraction": 0.04885,
+      "max_signature_fraction": 0.0302,
+      "novel_signature_fraction": 0.1429,
       "split": "ood",
       "kept": 20000,
-      "attempts": 20000,
-      "oracle": 1.0,
-      "by_family": {
-        "interval_ood": 4000,
-        "charset_ood": 4000,
-        "lexicon_ood": 4000,
-        "width_ood": 4000,
-        "composition_ood": 4000
-      }
+      "attempts": 20004,
+      "oracle": 0.9998000399920016
     }
   ]
 }

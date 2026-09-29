@@ -1,0 +1,41 @@
+{
+  "trained": true,
+  "bench_c_selected": false,
+  "bench_e_scored": false,
+  "device": "cpu",
+  "cuda": false,
+  "steps": 20000,
+  "support_dim": 160,
+  "feature_dim": 50,
+  "recognizer_params": 1226128,
+  "holdout_families": ["prefix_charset_optional", "repeat_interval", "lexicon_suffix"],
+  "generation": {
+    "seed": 2507,
+    "train": {"kept": 50000, "attempts": 50008, "oracle": 0.9998400255959047, "unique_signatures": 1881, "signature_entropy_bits": 9.544, "max_signature_fraction": 0.0145, "exact_duplicate_fraction": 0.02166},
+    "val": {"kept": 10000, "attempts": 10001, "oracle": 0.9999000099990001, "unique_signatures": 1444, "signature_entropy_bits": 9.407, "max_signature_fraction": 0.0155, "exact_duplicate_fraction": 0.0075},
+    "ood": {"kept": 20000, "attempts": 20004, "oracle": 0.9998000399920016, "unique_signatures": 2858, "signature_entropy_bits": 8.111, "max_signature_fraction": 0.0302, "exact_duplicate_fraction": 0.00025}
+  },
+  "curve": [
+    {"params": 0, "width": 0, "hidden": 0, "val_top1": 0.315, "ood_top1": 0.3902},
+    {"params": 9737, "width": 32, "hidden": 24, "val_top1": 0.8882, "ood_top1": 0.29585},
+    {"params": 30145, "width": 64, "hidden": 64, "val_top1": 0.88825, "ood_top1": 0.27885},
+    {"params": 105505, "width": 192, "hidden": 96, "val_top1": 0.8641, "ood_top1": 0.424}
+  ],
+  "seeds": {
+    "0": {"params": [0, 9737, 30145, 105505], "val": [0.315, 0.8859, 0.8886, 0.8452], "ood": [0.3902, 0.2923, 0.2965, 0.5399]},
+    "1": {"params": [9737, 30145, 105505], "val": [0.8905, 0.8879, 0.883], "ood": [0.2994, 0.2612, 0.3081]}
+  },
+  "data_curve_10k": [
+    {"train": 5000, "val_top1": 0.8754, "ood_top1": 0.22585, "seed0": [0.8789, 0.1847], "seed1": [0.8719, 0.267]},
+    {"train": 50000, "val_top1": 0.8882, "ood_top1": 0.29585, "seed0": [0.8859, 0.2923], "seed1": [0.8905, 0.2994]}
+  ],
+  "renaming": {"n": 32, "features": 1.0, "support_embedding": 1.0, "scores": 1.0},
+  "gates": {
+    "val_top1": 0.8882,
+    "ood_top1": 0.424,
+    "oracle": 1.0,
+    "renaming": 1.0,
+    "data_val_delta": 0.0128,
+    "data_ood_delta": 0.07
+  }
+}

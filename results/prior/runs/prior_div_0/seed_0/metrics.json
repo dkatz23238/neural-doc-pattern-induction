@@ -1,0 +1,57 @@
+{
+  "name": "prior_div_0",
+  "kind": "symbolic",
+  "seed": 0,
+  "device": "cpu",
+  "precision": "fp32",
+  "target_params": 0,
+  "params": 0,
+  "width": 0,
+  "hidden": 0,
+  "steps": 0,
+  "seconds": 1.80779708600312,
+  "val": {
+    "n": 10000,
+    "top1": 0.315,
+    "oracle": 1.0,
+    "by_family": {
+      "charset_width": 0.6438547486033519,
+      "interval": 0.21089385474860337,
+      "lexicon": 0.7794943820224719,
+      "prefix_charset": 0.06853146853146853,
+      "prefix_interval": 0.11243016759776536,
+      "prefix_lexicon": 0.523876404494382,
+      "prefix_optional": 0.0,
+      "prefix_width": 0.17039106145251395,
+      "repeat_width": 0.2401685393258427,
+      "stem_lexicon": 0.6348314606741573,
+      "suffix_width": 0.1544943820224719,
+      "width": 0.5502793296089385
+    }
+  },
+  "ood": {
+    "n": 20000,
+    "top1": 0.39025,
+    "oracle": 1.0,
+    "by_family": {
+      "lexicon_suffix": 0.3574321283935803,
+      "prefix_charset_optional": 0.0,
+      "repeat_interval": 0.813625450180072
+    }
+  },
+  "best": {
+    "val_top1": 0.315,
+    "step": 0,
+    "ood_top1": 0.39025
+  },
+  "history": [],
+  "renaming": {
+    "n": 32,
+    "features": 1.0,
+    "support_embedding": 1.0,
+    "scores": null
+  },
+  "trained": false,
+  "bench_e_scored": false,
+  "bench_c_selected": false
+}
