@@ -2,7 +2,7 @@
 
 Needle turns a few positive example strings into a compact regular expression. The score is semantic: hidden positives should match, and hidden negatives should not. Two examples are the minimum. One example abstains.
 
-`needle()` loads the frozen scope recognizer and the frozen witness head. It does not train. The learned candidate prior in `prior/` is a separate experiment; `needle()` still uses the grammar prior saved with the witness head.
+v1's decision is the code-length rule on eight candidates, the selector that scores 0.9625 on BENCH-C. The frozen recognizer reports confidence and alternatives. It does not replace that regex. The 2,145-parameter override in `pattern_induction/safe_override.py` is an experiment and is not loaded.
 
 ## Install
 
@@ -31,12 +31,13 @@ uv run python -c 'from pattern_induction.needle import needle; print(needle(["CU
 from pattern_induction.needle import needle
 
 result = needle(["CUS-DE1234", "CUS-SO9281", "CUS-AM0042"])
-result.regex
+result.regex          # symbolic winner
+result.confidence     # does not change result.regex
+result.ambiguous
 result.alternatives
-result.confidence
 ```
 
-Supports are clipped to four strings and 32 characters. Retraining those two checkpoints is in [DOCS.md](DOCS.md).
+Each example is clipped to 32 characters. The selector sees every example. The recognizer reads the first four. A missing checkpoint still returns the symbolic regex; confidence then uses only the code-length margin. Retraining the recognizer is in [DOCS.md](DOCS.md). The release note is `results/needle/v1.md`.
 
 ```bash
 uv run python -m unittest discover -s tests
@@ -66,6 +67,8 @@ uv run python scripts/run_needle.py --stage summary
 | Page | What it records |
 | --- | --- |
 | `results/needle/summary.md` | Needle, then the prior curves |
+| `results/needle/v1.md` | Frozen v1 decision, BENCH-C, and BENCH-E |
+| `results/needle/showcase.md` | Six calls and what they return |
 | `results/factory/bank.md` | Accepted concept bank and its diversity |
 | `results/factory/mix.md` | Frozen prior trained with the concept bank |
 | `results/factory/typed.md` | One scale per ambiguity |
@@ -87,4 +90,6 @@ The comparison against that bank is in `results/factory/mix.md`. The 1,158-param
 
 `results/factory/typed.md` gives each ambiguity its own scale. Factory held-out integer programs beat evidence, and open width no longer falls, but synthetic OOD integer programs still drop by more than 0.02. That is a negative result for a v1 prior: the teacher bank is not scaled further.
 
-`results/needle/safe_override.md` keeps the 96.2% symbolic selector and tries a conservative override toward Needle's existing program. On BENCH-C the override scores 0.9633 against 0.9625, with 27 fixes and 26 regressions. The easy family dips from 0.9909 to 0.9862. The v1 bar is missed. Ship the symbolic selector with the learned evidence and confidence machinery. BENCH-E stays sealed. `needle()` is unchanged.
+`results/needle/safe_override.md` keeps the 96.2% symbolic selector and tries a conservative override toward Needle's existing program. On BENCH-C the override scores 0.9633 against 0.9625, with 27 fixes and 26 regressions. The easy family dips from 0.9909 to 0.9862. That stops architecture work for v1.
+
+`results/needle/v1.md` freezes the code-length rule as the decision. Recomputing it on BENCH-C matches the stored 0.9625. BENCH-E, opened once, scores 0.9848 on the same rule. The override stays in the repo and is not loaded.

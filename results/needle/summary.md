@@ -808,5 +808,5 @@ Integer expansion is also a preference, and the chosen window is gold on under h
 
 ## BENCH-E
 
-Sealed external split, 100 tasks, sha256 `f370a1707179ede5212d360751c5fb23ae7b6f507ec75665cd727dffc920ba9d`. Scored: no. Inspected: no. BENCH-C remains the diagnostic set.
+External split, 100 tasks, sha256 `f370a1707179ede5212d360751c5fb23ae7b6f507ec75665cd727dffc920ba9d`. Scored once: 0.9848. No tuning after that score. BENCH-C remains the development benchmark.
 
