@@ -769,9 +769,11 @@ class GrammarPrior:
         return prior
 
 
-def disagreements(families: list[list[Prog]], supports: list[str], limit: int = 8) -> list[str]:
+def disagreements(
+    families: list[list[Prog]], supports: list[str], limit: int = 8, battery_limit: int = 36
+) -> list[str]:
     """Short strings where at least two families disagree, skipping pure repeat extensions."""
-    battery = boundary_strings(supports)
+    battery = boundary_strings(supports, limit=battery_limit)
     from pattern_induction.witness_net import geometry
 
     scored = []
@@ -817,19 +819,24 @@ def choose_family(
     prior: GrammarPrior,
     stability: dict[int, float] | None = None,
     tie: float = 0.3,
+    score_coverage: bool = True,
+    evidences: list[float] | None = None,
 ) -> Prog:
     """Witnesses eliminate languages. The grammar, then stability, breaks a near tie."""
     stability = stability or {}
     ranked = []
     for index, group in enumerate(families):
-        evidence = witness_loglik(group[0], supports, judgments)
+        if evidences is not None:
+            evidence = evidences[index]
+        else:
+            evidence = witness_loglik(group[0], supports, judgments)
         grammar = max(prior.score(prog) for prog in group)
         representative = max(group, key=lambda prog: (prior.score(prog), -prog.nodes()))
         ranked.append((evidence, grammar, stability.get(index, 0.0), representative))
     ranked.sort(key=lambda item: item[0], reverse=True)
     best = ranked[0][0]
     band = [item for item in ranked if best - item[0] <= tie]
-    battery = boundary_strings(supports)
+    battery = boundary_strings(supports) if score_coverage and len(band) <= 64 else []
     scored = []
     for evidence, grammar, stable, representative in band:
         coverage = sum(bool(execute(representative, text, supports)) for text in battery)

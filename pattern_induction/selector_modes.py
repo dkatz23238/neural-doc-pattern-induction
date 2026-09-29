@@ -185,13 +185,19 @@ def _agreement_ids(root: Path) -> set[str]:
     if not path.exists():
         return set()
     payload = json.loads(path.read_text())
-    rows = [
+    finished = [
         row
         for row in payload["rows"]
-        if not row.get("selector_timed_out") and not row.get("timed_out") and 0 < row.get("programs", 0) <= AGREEMENT_CHART
+        if not row.get("selector_timed_out") and not row.get("timed_out") and row.get("programs", 0) > 0
     ]
-    rows.sort(key=lambda row: row["programs"])
-    return {row["id"] for row in rows[:AGREEMENT_TASKS]}
+    medium = [row for row in finished if 40 <= row["programs"] <= AGREEMENT_CHART]
+    medium.sort(key=lambda row: row["programs"])
+    chosen = medium[:AGREEMENT_TASKS]
+    if len(chosen) < AGREEMENT_TASKS:
+        small = [row for row in finished if row["programs"] < 40]
+        small.sort(key=lambda row: row["programs"])
+        chosen.extend(small[: AGREEMENT_TASKS - len(chosen)])
+    return {row["id"] for row in chosen}
 
 
 def evaluate(root: Path, limit_s: float = 90.0) -> dict:
@@ -254,7 +260,7 @@ def evaluate(root: Path, limit_s: float = 90.0) -> dict:
             row["select_s"] = 0.0
         else:
             _MEMBERSHIP.clear()
-            signal.alarm(30)
+            signal.alarm(60)
             try:
                 chosen, _programs, _count, info = select_from_programs(
                     programs,

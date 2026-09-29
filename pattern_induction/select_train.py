@@ -232,6 +232,19 @@ def select_program(
     return chosen, programs, count
 
 
+def _regex_families(programs: list, supports: list[str]) -> list[list]:
+    """One family per rendered regex. This does not determinize the chart."""
+    grouped: dict[str, list] = {}
+    order: list[str] = []
+    for prog in programs:
+        key = to_regex(prog, supports)
+        if key not in grouped:
+            grouped[key] = []
+            order.append(key)
+        grouped[key].append(prog)
+    return [grouped[key] for key in order]
+
+
 def select_from_programs(
     programs: list,
     supports: list[str],
@@ -249,39 +262,50 @@ def select_from_programs(
     ``resynthesize`` is mode A. ``cached`` reuses the chart (mode B).
     ``direct`` scores each candidate's own constraints (mode C).
     """
-    if len(programs) >= LARGE_CHART:
-        chosen, count = _select_large(programs, supports, witness, prior, operator_witnesses=operator_witnesses)
-        info = {
-            "stability": 0.0,
-            "confidence": 0.0,
-            "margin": 0.0,
-            "families": count,
-            "witness_decided": False,
-            "mode": "large",
-        }
-        return chosen, programs, count, info
-    families = group_languages(programs, supports)
+    # Determinizing every program is the slow part once the chart is built.
+    # Same-regex programs are already one language. Small charts still use the
+    # automaton so a stability comparison with resynthesis sees the same families.
+    if len(programs) >= 800:
+        families = _regex_families(programs, supports)
+    else:
+        families = group_languages(programs, supports)
     if operator_witnesses:
         from pattern_induction.operator_witness import split_operator_families
 
         families = split_operator_families(families)
     if not families:
         return None, programs, 0, {"stability": 0.0, "confidence": 0.0, "margin": 0.0, "families": 0, "witness_decided": False, "mode": stability_mode}
-    texts = disagreements(families, supports) if len(families) > 1 else []
+    if len(families) > 10000:
+        battery_limit = 4
+    elif len(families) > 2000:
+        battery_limit = 8
+    else:
+        battery_limit = 36
+    texts = disagreements(families, supports, battery_limit=battery_limit) if len(families) > 1 else []
     judgments = _judgments(witness, supports, texts)
     if operator_witnesses:
         from pattern_induction.operator_witness import merge_judgments, operator_judgments
 
         judgments = merge_judgments(judgments, operator_judgments(families, supports))
-    decided = _witness_decides(families, supports, judgments) if len(families) > 1 else True
+    evidences = [witness_loglik(group[0], supports, judgments) for group in families]
+    decided = _band_is_unique(evidences) if len(families) > 1 else True
     stability: dict[int, float] = {}
     # Resynthesis is skipped once the witness has already picked a language.
     # Direct and cached scores are cheap, so the router can see them either way.
     measure = with_stability and len(families) > 1 and len(supports) >= 3
     if measure and (stability_mode in {"direct", "cached"} or not decided):
         stability = _stability_for(stability_mode, programs, families, supports, scope, task, v2)
-    chosen = choose_family(families, supports, judgments, prior, stability, TIE)
-    info = _selection_info(chosen, families, supports, judgments, prior, stability, decided, stability_mode)
+    chosen = choose_family(
+        families,
+        supports,
+        judgments,
+        prior,
+        stability,
+        TIE,
+        score_coverage=len(families) <= 2000,
+        evidences=evidences,
+    )
+    info = _selection_info(chosen, families, evidences, prior, stability, decided, stability_mode)
     return chosen, programs, len(families), info
 
 
@@ -300,9 +324,14 @@ def _stability_for(mode, programs, families, supports, scope, task, v2: bool) ->
     return _stability(scope, task, families, v2=v2)
 
 
-def _selection_info(chosen, families, supports, judgments, prior, stability, decided: bool, mode: str) -> dict:
-    evidences = [witness_loglik(group[0], supports, judgments) for group in families]
-    grammars = [max(prior.score(prog) for prog in group) for group in families]
+def _band_is_unique(evidences: list[float]) -> bool:
+    if not evidences:
+        return True
+    best = max(evidences)
+    return sum(1 for evidence in evidences if best - evidence <= TIE) <= 1
+
+
+def _selection_info(chosen, families, evidences, prior, stability, decided: bool, mode: str) -> dict:
     chosen_index = 0
     for index, group in enumerate(families):
         if chosen in group:
@@ -312,7 +341,8 @@ def _selection_info(chosen, families, supports, judgments, prior, stability, dec
     band = [index for index, evidence in enumerate(evidences) if best - evidence <= TIE]
     grammar_gap = 0.0
     if len(band) > 1:
-        ordered = sorted((grammars[index] for index in band), reverse=True)
+        grammars = [max(prior.score(prog) for prog in families[index]) for index in band]
+        ordered = sorted(grammars, reverse=True)
         grammar_gap = ordered[0] - ordered[1]
     evidence_gap = 0.0
     if len(evidences) > 1:
