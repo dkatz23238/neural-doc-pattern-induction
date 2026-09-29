@@ -5,6 +5,7 @@ from pathlib import Path
 
 from pattern_induction.factory import (
     FactoryError,
+    bind_program,
     compile_node,
     diversity,
     extract_concepts,
@@ -163,12 +164,84 @@ class FactoryTest(unittest.TestCase):
         stored, _ = validate_concept(PALLET)
         tasks = materialize(stored, seed=2507, limit=6)
         self.assertTrue(tasks)
-        from pattern_induction.factory import bind_program
-
         for task in tasks:
             program = bind_program(stored["program"], task["supports"])
             for text in task["supports"]:
                 self.assertTrue(execute(program, text, task["supports"]), task["configuration"])
+
+    def test_compact_dialect_keeps_a_swapped_integer_and_a_lexicon_alias(self):
+        appointment = {
+            "domain": "logistics",
+            "concept": "appointment year",
+            "description": "The observed years sit inside a wider window.",
+            "semantic_type": "year",
+            "positives": ["APT-2024-01", "APT-2027-14", "APT-2031-52"],
+            "near_misses": ["APT-2019-01", "APT-2036-01", "APT-202A-01"],
+            "ambiguous_supports": ["APT-2024-01", "APT-2027-14", "APT-2031-52"],
+            "program": {
+                "seq": [
+                    {"lit": "APT-"},
+                    {"int": {"min": 4, "max": 4, "lo": 2020, "hi": 2035}},
+                    {"lit": "-"},
+                    {"int": {"min": 2, "max": 2, "lo": 1, "hi": 52}},
+                ]
+            },
+            "neighbors": [
+                {
+                    "seq": [
+                        {"lit": "APT-"},
+                        {"int": {"min": 4, "max": 4, "lo": 2024, "hi": 2031}},
+                        {"lit": "-"},
+                        {"int": {"min": 2, "max": 2, "lo": 1, "hi": 52}},
+                    ]
+                }
+            ],
+        }
+        stored, reason = validate_concept(appointment)
+        self.assertEqual(reason, "")
+        self.assertEqual(stored["program"]["children"][1]["min"], 2020)
+        self.assertEqual(stored["program"]["children"][1]["lo"], 4)
+        self.assertEqual(stored["ambiguity_status"], "witnessed")
+        currency = {
+            "domain": "logistics",
+            "concept": "invoice currency code",
+            "description": "ISO currency, not any three letters.",
+            "semantic_type": "currency",
+            "positives": ["CUR-USD", "CUR-EUR", "CUR-JPY"],
+            "near_misses": ["CUR-US1", "CUR-TOOL", "CUR-XYZ"],
+            "ambiguous_supports": ["CUR-USD", "CUR-EUR", "CUR-JPY"],
+            "program": {"seq": [{"lit": "CUR-"}, {"lex": "iso4217_currency_codes"}]},
+            "neighbors": [
+                {"seq": [{"lit": "CUR-"}, {"cls": "upper"}, {"cls": "upper"}, {"cls": "upper"}]},
+                {"seq": [{"lit": "CUR-"}, {"set": ["USD", "EUR", "JPY"]}]},
+            ],
+        }
+        stored, reason = validate_concept(currency)
+        self.assertEqual(reason, "")
+        self.assertEqual(stored["lexicons"], ["iso4217"])
+        self.assertEqual(stored["ambiguity_status"], "witnessed")
+        self.assertEqual(len(stored["neighbors"]), 1)
+        bay = {
+            "domain": "logistics",
+            "concept": "bay letter",
+            "description": "Any uppercase letter, so a later letter is still in the language.",
+            "semantic_type": "identifier",
+            "positives": ["BAY-A1", "BAY-C2", "BAY-F3"],
+            "near_misses": ["BAY-a1", "BAY-G", "BAY-AA1"],
+            "ambiguous_supports": ["BAY-A1", "BAY-C2", "BAY-F3"],
+            "program": {"seq": [{"lit": "BAY-"}, {"cls": "upper"}, {"cls": "digit"}]},
+            "neighbors": [
+                {"seq": [{"lit": "BAY-"}, {"set": ["A", "B", "C", "D", "E", "F"]}, {"cls": "digit"}]}
+            ],
+        }
+        stored, reason = validate_concept(bay)
+        self.assertEqual(reason, "")
+        self.assertEqual(stored["program"]["children"][1]["class"], "upper")
+        self.assertEqual(stored["neighbors"][0]["children"][1]["spec"], "A-F")
+        self.assertEqual(stored["ambiguity_status"], "witnessed")
+        program = bind_program(stored["program"], stored["positives"])
+        self.assertTrue(execute(program, "BAY-Z9", stored["positives"]))
+        self.assertFalse(execute(program, "BAY-G", stored["positives"]))
 
     def test_extract_reads_a_fenced_concept_list(self):
         text = "```json\n" + json.dumps({"concepts": [CURRENCY]}) + "\n```"

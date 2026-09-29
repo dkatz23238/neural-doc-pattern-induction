@@ -19,12 +19,12 @@ import string
 import time
 from pathlib import Path
 
-from pattern_induction.charset import spec_chars
+from pattern_induction.charset import charset_spec, spec_chars
 from pattern_induction.lexicon import LEXICONS, lexicon_members
 from pattern_induction.program import OPEN, Prog, describe, execute
 from pattern_induction.renaming import apply_mapping
 
-PARSER_VERSION = "factory-1"
+PARSER_VERSION = "factory-2"
 GENERATOR_VERSION = "factory-gen-1"
 TEACHER_MODEL = "gpt-5.6-terra"
 # gpt-6-terra is not on this key. The Terra model that answers is gpt-5.6-terra.
@@ -76,9 +76,143 @@ def _check_width(lo: int, hi: int) -> None:
         raise FactoryError("bad_width")
 
 
+_LEX_ALIASES = {
+    "iso4217_currency_codes": "iso4217",
+    "iso4217_currency_code": "iso4217",
+    "iso_4217": "iso4217",
+    "iso4217_codes": "iso4217",
+}
+
+
+def _is_int(value) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
+def _width_pair(left, right) -> bool:
+    return _is_int(left) and _is_int(right) and 1 <= left <= right <= 8
+
+
+def _range_pair(left, right) -> bool:
+    return _is_int(left) and _is_int(right) and 0 <= left <= right <= 10**9
+
+
+def _int_fields(item: dict) -> dict:
+    """Read an integer node.
+
+    The prompt puts the numeric window in min/max and the digit width in lo/hi.
+    One teacher response swapped those pairs. A pair is a width only when both
+    ends sit between 1 and 8, so a year window cannot be mistaken for a width.
+    """
+    minimum, maximum = item.get("min"), item.get("max")
+    lo, hi = item.get("lo"), item.get("hi")
+    prompt = _width_pair(lo, hi) and _range_pair(minimum, maximum)
+    flipped = _width_pair(minimum, maximum) and _range_pair(lo, hi) and not _width_pair(lo, hi)
+    if prompt:
+        return {"min": minimum, "max": maximum, "lo": lo, "hi": hi}
+    if flipped:
+        return {"min": lo, "max": hi, "lo": minimum, "hi": maximum}
+    if _range_pair(minimum, maximum) and lo is None and hi is None:
+        width = max(len(str(minimum)), len(str(maximum)))
+        return {"min": minimum, "max": maximum, "lo": width, "hi": width}
+    raise FactoryError("bad_int")
+
+
+def _lex_name(value) -> str:
+    if isinstance(value, dict):
+        value = value.get("name") or value.get("spec") or ""
+    name = str(value or "").strip()
+    folded = name.lower().replace("-", "_").replace(" ", "_")
+    if folded in LEXICON_NAMES:
+        return folded
+    return _LEX_ALIASES.get(folded, name)
+
+
+def _set_node(value) -> dict:
+    if isinstance(value, str):
+        return {"op": "set", "spec": value, "lo": 1, "hi": 1}
+    if isinstance(value, dict):
+        spec = value.get("spec")
+        if isinstance(spec, str):
+            return {"op": "set", "spec": spec, "lo": value.get("lo", 1), "hi": value.get("hi", 1)}
+        chars = value.get("chars")
+        if isinstance(chars, list):
+            value = chars
+        else:
+            raise FactoryError("bad_set")
+    if isinstance(value, list):
+        if value and all(isinstance(char, str) and len(char) == 1 for char in value):
+            return {"op": "set", "spec": charset_spec(set(value)), "lo": 1, "hi": 1}
+        raise FactoryError("bad_set")
+    raise FactoryError("bad_set")
+
+
+def _canonicalize(item: dict) -> dict:
+    """Lift the single-key dialect (`{"seq":[...]}`, `{"lit":"-"}`) into op nodes."""
+    if not isinstance(item, dict):
+        raise FactoryError("node_not_object")
+    if "op" in item:
+        if item.get("op") == "int" and "min" in item:
+            return {**item, **_int_fields(item)}
+        if item.get("op") == "lex":
+            return {**item, "name": _lex_name(item.get("name") or item.get("spec"))}
+        return item
+    if len(item) != 1:
+        raise FactoryError("node_not_object")
+    op, value = next(iter(item.items()))
+    op = str(op).lower()
+    if op == "seq":
+        if not isinstance(value, list) or not value:
+            raise FactoryError("bad_seq")
+        if len(value) == 1 and isinstance(value[0], dict):
+            return _canonicalize(value[0])
+        return {"op": "seq", "children": value}
+    if op in {"lit", "literal"}:
+        if isinstance(value, str):
+            return {"op": "lit", "text": value}
+        if isinstance(value, dict) and isinstance(value.get("text"), str):
+            return {"op": "lit", "text": value["text"]}
+        raise FactoryError("bad_literal")
+    if op in {"cls", "class"}:
+        if isinstance(value, str):
+            return {"op": "cls", "class": value, "lo": 1, "hi": 1}
+        if isinstance(value, dict):
+            return {
+                "op": "cls",
+                "class": value.get("class") or value.get("cls"),
+                "lo": value.get("lo", 1),
+                "hi": value.get("hi", 1),
+            }
+        raise FactoryError("bad_class")
+    if op == "set":
+        return _set_node(value)
+    if op == "int":
+        if not isinstance(value, dict):
+            raise FactoryError("bad_int")
+        return {"op": "int", **_int_fields(value)}
+    if op == "lex":
+        return {"op": "lex", "name": _lex_name(value)}
+    if op == "opt":
+        child = value.get("child") if isinstance(value, dict) and "child" in value and "op" not in value else value
+        if not isinstance(child, dict):
+            raise FactoryError("bad_opt")
+        return {"op": "opt", "child": child}
+    if op == "alt":
+        if not isinstance(value, list):
+            raise FactoryError("bad_alt")
+        return {"op": "alt", "children": value}
+    if op == "repeat":
+        if not isinstance(value, dict) or not isinstance(value.get("child"), dict):
+            raise FactoryError("bad_repeat")
+        return {"op": "repeat", "lo": value.get("lo", 1), "hi": value.get("hi", 1), "child": value["child"]}
+    raise FactoryError("unknown_op")
+
+
 def compile_node(item: dict, repeats: int = 0) -> dict:
     """Normalize one template node. Literals stay as text until a support set binds them."""
-    if not isinstance(item, dict) or "op" not in item:
+    if not isinstance(item, dict):
+        raise FactoryError("node_not_object")
+    item = _canonicalize(item)
+    if "op" not in item:
         raise FactoryError("node_not_object")
     if _walk_count(item) > MAX_NODES:
         raise FactoryError("too_many_nodes")
@@ -813,8 +947,16 @@ def reprocess_run(root: Path, run_name: str) -> dict:
         item["reprocessed"] = True
         _append(root / "data" / "factory" / "rejected" / "concepts.jsonl", item)
         _append(run / "rejected.jsonl", item)
+    summary = {
+        "run": run.name,
+        "accepted": len(accepted),
+        "rejected": len(rejected),
+        "parser_version": PARSER_VERSION,
+        "reject_reasons": [item.get("reason") for item in rejected],
+    }
+    (run / "reprocess.json").write_text(json.dumps(summary, indent=2) + "\n")
     _write_bank_manifest(root)
-    return {"run": run.name, "accepted": len(accepted), "rejected": len(rejected), "parser_version": PARSER_VERSION}
+    return summary
 
 
 def load_templates(root: Path) -> list[dict]:
@@ -861,13 +1003,20 @@ def _run_rows(root: Path) -> list[dict]:
         domain = ""
         if request_path.exists():
             domain = str(json.loads(request_path.read_text()).get("domain") or "")
+        accepted = manifest.get("accepted", 0)
+        rejected_count = manifest.get("rejected", 0)
+        reprocess_path = path.parent / "reprocess.json"
+        if reprocess_path.exists():
+            overlay = json.loads(reprocess_path.read_text())
+            accepted = overlay.get("accepted", accepted)
+            rejected_count = overlay.get("rejected", rejected_count)
         rows.append(
             {
                 "run": manifest.get("run") or path.parent.name,
                 "prompt": manifest.get("prompt") or "",
                 "domain": domain,
-                "accepted": manifest.get("accepted", 0),
-                "rejected": manifest.get("rejected", 0),
+                "accepted": accepted,
+                "rejected": rejected_count,
             }
         )
     return rows
@@ -927,10 +1076,24 @@ def render_report(root: Path) -> str:
     rejected = root / "data" / "factory" / "rejected" / "concepts.jsonl"
     reasons: dict[str, int] = {}
     if rejected.exists():
+        banked = {(record.get("run"), record.get("concept")) for record in records}
+        latest: dict[tuple, str] = {}
+        anonymous: list[str] = []
         for line in rejected.read_text().splitlines():
             if not line.strip():
                 continue
-            reason = json.loads(line).get("reason") or "unknown"
+            item = json.loads(line)
+            reason = item.get("reason") or "unknown"
+            concept = item.get("concept")
+            if concept:
+                latest[(item.get("run"), concept)] = reason
+            else:
+                anonymous.append(reason)
+        for key, reason in latest.items():
+            if key in banked:
+                continue
+            reasons[reason] = reasons.get(reason, 0) + 1
+        for reason in anonymous:
             reasons[reason] = reasons.get(reason, 0) + 1
     if reasons:
         lines.append("| Reject reason | Count |")
