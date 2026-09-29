@@ -1,9 +1,9 @@
 """Local factors of a candidate, scored separately and then added.
 
-A recursive encoder can still give ``REPEAT(width)`` and ``REPEAT(interval)``
-two unrelated vectors. Here the repeat slot never sees the child, and the
-field slot never sees the quantifier. The candidate score is the sum of those
-pieces plus a bounded interaction. Letter identity is not a feature.
+The repeat slot never sees its child, and the field slot never sees the
+quantifier. Three typed relations sit on top of that sum: field with width,
+optional with the kind of thing it governs, and affix with the field it
+attaches to. Letter identity is not a feature.
 """
 
 from __future__ import annotations
@@ -29,6 +29,27 @@ N_FACTORS = 7
 FEAT_DIM = 16
 N_AUX = 5
 AUX_NAMES = ("field", "width", "repeat", "optional", "affix")
+
+# Optional scope is what the optional governs, not which field follows it.
+OPT_ABSENT = 0
+OPT_PREFIX_AFFIX = 1
+OPT_OTHER_AFFIX = 2
+OPT_FIELD = 3
+OPT_OTHER = 4
+N_OPT_SCOPE = 5
+
+# Affix scope is (where the affix sits) × (the kind of field it attaches to).
+FIELD_NONE = 0
+FIELD_DIGIT = 1
+FIELD_UPPER = 2
+FIELD_LOWER = 3
+FIELD_SET = 4
+FIELD_INT = 5
+FIELD_LEX = 6
+N_FIELD_KIND = 7
+N_AFFIX_ROLE = 4
+N_AFFIX_SCOPE = N_AFFIX_ROLE * N_FIELD_KIND
+_CONTENT = {"CLS", "SET", "INT", "LEX"}
 
 
 def _log(value: float) -> float:
@@ -80,8 +101,65 @@ def _leaves(node: Prog) -> list[Prog]:
     return found
 
 
-def describe(prog: Prog, supports: list[str]) -> tuple[list[list[float]], list[bool], dict]:
-    """Feature rows, presence, and the signatures used as auxiliary targets."""
+def _leaf_kind(leaf: Prog | None) -> int:
+    if leaf is None:
+        return FIELD_NONE
+    if leaf.op == "CLS":
+        return {"digit": FIELD_DIGIT, "upper": FIELD_UPPER, "lower": FIELD_LOWER}.get(leaf.cls, FIELD_NONE)
+    if leaf.op == "SET":
+        return FIELD_SET
+    if leaf.op == "INT":
+        return FIELD_INT
+    if leaf.op == "LEX":
+        return FIELD_LEX
+    return FIELD_NONE
+
+
+def _optional_scope(prog: Prog) -> int:
+    found: list[tuple[int, Prog]] = []
+
+    def walk(node: Prog, index: int) -> None:
+        if node.op == "OPT":
+            found.append((index, node))
+        for child_index, child in enumerate(node.children):
+            walk(child, child_index)
+
+    walk(prog, 0)
+    if not found:
+        return OPT_ABSENT
+    index, node = found[0]
+    if not node.children:
+        return OPT_OTHER
+    ops = {item.op for item in _walk(node.children[0])}
+    content = ops & _CONTENT
+    affix_only = "COPY" in ops and not content and "REPEAT" not in ops
+    if affix_only:
+        return OPT_PREFIX_AFFIX if index == 0 else OPT_OTHER_AFFIX
+    if content and "COPY" not in ops and "REPEAT" not in ops:
+        return OPT_FIELD
+    return OPT_OTHER
+
+
+def _affix_scope(copies: list[tuple[str, str]], leaves: list[Prog]) -> int:
+    if not copies:
+        return 0
+    roles = {role for role, _text in copies}
+    if "prefix" in roles:
+        role = 1
+        target = next((leaf for leaf in leaves if leaf.op in _CONTENT), None)
+    elif "suffix" in roles:
+        role = 2
+        target = next((leaf for leaf in reversed(leaves) if leaf.op in _CONTENT), None)
+    elif "infix" in roles:
+        role = 3
+        target = next((leaf for leaf in leaves if leaf.op in _CONTENT), None)
+    else:
+        return 0
+    return role * N_FIELD_KIND + _leaf_kind(target)
+
+
+def describe(prog: Prog, supports: list[str]) -> tuple[list[list[float]], list[bool], dict, tuple[int, int]]:
+    """Feature rows, presence, auxiliary signatures, and the two scope ids."""
     view = _support_view(supports)
     feat = [[0.0] * FEAT_DIM for _ in range(N_FACTORS)]
     classes: list[Prog] = []
@@ -237,7 +315,7 @@ def describe(prog: Prog, supports: list[str]) -> tuple[list[list[float]], list[b
         "optional": tuple(sorted(optional_roles)),
         "affix": tuple(sorted((role, _affix_kind(text)) for role, text in copies)),
     }
-    return feat, present, signature
+    return feat, present, signature, (_optional_scope(prog), _affix_scope(copies, leaves))
 
 
 def _targets(signature: dict, gold: list[dict]) -> list[float]:
@@ -257,18 +335,24 @@ def pack_rows(
     feat = np.zeros((count, width, N_FACTORS, FEAT_DIM), np.float32)
     present = np.zeros((count, width, N_FACTORS), np.bool_)
     aux = np.zeros((count, width, N_AUX), np.float32)
+    opt_scope = np.zeros((count, width), np.int64)
+    affix_scope = np.zeros((count, width), np.int64)
     for index, (text, support, flags) in enumerate(zip(programs, supports, gold)):
         decoded = programs_from_json(text)
         described = [describe(prog, support) for prog in decoded[:width]]
         gold_sigs = [item[2] for item, flag in zip(described, flags) if flag]
-        for slot, (rows, mask, signature) in enumerate(described):
+        for slot, (rows, mask, signature, scopes) in enumerate(described):
             feat[index, slot] = rows
             present[index, slot] = mask
             aux[index, slot] = _targets(signature, gold_sigs)
+            opt_scope[index, slot] = scopes[0]
+            affix_scope[index, slot] = scopes[1]
     return {
         "feat": torch.from_numpy(feat),
         "present": torch.from_numpy(present),
         "aux": torch.from_numpy(aux),
+        "opt_scope": torch.from_numpy(opt_scope),
+        "affix_scope": torch.from_numpy(affix_scope),
     }
 
 

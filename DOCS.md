@@ -76,7 +76,18 @@ uv run python train_prior.py --device cpu --model-size 10k --steps 20000 --batch
 
 Overrides are `key=value` or the flags `--device`, `--model-size`, `--steps`, `--batch-size`, and `--mixed-precision`. `name=` chooses the checkpoint directory. `max_train=` keeps a prefix of the training shard. `model_size` is `0`, `10k`, `30k`, `100k`, `300k`, `1m`, `3m`, or `5m`. `model_size` selects the flat MLP. The AST and factor configs set `kind` themselves and must not be combined with that override. The menu-sampler curve, including 300k, is `results/prior/scaling.md`.
 
-`python -m prior.generate --pilot 8` prints per-family keep rate without writing shards. The factorized commands are in the README.
+`python -m prior.generate --pilot 8` prints per-family keep rate without writing shards. The support-representation audit is the current experiment; its command is in the README. The typed-relation scorer is `results/prior/relations.md`. The 15k model missed the compositional gates, so the 40k and 100k configs were not trained.
+
+```bash
+uv run python -m prior.train --config configs/prior_rel_15k.yaml device=cpu
+```
+
+The additive factor scorer is `results/prior/factor.md`.
+
+```bash
+uv run python -m prior.train --config configs/prior_factor_small.yaml device=cpu
+uv run python -m prior.train --config configs/prior_factor_medium.yaml device=cpu
+```
 
 The flat 50-d candidate vector on this corpus is `results/prior/diversity.md`.
 

@@ -44,17 +44,16 @@ uv run python -m unittest discover -s tests
 
 ## Current experiment
 
-The factorized prior keeps the candidate generator, the compositional corpus, and the trainer fixed. A candidate score is the sum of local pieces: the field, the width, the repeat, the optional, and the affix. The repeat piece does not see its child. Held out of training: optional prefix plus a character class, a repeated field plus a numeric interval, and a lexicon plus a literal suffix.
+The prior architectures are paused. This experiment asks whether the frozen 160-d support vector still contains the facts a compositional prior would need. Tiny probes read that vector. A separate match scores candidates from the string facts upstream of the pool. Held out of training: optional prefix plus a character class, a repeated field plus a numeric interval, and a lexicon plus a literal suffix.
 
-Shards are written under `results/prior/shards/` and are not committed. A new checkout regenerates them before training.
+Shards are written under `results/prior/shards/` and are not committed. A new checkout regenerates them before the audit.
 
 ```bash
 uv run python -m prior.generate --train 50000 --val 10000 --ood 20000 --seed 2507
-uv run python -m prior.train --config configs/prior_factor_small.yaml device=cpu
-uv run python -m prior.train --config configs/prior_factor_medium.yaml device=cpu
+uv run python -m prior.audit --data results/prior/shards --out results/prior/probes.json
 ```
 
-`seed=1` repeats a run. `device=cuda` is the same script when CUDA is present; a request for CUDA on a CPU machine exits. Checkpoints go to `results/prior/runs/<name>/seed_<n>/`. `train_prior.py` calls the same main. The flat and AST commands are in [DOCS.md](DOCS.md).
+The audit is CPU-only. It does not train the 1.226M encoder and it does not change `needle()`. Earlier prior commands, including the typed-relation scorer, are in [DOCS.md](DOCS.md).
 
 The written record is already in the tree. Regenerating it only concatenates the result pages, including the sealed BENCH-E line:
 
@@ -65,9 +64,11 @@ uv run python scripts/run_needle.py --stage summary
 | Page | What it records |
 | --- | --- |
 | `results/needle/summary.md` | Needle, then the prior curves |
+| `results/prior/probes.md` | Probes on the frozen 160-d support vector |
+| `results/prior/relations.md` | Typed field, optional, and affix relations |
 | `results/prior/factor.md` | Sum of local factor scores, CPU |
 | `results/prior/ast.md` | Recursive candidate encoder |
 | `results/prior/diversity.md` | Compositional sampler and the flat 10k / 30k / 100k sweep |
 | `results/prior/scaling.md` | Earlier menu-sampler curve |
 
-On the factorized sweep, validation top-1 is 0.847 at 13,927 parameters and holdout top-1 is 0.513. Held-out `repeat_interval` is 0.730 / 0.701. `prefix_charset_optional` stays at 0.000. BENCH-E stays sealed.
+Repeat is linearly readable on `repeat_interval` at 1.000 / 1.000. Interval on that same family is 0.184 / 0.142. Optional scope on `prefix_charset_optional` is 0.104 / 0.119, while the character class there is 0.966 / 0.958. A suffix after a lexicon is 0.000 / 0.001. The explicit fact match does not restore probe-perfect top-1. BENCH-E stays sealed.

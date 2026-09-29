@@ -126,6 +126,7 @@ def run(cfg: TrainConfig, root: Path | None = None) -> dict:
         "width": raw.width,
         "hidden": raw.hidden,
         "tree_dim": raw.tree_dim,
+        "rank": getattr(raw, "rank", 0),
         "steps": step,
         "seconds": time.perf_counter() - started,
         "val": val,
