@@ -76,7 +76,13 @@ uv run python train_prior.py --device cpu --model-size 10k --steps 20000 --batch
 
 Overrides are `key=value` or the flags `--device`, `--model-size`, `--steps`, `--batch-size`, and `--mixed-precision`. `name=` chooses the checkpoint directory. `max_train=` keeps a prefix of the training shard. `model_size` is `0`, `10k`, `30k`, `100k`, `300k`, `1m`, `3m`, or `5m`. `model_size` selects the flat MLP. The AST and factor configs set `kind` themselves and must not be combined with that override. The menu-sampler curve, including 300k, is `results/prior/scaling.md`.
 
-`python -m prior.generate --pilot 8` prints per-family keep rate without writing shards. The expansion prior is the current experiment; its command is in the README. The packet-identifiability audit is `results/prior/packets.md`.
+`python -m prior.generate --pilot 8` prints per-family keep rate without writing shards. The concept factory is the current experiment; its command is in the README. The expansion prior is `results/prior/expansion.md`.
+
+```bash
+uv run python -m prior.expansion --data results/prior/shards --seeds 0 1
+```
+
+The packet-identifiability audit is `results/prior/packets.md`.
 
 ```bash
 uv run python -m prior.packet_audit --cache /tmp/relative-evidence --out results/prior/packets.json
