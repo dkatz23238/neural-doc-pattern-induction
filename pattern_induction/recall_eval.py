@@ -274,17 +274,40 @@ def render_markdown(payload: dict) -> str:
     lines.append("")
     product = payload["product_oracle"]
     structural = payload["structural_oracle"]
-    if product >= 0.98 and structural >= 0.98 and payload["closed_set_recall"] >= 0.95:
+    closed = payload["closed_set_recall"]
+    lines.extend(
+        [
+            "Three kinds of induction are in this stack. Visible structure is what the four strings literally support. "
+            "Latent parametric generalization widens a width or a bound the sample only partly showed. "
+            "Semantic set completion is the lexicon node: month names, currency codes, and the other frozen vocabularies, "
+            "which a character class cannot invent.",
+            "",
+        ]
+    )
+    earned = (
+        product >= 0.98
+        and structural >= 0.98
+        and closed >= 0.95
+        and payload["assemble_timeouts"] == 0
+    )
+    if earned:
         lines.append(
-            "The product-contract candidate oracle is above 0.98, so the latent language is usually in the set. "
-            "That earns a learned prior. This pass does not train one. BENCH-E stays sealed.\n"
+            "The product-contract candidate oracle and the structural oracle are both at least 0.98, "
+            "and closed-set recall is at least 0.95. That earns a learned prior. This pass does not train one. "
+            "BENCH-E stays sealed.\n"
         )
     else:
         lines.append(
-            "The product-contract oracle is not yet above 0.98, so this is not a basis for training a language prior. "
-            "What remains is structure the four examples never show: an optional branch, a width the clip still "
-            "does not explain, or a closed set whose published superset also accepts a hidden negative. "
-            "BENCH-E stays sealed.\n"
+            f"The product-contract oracle is {product:.3f}. "
+            f"Closed-set recall is {closed:.3f}. "
+            f"The structural oracle is {structural:.3f} "
+            f"({payload['structural_perfect']}/{payload['structural_n']}), short of its 0.98 gate. "
+            f"The {payload['remaining_product_misses']} tasks still outside the set are optional branches and bounds the four examples do not show: "
+            "a legal “bis”, an appendix number, a spaced ISO clause, a blank N/A, a third order prefix, "
+            "a SWIFT branch code, a dotted local part, a matter filename stem, and a quarter digit whose "
+            "superclass also accepts Q0 and Q8. "
+            "A product-contract oracle above 0.98 is the bar for a learned prior. "
+            "This pass does not train one. Those tasks stay out of the generator. BENCH-E stays sealed.\n"
         )
     return "\n".join(lines) + "\n"
 
