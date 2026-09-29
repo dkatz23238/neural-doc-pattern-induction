@@ -1,1 +1,4 @@
+# Baseline-only pin. `pip install -r requirements.txt` stays this one package.
+# The full environment, including torch, is `uv sync` (see pyproject.toml).
 find-abstract-syntax-tree==0.2.1
+

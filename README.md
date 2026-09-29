@@ -37,6 +37,15 @@ python scripts/run_experiment1.py
 python -m unittest tests.test_core
 ```
 
+The same commands run under [uv](https://docs.astral.sh/uv/). `uv sync` installs this repo in editable mode plus torch, NumPy, PyYAML, pyarrow, and the fAST pin above, so `PYTHONPATH` is unnecessary. `pip install -r requirements.txt` is unchanged and still installs only the fAST baseline.
+
+```bash
+uv sync
+uv run python scripts/generate_benchmarks.py
+uv run python -m unittest discover -s tests
+uv run python train_prior.py --device cpu --model-size 100k --steps 20000 --batch-size 32
+```
+
 `generate_benchmarks.py` writes a review-sized suite (about 550 BENCH-C tasks, 1,500 BENCH-B, 320 BENCH-D, 1,200 BENCH-A). The BENCH-A generator is the same function used for the 100k/10k/10k corpus; pass `--bench-a-dev 100000 --bench-a-val 10000 --bench-a-test 10000` for the full split. Shape buckets are hashed, so the larger draw keeps the same held-out shapes.
 
 The candidate-oracle run does not train a neural net. It builds a small symbolic neighborhood of the heuristic, scores the best candidate in that neighborhood on the hidden set, and compares that ceiling with two label-free scorers and a ridge regression on visible features.
