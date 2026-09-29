@@ -305,6 +305,13 @@ class FactoryTest(unittest.TestCase):
         rows = extract_concepts(text)
         self.assertEqual(rows[0]["concept"], "invoice currency")
 
+    def test_extract_keeps_concepts_after_a_premature_close(self):
+        first = {"concepts": [CURRENCY]}
+        second = dict(YEAR)
+        text = json.dumps(first) + "," + json.dumps(second)
+        rows = extract_concepts(text)
+        self.assertEqual([row["concept"] for row in rows], ["invoice currency", "filing year"])
+
     def test_novel_share_is_zero_for_a_sampler_shape_and_one_for_an_alt(self):
         stored, reason = validate_concept(YEAR)
         self.assertEqual(reason, "")

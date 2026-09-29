@@ -1034,12 +1034,16 @@ def extract_concepts(text: str) -> list[dict]:
         end = rest.find("```")
         fenced = rest[:end] if end >= 0 else rest
     values = _json_values(fenced) or _json_values(raw)
+    concepts: list[dict] = []
     for value in values:
         if isinstance(value, dict) and isinstance(value.get("concepts"), list):
-            return [item for item in value["concepts"] if isinstance(item, dict)]
-    for value in values:
-        if isinstance(value, list) and value and all(isinstance(item, dict) for item in value):
-            return value
+            concepts.extend(item for item in value["concepts"] if isinstance(item, dict))
+        elif isinstance(value, list) and value and all(isinstance(item, dict) for item in value):
+            concepts.extend(item for item in value if isinstance(item, dict))
+        elif isinstance(value, dict) and ("program" in value or "concept" in value):
+            concepts.append(value)
+    if concepts:
+        return concepts
     if not values:
         raise FactoryError("no_json")
     raise FactoryError("no_concepts")
