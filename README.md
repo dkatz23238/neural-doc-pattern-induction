@@ -46,7 +46,7 @@ uv run python -m unittest discover -s tests
 
 Track B is a teacher-driven concept bank. A Terra call invents realistic string fields. The raw response is committed before parsing. A concept is kept only when Needle's executor accepts every positive and rejects every near miss. The large training shards are not stored; `data/factory/manifests/factory_v1.json` names the bank hash, the parser version, and the seed.
 
-gpt-6-terra is not on this key. Calls use gpt-5.6-terra. The spend cap in this module is $4, separate from the older recipe-teacher cap.
+gpt-6-terra is not on this key. Calls use gpt-5.6-terra. The spend cap in this module is $10, separate from the older recipe-teacher cap.
 
 ```bash
 uv run python -m pattern_induction.factory --stage generate --prompt real_world_concepts_v1.md --domain logistics
@@ -67,6 +67,7 @@ uv run python scripts/run_needle.py --stage summary
 | --- | --- |
 | `results/needle/summary.md` | Needle, then the prior curves |
 | `results/factory/bank.md` | Accepted concept bank and its diversity |
+| `results/factory/mix.md` | Frozen prior trained with the concept bank |
 | `results/prior/expansion.md` | Tiny prior over ambiguous expansions |
 | `results/prior/packets.md` | Identifiability of the local packets |
 | `results/prior/relative.md` | Candidate-relative node scores |
@@ -78,4 +79,6 @@ uv run python scripts/run_needle.py --stage summary
 | `results/prior/diversity.md` | Compositional sampler and the flat 10k / 30k / 100k sweep |
 | `results/prior/scaling.md` | Earlier menu-sampler curve |
 
-Sixty-six teacher calls, $3.07 of the $10 cap, left 418 executor-checked templates. Unique programs 325, AST shapes 118, semantic families 277, witnessed ambiguity 295, novel-composition share 0.502, top-1 program share 0.084. Whole concept families are assigned to train, validation, or held-out in `data/factory/manifests/split_v1.json`. Rejections are bucketed as bad teacher output, a DSL limitation, or a parser limitation. The evidence scorer and the expansion prior are not retrained on this bank. BENCH-E stays sealed.
+Sixty-six teacher calls, $3.07 of the $10 cap, left 418 executor-checked templates. Unique programs 325, AST shapes 118, semantic families 277, witnessed ambiguity 295, novel-composition share 0.502, top-1 program share 0.084. Whole concept families are assigned to train, validation, or held-out in `data/factory/manifests/split_v1.json`. Rejections are bucketed as bad teacher output, a DSL limitation, or a parser limitation.
+
+The comparison against that bank is in `results/factory/mix.md`. The 1,158-parameter evidence scorer stays frozen. The 1,765-parameter prior is trained again with the same loss, with each batch drawn half from the synthetic ambiguous pool and half from the factory train split. Held-out template top-1 stays with the evidence scorer (mixture 0.417 / 0.438, evidence 0.472 / 0.458). BENCH-E stays sealed. `needle()` is unchanged.

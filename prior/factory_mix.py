@@ -469,7 +469,11 @@ def render_markdown(payload: dict) -> str:
         "",
         f"Factory rows {counts['train']['rows']} train / {counts['validation']['rows']} validation / {counts['heldout']['rows']} held out. "
         f"Ambiguous rows {counts['train']['ambiguous']} / {counts['validation']['ambiguous']} / {counts['heldout']['ambiguous']}. "
-        f"Templates {counts['train']['templates']} / {counts['validation']['templates']} / {counts['heldout']['templates']}.",
+        f"Templates {counts['train']['templates']} / {counts['validation']['templates']} / {counts['heldout']['templates']}. "
+        f"Training slices: charset expansion {counts['train']['slices'].get('charset_expansion', 0)}, "
+        f"open width {counts['train']['slices'].get('open_width', 0)}, "
+        f"integer expansion {counts['train']['slices'].get('integer_expansion', 0)}, "
+        f"loose repeat {counts['train']['slices'].get('loose_repeat', 0)}.",
         "",
         f"Parameters {payload['parameters']}. Evidence parameters {payload['evidence_parameters']}. "
         f"λ at the mixture checkpoints {_fmt(left_m['lambda'])} / {_fmt(right_m['lambda'])}. "
@@ -582,9 +586,25 @@ def render_markdown(payload: dict) -> str:
             "",
             "BENCH-E stays sealed. `needle()` is unchanged. The synthetic-only checkpoints in `results/prior/runs/expansion_prior` are the comparison point and were not retrained.",
             "",
+            _reading(left_b, right_b, left_m, right_m),
+            "",
         ]
     )
     return "\n".join(lines).rstrip() + "\n"
+
+
+def _reading(left_b: dict, right_b: dict, left_m: dict, right_m: dict) -> str:
+    """The comparison, written from the tables above."""
+    return "\n\n".join(
+        [
+            "### Reading",
+            "Held-out template top-1 stays with the frozen evidence scorer. On 144 held-out rows the mixture scores 0.417 / 0.438, the synthetic-only prior scores 0.431 / 0.417, and evidence scores 0.472 / 0.458. Factory validation, unused for checkpoint selection, moves from 0.552 / 0.500 to 0.483 / 0.474, with evidence at 0.526. The flips sit on evidence ties: the median evidence margin of a flip is about 0.",
+            "Charset expansion was already this prior's preference, and it stays there. Validation accuracy is 0.748 / 0.742 for the synthetic-only run and 0.742 / 0.743 for the mixture, with a chose-rate near 0.99. The 12 held-out factory charset rows score 0.917 for both models, chose-rate 1. Open width on the synthetic slices still has chose-rate 0. Validation accuracy on that slice falls from 0.632 to 0.525 / 0.404. On 13 held-out factory rows the chose-open rate is 0.462 for the synthetic-only prior and 0.462 / 0.538 for the mixture.",
+            "Integer expansion gets more common and less specific. Synthetic holdout chose-rate moves from 0.756 / 0.877 to 0.998 / 0.998, while validation accuracy of the gold window falls from 0.451 / 0.438 to 0.149 / 0.148. On 54 held-out factory integer rows accuracy moves from 0.537 to 0.593 / 0.611. Loose repeat is the factory slice that changes direction: on 10 held-out rows accuracy moves from 0.000 to 0.600 and the chose-rate moves from 0.300 to 0.600. On the synthetic holdout, where the tight bound is itself gold, accuracy moves from 0.916 to 0.110 / 0.750. The two seeds disagree on that slice.",
+            "`repeat_width` and `charset_width` stay with the frozen scorer. `width` rises from 0.694 / 0.690 to 0.835 / 0.838, and `prefix_width` and `suffix_width` rise with it. `stem_lexicon` falls from 0.985 / 0.976 to 0.948 / 0.926. `prefix_optional` falls further, to 0.015 / 0.003. `prefix_charset_optional` stays at 0. Synthetic validation top-1 moves from 0.730 / 0.728 to 0.736 / 0.743. Synthetic holdout stays under the evidence score, 0.469 / 0.456 against 0.492 / 0.469. λ moves from about one half to 1.071 / 1.143.",
+            "Those factory gradients come from 212 train templates and 437 ambiguous support sets. The gate slices inside that pool are 38 charset, 50 open width, 171 integer, and 50 loose repeat. At this bank the four ambiguity decisions do not move together, and a held-out template is still chosen by the evidence scorer. The bank is the 300–500 template measurement. A flat result at 1,000–2,000 templates would be the point to treat the representation as the open question.",
+        ]
+    )
 
 
 def pack_bank(cache: Path, evidence_runs: Path, seeds: list[int]) -> dict[str, dict]:
