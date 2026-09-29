@@ -76,4 +76,4 @@ uv run python scripts/run_needle.py --stage summary
 | `results/prior/diversity.md` | Compositional sampler and the flat 10k / 30k / 100k sweep |
 | `results/prior/scaling.md` | Earlier menu-sampler curve |
 
-The gates are charset expansion, open width, integer-range expansion, prefix width, and loose repeats, plus whole-program accuracy of the sum. Where the packet already determines the label, the frozen scorer stays in front. BENCH-E stays sealed.
+The prior expands charsets and stretches closed widths. It does not prefer an open width, a loose repeat, or the probe-perfect integer window. Validation top-1 is 0.730 / 0.728 against the frozen scorer's 0.721 / 0.717. Holdout is 0.474 / 0.447 against 0.492 / 0.469. `prefix_charset_optional` stays 0. BENCH-E stays sealed.

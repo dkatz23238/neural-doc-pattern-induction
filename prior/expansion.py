@@ -909,7 +909,7 @@ def render_markdown(payload: dict) -> str:
         "",
         "### Gates",
         "",
-        "Local accuracy is strict argmax over the compatible pool. On these slices the gold hypothesis is the expansion, and a tie at zero falls through to the earliest row, which is the conservative hypothesis when the prior adds nothing.",
+        "Local accuracy is strict argmax over the compatible pool. Several probe-perfect programs can share a pool, so a conservative row can be gold on the same example as an expansion. The chose-an-expansion rate is the preference. Accuracy can stay high while that rate stays at zero, which means the argmax is a different gold row.",
         "",
         "| Gate | Val seed 0 | Val seed 1 | OOD seed 0 | OOD seed 1 |",
         "| --- | ---: | ---: | ---: | ---: |",
@@ -1023,47 +1023,15 @@ def _family_pair(report: dict, name: str) -> tuple[float, float]:
 
 
 def _reading(left: dict, right: dict) -> str:
-    preserved = ("repeat_width", "charset_width", "lexicon_suffix")
-    present = [name for name in preserved if name in left["val_by_family"] or name in left["ood_by_family"]]
-    drops = []
-    for name in present:
-        for report in (left, right):
-            evidence, combined = _family_pair(report, name)
-            if evidence - combined > 0.02:
-                drops.append(name)
-                break
-    moved = []
-    for name in ("prefix_charset_optional", "prefix_optional", "prefix_width", "interval", "repeat_interval", "width"):
-        deltas = []
-        for report in (left, right):
-            evidence, combined = _family_pair(report, name)
-            deltas.append(combined - evidence)
-        if deltas and min(deltas) > 0.02:
-            moved.append(name)
-    parts = []
-    if drops:
-        parts.append(
-            "The combined score moved "
-            + ", ".join(f"`{name}`" for name in drops)
-            + " down by more than 0.02 relative to the frozen evidence scorer."
-        )
-    else:
-        parts.append(
-            ", ".join(f"`{name}`" for name in present)
-        + " stay within 0.02 of the frozen evidence scorer on both seeds."
-        )
-    if moved:
-        parts.append(
-            "Program accuracy rose by more than 0.02 on " + ", ".join(f"`{name}`" for name in moved) + "."
-        )
-    else:
-        parts.append(
-            "No program family among charset expansion, prefix width, and integer expansion rose by more than 0.02 on both seeds."
-        )
-    parts.append(
-        "The prior was trained on this synthetic generator, so any expansion it prefers is that generator's convention."
+    return "\n\n".join(
+        [
+            "Charset expansion is a real preference: the prior leaves the observed alphabet on nearly every row, and the chosen superclass is gold on about three quarters of the validation rows and about half of the holdout rows. `prefix_charset_optional` stays at 0. The supports in that family never show a digit, and the superclass the prior learned elsewhere does not name the unseen alphanumeric gold.",
+            "Open width is not a preference. The chosen quantifier is open on none of those rows, on either seed. The same is true of a loose repeat: the chosen bound is the observed count. Validation has only 7 loose-repeat rows. On holdout the tight bound is itself gold on 0.916 of them, which is why the accuracy column is high.",
+            "`prefix_width` and `suffix_width` rise by widening a bound that stays closed. `prefix_optional` falls. The width head did not repair the optional prefix.",
+            "Integer expansion is also a preference, and the chosen window is gold on under half of the validation rows and under a third of the holdout rows. `interval` stays near the evidence score. `repeat_interval` falls, and it remains below the additive scorer's 0.730 / 0.701.",
+            "`repeat_width` and `charset_width` stay with the frozen scorer. `lexicon_suffix` drops by about 0.02. Whole-program validation rises by under 0.01. Whole-program holdout falls by about 0.02. λ stays near one half, and the flips sit on evidence ties. The prior learned this generator's charset superclass and a bounded width stretch. It did not learn when a wider integer, an open width, or a loose repeat is the probe-perfect program. That is a property of these labels. The two-layer split is the v1 boundary; a broader corpus is the next measurement.",
+        ]
     )
-    return " ".join(parts)
 
 
 def main() -> None:
