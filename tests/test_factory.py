@@ -175,6 +175,15 @@ class FactoryTest(unittest.TestCase):
             for text in task["supports"]:
                 self.assertTrue(execute(program, text, task["supports"]), task["configuration"])
 
+    def test_materialize_skips_a_support_set_that_cannot_bind(self):
+        stored, reason = validate_concept(PALLET)
+        self.assertIsNotNone(stored, reason)
+        stored["ambiguity_status"] = "witnessed"
+        stored["ambiguous_supports"] = ["NOHYPHEN", "STILLNO"]
+        tasks = materialize(stored, seed=2507, limit=8)
+        self.assertTrue(tasks)
+        self.assertNotIn("ambiguous", [task["configuration"] for task in tasks])
+
     def test_compact_dialect_keeps_a_swapped_integer_and_a_lexicon_alias(self):
         appointment = {
             "domain": "logistics",

@@ -844,7 +844,10 @@ def materialize(record: dict, seed: int = 2507, limit: int = 8) -> list[dict]:
                 configs.append(("renamed", renamed))
     tasks = []
     for name, supports in configs[:limit]:
-        bound = bind_program(program, supports)
+        try:
+            bound = bind_program(program, supports)
+        except FactoryError:
+            continue
         candidates = [bound]
         for neighbor in record.get("neighbors") or []:
             try:
