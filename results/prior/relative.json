@@ -1,0 +1,857 @@
+{
+  "parameters": 1158,
+  "seeds": [
+    {
+      "seed": 0,
+      "parameters": 1158,
+      "best_step": 20000,
+      "val_top1": 0.7214,
+      "ood_top1": 0.4924,
+      "val_by_family": {
+        "charset_width": 0.9608938547486033,
+        "interval": 0.4825418994413408,
+        "lexicon": 0.9171348314606742,
+        "prefix_charset": 0.9314685314685315,
+        "prefix_interval": 0.7164804469273743,
+        "prefix_lexicon": 0.8721910112359551,
+        "prefix_optional": 0.08695652173913043,
+        "prefix_width": 0.6731843575418994,
+        "repeat_width": 0.9466292134831461,
+        "stem_lexicon": 0.9803370786516854,
+        "suffix_width": 0.6460674157303371,
+        "width": 0.6885474860335196
+      },
+      "ood_by_family": {
+        "lexicon_suffix": 0.951702414879256,
+        "prefix_charset_optional": 0.000149947518368571,
+        "repeat_interval": 0.5255102040816326
+      },
+      "val_local": {
+        "repeat": 0.933,
+        "integer": 0.7384,
+        "charset": 0.4504,
+        "optional": 0.8736,
+        "literal": 0.8921,
+        "lexicon": 0.9962
+      },
+      "ood_local": {
+        "repeat": 0.9885,
+        "integer": 0.72255,
+        "charset": 0.2603,
+        "optional": 0.623,
+        "literal": 1.0,
+        "lexicon": 1.0
+      },
+      "val_local_present": {
+        "repeat": 0.5127272727272727,
+        "integer": 0.46060449496254197,
+        "charset": 0.5289344946903711,
+        "optional": 0.4903339191564148,
+        "literal": 0.9666040190834176,
+        "lexicon": 1.0
+      },
+      "ood_local_present": {
+        "repeat": 0.9654861944777912,
+        "integer": 0.16731692677070828,
+        "charset": 0.2735177865612648,
+        "optional": 0.18442265795206972,
+        "literal": 1.0,
+        "lexicon": 1.0
+      },
+      "val_local_by_family": {
+        "repeat": {
+          "charset_width": 1.0,
+          "interval": 1.0,
+          "lexicon": 1.0,
+          "prefix_charset": 0.2125874125874126,
+          "prefix_interval": 1.0,
+          "prefix_lexicon": 0.8820224719101124,
+          "prefix_optional": 1.0,
+          "prefix_width": 1.0,
+          "repeat_width": 0.9901685393258427,
+          "stem_lexicon": 0.9775280898876404,
+          "suffix_width": 1.0,
+          "width": 1.0
+        },
+        "integer": {
+          "charset_width": 0.9078212290502793,
+          "interval": 0.473463687150838,
+          "lexicon": 0.8370786516853933,
+          "prefix_charset": 0.8993006993006993,
+          "prefix_interval": 0.5321229050279329,
+          "prefix_lexicon": 0.8202247191011236,
+          "prefix_optional": 0.8120617110799438,
+          "prefix_width": 0.6759776536312849,
+          "repeat_width": 0.9367977528089888,
+          "stem_lexicon": 1.0,
+          "suffix_width": 0.6741573033707865,
+          "width": 0.7667597765363129
+        },
+        "charset": {
+          "charset_width": 0.9343575418994413,
+          "interval": 0.24162011173184358,
+          "lexicon": 0.38202247191011235,
+          "prefix_charset": 0.9244755244755245,
+          "prefix_interval": 0.15782122905027932,
+          "prefix_lexicon": 0.5561797752808989,
+          "prefix_optional": 0.015427769985974754,
+          "prefix_width": 0.585195530726257,
+          "repeat_width": 0.6165730337078652,
+          "stem_lexicon": 0.3862359550561798,
+          "suffix_width": 0.5014044943820225,
+          "width": 0.6047486033519553
+        },
+        "optional": {
+          "charset_width": 0.9329608938547486,
+          "interval": 1.0,
+          "lexicon": 0.9578651685393258,
+          "prefix_charset": 0.10909090909090909,
+          "prefix_interval": 1.0,
+          "prefix_lexicon": 0.7710674157303371,
+          "prefix_optional": 1.0,
+          "prefix_width": 0.8561452513966481,
+          "repeat_width": 0.9058988764044944,
+          "stem_lexicon": 0.952247191011236,
+          "suffix_width": 0.8539325842696629,
+          "width": 0.8910614525139665
+        },
+        "literal": {
+          "charset_width": 0.9832402234636871,
+          "interval": 0.611731843575419,
+          "lexicon": 1.0,
+          "prefix_charset": 1.0,
+          "prefix_interval": 0.840782122905028,
+          "prefix_lexicon": 1.0,
+          "prefix_optional": 1.0,
+          "prefix_width": 0.8170391061452514,
+          "repeat_width": 1.0,
+          "stem_lexicon": 1.0,
+          "suffix_width": 0.7865168539325843,
+          "width": 1.0
+        },
+        "lexicon": {
+          "charset_width": 1.0,
+          "interval": 0.9895251396648045,
+          "lexicon": 1.0,
+          "prefix_charset": 1.0,
+          "prefix_interval": 0.9951117318435754,
+          "prefix_lexicon": 1.0,
+          "prefix_optional": 1.0,
+          "prefix_width": 1.0,
+          "repeat_width": 1.0,
+          "stem_lexicon": 0.9775280898876404,
+          "suffix_width": 1.0,
+          "width": 1.0
+        }
+      },
+      "ood_local_by_family": {
+        "repeat": {
+          "lexicon_suffix": 1.0,
+          "prefix_charset_optional": 1.0,
+          "repeat_interval": 0.9654861944777912
+        },
+        "integer": {
+          "lexicon_suffix": 1.0,
+          "prefix_charset_optional": 1.0,
+          "repeat_interval": 0.16731692677070828
+        },
+        "charset": {
+          "lexicon_suffix": 0.6134693265336734,
+          "prefix_charset_optional": 0.0,
+          "repeat_interval": 0.1674669867947179
+        },
+        "optional": {
+          "lexicon_suffix": 0.7640617969101545,
+          "prefix_charset_optional": 0.25296146348777926,
+          "repeat_interval": 0.8521908763505402
+        },
+        "literal": {
+          "lexicon_suffix": 1.0,
+          "prefix_charset_optional": 1.0,
+          "repeat_interval": 1.0
+        },
+        "lexicon": {
+          "lexicon_suffix": 1.0,
+          "prefix_charset_optional": 1.0,
+          "repeat_interval": 1.0
+        }
+      },
+      "val_local_present_by_family": {
+        "repeat": {
+          "prefix_charset": 0.0,
+          "prefix_lexicon": 0.0,
+          "repeat_width": 0.9901685393258427,
+          "stem_lexicon": 0.0
+        },
+        "integer": {
+          "charset_width": 0.3148148148148148,
+          "interval": 0.5464256368118324,
+          "lexicon": 0.034782608695652174,
+          "prefix_charset": 0.19642857142857142,
+          "prefix_interval": 0.5454545454545454,
+          "prefix_lexicon": 0.024793388429752067,
+          "prefix_optional": 0.6666666666666666,
+          "prefix_width": 0.28113879003558717,
+          "repeat_width": 0.46153846153846156,
+          "suffix_width": 0.2847222222222222,
+          "width": 0.3898305084745763
+        },
+        "charset": {
+          "charset_width": 0.9369747899159664,
+          "interval": 0.4085005903187721,
+          "lexicon": 0.4547413793103448,
+          "prefix_charset": 0.9413447782546495,
+          "prefix_interval": 0.2635933806146572,
+          "prefix_lexicon": 0.7319778188539742,
+          "prefix_optional": 0.015427769985974754,
+          "prefix_width": 0.586013986013986,
+          "repeat_width": 0.6165730337078652,
+          "stem_lexicon": 0.3862359550561798,
+          "suffix_width": 0.5035260930888575,
+          "width": 0.6050775740479548
+        },
+        "optional": {
+          "charset_width": 0.7916666666666666,
+          "lexicon": 1.0,
+          "prefix_charset": 0.016366612111292964,
+          "prefix_lexicon": 0.0,
+          "prefix_optional": 1.0,
+          "prefix_width": 1.0,
+          "repeat_width": 0.0,
+          "stem_lexicon": 0.0,
+          "suffix_width": 1.0,
+          "width": 1.0
+        },
+        "literal": {
+          "charset_width": 1.0,
+          "interval": 1.0,
+          "prefix_charset": 1.0,
+          "prefix_interval": 0.840782122905028,
+          "prefix_lexicon": 1.0,
+          "prefix_optional": 1.0,
+          "prefix_width": 0.9965928449744463,
+          "repeat_width": 1.0,
+          "stem_lexicon": 1.0,
+          "suffix_width": 0.9982142857142857
+        },
+        "lexicon": {
+          "lexicon": 1.0,
+          "prefix_lexicon": 1.0,
+          "stem_lexicon": 1.0
+        }
+      },
+      "ood_local_present_by_family": {
+        "repeat": {
+          "repeat_interval": 0.9654861944777912
+        },
+        "integer": {
+          "repeat_interval": 0.16731692677070828
+        },
+        "charset": {
+          "lexicon_suffix": 0.6134693265336734,
+          "prefix_charset_optional": 0.0,
+          "repeat_interval": 0.19507004788082993
+        },
+        "optional": {
+          "lexicon_suffix": 0.0,
+          "prefix_charset_optional": 0.25296146348777926,
+          "repeat_interval": 0.006396588486140725
+        },
+        "literal": {
+          "lexicon_suffix": 1.0,
+          "prefix_charset_optional": 1.0,
+          "repeat_interval": 1.0
+        },
+        "lexicon": {
+          "lexicon_suffix": 1.0
+        }
+      },
+      "val_evidence": {
+        "repeat": 0.33193473193473194,
+        "integer": 0.0034662045060658577
+      },
+      "ood_evidence": {
+        "repeat": 1.0,
+        "integer": 0.0
+      },
+      "val_evidence_by_family": {
+        "repeat": {
+          "prefix_charset": 0.0,
+          "prefix_lexicon": 0.0,
+          "repeat_width": 1.0,
+          "stem_lexicon": 0.0
+        },
+        "integer": {
+          "charset_width": 0.0,
+          "interval": 0.0,
+          "lexicon": 0.0,
+          "prefix_charset": 0.02702702702702703,
+          "prefix_interval": 0.0,
+          "prefix_lexicon": 0.0,
+          "prefix_optional": 0.0,
+          "prefix_width": 0.008438818565400843,
+          "repeat_width": 0.0,
+          "suffix_width": 0.014245014245014245,
+          "width": 0.0048
+        }
+      },
+      "ood_evidence_by_family": {
+        "repeat": {
+          "repeat_interval": 1.0
+        },
+        "integer": {
+          "repeat_interval": 0.0
+        }
+      },
+      "renaming_invariance": 1.0,
+      "history": [
+        {
+          "step": 2000,
+          "val_top1": 0.629,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.6649,
+            "charset": 0.4247,
+            "optional": 0.9004,
+            "literal": 0.892,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 4000,
+          "val_top1": 0.6549,
+          "local": {
+            "repeat": 0.9223,
+            "integer": 0.7031,
+            "charset": 0.4287,
+            "optional": 0.8735,
+            "literal": 0.8921,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 6000,
+          "val_top1": 0.6882,
+          "local": {
+            "repeat": 0.9223,
+            "integer": 0.7129,
+            "charset": 0.4275,
+            "optional": 0.8735,
+            "literal": 0.8921,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 8000,
+          "val_top1": 0.7025,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.7263,
+            "charset": 0.4058,
+            "optional": 0.8736,
+            "literal": 0.8922,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 10000,
+          "val_top1": 0.7133,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.7359,
+            "charset": 0.4192,
+            "optional": 0.8736,
+            "literal": 0.8922,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 12000,
+          "val_top1": 0.7173,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.74,
+            "charset": 0.4242,
+            "optional": 0.8736,
+            "literal": 0.8922,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 14000,
+          "val_top1": 0.7135,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.7358,
+            "charset": 0.4465,
+            "optional": 0.8736,
+            "literal": 0.8922,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 16000,
+          "val_top1": 0.7145,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.7317,
+            "charset": 0.4143,
+            "optional": 0.8736,
+            "literal": 0.8922,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 18000,
+          "val_top1": 0.7113,
+          "local": {
+            "repeat": 0.9223,
+            "integer": 0.7285,
+            "charset": 0.4269,
+            "optional": 0.8736,
+            "literal": 0.8921,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 20000,
+          "val_top1": 0.7214,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.7384,
+            "charset": 0.4504,
+            "optional": 0.8736,
+            "literal": 0.8921,
+            "lexicon": 0.9962
+          }
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "parameters": 1158,
+      "best_step": 20000,
+      "val_top1": 0.717,
+      "ood_top1": 0.46855,
+      "val_by_family": {
+        "charset_width": 0.9567039106145251,
+        "interval": 0.48812849162011174,
+        "lexicon": 0.9129213483146067,
+        "prefix_charset": 0.9188811188811189,
+        "prefix_interval": 0.7081005586592178,
+        "prefix_lexicon": 0.875,
+        "prefix_optional": 0.06451612903225806,
+        "prefix_width": 0.6773743016759777,
+        "repeat_width": 0.9410112359550562,
+        "stem_lexicon": 0.9789325842696629,
+        "suffix_width": 0.6544943820224719,
+        "width": 0.6675977653631285
+      },
+      "ood_by_family": {
+        "lexicon_suffix": 0.9326533673316334,
+        "prefix_charset_optional": 0.0,
+        "repeat_interval": 0.47313925570228094
+      },
+      "val_local": {
+        "repeat": 0.933,
+        "integer": 0.744,
+        "charset": 0.4323,
+        "optional": 0.8736,
+        "literal": 0.8921,
+        "lexicon": 0.9962
+      },
+      "ood_local": {
+        "repeat": 0.9885,
+        "integer": 0.71255,
+        "charset": 0.27405,
+        "optional": 0.623,
+        "literal": 1.0,
+        "lexicon": 1.0
+      },
+      "val_local_present": {
+        "repeat": 0.5127272727272727,
+        "integer": 0.4719710669077758,
+        "charset": 0.5055482639303186,
+        "optional": 0.4903339191564148,
+        "literal": 0.9666040190834176,
+        "lexicon": 1.0
+      },
+      "ood_local_present": {
+        "repeat": 0.9654861944777912,
+        "integer": 0.13730492196878752,
+        "charset": 0.28832674571805006,
+        "optional": 0.18442265795206972,
+        "literal": 1.0,
+        "lexicon": 1.0
+      },
+      "val_local_by_family": {
+        "repeat": {
+          "charset_width": 1.0,
+          "interval": 1.0,
+          "lexicon": 1.0,
+          "prefix_charset": 0.2125874125874126,
+          "prefix_interval": 1.0,
+          "prefix_lexicon": 0.8820224719101124,
+          "prefix_optional": 1.0,
+          "prefix_width": 1.0,
+          "repeat_width": 0.9901685393258427,
+          "stem_lexicon": 0.9775280898876404,
+          "suffix_width": 1.0,
+          "width": 1.0
+        },
+        "integer": {
+          "charset_width": 0.909217877094972,
+          "interval": 0.47835195530726254,
+          "lexicon": 0.8370786516853933,
+          "prefix_charset": 0.9048951048951049,
+          "prefix_interval": 0.5642458100558659,
+          "prefix_lexicon": 0.8216292134831461,
+          "prefix_optional": 0.8106591865357644,
+          "prefix_width": 0.6745810055865922,
+          "repeat_width": 0.9339887640449438,
+          "stem_lexicon": 1.0,
+          "suffix_width": 0.6741573033707865,
+          "width": 0.7681564245810056
+        },
+        "charset": {
+          "charset_width": 0.9273743016759777,
+          "interval": 0.13756983240223464,
+          "lexicon": 0.34831460674157305,
+          "prefix_charset": 0.9118881118881119,
+          "prefix_interval": 0.14315642458100558,
+          "prefix_lexicon": 0.5252808988764045,
+          "prefix_optional": 0.0,
+          "prefix_width": 0.585195530726257,
+          "repeat_width": 0.675561797752809,
+          "stem_lexicon": 0.38202247191011235,
+          "suffix_width": 0.5294943820224719,
+          "width": 0.6061452513966481
+        },
+        "optional": {
+          "charset_width": 0.9329608938547486,
+          "interval": 1.0,
+          "lexicon": 0.9578651685393258,
+          "prefix_charset": 0.10909090909090909,
+          "prefix_interval": 1.0,
+          "prefix_lexicon": 0.7710674157303371,
+          "prefix_optional": 1.0,
+          "prefix_width": 0.8561452513966481,
+          "repeat_width": 0.9058988764044944,
+          "stem_lexicon": 0.952247191011236,
+          "suffix_width": 0.8539325842696629,
+          "width": 0.8910614525139665
+        },
+        "literal": {
+          "charset_width": 0.9832402234636871,
+          "interval": 0.611731843575419,
+          "lexicon": 1.0,
+          "prefix_charset": 1.0,
+          "prefix_interval": 0.840782122905028,
+          "prefix_lexicon": 1.0,
+          "prefix_optional": 1.0,
+          "prefix_width": 0.8170391061452514,
+          "repeat_width": 1.0,
+          "stem_lexicon": 1.0,
+          "suffix_width": 0.7865168539325843,
+          "width": 1.0
+        },
+        "lexicon": {
+          "charset_width": 1.0,
+          "interval": 0.9895251396648045,
+          "lexicon": 1.0,
+          "prefix_charset": 1.0,
+          "prefix_interval": 0.9951117318435754,
+          "prefix_lexicon": 1.0,
+          "prefix_optional": 1.0,
+          "prefix_width": 1.0,
+          "repeat_width": 1.0,
+          "stem_lexicon": 0.9775280898876404,
+          "suffix_width": 1.0,
+          "width": 1.0
+        }
+      },
+      "ood_local_by_family": {
+        "repeat": {
+          "lexicon_suffix": 1.0,
+          "prefix_charset_optional": 1.0,
+          "repeat_interval": 0.9654861944777912
+        },
+        "integer": {
+          "lexicon_suffix": 1.0,
+          "prefix_charset_optional": 1.0,
+          "repeat_interval": 0.13730492196878752
+        },
+        "charset": {
+          "lexicon_suffix": 0.6289185540722964,
+          "prefix_charset_optional": 0.0,
+          "repeat_interval": 0.19327731092436976
+        },
+        "optional": {
+          "lexicon_suffix": 0.7640617969101545,
+          "prefix_charset_optional": 0.25296146348777926,
+          "repeat_interval": 0.8521908763505402
+        },
+        "literal": {
+          "lexicon_suffix": 1.0,
+          "prefix_charset_optional": 1.0,
+          "repeat_interval": 1.0
+        },
+        "lexicon": {
+          "lexicon_suffix": 1.0,
+          "prefix_charset_optional": 1.0,
+          "repeat_interval": 1.0
+        }
+      },
+      "val_local_present_by_family": {
+        "repeat": {
+          "prefix_charset": 0.0,
+          "prefix_lexicon": 0.0,
+          "repeat_width": 0.9901685393258427,
+          "stem_lexicon": 0.0
+        },
+        "integer": {
+          "charset_width": 0.3333333333333333,
+          "interval": 0.5480690221857025,
+          "lexicon": 0.034782608695652174,
+          "prefix_charset": 0.19642857142857142,
+          "prefix_interval": 0.5783822476735863,
+          "prefix_lexicon": 0.03305785123966942,
+          "prefix_optional": 0.6881720430107527,
+          "prefix_width": 0.27402135231316727,
+          "repeat_width": 0.3076923076923077,
+          "suffix_width": 0.2708333333333333,
+          "width": 0.3898305084745763
+        },
+        "charset": {
+          "charset_width": 0.9299719887955182,
+          "interval": 0.14994096812278632,
+          "lexicon": 0.5301724137931034,
+          "prefix_charset": 0.9284692417739628,
+          "prefix_interval": 0.23404255319148937,
+          "prefix_lexicon": 0.6913123844731978,
+          "prefix_optional": 0.0,
+          "prefix_width": 0.586013986013986,
+          "repeat_width": 0.675561797752809,
+          "stem_lexicon": 0.38202247191011235,
+          "suffix_width": 0.5317348377997179,
+          "width": 0.6064880112834978
+        },
+        "optional": {
+          "charset_width": 0.7916666666666666,
+          "lexicon": 1.0,
+          "prefix_charset": 0.016366612111292964,
+          "prefix_lexicon": 0.0,
+          "prefix_optional": 1.0,
+          "prefix_width": 1.0,
+          "repeat_width": 0.0,
+          "stem_lexicon": 0.0,
+          "suffix_width": 1.0,
+          "width": 1.0
+        },
+        "literal": {
+          "charset_width": 1.0,
+          "interval": 1.0,
+          "prefix_charset": 1.0,
+          "prefix_interval": 0.840782122905028,
+          "prefix_lexicon": 1.0,
+          "prefix_optional": 1.0,
+          "prefix_width": 0.9965928449744463,
+          "repeat_width": 1.0,
+          "stem_lexicon": 1.0,
+          "suffix_width": 0.9982142857142857
+        },
+        "lexicon": {
+          "lexicon": 1.0,
+          "prefix_lexicon": 1.0,
+          "stem_lexicon": 1.0
+        }
+      },
+      "ood_local_present_by_family": {
+        "repeat": {
+          "repeat_interval": 0.9654861944777912
+        },
+        "integer": {
+          "repeat_interval": 0.13730492196878752
+        },
+        "charset": {
+          "lexicon_suffix": 0.6289185540722964,
+          "prefix_charset_optional": 0.0,
+          "repeat_interval": 0.2266359283560915
+        },
+        "optional": {
+          "lexicon_suffix": 0.0,
+          "prefix_charset_optional": 0.25296146348777926,
+          "repeat_interval": 0.006396588486140725
+        },
+        "literal": {
+          "lexicon_suffix": 1.0,
+          "prefix_charset_optional": 1.0,
+          "repeat_interval": 1.0
+        },
+        "lexicon": {
+          "lexicon_suffix": 1.0
+        }
+      },
+      "val_evidence": {
+        "repeat": 0.33193473193473194,
+        "integer": 0.0012604380022057666
+      },
+      "ood_evidence": {
+        "repeat": 1.0,
+        "integer": 0.0
+      },
+      "val_evidence_by_family": {
+        "repeat": {
+          "prefix_charset": 0.0,
+          "prefix_lexicon": 0.0,
+          "repeat_width": 1.0,
+          "stem_lexicon": 0.0
+        },
+        "integer": {
+          "charset_width": 0.0,
+          "interval": 0.0,
+          "lexicon": 0.0,
+          "prefix_charset": 0.0,
+          "prefix_interval": 0.0,
+          "prefix_lexicon": 0.0,
+          "prefix_optional": 0.0,
+          "prefix_width": 0.004219409282700422,
+          "repeat_width": 0.0,
+          "suffix_width": 0.007122507122507123,
+          "width": 0.0
+        }
+      },
+      "ood_evidence_by_family": {
+        "repeat": {
+          "repeat_interval": 1.0
+        },
+        "integer": {
+          "repeat_interval": 0.0
+        }
+      },
+      "renaming_invariance": 1.0,
+      "history": [
+        {
+          "step": 2000,
+          "val_top1": 0.6329,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.6709,
+            "charset": 0.4303,
+            "optional": 0.9004,
+            "literal": 0.892,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 4000,
+          "val_top1": 0.673,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.6852,
+            "charset": 0.4739,
+            "optional": 0.9005,
+            "literal": 0.892,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 6000,
+          "val_top1": 0.6866,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.71,
+            "charset": 0.4274,
+            "optional": 0.8736,
+            "literal": 0.8921,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 8000,
+          "val_top1": 0.704,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.7184,
+            "charset": 0.4297,
+            "optional": 0.8736,
+            "literal": 0.8922,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 10000,
+          "val_top1": 0.7078,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.7306,
+            "charset": 0.4288,
+            "optional": 0.8736,
+            "literal": 0.8921,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 12000,
+          "val_top1": 0.7099,
+          "local": {
+            "repeat": 0.9223,
+            "integer": 0.7345,
+            "charset": 0.4136,
+            "optional": 0.8736,
+            "literal": 0.8922,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 14000,
+          "val_top1": 0.7118,
+          "local": {
+            "repeat": 0.9223,
+            "integer": 0.7299,
+            "charset": 0.4376,
+            "optional": 0.8736,
+            "literal": 0.8921,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 16000,
+          "val_top1": 0.7164,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.7397,
+            "charset": 0.4428,
+            "optional": 0.8736,
+            "literal": 0.8921,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 18000,
+          "val_top1": 0.7165,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.7374,
+            "charset": 0.4264,
+            "optional": 0.8736,
+            "literal": 0.8921,
+            "lexicon": 0.9962
+          }
+        },
+        {
+          "step": 20000,
+          "val_top1": 0.717,
+          "local": {
+            "repeat": 0.933,
+            "integer": 0.744,
+            "charset": 0.4323,
+            "optional": 0.8736,
+            "literal": 0.8921,
+            "lexicon": 0.9962
+          }
+        }
+      ]
+    }
+  ]
+}

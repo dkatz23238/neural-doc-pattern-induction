@@ -44,21 +44,17 @@ uv run python -m unittest discover -s tests
 
 ## Current experiment
 
-The question is whether a fact learned on one constituent is still there when that constituent shows up inside a composition the trainer did not see. The recognizer stays frozen. The pooled 160-d vector is not the input. Probes read the run layout and the numeric range of a digit run. Held out of training: optional prefix plus a character class, a repeated field plus a numeric interval, and a lexicon plus a literal suffix.
+The question is whether the float vector given to a candidate node determines the gold label. The audit hashes that vector and reports collisions, conditional entropy, majority-label accuracy, and the Bayes top-1 ceiling of the candidate pool. The 1,158-parameter scorer is unchanged.
 
-Shards are written under `results/prior/shards/` and are not committed. A new checkout regenerates them before the probes. The constituent cache is local and is not committed.
+The packed statistics are local and are not committed. A new checkout regenerates the shards, then the scorer cache, before the audit.
 
 ```bash
 uv run python -m prior.generate --train 50000 --val 10000 --ood 20000 --seed 2507
-uv run python -m prior.constituent_audit --data results/prior/shards --out results/prior/constituents.json
-uv run python -m prior.constituent_audit --relations --data results/prior/shards --out results/prior/constituents.json
-uv run python -m prior.constituent_audit --slices --data results/prior/shards --out results/prior/constituents.json
-uv run python -m prior.constituent_audit --numeric --data results/prior/shards --out results/prior/constituents.json
-uv run python -m prior.constituent_audit --compact --data results/prior/shards --out results/prior/constituents.json
-uv run python -m prior.constituent_match --data results/prior/shards --seeds 0 1
+uv run python -m prior.relative --data results/prior/shards --seeds 0 1
+uv run python -m prior.packet_audit --cache /tmp/relative-evidence --out results/prior/packets.json
 ```
 
-The probes and the 2,863-parameter matcher are CPU-only. They do not train the 1.226M encoder and they do not change `needle()`. The pooled-vector audit and the earlier scorers are in [DOCS.md](DOCS.md).
+The audit is CPU-only. It does not train the 1.226M encoder and it does not change `needle()`. The local scorer and the earlier probes are in [DOCS.md](DOCS.md).
 
 The written record is already in the tree. Regenerating it only concatenates the result pages, including the sealed BENCH-E line:
 
@@ -69,6 +65,8 @@ uv run python scripts/run_needle.py --stage summary
 | Page | What it records |
 | --- | --- |
 | `results/needle/summary.md` | Needle, then the prior curves |
+| `results/prior/packets.md` | Identifiability of the local packets |
+| `results/prior/relative.md` | Candidate-relative node scores |
 | `results/prior/constituents.md` | Constituent probes and the candidate-conditioned matcher |
 | `results/prior/probes.md` | Probes on the frozen 160-d support vector |
 | `results/prior/relations.md` | Typed field, optional, and affix relations |
@@ -77,4 +75,4 @@ uv run python scripts/run_needle.py --stage summary
 | `results/prior/diversity.md` | Compositional sampler and the flat 10k / 30k / 100k sweep |
 | `results/prior/scaling.md` | Earlier menu-sampler curve |
 
-Optional scope on `prefix_charset_optional` is 1.000 / 1.000 from the unpooled runs. The suffix on `lexicon_suffix` is 1.000 / 1.000 from the last run. Interval on `repeat_interval` is 1.000 / 1.000 from the digit run's numeric coverage, and 0.000 / 0.000 from the run layout. BENCH-E stays sealed.
+Tight repeat bounds have conditional entropy 0.030, and the scorer matches that ceiling. Charset expansion has gold recall 0.263, and `prefix_charset_optional` has a packet ceiling of 0.000. BENCH-E stays sealed.
