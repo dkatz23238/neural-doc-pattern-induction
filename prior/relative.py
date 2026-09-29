@@ -691,27 +691,31 @@ def load_examples(data_dir: Path, split: str) -> dict:
     golds = table.column("gold").to_pylist()
     masks = table.column("mask").to_pylist()
     supports = table.column("supports").to_pylist()
-    packed = []
-    program_gold = []
-    program_mask = []
+    count = len(families)
+    batch: dict = {}
+    for name, dim in DIMS.items():
+        batch[f"{name}_feat"] = torch.zeros(count, 32, MAX_NODES, dim)
+        batch[f"{name}_mask"] = torch.zeros(count, 32, MAX_NODES)
+        batch[f"{name}_hyp"] = torch.zeros(count, MAX_HYP, dim)
+        batch[f"{name}_hyp_mask"] = torch.zeros(count, MAX_HYP)
+        batch[f"{name}_hyp_gold"] = torch.zeros(count, MAX_HYP)
+    program_gold = torch.zeros(count, 32, dtype=torch.bool)
+    program_mask = torch.zeros(count, 32, dtype=torch.bool)
     for index, (text, gold, mask, group) in enumerate(zip(programs, golds, masks, supports)):
         if index % 5000 == 0:
             print(f"pack {split} {index}", flush=True)
         progs = programs_from_json(text)
         gold_row = [bool(bit) for bit in gold]
         mask_row = [bool(bit) for bit in mask]
-        packed.append(pack_example(progs, gold_row, mask_row, group))
-        gold_tensor = torch.zeros(32, dtype=torch.bool)
-        mask_tensor = torch.zeros(32, dtype=torch.bool)
+        packed = pack_example(progs, gold_row, mask_row, group)
+        for key, value in packed.items():
+            batch[key][index] = value
         for slot, bit in enumerate(gold_row[:32]):
-            gold_tensor[slot] = bit
+            program_gold[index, slot] = bit
         for slot, bit in enumerate(mask_row[:32]):
-            mask_tensor[slot] = bit
-        program_gold.append(gold_tensor)
-        program_mask.append(mask_tensor)
-    batch = _stack_examples(packed)
-    batch["gold"] = torch.stack(program_gold)
-    batch["mask"] = torch.stack(program_mask)
+            program_mask[index, slot] = bit
+    batch["gold"] = program_gold
+    batch["mask"] = program_mask
     batch["family"] = families
     return batch
 
