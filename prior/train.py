@@ -110,7 +110,7 @@ def run(cfg: TrainConfig, root: Path | None = None) -> dict:
     rank = int(os.environ.get("RANK", "0"))
     if rank == 0:
         encoder = load_frozen_encoder(root)
-        invariance = renaming_invariance(encoder, raw if raw.kind == "mlp" else None)
+        invariance = renaming_invariance(encoder, raw if raw.kind in {"mlp", "ast"} else None)
     payload = {
         "name": cfg.name,
         "kind": cfg.kind,
@@ -121,6 +121,7 @@ def run(cfg: TrainConfig, root: Path | None = None) -> dict:
         "params": params,
         "width": raw.width,
         "hidden": raw.hidden,
+        "tree_dim": raw.tree_dim,
         "steps": step,
         "seconds": time.perf_counter() - started,
         "val": val,
