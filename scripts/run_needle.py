@@ -382,6 +382,10 @@ def _summary(root: Path) -> None:
     if relation_path.exists():
         lines.append(relation_path.read_text().rstrip())
         lines.append("")
+    probe_path = root / "results" / "prior" / "probes.md"
+    if probe_path.exists():
+        lines.append(probe_path.read_text().rstrip())
+        lines.append("")
     seal_path = root / "results" / "needle" / "bench_e_seal.json"
     if seal_path.exists():
         seal = json.loads(seal_path.read_text())
