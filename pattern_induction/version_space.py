@@ -25,7 +25,7 @@ import random
 from dataclasses import dataclass
 
 from pattern_induction.chart import STRICT_KINDS, Hyp, _key, candidate_spans, same_fact
-from pattern_induction.program import OPEN, Prog, accepts_all, advance, class_ok
+from pattern_induction.program import OPEN, Prog, accepts_all, advance, ast_id, class_ok, supports_id
 
 CELL_CAP = 4096
 MAX_NODES = 16
@@ -83,7 +83,22 @@ def _canonical_copy(slot: int, start: int, end: int, supports: list[str]) -> Pro
     return None
 
 
+_PACKED: dict[tuple[int, int], Prog] = {}
+_PACKED_CAP = 200_000
+
+
 def _pack(prog: Prog, supports: list[str]) -> Prog:
+    key = (ast_id(prog), supports_id(supports))
+    cached = _PACKED.get(key)
+    if cached is not None:
+        return cached
+    packed = _pack_tree(prog, supports)
+    if len(_PACKED) < _PACKED_CAP:
+        _PACKED[key] = packed
+    return packed
+
+
+def _pack_tree(prog: Prog, supports: list[str]) -> Prog:
     """Collapse concatenations that denote one class or one literal.
 
     Adjacent digit{2} and digit{3} are digit{5}. Adjacent copies of a

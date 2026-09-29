@@ -13,6 +13,7 @@ dependencies = [
 ]
 
 [project.scripts]
+needle = "pattern_induction.cli:main"
 train-prior = "prior.train:main"
 
 [build-system]

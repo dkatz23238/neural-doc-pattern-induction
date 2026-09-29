@@ -4,7 +4,7 @@
   "bench_c_visible": {
     "n": 554,
     "semantic_accuracy": 0.9624699157641396,
-    "seconds": 2.8618311549944337
+    "seconds": 1.66
   },
   "bench_c_product_clip": {
     "n": 554,
@@ -20,18 +20,18 @@
         "INV-2025-00418"
       ],
       "regex": "^INV-\\d{4}-\\d{5}$",
-      "confidence": 0.2472,
+      "confidence": 0.7417,
       "ambiguous": true,
       "alternatives": [
         "^INV(?:\\-)?\\d{4}\\-\\d{1,5}$",
         "^INV-202[0-9]-\\d{5}$",
-        "^INV-202\\d-\\d{5}$",
-        "^INV-202[0-9a-f]-\\d{5}$"
+        "^INV-202[0-9a-f]-\\d{5}$",
+        "^INV-+202\\d-\\d{5}$"
       ],
       "method": "symbolic",
       "has_ast": false,
-      "decision_seconds": 0.003237408003769815,
-      "seconds": 0.6730934010120109
+      "decision_seconds": 0.0034,
+      "seconds": 0.2453
     },
     {
       "name": "version",
@@ -41,18 +41,18 @@
         "2.0.1"
       ],
       "regex": "^(?:\\d\\.){2}\\d$",
-      "confidence": 0.1942,
+      "confidence": 0.5827,
       "ambiguous": true,
       "alternatives": [
         "^\\d{1,2}(?:\\.\\d{1,2}){1,}$",
-        "^[0-9]\\.\\d\\.\\d$",
-        "^\\d\\.\\d\\.\\d$",
-        "^[0-9a-f]\\.\\d\\.\\d$"
+        "^[0-9a-f]\\.\\d\\.\\d$",
+        "^\\d?\\.\\d\\.\\d$",
+        "^\\d\\.\\d\\.\\d{1,2}$"
       ],
       "method": "symbolic",
       "has_ast": false,
-      "decision_seconds": 0.0026191409851890057,
-      "seconds": 7.488716750987805
+      "decision_seconds": 0.0023,
+      "seconds": 1.6889
     },
     {
       "name": "section",
@@ -62,7 +62,7 @@
         "3.4"
       ],
       "regex": "^\\d\\.\\d{1,2}$",
-      "confidence": 0.2068,
+      "confidence": 0.6203,
       "ambiguous": true,
       "alternatives": [
         "^[0-4.]{3,4}$",
@@ -72,8 +72,8 @@
       ],
       "method": "symbolic",
       "has_ast": false,
-      "decision_seconds": 0.002022977016167715,
-      "seconds": 0.8675455470220186
+      "decision_seconds": 0.0018,
+      "seconds": 0.3262
     },
     {
       "name": "filename",
@@ -83,7 +83,7 @@
         "budget.csv"
       ],
       "regex": "^[a-z]{5,6}\\.(?:pdf|docx|xlsx|csv|txt|png|jpg|jpeg|json|xml|html|zip)$",
-      "confidence": 0.25,
+      "confidence": 0.7497,
       "ambiguous": true,
       "alternatives": [
         "^[b-x.]{9,}$",
@@ -93,8 +93,8 @@
       ],
       "method": "symbolic",
       "has_ast": false,
-      "decision_seconds": 0.003771411022171378,
-      "seconds": 2.0497997700003907
+      "decision_seconds": 0.0026,
+      "seconds": 0.4931
     },
     {
       "name": "purchase order",
@@ -104,18 +104,18 @@
         "PO-1108"
       ],
       "regex": "^PO-\\d{4}$",
-      "confidence": 0.2376,
-      "ambiguous": true,
+      "confidence": 0.9448,
+      "ambiguous": false,
       "alternatives": [
-        "^PO\\-\\d{4}$",
         "^PO-?\\d{4}$",
         "^PO-1\\d{3}$",
-        "^PO-+\\d{4}$"
+        "^PO-+\\d{4}$",
+        "^PO-\\d{2,6}$"
       ],
       "method": "symbolic",
-      "has_ast": false,
-      "decision_seconds": 0.001982552988920361,
-      "seconds": 0.17756277398439124
+      "has_ast": true,
+      "decision_seconds": 0.0016,
+      "seconds": 0.1315
     },
     {
       "name": "customer",
@@ -125,7 +125,7 @@
         "CUS-AM0042"
       ],
       "regex": "^CUS-[A-Z]{2}\\d{4}$",
-      "confidence": 0.2376,
+      "confidence": 0.7127,
       "ambiguous": true,
       "alternatives": [
         "^CUS(?:\\-)?[0-9A-Z]{6}$",
@@ -135,11 +135,11 @@
       ],
       "method": "symbolic",
       "has_ast": false,
-      "decision_seconds": 0.0029400189814623445,
-      "seconds": 0.27332679799292237
+      "decision_seconds": 0.0024,
+      "seconds": 0.1621
     }
   ],
-  "rss_kb": 362816,
+  "rss_kb": 354764,
   "override_in_inference": false,
   "bench_e": {
     "n": 100,
@@ -150,5 +150,10 @@
     "n": 100,
     "semantic_accuracy": 0.965625,
     "seconds": 0.19872118497733027
+  },
+  "inference": {
+    "bench_c_recomputed": 0.9624699157641396,
+    "patterns_unchanged": 554,
+    "bench_e_reopened": false
   }
 }

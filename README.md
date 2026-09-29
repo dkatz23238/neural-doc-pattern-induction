@@ -24,8 +24,11 @@ Run from the repo root. The call reads:
 - `results/select/s1/seed_0/checkpoint.pt`
 
 ```bash
+uv run needle CUS-DE1234 CUS-SO9281 CUS-AM0042
 uv run python -c 'from pattern_induction.needle import needle; print(needle(["CUS-DE1234", "CUS-SO9281", "CUS-AM0042"]))'
 ```
+
+`examples/showcase.py` runs the six field examples and prints regex, confidence, and alternatives. Checkpoints are the files named above; the code-length rule does not load the override.
 
 ```python
 from pattern_induction.needle import needle
@@ -37,7 +40,7 @@ result.ambiguous
 result.alternatives
 ```
 
-Each example is clipped to 32 characters. The selector sees every example. The recognizer reads the first four. A missing checkpoint still returns the symbolic regex; confidence then uses only the code-length margin. Retraining the recognizer is in [DOCS.md](DOCS.md). The release note is `results/needle/v1.md`.
+Each example is clipped to 32 characters. The selector sees every example. The recognizer reads the first four. A missing checkpoint still returns the symbolic regex; confidence then uses only the code-length margin. Alternatives are other languages, not spellings of the winner. Retraining the recognizer is in [DOCS.md](DOCS.md). The release note is `results/needle/v1.md`. `scripts/profile_needle.py` times the six showcase calls and checks that their regexes are unchanged.
 
 ```bash
 uv run python -m unittest discover -s tests
@@ -69,6 +72,7 @@ uv run python scripts/run_needle.py --stage summary
 | `results/needle/summary.md` | Needle, then the prior curves |
 | `results/needle/v1.md` | Frozen v1 decision, BENCH-C, and BENCH-E |
 | `results/needle/showcase.md` | Six calls and what they return |
+| `results/needle/inference.md` | Latency of the frozen decision after the inference pass |
 | `results/factory/bank.md` | Accepted concept bank and its diversity |
 | `results/factory/mix.md` | Frozen prior trained with the concept bank |
 | `results/factory/typed.md` | One scale per ambiguity |

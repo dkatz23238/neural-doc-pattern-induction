@@ -4,6 +4,7 @@ import re
 import unittest
 from pathlib import Path
 
+from pattern_induction.candidates import semantic_key
 from pattern_induction.needle import NeedleError, _confidence, needle
 from pattern_induction.program import execute
 from pattern_induction.symbolic import symbolic_pick
@@ -83,6 +84,33 @@ class NeedleTest(unittest.TestCase):
         self.assertLess(dissent, agreed)
         self.assertLessEqual(agreed, 1.0)
         self.assertGreaterEqual(dissent, 0.0)
+        self.assertLess(dissent, 0.8)
+        self.assertLess(agreed, 1.0)
+
+    def test_a_narrow_margin_is_not_reported_as_certain(self) -> None:
+        wide = _confidence(4.0, True, 0.9, ambiguous=False)
+        narrow = _confidence(0.2, True, 0.9, ambiguous=True)
+        dissent = _confidence(4.0, False, 0.9, ambiguous=False)
+        self.assertGreater(wide, dissent)
+        self.assertGreater(dissent, narrow)
+        self.assertLess(narrow, 0.7)
+        self.assertLess(wide, 1.0)
+
+    def test_alternatives_are_semantically_distinct(self) -> None:
+        self.assertEqual(semantic_key(r"^PO-\d{4}$"), semantic_key(r"^PO\-[0-9]{4}$"))
+        self.assertEqual(semantic_key(r"^(?:\d\.){2}\d$"), semantic_key(r"^[0-9]\.\d\.\d$"))
+        self.assertNotEqual(semantic_key(r"^PO-\d{4}$"), semantic_key(r"^PO-?\d{4}$"))
+        examples = ["PO-1000", "PO-1042", "PO-1108"]
+        result = needle(examples, ROOT)
+        self.assertEqual(result.regex, symbolic_pick(examples).pattern)
+        self.assertFalse(result.ambiguous)
+        self.assertIsNotNone(result.ast)
+        self.assertGreater(result.confidence, 0.8)
+        keys = [semantic_key(result.regex)]
+        for pattern in result.alternatives:
+            key = semantic_key(pattern)
+            self.assertNotIn(key, keys)
+            keys.append(key)
 
     def test_the_override_is_not_on_the_inference_path(self) -> None:
         import pattern_induction.needle as needle_mod

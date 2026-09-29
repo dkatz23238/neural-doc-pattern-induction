@@ -13,7 +13,11 @@ import string
 
 from pattern_induction.charset import spec_chars
 from pattern_induction.operator_witness import complete_mixed
-from pattern_induction.program import Prog, execute
+from pattern_induction.program import Prog, ast_id, execute
+
+_LICENSED: dict[tuple[int, int], bool] = {}
+_LICENSED_CAP = 200_000
+_PAIRS: dict[tuple[tuple[str, ...], tuple[str, ...]], int] = {}
 
 _DIGIT = set(string.digits)
 _UPPER = set(string.ascii_uppercase)
@@ -58,42 +62,61 @@ def _endpoints_present(chars: set[str], alphabet: set[str], subset: list[str]) -
     return _appears(present[0], subset) and _appears(present[-1], subset)
 
 
+def _pair_id(subset: list[str], supports: list[str]) -> int:
+    key = (tuple(subset), tuple(supports))
+    ident = _PAIRS.get(key)
+    if ident is None:
+        ident = len(_PAIRS)
+        _PAIRS[key] = ident
+    return ident
+
+
 def licensed(prog: Prog, subset: list[str], supports: list[str]) -> bool:
     """Whether this program's own constraints are still visible on the subset."""
+    pair = _pair_id(subset, supports)
 
     def walk(node: Prog) -> bool:
+        key = (ast_id(node), pair)
+        cached = _LICENSED.get(key)
+        if cached is not None:
+            return cached
         if node.op == "COPY":
-            return _appears(_literal(node, supports), subset)
-        if node.op == "CLS":
+            result = _appears(_literal(node, supports), subset)
+        elif node.op == "CLS":
             alphabet = {"digit": _DIGIT, "upper": _UPPER, "lower": _LOWER}.get(node.cls, set())
-            return _class_present(alphabet, subset)
-        if node.op == "INT":
+            result = _class_present(alphabet, subset)
+        elif node.op == "INT":
             if ":" not in node.spec:
-                return False
-            minimum, maximum = (int(part) for part in node.spec.split(":"))
-            width = node.lo if node.lo == node.hi else 0
-            left = f"{minimum:0{width}d}" if width else str(minimum)
-            right = f"{maximum:0{width}d}" if width else str(maximum)
-            return _appears(left, subset) and _appears(right, subset)
-        if node.op == "SET":
+                result = False
+            else:
+                minimum, maximum = (int(part) for part in node.spec.split(":"))
+                width = node.lo if node.lo == node.hi else 0
+                left = f"{minimum:0{width}d}" if width else str(minimum)
+                right = f"{maximum:0{width}d}" if width else str(maximum)
+                result = _appears(left, subset) and _appears(right, subset)
+        elif node.op == "SET":
             chars = spec_chars(node.spec)
             if complete_mixed(node.spec):
+                result = True
                 if any(ch.isdigit() for ch in chars) and not _class_present(_DIGIT, subset):
-                    return False
-                if any(ch.isupper() for ch in chars) and not _class_present(_UPPER, subset):
-                    return False
-                if any(ch.islower() for ch in chars) and not _class_present(_LOWER, subset):
-                    return False
-                return True
-            if not _endpoints_present(chars, _DIGIT, subset):
-                return False
-            if not _endpoints_present(chars, _UPPER, subset):
-                return False
-            if not _endpoints_present(chars, _LOWER, subset):
-                return False
-            literals = {ch for ch in chars if ch not in _DIGIT and ch not in _UPPER and ch not in _LOWER}
-            return all(_appears(ch, subset) for ch in literals)
-        return all(walk(child) for child in node.children)
+                    result = False
+                elif any(ch.isupper() for ch in chars) and not _class_present(_UPPER, subset):
+                    result = False
+                elif any(ch.islower() for ch in chars) and not _class_present(_LOWER, subset):
+                    result = False
+            else:
+                literals = {ch for ch in chars if ch not in _DIGIT and ch not in _UPPER and ch not in _LOWER}
+                result = (
+                    _endpoints_present(chars, _DIGIT, subset)
+                    and _endpoints_present(chars, _UPPER, subset)
+                    and _endpoints_present(chars, _LOWER, subset)
+                    and all(_appears(ch, subset) for ch in literals)
+                )
+        else:
+            result = all(walk(child) for child in node.children)
+        if len(_LICENSED) < _LICENSED_CAP:
+            _LICENSED[key] = result
+        return result
 
     return walk(prog)
 

@@ -48,12 +48,18 @@ def charset_spec(chars: set[str]) -> str:
     return "".join(parts)
 
 
+_EXPANDED: dict[str, frozenset[str]] = {}
+
+
 def spec_chars(spec: str) -> set[str]:
     """Characters named by a character-set body."""
     return set(_expand(spec))
 
 
-def _expand(spec: str) -> set[str]:
+def _expand(spec: str) -> frozenset[str]:
+    cached = _EXPANDED.get(spec)
+    if cached is not None:
+        return cached
     found: set[str] = set()
     index = 0
     while index < len(spec):
@@ -69,7 +75,9 @@ def _expand(spec: str) -> set[str]:
             continue
         found.add(spec[index])
         index += 1
-    return found
+    frozen = frozenset(found)
+    _EXPANDED[spec] = frozen
+    return frozen
 
 
 def char_in_spec(char: str, spec: str) -> bool:
@@ -77,7 +85,8 @@ def char_in_spec(char: str, spec: str) -> bool:
 
 
 def spec_matches(spec: str, text: str) -> bool:
-    return bool(text) and all(char_in_spec(char, spec) for char in text)
+    chars = _expand(spec)
+    return bool(text) and all(char in chars for char in text)
 
 
 def integer_matches(spec: str, text: str, lo: int, hi: int) -> bool:

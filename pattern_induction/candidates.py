@@ -339,7 +339,20 @@ def compress(node: Node) -> Node:
     return node
 
 
+_PARSED: dict[str, Node | None] = {}
+_PARSED_CAP = 8192
+
+
 def parse_pattern(pattern: str) -> Node | None:
+    if pattern in _PARSED:
+        return _PARSED[pattern]
+    node = _parse_pattern(pattern)
+    if len(_PARSED) < _PARSED_CAP:
+        _PARSED[pattern] = node
+    return node
+
+
+def _parse_pattern(pattern: str) -> Node | None:
     body = pattern.strip()
     if body.startswith("^"):
         body = body[1:]
@@ -403,7 +416,78 @@ def anchor(node: Node) -> str:
     return "^" + render_node(node) + "$"
 
 
+def semantic_key(pattern: str) -> str:
+    """Canonical spelling. ``\\d`` and ``[0-9]`` share a key; a different width does not."""
+    node = parse_pattern(pattern)
+    if node is None:
+        return pattern
+    return anchor(_semantic_node(node))
+
+
+def _canonical_class(chars: set[str]) -> str:
+    if chars == DIGITS:
+        return r"\d"
+    letters = set(string.ascii_letters)
+    if chars == letters | DIGITS | {"_"}:
+        return r"\w"
+    if chars == set(string.ascii_lowercase):
+        return "[a-z]"
+    if chars == set(string.ascii_uppercase):
+        return "[A-Z]"
+    if chars == HEX_LOWER:
+        return "[0-9a-f]"
+    if chars == HEX_UPPER:
+        return "[0-9A-F]"
+    from pattern_induction.charset import charset_spec
+
+    return "[" + charset_spec(chars) + "]"
+
+
+def _flatten_seq(node: Node) -> Node:
+    if node.op != "SEQ":
+        return node
+    kids: list[Node] = []
+    for kid in node.kids:
+        flat = _flatten_seq(kid)
+        if flat.op == "SEQ":
+            kids.extend(flat.kids)
+        else:
+            kids.append(flat)
+    if len(kids) == 1:
+        return kids[0]
+    return compress(node.replace(kids=tuple(kids)))
+
+
+def _semantic_node(node: Node) -> Node:
+    text = node.text
+    if node.op == "CLS":
+        chars = class_chars(node.text)
+        if chars is not None:
+            text = _canonical_class(chars)
+    kids = tuple(_semantic_node(kid) for kid in node.kids)
+    current = node.replace(text=text, kids=kids)
+    # An exact repeat is the same language as that many copies. {2} on a
+    # group otherwise looks like a different pattern from the written-out form.
+    if current.op == "REPEAT" and current.lo == current.hi and 1 <= current.lo <= 8 and current.kids:
+        copies = tuple(current.kids[0] for _ in range(current.lo))
+        current = Node("SEQ", kids=copies)
+    return _flatten_seq(compress(current))
+
+
+_CLASS_CHARS: dict[str, frozenset[str] | None] = {}
+_CLASS_SIZE: dict[str, int] = {}
+
+
 def class_chars(text: str) -> set[str] | None:
+    if text in _CLASS_CHARS:
+        cached = _CLASS_CHARS[text]
+        return None if cached is None else set(cached)
+    chars = _class_chars(text)
+    _CLASS_CHARS[text] = None if chars is None else frozenset(chars)
+    return chars
+
+
+def _class_chars(text: str) -> set[str] | None:
     if text in {r"\d", r"[0-9]"}:
         return set(DIGITS)
     if text == r"\w":
@@ -435,12 +519,16 @@ def class_chars(text: str) -> set[str] | None:
 
 
 def class_size(text: str) -> int:
+    cached = _CLASS_SIZE.get(text)
+    if cached is not None:
+        return cached
     if text == r"\D" or text == r"\W" or text == r"\S":
-        return 90
-    chars = class_chars(text)
-    if chars is None:
-        return 32
-    return max(len(chars), 1)
+        size = 90
+    else:
+        chars = class_chars(text)
+        size = 32 if chars is None else max(len(chars), 1)
+    _CLASS_SIZE[text] = size
+    return size
 
 
 def _lit_data_bits(text: str, digit_prior: bool) -> float:
