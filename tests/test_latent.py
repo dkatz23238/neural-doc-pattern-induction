@@ -1,7 +1,7 @@
 import unittest
 
 from pattern_induction.charset import v2_facts
-from pattern_induction.latent import expand_program, expand_programs
+from pattern_induction.latent import expand_program, expand_programs, factor_supports
 from pattern_induction.program import Prog, execute, to_regex
 from pattern_induction.version_space import assemble
 
@@ -35,6 +35,61 @@ class LatentExpansionTest(unittest.TestCase):
         hidden = "1990-01-31"
         self.assertTrue(any(execute(prog, hidden, supports) for prog in programs))
         self.assertTrue(any(execute(prog, "2023-06-17", supports) and not execute(prog, "2023-13-17", supports) and not execute(prog, "1899-06-17", supports) for prog in programs))
+
+    def test_same_century_dates_widen_jointly(self):
+        supports = ["1994-06-17", "1993-03-17", "1990-12-05", "1996-10-14"]
+        year = Prog("INT", spec="1990:1996", lo=4, hi=4)
+        month = Prog("INT", spec="3:12", lo=2, hi=2)
+        day = Prog("INT", spec="5:17", lo=2, hi=2)
+        dash = Prog("COPY", slot=0, start=4, end=5)
+        program = Prog("SEQ", children=[year, dash, month, Prog("COPY", slot=0, start=7, end=8), day])
+        programs = expand_program(program, supports, cap=200)
+        self.assertTrue(
+            any(
+                execute(prog, "2008-07-21", supports)
+                and execute(prog, "1990-01-31", supports)
+                and not execute(prog, "2008-13-21", supports)
+                and not execute(prog, "1899-06-17", supports)
+                for prog in programs
+            )
+        )
+
+    def test_thousands_groups_can_be_absent(self):
+        supports = ["USD 7,646.37", "USD 13,590.47", "USD 10,728.33", "USD 14,394.97"]
+        programs = expand_programs([], supports, cap=200)
+        self.assertTrue(
+            any(
+                execute(prog, "USD 264.81", supports)
+                and execute(prog, "USD 1,234,567.89", supports)
+                and not execute(prog, "USDz10,641.50", supports)
+                and not execute(prog, "USD 6Y486.00", supports)
+                for prog in programs
+            )
+        )
+
+    def test_repeated_hex_pairs_share_one_class(self):
+        supports = ["71:8A:86:3F:A3:70", "2B:AB:51:8E:63:E2", "F5:EF:43:33:DA:C2", "3D:51:62:65:4C:E6"]
+        programs = expand_programs([], supports, cap=200)
+        self.assertTrue(
+            any(
+                execute(prog, "9F:AF:2F:07:FB:93", supports)
+                and not execute(prog, "2B:AB51:8E:63:E2", supports)
+                and not execute(prog, "71:8A:86:3F:A3:70 ", supports)
+                for prog in programs
+            )
+        )
+        self.assertTrue(factor_supports(supports))
+
+    def test_observed_level_words_stay_while_the_clock_widens(self):
+        supports = ["WARN 12:06:10 fetch_page", "ERROR 22:36:26 auth", "WARN 15:40:33 db_connect", "INFO 18:59:55 fetch_page"]
+        programs = expand_programs([], supports, cap=400)
+        self.assertTrue(
+            any(
+                execute(prog, "INFO 11:52:44 boot", supports)
+                and not execute(prog, "RROR 09:59:28 auth", supports)
+                for prog in programs
+            )
+        )
 
     def test_alternation_of_literals_lifts_to_a_class(self):
         supports = ["AB1234", "DE5521", "ZZ0007"]

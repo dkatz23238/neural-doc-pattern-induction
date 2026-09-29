@@ -152,6 +152,8 @@ def evaluate(root: Path, limit_s: float = 45.0) -> dict:
                 signal.alarm(0)
             # The chart itself remains a candidate. Expansion only adds to it.
             row["candidates"] = len(programs)
+            row["chart_candidates"] = len(programs)
+            row["rewrite_candidates"] = len(expanded)
             row["expanded_candidates"] = len({describe(prog) for prog in programs + expanded})
             pool = expanded if row["current_perfect"] else programs + expanded
             row["expanded_perfect"] = row["current_perfect"] or _perfect_prog(pool, visible, bench)
@@ -185,6 +187,9 @@ def _summarize(rows: list[dict], seconds: float) -> dict:
         "expanded_perfect": sum(1 for row in rows if row["expanded_perfect"]),
         "recovered": recovered,
         "mean_chart": _mean([row["candidates"] for row in rows if isinstance(row.get("candidates"), int)]),
+        "mean_rewrites": _mean(
+            [row["rewrite_candidates"] for row in rows if isinstance(row.get("rewrite_candidates"), int)]
+        ),
         "mean_expanded_candidates": _mean(
             [row["expanded_candidates"] for row in expanded_rows if isinstance(row.get("expanded_candidates"), int)]
         ),
@@ -207,7 +212,8 @@ def render_markdown(payload: dict) -> str:
         "The support-identifiable program is what the four examples justify. "
         "BENCH-C often asks for the latent rule those examples did not reveal. "
         "This pass adds generic rewrites — wider bounds, conventional numeric intervals, "
-        "natural character superclasses, open repeats, and alternations lifted to a class — "
+        "natural character superclasses, open repeats, alternations lifted to a class, "
+        "and field structure read off the supports, including thousands groups, repeated fields, and optional affixes — "
         "and asks whether the hidden language is then in the set. No prior is trained. BENCH-E stays sealed.",
         "",
         f"Current synthesis oracle on {payload['n']} tasks is {payload['current_synthesis_oracle']:.3f} "
@@ -215,7 +221,8 @@ def render_markdown(payload: dict) -> str:
         f"Expanded synthesis oracle is {payload['expanded_synthesis_oracle']:.3f} "
         f"({payload['expanded_perfect']}/{payload['n']}). "
         f"The rewrites recover {payload['recovered']} tasks the current chart missed. "
-        f"Mean expanded candidate count on those misses is {payload['mean_expanded_candidates'] or 0:.0f}. "
+        f"On the tasks that were reassembled, the mean chart has {payload['mean_chart'] or 0:.0f} programs "
+        f"and the mean latent rewrite set has {payload.get('mean_rewrites') or 0:.0f}. "
         f"Assembly timeouts: {payload['assemble_timeouts']}.",
         "",
         f"The support-identifiable program is hidden-perfect on {payload['identifiable_n']} tasks. "
@@ -235,10 +242,23 @@ def render_markdown(payload: dict) -> str:
             f"| Current synthesis oracle | {payload['current_synthesis_oracle']:.3f} |",
             f"| Expanded synthesis oracle | {payload['expanded_synthesis_oracle']:.3f} |",
             f"| Recovered by expansion | {payload['recovered']} |",
-            f"| Mean expanded candidates on misses | {payload['mean_expanded_candidates'] or 0:.0f} |",
+            f"| Mean chart on reassembled tasks | {payload['mean_chart'] or 0:.0f} |",
+            f"| Mean latent rewrites on reassembled tasks | {payload.get('mean_rewrites') or 0:.0f} |",
             "",
         ]
     )
+    oracle = payload["expanded_synthesis_oracle"]
+    if oracle >= 0.99:
+        lines.append(
+            "The expanded oracle is high enough that the hidden language is usually in the set. "
+            "The next experiment is to rank it. No prior is trained in this pass.\n"
+        )
+    else:
+        lines.append(
+            "The expanded oracle is not yet above 0.98, so these rewrites are not a basis for training a language prior. "
+            "What remains is mostly closed lexicons, supports clipped at 32 characters, and optional branches "
+            "that the four examples never show. BENCH-E stays sealed.\n"
+        )
     return "\n".join(lines) + "\n"
 
 
