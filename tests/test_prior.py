@@ -1,3 +1,4 @@
+import random
 import unittest
 
 import torch
@@ -63,6 +64,22 @@ class PriorTest(unittest.TestCase):
             optimizer.step()
         choice = model(batch).argmax(dim=-1)
         self.assertGreater(float((choice == 2).float().mean()), 0.9)
+
+    def test_compositional_holdout_is_disjoint_and_each_family_builds(self):
+        from prior.generate import OOD_FAMILIES, TRAIN_FAMILIES, build_task
+
+        self.assertTrue(set(OOD_FAMILIES).isdisjoint(TRAIN_FAMILIES))
+        for name in ("prefix_width", "charset_width", "prefix_optional", "repeat_width"):
+            self.assertIn(name, TRAIN_FAMILIES)
+        for name in ("prefix_charset_optional", "repeat_interval", "lexicon_suffix"):
+            self.assertIn(name, OOD_FAMILIES)
+        rng = random.Random(2507)
+        for family in dict.fromkeys((*TRAIN_FAMILIES, *OOD_FAMILIES)):
+            task = build_task(rng, family)
+            self.assertIsNotNone(task, family)
+            self.assertEqual(task["family"], family)
+            self.assertTrue(task["signature"])
+            self.assertGreater(sum(task["gold"]), 0)
 
     def test_config_overrides_are_the_only_device_switch(self):
         cfg = load_config("configs/prior_100k.yaml", ["device=cpu", "model_size=30k", "steps=5"])
