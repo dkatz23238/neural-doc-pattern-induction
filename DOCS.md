@@ -76,7 +76,13 @@ uv run python train_prior.py --device cpu --model-size 10k --steps 20000 --batch
 
 Overrides are `key=value` or the flags `--device`, `--model-size`, `--steps`, `--batch-size`, and `--mixed-precision`. `name=` chooses the checkpoint directory. `max_train=` keeps a prefix of the training shard. `model_size` is `0`, `10k`, `30k`, `100k`, `300k`, `1m`, `3m`, or `5m`. `model_size` selects the flat MLP. The AST and factor configs set `kind` themselves and must not be combined with that override. The menu-sampler curve, including 300k, is `results/prior/scaling.md`.
 
-`python -m prior.generate --pilot 8` prints per-family keep rate without writing shards. The candidate-relative scorer is the current experiment; its command is in the README. The constituent probes and the 2,863-parameter matcher are `results/prior/constituents.md`.
+`python -m prior.generate --pilot 8` prints per-family keep rate without writing shards. The packet-identifiability audit is the current experiment; its command is in the README. The candidate-relative scorer is `results/prior/relative.md`.
+
+```bash
+uv run python -m prior.relative --data results/prior/shards --seeds 0 1
+```
+
+The constituent probes and the 2,863-parameter matcher are `results/prior/constituents.md`.
 
 ```bash
 uv run python -m prior.constituent_audit --data results/prior/shards --out results/prior/constituents.json
