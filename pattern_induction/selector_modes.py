@@ -421,7 +421,8 @@ def render_markdown(payload: dict) -> str:
         f"{payload['confidence_min']:.2f}, stability {payload['stability_min']:.1f} on the direct check, "
         f"and a chart smaller than {payload['chart_max']} that was not truncated. Otherwise it keeps the old rule. "
         f"It takes Needle on {payload['router_took_needle']} of the 154 tasks. "
-        f"Routed BENCH-C accuracy is {payload['router_accuracy']:.3f}.",
+        f"Routed BENCH-C accuracy is {payload['router_accuracy']:.3f}. "
+        "That is below the old rule, so this gate does not replace it.",
         "",
         f"Support-identifiable oracle, the observed integer hull and the observed character hull, "
         f"is {payload['support_identifiable_oracle']:.3f} perfect on the hidden set "
