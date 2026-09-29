@@ -19,14 +19,22 @@ def _estimate(support_dim: int, feat_dim: int, width: int, hidden: int) -> int:
 
 
 def choose_width(target: int, support_dim: int = SUPPORT_DIM, feat_dim: int = FEATURE_DIM) -> tuple[int, int]:
-    """Pick a width whose parameter count is the closest to ``target``."""
+    """Pick a projection width and MLP width near ``target``.
+
+    Hidden size stays between half and four times the projection width, so a
+    larger budget cannot collapse into a bottleneck or a one-layer tower.
+    """
     if target <= 0:
         return 0, 0
     best: tuple[int, int, int] | None = None
-    widths = (8, 12, 16, 24, 32, 48, 64, 96, 128, 160, 192, 256, 320, 384)
-    hiddens = (8, 16, 24, 32, 48, 64, 96, 128, 192, 256, 384, 512, 768, 1024, 1536, 2048, 3072)
+    widths = (8, 12, 16, 24, 32, 48, 64, 96, 128, 160, 192, 256, 320, 384, 512, 640, 768)
+    hiddens = (
+        8, 16, 24, 32, 48, 64, 96, 128, 192, 256, 384, 512, 768, 1024, 1280, 1536, 2048, 2560, 3072, 4096,
+    )
     for width in widths:
         for hidden in hiddens:
+            if not (0.5 * width <= hidden <= 4 * width):
+                continue
             count = _estimate(support_dim, feat_dim, width, hidden)
             if best is None or abs(count - target) < abs(best[0] - target):
                 best = (count, width, hidden)
