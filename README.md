@@ -44,17 +44,17 @@ uv run python -m unittest discover -s tests
 
 ## Current experiment
 
-The question is whether the float vector given to a candidate node determines the gold label. The audit hashes that vector and reports collisions, conditional entropy, majority-label accuracy, and the Bayes top-1 ceiling of the candidate pool. The 1,158-parameter scorer is unchanged.
+Track B is a teacher-driven concept bank. A Terra call invents realistic string fields. The raw response is committed before parsing. A concept is kept only when Needle's executor accepts every positive and rejects every near miss. The large training shards are not stored; `data/factory/manifests/factory_v1.json` names the bank hash, the parser version, and the seed.
 
-The packed statistics are local and are not committed. A new checkout regenerates the shards, then the scorer cache, before the audit.
+gpt-6-terra is not on this key. Calls use gpt-5.6-terra. The spend cap in this module is $4, separate from the older recipe-teacher cap.
 
 ```bash
-uv run python -m prior.generate --train 50000 --val 10000 --ood 20000 --seed 2507
-uv run python -m prior.relative --data results/prior/shards --seeds 0 1
-uv run python -m prior.packet_audit --cache /tmp/relative-evidence --out results/prior/packets.json
+uv run python -m pattern_induction.factory --stage generate --prompt real_world_concepts_v1.md --domain logistics
+uv run python -m pattern_induction.factory --stage diversity
+uv run python -m pattern_induction.factory --stage preview --limit 4
 ```
 
-The audit is CPU-only. It does not train the 1.226M encoder and it does not change `needle()`. The local scorer and the earlier probes are in [DOCS.md](DOCS.md).
+Prompts live in `data/factory/prompts/`. One call does not train `needle()`. The expansion prior and the packet audit are in [DOCS.md](DOCS.md).
 
 The written record is already in the tree. Regenerating it only concatenates the result pages, including the sealed BENCH-E line:
 
@@ -65,6 +65,8 @@ uv run python scripts/run_needle.py --stage summary
 | Page | What it records |
 | --- | --- |
 | `results/needle/summary.md` | Needle, then the prior curves |
+| `results/factory/bank.md` | Accepted concept bank and its diversity |
+| `results/prior/expansion.md` | Tiny prior over ambiguous expansions |
 | `results/prior/packets.md` | Identifiability of the local packets |
 | `results/prior/relative.md` | Candidate-relative node scores |
 | `results/prior/constituents.md` | Constituent probes and the candidate-conditioned matcher |
@@ -75,4 +77,4 @@ uv run python scripts/run_needle.py --stage summary
 | `results/prior/diversity.md` | Compositional sampler and the flat 10k / 30k / 100k sweep |
 | `results/prior/scaling.md` | Earlier menu-sampler curve |
 
-Tight repeat bounds have conditional entropy 0.030, and the scorer matches that ceiling. Charset expansion has gold recall 0.263, and `prefix_charset_optional` has a packet ceiling of 0.000. BENCH-E stays sealed.
+Seven committed calls, $0.32 of the $4 cap, left 29 executor-checked templates in the bank: logistics conventions, witnessed ambiguities, adversarial neighbors, and fields from software, legal, finance, and healthcare. `results/factory/bank.md` reports unique programs, AST-signature entropy, semantic-family entropy, and operator-combination entropy. A concept whose program accepts a near miss, or whose literal never appears in a support, stays in the rejected log with the raw response. Novel-composition share waits on the compositional generator. BENCH-E stays sealed.

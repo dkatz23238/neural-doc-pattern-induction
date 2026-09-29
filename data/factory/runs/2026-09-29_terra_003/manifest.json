@@ -1,0 +1,17 @@
+{
+  "run": "2026-09-29_terra_003",
+  "model": "gpt-5.6-terra",
+  "prompt": "adversarial_v1.md",
+  "prompt_sha256": "24d0dd8b4557e5b7a9d81497ae1527034a2012e43b9795ab6ecaaa9962942753",
+  "response_sha256": "58d286a5e98109120ca10e832aed6c7b3122f847b81a445887115a4c10065a18",
+  "parser_version": "factory-2",
+  "accepted": 1,
+  "rejected": 5,
+  "reject_reasons": [
+    "bad_class",
+    "bad_class",
+    "bad_int",
+    "bad_class",
+    "bad_class"
+  ]
+}

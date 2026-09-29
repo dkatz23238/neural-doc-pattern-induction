@@ -1,0 +1,15 @@
+{
+  "run": "2026-09-29_terra_007",
+  "model": "gpt-5.6-terra",
+  "prompt": "domain_expansion_v1.md",
+  "prompt_sha256": "a14828a4f5508646b5278ccb7b7da4cbd23f85e578cdf84b4530efff6c900c8f",
+  "response_sha256": "3b529d0808e7618ee762f2f363f654fb4acf9c0b6bf8f2a53e1846684ef67e01",
+  "parser_version": "factory-2",
+  "accepted": 3,
+  "rejected": 3,
+  "reject_reasons": [
+    "near_miss_accepted",
+    "bad_bounds",
+    "near_miss_accepted"
+  ]
+}
