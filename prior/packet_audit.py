@@ -86,7 +86,7 @@ def _entropy(positive: np.ndarray, negative: np.ndarray) -> np.ndarray:
     return out
 
 
-def packet_stats(positive: np.ndarray, negative: np.ndarray) -> dict:
+def packet_stats(positive: np.ndarray, negative: np.ndarray, _skip_recurring: bool = False) -> dict:
     total = positive + negative
     count = int(total.sum()) if len(total) else 0
     if count == 0:
@@ -99,12 +99,13 @@ def packet_stats(positive: np.ndarray, negative: np.ndarray) -> dict:
             "entropy": 0.0,
             "majority_accuracy": 0.0,
             "gold_recall": 0.0,
+            "recurring": {"n": 0, "unique": 0, "gold_rate": 0.0, "conflict_rate": 0.0, "entropy": 0.0, "majority_accuracy": 0.0, "gold_recall": 0.0},
         }
     p = positive / total
     conflict = (positive > 0) & (negative > 0)
     gold_n = int(positive.sum())
     recalled = int(positive[p >= 0.5].sum())
-    return {
+    stats = {
         "n": count,
         "unique": int(len(total)),
         "gold_rate": gold_n / count,
@@ -114,6 +115,22 @@ def packet_stats(positive: np.ndarray, negative: np.ndarray) -> dict:
         "majority_accuracy": float(np.maximum(positive, negative).sum() / count),
         "gold_recall": recalled / gold_n if gold_n else 0.0,
     }
+    recurring = total >= 2
+    if recurring.any() and not _skip_recurring:
+        nested = packet_stats(positive[recurring], negative[recurring], _skip_recurring=True)
+        stats["recurring"] = nested
+    else:
+        stats["recurring"] = {
+            "n": 0,
+            "unique": 0,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 0.0,
+            "gold_recall": 0.0,
+        }
+    return stats
 
 
 def lookup_rates(
@@ -136,7 +153,7 @@ def lookup_rates(
     return rates, seen
 
 
-def pool_ceiling(scores: np.ndarray, gold: np.ndarray, alive: np.ndarray) -> dict:
+def pool_ceiling(scores: np.ndarray, gold: np.ndarray, alive: np.ndarray, keep: np.ndarray | None = None) -> dict:
     """Expected top-1 if tied scores are broken uniformly, plus the strict hit rate.
 
     A strict hit requires every hypothesis at the winning score to be gold.
@@ -144,6 +161,10 @@ def pool_ceiling(scores: np.ndarray, gold: np.ndarray, alive: np.ndarray) -> dic
     """
     if scores.size == 0:
         return {"n": 0, "top1": 0.0, "strict": 0.0}
+    if keep is not None:
+        scores = scores[keep]
+        gold = gold[keep]
+        alive = alive[keep]
     filled = np.where(alive, scores, -np.inf)
     best = filled.max(axis=1)
     valid = np.isfinite(best)
@@ -198,23 +219,30 @@ def _head_views(split: dict, name: str) -> tuple[np.ndarray, np.ndarray, np.ndar
     return values, mask, gold
 
 
-def _slice_report(flat: np.ndarray, flat_gold: np.ndarray, name: str) -> dict:
+# Integer packets include the absolute endpoints. The relational view keeps
+# slack, expansion, containment, the hull bit, and the width flags.
+INTEGER_RELATIONAL = (0, 5, 6, 7, 8, 9, 10, 11, 12)
+
+
+def _slice_report(flat: np.ndarray, flat_gold: np.ndarray, name: str, columns: tuple[int, ...] | None = None) -> dict:
     report = {}
     for slice_name in SLICES[name]:
         chosen = _slice_mask(name, slice_name, flat)
         if chosen.any():
-            _keys, positive, negative = group_labels(row_keys(flat[chosen]), flat_gold[chosen])
+            chosen_rows = flat[chosen] if columns is None else flat[chosen][:, columns]
+            _keys, positive, negative = group_labels(row_keys(chosen_rows), flat_gold[chosen])
         else:
             _keys, positive, negative = group_labels(np.array([], dtype=np.void), np.zeros(0, dtype=bool))
         report[slice_name] = packet_stats(positive, negative)
     return report
 
 
-def audit_head(train: dict, others: dict[str, dict], name: str) -> dict:
+def audit_head(train: dict, others: dict[str, dict], name: str, columns: tuple[int, ...] | None = None) -> dict:
     values, mask, gold = _head_views(train, name)
     flat, flat_gold, row_index = _flatten_alive(values, mask, gold)
     candidate = _candidate_mask(flat)
-    keys = row_keys(flat[candidate])
+    keyed = flat if columns is None else flat[:, columns]
+    keys = row_keys(keyed[candidate])
     train_keys, positive, negative = group_labels(keys, flat_gold[candidate])
     base = float(flat_gold[candidate].mean()) if candidate.any() else 0.0
     abstain = ~candidate
@@ -222,7 +250,8 @@ def audit_head(train: dict, others: dict[str, dict], name: str) -> dict:
 
     def rates_for(split_values: np.ndarray, split_mask: np.ndarray) -> tuple[np.ndarray, np.ndarray, float]:
         split_flat, _, _ = _flatten_alive(split_values, split_mask, np.zeros(split_mask.shape, dtype=bool))
-        query = row_keys(split_flat) if len(split_flat) else np.array([], dtype=np.void)
+        query_rows = split_flat if columns is None or len(split_flat) == 0 else split_flat[:, columns]
+        query = row_keys(query_rows) if len(query_rows) else np.array([], dtype=np.void)
         rates, seen = lookup_rates(train_keys, positive, negative, query, base)
         # The abstain vector is one constant packet. Its training rate replaces the backoff.
         candidate_rows = np.zeros(len(split_flat), dtype=bool)
@@ -233,7 +262,7 @@ def audit_head(train: dict, others: dict[str, dict], name: str) -> dict:
         coverage = float(seen[candidate_rows].mean()) if candidate_rows.any() else 0.0
         return rates, seen, coverage
 
-    def ceiling_from(split: dict, rates: np.ndarray, alive_index: np.ndarray) -> dict:
+    def ceiling_from(split: dict, rates: np.ndarray, seen: np.ndarray) -> dict:
         n, width = split[f"{name}_hyp_mask"].shape
         scores = np.full((n, width), -np.inf, dtype=np.float64)
         alive = split[f"{name}_hyp_mask"].numpy() > 0.5
@@ -241,50 +270,67 @@ def audit_head(train: dict, others: dict[str, dict], name: str) -> dict:
         scores.reshape(-1)[positions] = rates
         labels = split[f"{name}_hyp_gold"].numpy() > 0.5
         present = labels[:, 0] == False  # noqa: E712 abstain is not the gold
+        seen_matrix = np.zeros((n, width), dtype=bool)
+        seen_matrix.reshape(-1)[positions] = seen
+        # A seen gold hypothesis is evidence the training table has actually met.
+        gold_seen = (labels & alive & seen_matrix).any(axis=1) & present
+        visible = np.where(seen_matrix, scores, -np.inf)
         full = pool_ceiling(scores, labels, alive)
         presented = pool_ceiling(scores[present], labels[present], alive[present])
-        return {"all": full, "present": presented, "rows": int(len(alive_index))}
+        seen_pool = pool_ceiling(visible, labels, alive, gold_seen)
+        return {"all": full, "present": presented, "seen_present": seen_pool, "rows": int(len(seen))}
 
-    train_rates, _train_seen, train_coverage = rates_for(values, mask)
+    train_rates, train_seen, train_coverage = rates_for(values, mask)
     report = {
         "abstain_n": int(abstain.sum()),
         "abstain_gold_rate": abstain_rate,
         "train": {
             "packets": packet_stats(positive, negative),
-            "pool": ceiling_from(train, train_rates, row_index),
+            "pool": ceiling_from(train, train_rates, train_seen),
             "seen_rate": train_coverage,
         },
-        "slices": _slice_report(flat, flat_gold, name),
+        "slices": _slice_report(flat, flat_gold, name, columns),
         "by_family": {},
     }
     families = list(train["family"])
-    report["by_family"]["train"] = _family_pools(families, ceiling_from(train, train_rates, row_index), values.shape[0], train, name, train_rates)
+    report["by_family"]["train"] = _family_pools(families, values.shape[0], train, name, train_rates, train_seen)
 
     for split_name, split in others.items():
         split_values, split_mask, _ = _head_views(split, name)
         split_rates, split_seen, coverage = rates_for(split_values, split_mask)
-        pooled = ceiling_from(split, split_rates, np.arange(len(split_rates)))
+        pooled = ceiling_from(split, split_rates, split_seen)
         split_flat, split_gold, _rows = _flatten_alive(
             split_values, split_mask, split[f"{name}_hyp_gold"].numpy()
         )
         report[split_name] = {
             "pool": pooled,
             "seen_rate": coverage,
-            "slices": _slice_report(split_flat, split_gold, name),
+            "slices": _slice_report(split_flat, split_gold, name, columns),
         }
-        report["by_family"][split_name] = _family_pools(list(split["family"]), pooled, split_values.shape[0], split, name, split_rates)
+        report["by_family"][split_name] = _family_pools(list(split["family"]), split_values.shape[0], split, name, split_rates, split_seen)
     return report
 
 
-def _family_pools(families: list[str], _unused: dict, n: int, split: dict, name: str, rates: np.ndarray) -> dict[str, dict]:
+def _family_pools(
+    families: list[str],
+    n: int,
+    split: dict,
+    name: str,
+    rates: np.ndarray,
+    seen: np.ndarray,
+) -> dict[str, dict]:
     labels = split[f"{name}_hyp_gold"].numpy() > 0.5
     alive = split[f"{name}_hyp_mask"].numpy() > 0.5
     scores = np.full((n, labels.shape[1]), -np.inf, dtype=np.float64)
     positions = np.flatnonzero(alive.reshape(-1))
-    if len(rates) != len(positions):
+    if len(rates) != len(positions) or len(seen) != len(positions):
         raise RuntimeError(f"{name} rate rows {len(rates)} != alive cells {len(positions)}")
     scores.reshape(-1)[positions] = rates
+    seen_matrix = np.zeros((n, labels.shape[1]), dtype=bool)
+    seen_matrix.reshape(-1)[positions] = seen
     present = labels[:, 0] == False  # noqa: E712
+    gold_seen = (labels & alive & seen_matrix).any(axis=1) & present
+    visible = np.where(seen_matrix, scores, -np.inf)
     out = {}
     names = np.asarray(families)
     for family in sorted(set(families)):
@@ -294,6 +340,7 @@ def _family_pools(families: list[str], _unused: dict, n: int, split: dict, name:
         out[family] = {
             "all": pool_ceiling(scores[chosen], labels[chosen], alive[chosen]),
             "present": pool_ceiling(scores[chosen & present], labels[chosen & present], alive[chosen & present]),
+            "seen_present": pool_ceiling(visible[chosen], labels[chosen], alive[chosen], gold_seen[chosen]),
         }
     return out
 
@@ -329,7 +376,7 @@ def _fingerprint(ident: np.ndarray, alive: np.ndarray) -> np.ndarray:
     return np.ascontiguousarray(packed).view(np.dtype((np.void, width))).reshape(packed.shape)
 
 
-def _node_layout(split: dict, vocab: dict[bytes, int] | None) -> tuple[np.ndarray, np.ndarray, dict[bytes, int]]:
+def _node_layout(split: dict, vocab: dict[bytes, int] | None, relational_integer: bool = False) -> tuple[np.ndarray, np.ndarray, dict[bytes, int]]:
     """Shared integer ids for every node packet, so programs can share a signature."""
     owned = vocab is None
     if vocab is None:
@@ -339,6 +386,8 @@ def _node_layout(split: dict, vocab: dict[bytes, int] | None) -> tuple[np.ndarra
     masks: list[np.ndarray] = []
     for name in HEADS:
         feat = np.ascontiguousarray(split[f"{name}_feat"].numpy(), dtype=np.float32)
+        if relational_integer and name == "integer":
+            feat = feat[..., INTEGER_RELATIONAL]
         mask = split[f"{name}_mask"].numpy() > 0.5
         unique, inverse = np.unique(row_keys(feat.reshape(-1, feat.shape[-1])), return_inverse=True)
         unique_ids = np.zeros(len(unique), dtype=np.int32)
@@ -360,9 +409,9 @@ def _node_layout(split: dict, vocab: dict[bytes, int] | None) -> tuple[np.ndarra
     return np.concatenate(columns, axis=-1), np.concatenate(masks, axis=-1), vocab
 
 
-def _program_ceiling(train: dict, others: dict[str, dict]) -> dict:
+def _program_ceiling(train: dict, others: dict[str, dict], relational_integer: bool = False) -> dict:
     """Bayes top-1 over programs given the multiset of their node packets."""
-    train_ident, _train_nodes, vocab = _node_layout(train, None)
+    train_ident, _train_nodes, vocab = _node_layout(train, None, relational_integer)
     train_sig = _fingerprint(train_ident, _train_nodes)
     train_labels = _program_gold(train)
     train_mask = train["mask"].numpy() > 0.5
@@ -377,13 +426,18 @@ def _program_ceiling(train: dict, others: dict[str, dict]) -> dict:
         own_keys, own_pos, own_neg = group_labels(flat_sig[flat_alive], labels.reshape(-1)[flat_alive])
         rates, seen = lookup_rates(keys, positive, negative, flat_sig, base)
         scores = np.where(alive, rates.reshape(labels.shape), -np.inf)
+        seen_matrix = seen.reshape(labels.shape)
+        gold_seen = (labels & alive & seen_matrix).any(axis=1)
+        visible = np.where(seen_matrix & alive, scores, -np.inf)
         families = np.asarray(list(split["family"]))
         by_family = {}
         for family in sorted(set(families.tolist())):
             chosen = families == family
             by_family[family] = pool_ceiling(scores[chosen], labels[chosen], alive[chosen])
+            by_family[family]["seen"] = pool_ceiling(visible[chosen], labels[chosen], alive[chosen], gold_seen[chosen])
         return {
             "all": pool_ceiling(scores, labels, alive),
+            "seen": pool_ceiling(visible, labels, alive, gold_seen),
             "by_family": by_family,
             "packets": packet_stats(own_pos, own_neg),
             "seen_rate": float(seen[flat_alive].mean()) if flat_alive.any() else 0.0,
@@ -395,7 +449,7 @@ def _program_ceiling(train: dict, others: dict[str, dict]) -> dict:
         "base_gold": base,
     }
     for name, split in others.items():
-        ident, node_alive, vocab = _node_layout(split, vocab)
+        ident, node_alive, vocab = _node_layout(split, vocab, relational_integer)
         report[name] = apply(split, _fingerprint(ident, node_alive))
     return report
 
@@ -416,8 +470,10 @@ def audit(cache: Path) -> dict:
     train = _load(cache, "train")
     others = {name: _load(cache, name) for name in ("val", "ood")}
     heads = {name: audit_head(train, others, name) for name in HEADS}
+    heads["integer_relational"] = audit_head(train, others, "integer", INTEGER_RELATIONAL)
     programs = _program_ceiling(train, others)
-    return {"heads": heads, "programs": _slim_programs(programs)}
+    programs_relational = _program_ceiling(train, others, relational_integer=True)
+    return {"heads": heads, "programs": _slim_programs(programs), "programs_relational": programs_relational}
 
 
 def _slim_programs(programs: dict) -> dict:

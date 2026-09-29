@@ -1,0 +1,6616 @@
+{
+  "heads": {
+    "repeat": {
+      "abstain_n": 50000,
+      "abstain_gold_rate": 0.86104,
+      "train": {
+        "packets": {
+          "n": 14363,
+          "unique": 28,
+          "gold_rate": 0.517928,
+          "conflict_packets": 9,
+          "conflict_rate": 0.652301,
+          "entropy": 0.582519,
+          "majority_accuracy": 0.730418,
+          "gold_recall": 0.487162,
+          "recurring": {
+            "n": 14363,
+            "unique": 28,
+            "gold_rate": 0.517928,
+            "conflict_packets": 9,
+            "conflict_rate": 0.652301,
+            "entropy": 0.582519,
+            "majority_accuracy": 0.730418,
+            "gold_recall": 0.487162,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "pool": {
+          "all": {
+            "n": 50000,
+            "top1": 0.9322,
+            "strict": 0.9322
+          },
+          "present": {
+            "n": 6948,
+            "top1": 0.51209,
+            "strict": 0.51209
+          },
+          "seen_present": {
+            "n": 6948,
+            "top1": 0.51209,
+            "strict": 0.51209
+          },
+          "rows": 64363
+        },
+        "seen_rate": 1.0
+      },
+      "slices": {
+        "tight": {
+          "n": 3572,
+          "unique": 13,
+          "gold_rate": 0.996081,
+          "conflict_packets": 4,
+          "conflict_rate": 0.300112,
+          "entropy": 0.029605,
+          "majority_accuracy": 0.996081,
+          "gold_recall": 1.0,
+          "recurring": {
+            "n": 3572,
+            "unique": 13,
+            "gold_rate": 0.996081,
+            "conflict_packets": 4,
+            "conflict_rate": 0.300112,
+            "entropy": 0.029605,
+            "majority_accuracy": 0.996081,
+            "gold_recall": 1.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "loose_container": {
+          "n": 10791,
+          "unique": 15,
+          "gold_rate": 0.359652,
+          "conflict_packets": 5,
+          "conflict_rate": 0.768881,
+          "entropy": 0.765543,
+          "majority_accuracy": 0.64248,
+          "gold_recall": 0.017006,
+          "recurring": {
+            "n": 10791,
+            "unique": 15,
+            "gold_rate": 0.359652,
+            "conflict_packets": 5,
+            "conflict_rate": 0.768881,
+            "entropy": 0.765543,
+            "majority_accuracy": 0.64248,
+            "gold_recall": 0.017006,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "miss": {
+          "n": 0,
+          "unique": 0,
+          "gold_rate": 0.0,
+          "conflict_packets": 0,
+          "conflict_rate": 0.0,
+          "entropy": 0.0,
+          "majority_accuracy": 0.0,
+          "gold_recall": 0.0,
+          "recurring": {
+            "n": 0,
+            "unique": 0,
+            "gold_rate": 0.0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 0.0,
+            "gold_recall": 0.0
+          }
+        }
+      },
+      "by_family": {
+        "train": {
+          "charset_width": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 7145,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 3565,
+              "top1": 0.199439,
+              "strict": 0.199439
+            },
+            "present": {
+              "n": 2854,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 2854,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 7144,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 0.880706,
+              "strict": 0.880706
+            },
+            "present": {
+              "n": 426,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 426,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.996081,
+              "strict": 0.996081
+            },
+            "present": {
+              "n": 3572,
+              "top1": 0.996081,
+              "strict": 0.996081
+            },
+            "seen_present": {
+              "n": 3572,
+              "top1": 0.996081,
+              "strict": 0.996081
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 0.973117,
+              "strict": 0.973117
+            },
+            "present": {
+              "n": 96,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 96,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "width": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          }
+        },
+        "val": {
+          "charset_width": {
+            "all": {
+              "n": 716,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 1432,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 715,
+              "top1": 0.212587,
+              "strict": 0.212587
+            },
+            "present": {
+              "n": 563,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 563,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 1432,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 0.882022,
+              "strict": 0.882022
+            },
+            "present": {
+              "n": 84,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 84,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 713,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 716,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 712,
+              "top1": 0.990169,
+              "strict": 0.990169
+            },
+            "present": {
+              "n": 712,
+              "top1": 0.990169,
+              "strict": 0.990169
+            },
+            "seen_present": {
+              "n": 712,
+              "top1": 0.990169,
+              "strict": 0.990169
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 0.977528,
+              "strict": 0.977528
+            },
+            "present": {
+              "n": 16,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 16,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "width": {
+            "all": {
+              "n": 716,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          }
+        },
+        "ood": {
+          "lexicon_suffix": {
+            "all": {
+              "n": 6667,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_charset_optional": {
+            "all": {
+              "n": 6669,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "repeat_interval": {
+            "all": {
+              "n": 6664,
+              "top1": 0.965486,
+              "strict": 0.965486
+            },
+            "present": {
+              "n": 6664,
+              "top1": 0.965486,
+              "strict": 0.965486
+            },
+            "seen_present": {
+              "n": 6664,
+              "top1": 0.965486,
+              "strict": 0.965486
+            }
+          }
+        }
+      },
+      "val": {
+        "pool": {
+          "all": {
+            "n": 10000,
+            "top1": 0.933,
+            "strict": 0.933
+          },
+          "present": {
+            "n": 1375,
+            "top1": 0.512727,
+            "strict": 0.512727
+          },
+          "seen_present": {
+            "n": 1375,
+            "top1": 0.512727,
+            "strict": 0.512727
+          },
+          "rows": 12859
+        },
+        "seen_rate": 1.0,
+        "slices": {
+          "tight": {
+            "n": 712,
+            "unique": 13,
+            "gold_rate": 0.990169,
+            "conflict_packets": 4,
+            "conflict_rate": 0.337079,
+            "entropy": 0.063477,
+            "majority_accuracy": 0.990169,
+            "gold_recall": 1.0,
+            "recurring": {
+              "n": 712,
+              "unique": 13,
+              "gold_rate": 0.990169,
+              "conflict_packets": 4,
+              "conflict_rate": 0.337079,
+              "entropy": 0.063477,
+              "majority_accuracy": 0.990169,
+              "gold_recall": 1.0,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "loose_container": {
+            "n": 2147,
+            "unique": 15,
+            "gold_rate": 0.357708,
+            "conflict_packets": 5,
+            "conflict_rate": 0.780158,
+            "entropy": 0.772693,
+            "majority_accuracy": 0.647415,
+            "gold_recall": 0.022135,
+            "recurring": {
+              "n": 2147,
+              "unique": 15,
+              "gold_rate": 0.357708,
+              "conflict_packets": 5,
+              "conflict_rate": 0.780158,
+              "entropy": 0.772693,
+              "majority_accuracy": 0.647415,
+              "gold_recall": 0.022135,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "miss": {
+            "n": 0,
+            "unique": 0,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 0.0,
+            "gold_recall": 0.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        }
+      },
+      "ood": {
+        "pool": {
+          "all": {
+            "n": 20000,
+            "top1": 0.9885,
+            "strict": 0.9885
+          },
+          "present": {
+            "n": 6664,
+            "top1": 0.965486,
+            "strict": 0.965486
+          },
+          "seen_present": {
+            "n": 6664,
+            "top1": 0.965486,
+            "strict": 0.965486
+          },
+          "rows": 41625
+        },
+        "seen_rate": 0.835653,
+        "slices": {
+          "tight": {
+            "n": 6664,
+            "unique": 11,
+            "gold_rate": 0.965486,
+            "conflict_packets": 6,
+            "conflict_rate": 0.640456,
+            "entropy": 0.193341,
+            "majority_accuracy": 0.965486,
+            "gold_recall": 1.0,
+            "recurring": {
+              "n": 6664,
+              "unique": 11,
+              "gold_rate": 0.965486,
+              "conflict_packets": 6,
+              "conflict_rate": 0.640456,
+              "entropy": 0.193341,
+              "majority_accuracy": 0.965486,
+              "gold_recall": 1.0,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "loose_container": {
+            "n": 14961,
+            "unique": 23,
+            "gold_rate": 0.269367,
+            "conflict_packets": 6,
+            "conflict_rate": 0.364949,
+            "entropy": 0.29826,
+            "majority_accuracy": 0.904418,
+            "gold_recall": 1.0,
+            "recurring": {
+              "n": 14961,
+              "unique": 23,
+              "gold_rate": 0.269367,
+              "conflict_packets": 6,
+              "conflict_rate": 0.364949,
+              "entropy": 0.29826,
+              "majority_accuracy": 0.904418,
+              "gold_recall": 1.0,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "miss": {
+            "n": 0,
+            "unique": 0,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 0.0,
+            "gold_recall": 0.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        }
+      }
+    },
+    "integer": {
+      "abstain_n": 50000,
+      "abstain_gold_rate": 0.61328,
+      "train": {
+        "packets": {
+          "n": 207781,
+          "unique": 132483,
+          "gold_rate": 0.159201,
+          "conflict_packets": 2848,
+          "conflict_rate": 0.213754,
+          "entropy": 0.156982,
+          "majority_accuracy": 0.938555,
+          "gold_recall": 0.77058,
+          "recurring": {
+            "n": 91304,
+            "unique": 16006,
+            "gold_rate": 0.184296,
+            "conflict_packets": 2848,
+            "conflict_rate": 0.486441,
+            "entropy": 0.357245,
+            "majority_accuracy": 0.86017,
+            "gold_recall": 0.548999,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "pool": {
+          "all": {
+            "n": 50000,
+            "top1": 0.89634,
+            "strict": 0.89616
+          },
+          "present": {
+            "n": 19336,
+            "top1": 0.733502,
+            "strict": 0.733037
+          },
+          "seen_present": {
+            "n": 19336,
+            "top1": 0.733502,
+            "strict": 0.733037
+          },
+          "rows": 257781
+        },
+        "seen_rate": 1.0
+      },
+      "slices": {
+        "hull": {
+          "n": 37047,
+          "unique": 26674,
+          "gold_rate": 0.089994,
+          "conflict_packets": 128,
+          "conflict_rate": 0.108916,
+          "entropy": 0.035488,
+          "majority_accuracy": 0.989041,
+          "gold_recall": 0.927714,
+          "recurring": {
+            "n": 12570,
+            "unique": 2197,
+            "gold_rate": 0.039698,
+            "conflict_packets": 128,
+            "conflict_rate": 0.321002,
+            "entropy": 0.104592,
+            "majority_accuracy": 0.967701,
+            "gold_recall": 0.517034,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "expansion": {
+          "n": 170505,
+          "unique": 105582,
+          "gold_rate": 0.174376,
+          "conflict_packets": 2720,
+          "conflict_rate": 0.23682,
+          "entropy": 0.183591,
+          "majority_accuracy": 0.927504,
+          "gold_recall": 0.752859,
+          "recurring": {
+            "n": 78730,
+            "unique": 13807,
+            "gold_rate": 0.207392,
+            "conflict_packets": 2720,
+            "conflict_rate": 0.512879,
+            "entropy": 0.397602,
+            "majority_accuracy": 0.842995,
+            "gold_recall": 0.549976,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "miss": {
+          "n": 229,
+          "unique": 227,
+          "gold_rate": 0.056769,
+          "conflict_packets": 0,
+          "conflict_rate": 0.0,
+          "entropy": 0.0,
+          "majority_accuracy": 1.0,
+          "gold_recall": 1.0,
+          "recurring": {
+            "n": 4,
+            "unique": 2,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 1.0,
+            "gold_recall": 0.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "width_exact": {
+          "n": 159918,
+          "unique": 112372,
+          "gold_rate": 0.140735,
+          "conflict_packets": 2417,
+          "conflict_rate": 0.160864,
+          "entropy": 0.116828,
+          "majority_accuracy": 0.957428,
+          "gold_recall": 0.857949,
+          "recurring": {
+            "n": 60836,
+            "unique": 13290,
+            "gold_rate": 0.171034,
+            "conflict_packets": 2417,
+            "conflict_rate": 0.422858,
+            "entropy": 0.307103,
+            "majority_accuracy": 0.888093,
+            "gold_recall": 0.692744,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "width_inexact": {
+          "n": 47851,
+          "unique": 20099,
+          "gold_rate": 0.220957,
+          "conflict_packets": 431,
+          "conflict_rate": 0.390567,
+          "entropy": 0.291217,
+          "majority_accuracy": 0.875468,
+          "gold_recall": 0.584602,
+          "recurring": {
+            "n": 30468,
+            "unique": 2716,
+            "gold_rate": 0.210779,
+            "conflict_packets": 431,
+            "conflict_rate": 0.613398,
+            "entropy": 0.457366,
+            "majority_accuracy": 0.804418,
+            "gold_recall": 0.316101,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        }
+      },
+      "by_family": {
+        "train": {
+          "charset_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.984323,
+              "strict": 0.984323
+            },
+            "present": {
+              "n": 243,
+              "top1": 0.790123,
+              "strict": 0.790123
+            },
+            "seen_present": {
+              "n": 243,
+              "top1": 0.790123,
+              "strict": 0.790123
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 7145,
+              "top1": 0.660042,
+              "strict": 0.659902
+            },
+            "present": {
+              "n": 5955,
+              "top1": 0.593787,
+              "strict": 0.593619
+            },
+            "seen_present": {
+              "n": 5955,
+              "top1": 0.593787,
+              "strict": 0.593619
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 3572,
+              "top1": 0.972424,
+              "strict": 0.972004
+            },
+            "present": {
+              "n": 554,
+              "top1": 0.824007,
+              "strict": 0.8213
+            },
+            "seen_present": {
+              "n": 554,
+              "top1": 0.824007,
+              "strict": 0.8213
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 3565,
+              "top1": 0.987377,
+              "strict": 0.987377
+            },
+            "present": {
+              "n": 298,
+              "top1": 0.865772,
+              "strict": 0.865772
+            },
+            "seen_present": {
+              "n": 298,
+              "top1": 0.865772,
+              "strict": 0.865772
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 7144,
+              "top1": 0.679521,
+              "strict": 0.679171
+            },
+            "present": {
+              "n": 6997,
+              "top1": 0.672788,
+              "strict": 0.672431
+            },
+            "seen_present": {
+              "n": 6997,
+              "top1": 0.672788,
+              "strict": 0.672431
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 0.952394,
+              "strict": 0.951274
+            },
+            "present": {
+              "n": 533,
+              "top1": 0.692308,
+              "strict": 0.684803
+            },
+            "seen_present": {
+              "n": 533,
+              "top1": 0.692308,
+              "strict": 0.684803
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 3572,
+              "top1": 0.979843,
+              "strict": 0.979843
+            },
+            "present": {
+              "n": 535,
+              "top1": 0.865421,
+              "strict": 0.865421
+            },
+            "seen_present": {
+              "n": 535,
+              "top1": 0.865421,
+              "strict": 0.865421
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.99832,
+              "strict": 0.99832
+            },
+            "present": {
+              "n": 1498,
+              "top1": 0.995995,
+              "strict": 0.995995
+            },
+            "seen_present": {
+              "n": 1498,
+              "top1": 0.995995,
+              "strict": 0.995995
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.995801,
+              "strict": 0.995801
+            },
+            "present": {
+              "n": 80,
+              "top1": 0.85,
+              "strict": 0.85
+            },
+            "seen_present": {
+              "n": 80,
+              "top1": 0.85,
+              "strict": 0.85
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.99972,
+              "strict": 0.99972
+            },
+            "present": {
+              "n": 1477,
+              "top1": 0.999323,
+              "strict": 0.999323
+            },
+            "seen_present": {
+              "n": 1477,
+              "top1": 0.999323,
+              "strict": 0.999323
+            }
+          },
+          "width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.99972,
+              "strict": 0.99972
+            },
+            "present": {
+              "n": 1166,
+              "top1": 0.999142,
+              "strict": 0.999142
+            },
+            "seen_present": {
+              "n": 1166,
+              "top1": 0.999142,
+              "strict": 0.999142
+            }
+          }
+        },
+        "val": {
+          "charset_width": {
+            "all": {
+              "n": 716,
+              "top1": 0.924581,
+              "strict": 0.924581
+            },
+            "present": {
+              "n": 54,
+              "top1": 0.037037,
+              "strict": 0.037037
+            },
+            "seen_present": {
+              "n": 16,
+              "top1": 0.125,
+              "strict": 0.125
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 1432,
+              "top1": 0.289106,
+              "strict": 0.288408
+            },
+            "present": {
+              "n": 1217,
+              "top1": 0.168447,
+              "strict": 0.167625
+            },
+            "seen_present": {
+              "n": 773,
+              "top1": 0.265201,
+              "strict": 0.263907
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 0.906952,
+              "strict": 0.905899
+            },
+            "present": {
+              "n": 115,
+              "top1": 0.467391,
+              "strict": 0.46087
+            },
+            "seen_present": {
+              "n": 83,
+              "top1": 0.64759,
+              "strict": 0.638554
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 715,
+              "top1": 0.92028,
+              "strict": 0.92028
+            },
+            "present": {
+              "n": 56,
+              "top1": 0.017857,
+              "strict": 0.017857
+            },
+            "seen_present": {
+              "n": 8,
+              "top1": 0.125,
+              "strict": 0.125
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 1432,
+              "top1": 0.212291,
+              "strict": 0.211592
+            },
+            "present": {
+              "n": 1397,
+              "top1": 0.192555,
+              "strict": 0.19184
+            },
+            "seen_present": {
+              "n": 905,
+              "top1": 0.297238,
+              "strict": 0.296133
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 0.894663,
+              "strict": 0.883427
+            },
+            "present": {
+              "n": 121,
+              "top1": 0.404959,
+              "strict": 0.338843
+            },
+            "seen_present": {
+              "n": 100,
+              "top1": 0.49,
+              "strict": 0.41
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 713,
+              "top1": 0.899018,
+              "strict": 0.899018
+            },
+            "present": {
+              "n": 93,
+              "top1": 0.225806,
+              "strict": 0.225806
+            },
+            "seen_present": {
+              "n": 47,
+              "top1": 0.446809,
+              "strict": 0.446809
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 716,
+              "top1": 0.611034,
+              "strict": 0.610335
+            },
+            "present": {
+              "n": 281,
+              "top1": 0.008897,
+              "strict": 0.007117
+            },
+            "seen_present": {
+              "n": 5,
+              "top1": 0.5,
+              "strict": 0.4
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 712,
+              "top1": 0.98139,
+              "strict": 0.980337
+            },
+            "present": {
+              "n": 13,
+              "top1": 0.365385,
+              "strict": 0.307692
+            },
+            "seen_present": {
+              "n": 12,
+              "top1": 0.395833,
+              "strict": 0.333333
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 712,
+              "top1": 0.595506,
+              "strict": 0.595506
+            },
+            "present": {
+              "n": 288,
+              "top1": 0.003472,
+              "strict": 0.003472
+            },
+            "seen_present": {
+              "n": 1,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "width": {
+            "all": {
+              "n": 716,
+              "top1": 0.670391,
+              "strict": 0.670391
+            },
+            "present": {
+              "n": 236,
+              "top1": 0.008475,
+              "strict": 0.008475
+            },
+            "seen_present": {
+              "n": 2,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          }
+        },
+        "ood": {
+          "lexicon_suffix": {
+            "all": {
+              "n": 6667,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_charset_optional": {
+            "all": {
+              "n": 6669,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "repeat_interval": {
+            "all": {
+              "n": 6664,
+              "top1": 0.028236,
+              "strict": 0.027911
+            },
+            "present": {
+              "n": 6664,
+              "top1": 0.028236,
+              "strict": 0.027911
+            },
+            "seen_present": {
+              "n": 453,
+              "top1": 0.415379,
+              "strict": 0.410596
+            }
+          }
+        }
+      },
+      "val": {
+        "pool": {
+          "all": {
+            "n": 10000,
+            "top1": 0.6714,
+            "strict": 0.6702
+          },
+          "present": {
+            "n": 3871,
+            "top1": 0.15784,
+            "strict": 0.15474
+          },
+          "seen_present": {
+            "n": 1952,
+            "top1": 0.313012,
+            "strict": 0.306865
+          },
+          "rows": 51626
+        },
+        "seen_rate": 0.442896,
+        "slices": {
+          "hull": {
+            "n": 7447,
+            "unique": 5944,
+            "gold_rate": 0.091312,
+            "conflict_packets": 32,
+            "conflict_rate": 0.05801,
+            "entropy": 0.024711,
+            "majority_accuracy": 0.992346,
+            "gold_recall": 0.957353,
+            "recurring": {
+              "n": 1828,
+              "unique": 325,
+              "gold_rate": 0.045405,
+              "conflict_packets": 32,
+              "conflict_rate": 0.236324,
+              "entropy": 0.10067,
+              "majority_accuracy": 0.968818,
+              "gold_recall": 0.650602,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "expansion": {
+            "n": 34141,
+            "unique": 24736,
+            "gold_rate": 0.176093,
+            "conflict_packets": 507,
+            "conflict_rate": 0.179579,
+            "entropy": 0.150066,
+            "majority_accuracy": 0.940482,
+            "gold_recall": 0.826347,
+            "recurring": {
+              "n": 11462,
+              "unique": 2057,
+              "gold_rate": 0.23434,
+              "conflict_packets": 507,
+              "conflict_rate": 0.534898,
+              "entropy": 0.44699,
+              "majority_accuracy": 0.822719,
+              "gold_recall": 0.611318,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "miss": {
+            "n": 38,
+            "unique": 38,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 1.0,
+            "gold_recall": 0.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          },
+          "width_exact": {
+            "n": 31878,
+            "unique": 25899,
+            "gold_rate": 0.143641,
+            "conflict_packets": 433,
+            "conflict_rate": 0.105966,
+            "entropy": 0.083835,
+            "majority_accuracy": 0.968505,
+            "gold_recall": 0.903472,
+            "recurring": {
+              "n": 7837,
+              "unique": 1858,
+              "gold_rate": 0.198673,
+              "conflict_packets": 433,
+              "conflict_rate": 0.431032,
+              "entropy": 0.341011,
+              "majority_accuracy": 0.87189,
+              "gold_recall": 0.716121,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "width_inexact": {
+            "n": 9744,
+            "unique": 4815,
+            "gold_rate": 0.216851,
+            "conflict_packets": 106,
+            "conflict_rate": 0.326868,
+            "entropy": 0.270415,
+            "majority_accuracy": 0.888649,
+            "gold_recall": 0.701372,
+            "recurring": {
+              "n": 5453,
+              "unique": 524,
+              "gold_rate": 0.222263,
+              "conflict_packets": 106,
+              "conflict_rate": 0.584082,
+              "entropy": 0.483207,
+              "majority_accuracy": 0.801027,
+              "gold_recall": 0.479373,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          }
+        }
+      },
+      "ood": {
+        "pool": {
+          "all": {
+            "n": 20000,
+            "top1": 0.676208,
+            "strict": 0.6761
+          },
+          "present": {
+            "n": 6664,
+            "top1": 0.028236,
+            "strict": 0.027911
+          },
+          "seen_present": {
+            "n": 453,
+            "top1": 0.415379,
+            "strict": 0.410596
+          },
+          "rows": 114921
+        },
+        "seen_rate": 0.030489,
+        "slices": {
+          "hull": {
+            "n": 19305,
+            "unique": 15390,
+            "gold_rate": 0.00663,
+            "conflict_packets": 27,
+            "conflict_rate": 0.004921,
+            "entropy": 0.003808,
+            "majority_accuracy": 0.998601,
+            "gold_recall": 0.898438,
+            "recurring": {
+              "n": 5086,
+              "unique": 1171,
+              "gold_rate": 0.005309,
+              "conflict_packets": 27,
+              "conflict_rate": 0.018679,
+              "entropy": 0.014456,
+              "majority_accuracy": 0.994691,
+              "gold_recall": 0.518519,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "expansion": {
+            "n": 75616,
+            "unique": 60325,
+            "gold_rate": 0.415838,
+            "conflict_packets": 1653,
+            "conflict_rate": 0.12098,
+            "entropy": 0.098531,
+            "majority_accuracy": 0.964135,
+            "gold_recall": 0.990618,
+            "recurring": {
+              "n": 20246,
+              "unique": 4955,
+              "gold_rate": 0.45856,
+              "conflict_packets": 1653,
+              "conflict_rate": 0.451842,
+              "entropy": 0.368001,
+              "majority_accuracy": 0.866048,
+              "gold_recall": 0.968225,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "miss": {
+            "n": 0,
+            "unique": 0,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 0.0,
+            "gold_recall": 0.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          },
+          "width_exact": {
+            "n": 94548,
+            "unique": 75521,
+            "gold_rate": 0.333048,
+            "conflict_packets": 1672,
+            "conflict_rate": 0.097326,
+            "entropy": 0.079289,
+            "majority_accuracy": 0.971126,
+            "gold_recall": 0.990251,
+            "recurring": {
+              "n": 25091,
+              "unique": 6064,
+              "gold_rate": 0.369375,
+              "conflict_packets": 1672,
+              "conflict_rate": 0.366745,
+              "entropy": 0.298777,
+              "majority_accuracy": 0.891196,
+              "gold_recall": 0.966875,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "width_inexact": {
+            "n": 373,
+            "unique": 194,
+            "gold_rate": 0.22252,
+            "conflict_packets": 8,
+            "conflict_rate": 0.10992,
+            "entropy": 0.073664,
+            "majority_accuracy": 0.975871,
+            "gold_recall": 0.987952,
+            "recurring": {
+              "n": 241,
+              "unique": 62,
+              "gold_rate": 0.178423,
+              "conflict_packets": 8,
+              "conflict_rate": 0.170124,
+              "entropy": 0.11401,
+              "majority_accuracy": 0.962656,
+              "gold_recall": 0.976744,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          }
+        }
+      }
+    },
+    "charset": {
+      "abstain_n": 50000,
+      "abstain_gold_rate": 0.1613,
+      "train": {
+        "packets": {
+          "n": 700766,
+          "unique": 3297,
+          "gold_rate": 0.156798,
+          "conflict_packets": 932,
+          "conflict_rate": 0.656955,
+          "entropy": 0.372982,
+          "majority_accuracy": 0.873564,
+          "gold_recall": 0.421336,
+          "recurring": {
+            "n": 700419,
+            "unique": 2950,
+            "gold_rate": 0.156862,
+            "conflict_packets": 932,
+            "conflict_rate": 0.657281,
+            "entropy": 0.373167,
+            "majority_accuracy": 0.873501,
+            "gold_recall": 0.421284,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "pool": {
+          "all": {
+            "n": 50000,
+            "top1": 0.58684,
+            "strict": 0.58684
+          },
+          "present": {
+            "n": 41935,
+            "top1": 0.699583,
+            "strict": 0.699583
+          },
+          "seen_present": {
+            "n": 41935,
+            "top1": 0.699583,
+            "strict": 0.699583
+          },
+          "rows": 750766
+        },
+        "seen_rate": 1.0
+      },
+      "slices": {
+        "exact_alphabet": {
+          "n": 100829,
+          "unique": 322,
+          "gold_rate": 0.104434,
+          "conflict_packets": 146,
+          "conflict_rate": 0.829027,
+          "entropy": 0.183303,
+          "majority_accuracy": 0.949469,
+          "gold_recall": 0.710826,
+          "recurring": {
+            "n": 100826,
+            "unique": 319,
+            "gold_rate": 0.104437,
+            "conflict_packets": 146,
+            "conflict_rate": 0.829052,
+            "entropy": 0.183308,
+            "majority_accuracy": 0.949467,
+            "gold_recall": 0.710826,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "expansion": {
+          "n": 482098,
+          "unique": 2134,
+          "gold_rate": 0.123645,
+          "conflict_packets": 615,
+          "conflict_rate": 0.569575,
+          "entropy": 0.333578,
+          "majority_accuracy": 0.89097,
+          "gold_recall": 0.263383,
+          "recurring": {
+            "n": 481974,
+            "unique": 2010,
+            "gold_rate": 0.123666,
+            "conflict_packets": 615,
+            "conflict_rate": 0.569722,
+            "entropy": 0.333663,
+            "majority_accuracy": 0.890942,
+            "gold_recall": 0.263321,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "miss": {
+          "n": 204,
+          "unique": 153,
+          "gold_rate": 0.014706,
+          "conflict_packets": 1,
+          "conflict_rate": 0.014706,
+          "entropy": 0.013504,
+          "majority_accuracy": 0.995098,
+          "gold_recall": 0.666667,
+          "recurring": {
+            "n": 93,
+            "unique": 42,
+            "gold_rate": 0.010753,
+            "conflict_packets": 1,
+            "conflict_rate": 0.032258,
+            "entropy": 0.029622,
+            "majority_accuracy": 0.989247,
+            "gold_recall": 0.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "width_exact": {
+          "n": 293068,
+          "unique": 1274,
+          "gold_rate": 0.1789,
+          "conflict_packets": 445,
+          "conflict_rate": 0.625827,
+          "entropy": 0.389247,
+          "majority_accuracy": 0.869542,
+          "gold_recall": 0.47675,
+          "recurring": {
+            "n": 292981,
+            "unique": 1187,
+            "gold_rate": 0.17894,
+            "conflict_packets": 445,
+            "conflict_rate": 0.626013,
+            "entropy": 0.389363,
+            "majority_accuracy": 0.869503,
+            "gold_recall": 0.47671,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "width_open": {
+          "n": 199919,
+          "unique": 876,
+          "gold_rate": 0.09896,
+          "conflict_packets": 228,
+          "conflict_rate": 0.700084,
+          "entropy": 0.325456,
+          "majority_accuracy": 0.906507,
+          "gold_recall": 0.147291,
+          "recurring": {
+            "n": 199774,
+            "unique": 731,
+            "gold_rate": 0.099022,
+            "conflict_packets": 228,
+            "conflict_rate": 0.700592,
+            "entropy": 0.325692,
+            "majority_accuracy": 0.906439,
+            "gold_recall": 0.147205,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        }
+      },
+      "by_family": {
+        "train": {
+          "charset_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.832307,
+              "strict": 0.832307
+            },
+            "present": {
+              "n": 3569,
+              "top1": 0.833006,
+              "strict": 0.833006
+            },
+            "seen_present": {
+              "n": 3569,
+              "top1": 0.833006,
+              "strict": 0.833006
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 7145,
+              "top1": 0.335199,
+              "strict": 0.335199
+            },
+            "present": {
+              "n": 4341,
+              "top1": 0.551716,
+              "strict": 0.551716
+            },
+            "seen_present": {
+              "n": 4341,
+              "top1": 0.551716,
+              "strict": 0.551716
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 3572,
+              "top1": 0.610302,
+              "strict": 0.610302
+            },
+            "present": {
+              "n": 2356,
+              "top1": 0.923175,
+              "strict": 0.923175
+            },
+            "seen_present": {
+              "n": 2356,
+              "top1": 0.923175,
+              "strict": 0.923175
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 3565,
+              "top1": 0.860589,
+              "strict": 0.860589
+            },
+            "present": {
+              "n": 3501,
+              "top1": 0.876321,
+              "strict": 0.876321
+            },
+            "seen_present": {
+              "n": 3501,
+              "top1": 0.876321,
+              "strict": 0.876321
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 7144,
+              "top1": 0.267077,
+              "strict": 0.267077
+            },
+            "present": {
+              "n": 4171,
+              "top1": 0.457444,
+              "strict": 0.457444
+            },
+            "seen_present": {
+              "n": 4171,
+              "top1": 0.457444,
+              "strict": 0.457444
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 0.591711,
+              "strict": 0.591711
+            },
+            "present": {
+              "n": 2639,
+              "top1": 0.800682,
+              "strict": 0.800682
+            },
+            "seen_present": {
+              "n": 2639,
+              "top1": 0.800682,
+              "strict": 0.800682
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 3572,
+              "top1": 0.628219,
+              "strict": 0.628219
+            },
+            "present": {
+              "n": 3572,
+              "top1": 0.628219,
+              "strict": 0.628219
+            },
+            "seen_present": {
+              "n": 3572,
+              "top1": 0.628219,
+              "strict": 0.628219
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.737122,
+              "strict": 0.737122
+            },
+            "present": {
+              "n": 3555,
+              "top1": 0.740647,
+              "strict": 0.740647
+            },
+            "seen_present": {
+              "n": 3555,
+              "top1": 0.740647,
+              "strict": 0.740647
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.921613,
+              "strict": 0.921613
+            },
+            "present": {
+              "n": 3572,
+              "top1": 0.921613,
+              "strict": 0.921613
+            },
+            "seen_present": {
+              "n": 3572,
+              "top1": 0.921613,
+              "strict": 0.921613
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 0.427051,
+              "strict": 0.427051
+            },
+            "present": {
+              "n": 3571,
+              "top1": 0.427051,
+              "strict": 0.427051
+            },
+            "seen_present": {
+              "n": 3571,
+              "top1": 0.427051,
+              "strict": 0.427051
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.714726,
+              "strict": 0.714726
+            },
+            "present": {
+              "n": 3562,
+              "top1": 0.716732,
+              "strict": 0.716732
+            },
+            "seen_present": {
+              "n": 3562,
+              "top1": 0.716732,
+              "strict": 0.716732
+            }
+          },
+          "width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.68813,
+              "strict": 0.68813
+            },
+            "present": {
+              "n": 3526,
+              "top1": 0.697107,
+              "strict": 0.697107
+            },
+            "seen_present": {
+              "n": 3526,
+              "top1": 0.697107,
+              "strict": 0.697107
+            }
+          }
+        },
+        "val": {
+          "charset_width": {
+            "all": {
+              "n": 716,
+              "top1": 0.826816,
+              "strict": 0.826816
+            },
+            "present": {
+              "n": 714,
+              "top1": 0.829132,
+              "strict": 0.829132
+            },
+            "seen_present": {
+              "n": 713,
+              "top1": 0.830295,
+              "strict": 0.830295
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 1432,
+              "top1": 0.321927,
+              "strict": 0.321927
+            },
+            "present": {
+              "n": 847,
+              "top1": 0.544274,
+              "strict": 0.544274
+            },
+            "seen_present": {
+              "n": 847,
+              "top1": 0.544274,
+              "strict": 0.544274
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 0.608146,
+              "strict": 0.608146
+            },
+            "present": {
+              "n": 464,
+              "top1": 0.928879,
+              "strict": 0.928879
+            },
+            "seen_present": {
+              "n": 464,
+              "top1": 0.928879,
+              "strict": 0.928879
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 715,
+              "top1": 0.848951,
+              "strict": 0.848951
+            },
+            "present": {
+              "n": 699,
+              "top1": 0.868383,
+              "strict": 0.868383
+            },
+            "seen_present": {
+              "n": 698,
+              "top1": 0.869628,
+              "strict": 0.869628
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 1432,
+              "top1": 0.257682,
+              "strict": 0.257682
+            },
+            "present": {
+              "n": 846,
+              "top1": 0.43617,
+              "strict": 0.43617
+            },
+            "seen_present": {
+              "n": 846,
+              "top1": 0.43617,
+              "strict": 0.43617
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 0.578652,
+              "strict": 0.578652
+            },
+            "present": {
+              "n": 541,
+              "top1": 0.761553,
+              "strict": 0.761553
+            },
+            "seen_present": {
+              "n": 541,
+              "top1": 0.761553,
+              "strict": 0.761553
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 713,
+              "top1": 0.622721,
+              "strict": 0.622721
+            },
+            "present": {
+              "n": 713,
+              "top1": 0.622721,
+              "strict": 0.622721
+            },
+            "seen_present": {
+              "n": 713,
+              "top1": 0.622721,
+              "strict": 0.622721
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 716,
+              "top1": 0.75838,
+              "strict": 0.75838
+            },
+            "present": {
+              "n": 715,
+              "top1": 0.759441,
+              "strict": 0.759441
+            },
+            "seen_present": {
+              "n": 715,
+              "top1": 0.759441,
+              "strict": 0.759441
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 712,
+              "top1": 0.912921,
+              "strict": 0.912921
+            },
+            "present": {
+              "n": 712,
+              "top1": 0.912921,
+              "strict": 0.912921
+            },
+            "seen_present": {
+              "n": 712,
+              "top1": 0.912921,
+              "strict": 0.912921
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 0.429775,
+              "strict": 0.429775
+            },
+            "present": {
+              "n": 712,
+              "top1": 0.429775,
+              "strict": 0.429775
+            },
+            "seen_present": {
+              "n": 712,
+              "top1": 0.429775,
+              "strict": 0.429775
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 712,
+              "top1": 0.741573,
+              "strict": 0.741573
+            },
+            "present": {
+              "n": 709,
+              "top1": 0.744711,
+              "strict": 0.744711
+            },
+            "seen_present": {
+              "n": 709,
+              "top1": 0.744711,
+              "strict": 0.744711
+            }
+          },
+          "width": {
+            "all": {
+              "n": 716,
+              "top1": 0.673184,
+              "strict": 0.673184
+            },
+            "present": {
+              "n": 709,
+              "top1": 0.679831,
+              "strict": 0.679831
+            },
+            "seen_present": {
+              "n": 709,
+              "top1": 0.679831,
+              "strict": 0.679831
+            }
+          }
+        },
+        "ood": {
+          "lexicon_suffix": {
+            "all": {
+              "n": 6667,
+              "top1": 0.905505,
+              "strict": 0.905505
+            },
+            "present": {
+              "n": 6667,
+              "top1": 0.905505,
+              "strict": 0.905505
+            },
+            "seen_present": {
+              "n": 6667,
+              "top1": 0.905505,
+              "strict": 0.905505
+            }
+          },
+          "prefix_charset_optional": {
+            "all": {
+              "n": 6669,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "present": {
+              "n": 6669,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 6669,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "repeat_interval": {
+            "all": {
+              "n": 6664,
+              "top1": 0.552521,
+              "strict": 0.552521
+            },
+            "present": {
+              "n": 5639,
+              "top1": 0.652953,
+              "strict": 0.652953
+            },
+            "seen_present": {
+              "n": 5639,
+              "top1": 0.652953,
+              "strict": 0.652953
+            }
+          }
+        }
+      },
+      "val": {
+        "pool": {
+          "all": {
+            "n": 10000,
+            "top1": 0.5827,
+            "strict": 0.5827
+          },
+          "present": {
+            "n": 8381,
+            "top1": 0.695024,
+            "strict": 0.695024
+          },
+          "seen_present": {
+            "n": 8379,
+            "top1": 0.69519,
+            "strict": 0.69519
+          },
+          "rows": 150013
+        },
+        "seen_rate": 0.999214,
+        "slices": {
+          "exact_alphabet": {
+            "n": 20096,
+            "unique": 310,
+            "gold_rate": 0.100567,
+            "conflict_packets": 83,
+            "conflict_rate": 0.649283,
+            "entropy": 0.177193,
+            "majority_accuracy": 0.950239,
+            "gold_recall": 0.700148,
+            "recurring": {
+              "n": 20081,
+              "unique": 295,
+              "gold_rate": 0.100642,
+              "conflict_packets": 83,
+              "conflict_rate": 0.649768,
+              "entropy": 0.177325,
+              "majority_accuracy": 0.950202,
+              "gold_recall": 0.700148,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "expansion": {
+            "n": 96497,
+            "unique": 1910,
+            "gold_rate": 0.123278,
+            "conflict_packets": 420,
+            "conflict_rate": 0.502627,
+            "entropy": 0.326677,
+            "majority_accuracy": 0.891841,
+            "gold_recall": 0.287071,
+            "recurring": {
+              "n": 96297,
+              "unique": 1710,
+              "gold_rate": 0.123472,
+              "conflict_packets": 420,
+              "conflict_rate": 0.503671,
+              "entropy": 0.327356,
+              "majority_accuracy": 0.891617,
+              "gold_recall": 0.286712,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "miss": {
+            "n": 50,
+            "unique": 45,
+            "gold_rate": 0.02,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 1.0,
+            "gold_recall": 1.0,
+            "recurring": {
+              "n": 9,
+              "unique": 4,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 1.0,
+              "gold_recall": 0.0,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "width_exact": {
+            "n": 58630,
+            "unique": 1129,
+            "gold_rate": 0.178697,
+            "conflict_packets": 320,
+            "conflict_rate": 0.56802,
+            "entropy": 0.382743,
+            "majority_accuracy": 0.869265,
+            "gold_recall": 0.518755,
+            "recurring": {
+              "n": 58506,
+              "unique": 1005,
+              "gold_rate": 0.178819,
+              "conflict_packets": 320,
+              "conflict_rate": 0.569224,
+              "entropy": 0.383554,
+              "majority_accuracy": 0.868988,
+              "gold_recall": 0.518065,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "width_open": {
+            "n": 39984,
+            "unique": 665,
+            "gold_rate": 0.098664,
+            "conflict_packets": 132,
+            "conflict_rate": 0.614671,
+            "entropy": 0.321791,
+            "majority_accuracy": 0.906438,
+            "gold_recall": 0.140684,
+            "recurring": {
+              "n": 39864,
+              "unique": 545,
+              "gold_rate": 0.098936,
+              "conflict_packets": 132,
+              "conflict_rate": 0.616521,
+              "entropy": 0.32276,
+              "majority_accuracy": 0.906156,
+              "gold_recall": 0.140467,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          }
+        }
+      },
+      "ood": {
+        "pool": {
+          "all": {
+            "n": 20000,
+            "top1": 0.48595,
+            "strict": 0.48595
+          },
+          "present": {
+            "n": 18975,
+            "top1": 0.5122,
+            "strict": 0.5122
+          },
+          "seen_present": {
+            "n": 18975,
+            "top1": 0.5122,
+            "strict": 0.5122
+          },
+          "rows": 312244
+        },
+        "seen_rate": 0.999983,
+        "slices": {
+          "exact_alphabet": {
+            "n": 16365,
+            "unique": 45,
+            "gold_rate": 0.066606,
+            "conflict_packets": 21,
+            "conflict_rate": 0.749588,
+            "entropy": 0.126071,
+            "majority_accuracy": 0.955943,
+            "gold_recall": 0.957798,
+            "recurring": {
+              "n": 16364,
+              "unique": 44,
+              "gold_rate": 0.06661,
+              "conflict_packets": 21,
+              "conflict_rate": 0.749633,
+              "entropy": 0.126079,
+              "majority_accuracy": 0.95594,
+              "gold_recall": 0.957798,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "expansion": {
+            "n": 243253,
+            "unique": 400,
+            "gold_rate": 0.143953,
+            "conflict_packets": 60,
+            "conflict_rate": 0.388641,
+            "entropy": 0.29446,
+            "majority_accuracy": 0.89492,
+            "gold_recall": 0.459977,
+            "recurring": {
+              "n": 243252,
+              "unique": 399,
+              "gold_rate": 0.143954,
+              "conflict_packets": 60,
+              "conflict_rate": 0.388642,
+              "entropy": 0.294461,
+              "majority_accuracy": 0.89492,
+              "gold_recall": 0.459977,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "miss": {
+            "n": 0,
+            "unique": 0,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 0.0,
+            "gold_recall": 0.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          },
+          "width_exact": {
+            "n": 99996,
+            "unique": 214,
+            "gold_rate": 0.159956,
+            "conflict_packets": 28,
+            "conflict_rate": 0.294892,
+            "entropy": 0.212615,
+            "majority_accuracy": 0.920877,
+            "gold_recall": 0.763489,
+            "recurring": {
+              "n": 99994,
+              "unique": 212,
+              "gold_rate": 0.15996,
+              "conflict_packets": 28,
+              "conflict_rate": 0.294898,
+              "entropy": 0.212619,
+              "majority_accuracy": 0.920875,
+              "gold_recall": 0.763489,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "width_open": {
+            "n": 83436,
+            "unique": 95,
+            "gold_rate": 0.121207,
+            "conflict_packets": 26,
+            "conflict_rate": 0.487104,
+            "entropy": 0.340329,
+            "majority_accuracy": 0.884978,
+            "gold_recall": 0.114407,
+            "recurring": {
+              "n": 83436,
+              "unique": 95,
+              "gold_rate": 0.121207,
+              "conflict_packets": 26,
+              "conflict_rate": 0.487104,
+              "entropy": 0.340329,
+              "majority_accuracy": 0.884978,
+              "gold_recall": 0.114407,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          }
+        }
+      }
+    },
+    "optional": {
+      "abstain_n": 50000,
+      "abstain_gold_rate": 0.8277,
+      "train": {
+        "packets": {
+          "n": 30213,
+          "unique": 15,
+          "gold_rate": 0.285275,
+          "conflict_packets": 8,
+          "conflict_rate": 0.88164,
+          "entropy": 0.468666,
+          "majority_accuracy": 0.832953,
+          "gold_recall": 0.414781,
+          "recurring": {
+            "n": 30211,
+            "unique": 13,
+            "gold_rate": 0.285293,
+            "conflict_packets": 8,
+            "conflict_rate": 0.881699,
+            "entropy": 0.468697,
+            "majority_accuracy": 0.832942,
+            "gold_recall": 0.414781,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "pool": {
+          "all": {
+            "n": 50000,
+            "top1": 0.89914,
+            "strict": 0.89914
+          },
+          "present": {
+            "n": 8615,
+            "top1": 0.414626,
+            "strict": 0.414626
+          },
+          "seen_present": {
+            "n": 8615,
+            "top1": 0.414626,
+            "strict": 0.414626
+          },
+          "rows": 80213
+        },
+        "seen_rate": 1.0
+      },
+      "slices": {
+        "candidate": {
+          "n": 30213,
+          "unique": 15,
+          "gold_rate": 0.285275,
+          "conflict_packets": 8,
+          "conflict_rate": 0.88164,
+          "entropy": 0.468666,
+          "majority_accuracy": 0.832953,
+          "gold_recall": 0.414781,
+          "recurring": {
+            "n": 30211,
+            "unique": 13,
+            "gold_rate": 0.285293,
+            "conflict_packets": 8,
+            "conflict_rate": 0.881699,
+            "entropy": 0.468697,
+            "majority_accuracy": 0.832942,
+            "gold_recall": 0.414781,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        }
+      },
+      "by_family": {
+        "train": {
+          "charset_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.971165,
+              "strict": 0.971165
+            },
+            "present": {
+              "n": 103,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 103,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 7145,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 3572,
+              "top1": 0.912374,
+              "strict": 0.912374
+            },
+            "present": {
+              "n": 313,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 313,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 3565,
+              "top1": 0.131557,
+              "strict": 0.131557
+            },
+            "present": {
+              "n": 3096,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 3096,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 7144,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 0.783254,
+              "strict": 0.783254
+            },
+            "present": {
+              "n": 774,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 774,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.982643,
+              "strict": 0.982643
+            },
+            "present": {
+              "n": 62,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 62,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.894737,
+              "strict": 0.894737
+            },
+            "present": {
+              "n": 376,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 376,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 0.949034,
+              "strict": 0.949034
+            },
+            "present": {
+              "n": 182,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 182,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.987402,
+              "strict": 0.987402
+            },
+            "present": {
+              "n": 45,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 45,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.974244,
+              "strict": 0.974244
+            },
+            "present": {
+              "n": 92,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 92,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          }
+        },
+        "val": {
+          "charset_width": {
+            "all": {
+              "n": 716,
+              "top1": 0.96648,
+              "strict": 0.96648
+            },
+            "present": {
+              "n": 24,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 24,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 1432,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 0.929775,
+              "strict": 0.929775
+            },
+            "present": {
+              "n": 50,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 50,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 715,
+              "top1": 0.145455,
+              "strict": 0.145455
+            },
+            "present": {
+              "n": 611,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 611,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 1432,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 0.771067,
+              "strict": 0.771067
+            },
+            "present": {
+              "n": 163,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 163,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 713,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 713,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 713,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 716,
+              "top1": 0.981844,
+              "strict": 0.981844
+            },
+            "present": {
+              "n": 13,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 13,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 712,
+              "top1": 0.905899,
+              "strict": 0.905899
+            },
+            "present": {
+              "n": 67,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 67,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 0.952247,
+              "strict": 0.952247
+            },
+            "present": {
+              "n": 34,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 34,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 712,
+              "top1": 0.990169,
+              "strict": 0.990169
+            },
+            "present": {
+              "n": 7,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 7,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "width": {
+            "all": {
+              "n": 716,
+              "top1": 0.965084,
+              "strict": 0.965084
+            },
+            "present": {
+              "n": 25,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 25,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          }
+        },
+        "ood": {
+          "lexicon_suffix": {
+            "all": {
+              "n": 6667,
+              "top1": 0.764062,
+              "strict": 0.764062
+            },
+            "present": {
+              "n": 1573,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 1573,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_charset_optional": {
+            "all": {
+              "n": 6669,
+              "top1": 0.626481,
+              "strict": 0.252961
+            },
+            "present": {
+              "n": 6669,
+              "top1": 0.626481,
+              "strict": 0.252961
+            },
+            "seen_present": {
+              "n": 6669,
+              "top1": 0.626481,
+              "strict": 0.252961
+            }
+          },
+          "repeat_interval": {
+            "all": {
+              "n": 6664,
+              "top1": 0.852641,
+              "strict": 0.852641
+            },
+            "present": {
+              "n": 938,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 932,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          }
+        }
+      },
+      "val": {
+        "pool": {
+          "all": {
+            "n": 10000,
+            "top1": 0.9006,
+            "strict": 0.9006
+          },
+          "present": {
+            "n": 1707,
+            "top1": 0.417692,
+            "strict": 0.417692
+          },
+          "seen_present": {
+            "n": 1707,
+            "top1": 0.417692,
+            "strict": 0.417692
+          },
+          "rows": 16074
+        },
+        "seen_rate": 1.0,
+        "slices": {
+          "candidate": {
+            "n": 6074,
+            "unique": 12,
+            "gold_rate": 0.281199,
+            "conflict_packets": 4,
+            "conflict_rate": 0.737076,
+            "entropy": 0.471571,
+            "majority_accuracy": 0.836352,
+            "gold_recall": 0.418033,
+            "recurring": {
+              "n": 6071,
+              "unique": 9,
+              "gold_rate": 0.281173,
+              "conflict_packets": 4,
+              "conflict_rate": 0.73744,
+              "entropy": 0.471804,
+              "majority_accuracy": 0.836271,
+              "gold_recall": 0.417692,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          }
+        }
+      },
+      "ood": {
+        "pool": {
+          "all": {
+            "n": 20000,
+            "top1": 0.7477,
+            "strict": 0.62315
+          },
+          "present": {
+            "n": 9180,
+            "top1": 0.45512,
+            "strict": 0.183769
+          },
+          "seen_present": {
+            "n": 9174,
+            "top1": 0.455417,
+            "strict": 0.183889
+          },
+          "rows": 39985
+        },
+        "seen_rate": 0.999249,
+        "slices": {
+          "candidate": {
+            "n": 19985,
+            "unique": 10,
+            "gold_rate": 0.459345,
+            "conflict_packets": 6,
+            "conflict_rate": 0.838029,
+            "entropy": 0.633477,
+            "majority_accuracy": 0.789792,
+            "gold_recall": 0.545316,
+            "recurring": {
+              "n": 19985,
+              "unique": 10,
+              "gold_rate": 0.459345,
+              "conflict_packets": 6,
+              "conflict_rate": 0.838029,
+              "entropy": 0.633477,
+              "majority_accuracy": 0.789792,
+              "gold_recall": 0.545316,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          }
+        }
+      }
+    },
+    "literal": {
+      "abstain_n": 50000,
+      "abstain_gold_rate": 0.30636,
+      "train": {
+        "packets": {
+          "n": 54759,
+          "unique": 16,
+          "gold_rate": 0.882613,
+          "conflict_packets": 6,
+          "conflict_rate": 0.673624,
+          "entropy": 0.435383,
+          "majority_accuracy": 0.882996,
+          "gold_recall": 1.0,
+          "recurring": {
+            "n": 54758,
+            "unique": 15,
+            "gold_rate": 0.882629,
+            "conflict_packets": 6,
+            "conflict_rate": 0.673637,
+            "entropy": 0.435391,
+            "majority_accuracy": 0.882994,
+            "gold_recall": 1.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "pool": {
+          "all": {
+            "n": 50000,
+            "top1": 0.90442,
+            "strict": 0.90442
+          },
+          "present": {
+            "n": 34682,
+            "top1": 0.979845,
+            "strict": 0.979845
+          },
+          "seen_present": {
+            "n": 34682,
+            "top1": 0.979845,
+            "strict": 0.979845
+          },
+          "rows": 104759
+        },
+        "seen_rate": 1.0
+      },
+      "slices": {
+        "candidate": {
+          "n": 54759,
+          "unique": 16,
+          "gold_rate": 0.882613,
+          "conflict_packets": 6,
+          "conflict_rate": 0.673624,
+          "entropy": 0.435383,
+          "majority_accuracy": 0.882996,
+          "gold_recall": 1.0,
+          "recurring": {
+            "n": 54758,
+            "unique": 15,
+            "gold_rate": 0.882629,
+            "conflict_packets": 6,
+            "conflict_rate": 0.673637,
+            "entropy": 0.435391,
+            "majority_accuracy": 0.882994,
+            "gold_recall": 1.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        }
+      },
+      "by_family": {
+        "train": {
+          "charset_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.980963,
+              "strict": 0.980963
+            },
+            "present": {
+              "n": 15,
+              "top1": 0.933333,
+              "strict": 0.933333
+            },
+            "seen_present": {
+              "n": 15,
+              "top1": 0.933333,
+              "strict": 0.933333
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 7145,
+              "top1": 0.637369,
+              "strict": 0.637369
+            },
+            "present": {
+              "n": 3936,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 3936,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 3572,
+              "top1": 0.99972,
+              "strict": 0.99972
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 3565,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 3565,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 3565,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 7144,
+              "top1": 0.902996,
+              "strict": 0.902996
+            },
+            "present": {
+              "n": 7143,
+              "top1": 0.903122,
+              "strict": 0.903122
+            },
+            "seen_present": {
+              "n": 7143,
+              "top1": 0.903122,
+              "strict": 0.903122
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 3571,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 3571,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.816069,
+              "strict": 0.816069
+            },
+            "present": {
+              "n": 2919,
+              "top1": 0.99863,
+              "strict": 0.99863
+            },
+            "seen_present": {
+              "n": 2919,
+              "top1": 0.99863,
+              "strict": 0.99863
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 3571,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 3571,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.788914,
+              "strict": 0.788914
+            },
+            "present": {
+              "n": 2818,
+              "top1": 0.99929,
+              "strict": 0.99929
+            },
+            "seen_present": {
+              "n": 2818,
+              "top1": 0.99929,
+              "strict": 0.99929
+            }
+          },
+          "width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.995801,
+              "strict": 0.995801
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          }
+        },
+        "val": {
+          "charset_width": {
+            "all": {
+              "n": 716,
+              "top1": 0.981844,
+              "strict": 0.981844
+            },
+            "present": {
+              "n": 5,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 5,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 1432,
+              "top1": 0.611732,
+              "strict": 0.611732
+            },
+            "present": {
+              "n": 769,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 769,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 715,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 715,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 715,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 1432,
+              "top1": 0.903631,
+              "strict": 0.903631
+            },
+            "present": {
+              "n": 1432,
+              "top1": 0.903631,
+              "strict": 0.903631
+            },
+            "seen_present": {
+              "n": 1432,
+              "top1": 0.903631,
+              "strict": 0.903631
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 713,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 713,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 713,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 716,
+              "top1": 0.818436,
+              "strict": 0.818436
+            },
+            "present": {
+              "n": 587,
+              "top1": 0.998296,
+              "strict": 0.998296
+            },
+            "seen_present": {
+              "n": 587,
+              "top1": 0.998296,
+              "strict": 0.998296
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 712,
+              "top1": 0.786517,
+              "strict": 0.786517
+            },
+            "present": {
+              "n": 560,
+              "top1": 0.998214,
+              "strict": 0.998214
+            },
+            "seen_present": {
+              "n": 560,
+              "top1": 0.998214,
+              "strict": 0.998214
+            }
+          },
+          "width": {
+            "all": {
+              "n": 716,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          }
+        },
+        "ood": {
+          "lexicon_suffix": {
+            "all": {
+              "n": 6667,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 6667,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 6667,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_charset_optional": {
+            "all": {
+              "n": 6669,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 6669,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 6669,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "repeat_interval": {
+            "all": {
+              "n": 6664,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 6664,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 6664,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          }
+        }
+      },
+      "val": {
+        "pool": {
+          "all": {
+            "n": 10000,
+            "top1": 0.9011,
+            "strict": 0.9011
+          },
+          "present": {
+            "n": 6917,
+            "top1": 0.97976,
+            "strict": 0.97976
+          },
+          "seen_present": {
+            "n": 6917,
+            "top1": 0.97976,
+            "strict": 0.97976
+          },
+          "rows": 20966
+        },
+        "seen_rate": 1.0,
+        "slices": {
+          "candidate": {
+            "n": 10966,
+            "unique": 11,
+            "gold_rate": 0.878898,
+            "conflict_packets": 4,
+            "conflict_rate": 0.674631,
+            "entropy": 0.446809,
+            "majority_accuracy": 0.879172,
+            "gold_recall": 1.0,
+            "recurring": {
+              "n": 10962,
+              "unique": 7,
+              "gold_rate": 0.879128,
+              "conflict_packets": 4,
+              "conflict_rate": 0.674877,
+              "entropy": 0.446972,
+              "majority_accuracy": 0.879128,
+              "gold_recall": 1.0,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          }
+        }
+      },
+      "ood": {
+        "pool": {
+          "all": {
+            "n": 20000,
+            "top1": 1.0,
+            "strict": 1.0
+          },
+          "present": {
+            "n": 20000,
+            "top1": 1.0,
+            "strict": 1.0
+          },
+          "seen_present": {
+            "n": 20000,
+            "top1": 1.0,
+            "strict": 1.0
+          },
+          "rows": 53373
+        },
+        "seen_rate": 1.0,
+        "slices": {
+          "candidate": {
+            "n": 33373,
+            "unique": 7,
+            "gold_rate": 0.982711,
+            "conflict_packets": 3,
+            "conflict_rate": 0.351901,
+            "entropy": 0.09938,
+            "majority_accuracy": 0.982711,
+            "gold_recall": 1.0,
+            "recurring": {
+              "n": 33373,
+              "unique": 7,
+              "gold_rate": 0.982711,
+              "conflict_packets": 3,
+              "conflict_rate": 0.351901,
+              "entropy": 0.09938,
+              "majority_accuracy": 0.982711,
+              "gold_recall": 1.0,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          }
+        }
+      }
+    },
+    "lexicon": {
+      "abstain_n": 50000,
+      "abstain_gold_rate": 0.85494,
+      "train": {
+        "packets": {
+          "n": 7437,
+          "unique": 2,
+          "gold_rate": 0.975259,
+          "conflict_packets": 2,
+          "conflict_rate": 1.0,
+          "entropy": 0.166543,
+          "majority_accuracy": 0.975259,
+          "gold_recall": 1.0,
+          "recurring": {
+            "n": 7437,
+            "unique": 2,
+            "gold_rate": 0.975259,
+            "conflict_packets": 2,
+            "conflict_rate": 1.0,
+            "entropy": 0.166543,
+            "majority_accuracy": 0.975259,
+            "gold_recall": 1.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "pool": {
+          "all": {
+            "n": 50000,
+            "top1": 0.99632,
+            "strict": 0.99632
+          },
+          "present": {
+            "n": 7253,
+            "top1": 1.0,
+            "strict": 1.0
+          },
+          "seen_present": {
+            "n": 7253,
+            "top1": 1.0,
+            "strict": 1.0
+          },
+          "rows": 57437
+        },
+        "seen_rate": 1.0
+      },
+      "slices": {
+        "candidate": {
+          "n": 7437,
+          "unique": 2,
+          "gold_rate": 0.975259,
+          "conflict_packets": 2,
+          "conflict_rate": 1.0,
+          "entropy": 0.166543,
+          "majority_accuracy": 0.975259,
+          "gold_recall": 1.0,
+          "recurring": {
+            "n": 7437,
+            "unique": 2,
+            "gold_rate": 0.975259,
+            "conflict_packets": 2,
+            "conflict_rate": 1.0,
+            "entropy": 0.166543,
+            "majority_accuracy": 0.975259,
+            "gold_recall": 1.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        }
+      },
+      "by_family": {
+        "train": {
+          "charset_width": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 7145,
+              "top1": 0.992022,
+              "strict": 0.992022
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 2178,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 2178,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 3565,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 7144,
+              "top1": 0.992861,
+              "strict": 0.992861
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 1582,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 1582,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 0.978717,
+              "strict": 0.978717
+            },
+            "present": {
+              "n": 3493,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 3493,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "width": {
+            "all": {
+              "n": 3572,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          }
+        },
+        "val": {
+          "charset_width": {
+            "all": {
+              "n": 716,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 1432,
+              "top1": 0.989525,
+              "strict": 0.989525
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 432,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 432,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 715,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 1432,
+              "top1": 0.995112,
+              "strict": 0.995112
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 302,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 302,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 713,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 716,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 0.977528,
+              "strict": 0.977528
+            },
+            "present": {
+              "n": 695,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 695,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "width": {
+            "all": {
+              "n": 716,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          }
+        },
+        "ood": {
+          "lexicon_suffix": {
+            "all": {
+              "n": 6667,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 1267,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "seen_present": {
+              "n": 1267,
+              "top1": 1.0,
+              "strict": 1.0
+            }
+          },
+          "prefix_charset_optional": {
+            "all": {
+              "n": 6669,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "repeat_interval": {
+            "all": {
+              "n": 6664,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          }
+        }
+      },
+      "val": {
+        "pool": {
+          "all": {
+            "n": 10000,
+            "top1": 0.9962,
+            "strict": 0.9962
+          },
+          "present": {
+            "n": 1429,
+            "top1": 1.0,
+            "strict": 1.0
+          },
+          "seen_present": {
+            "n": 1429,
+            "top1": 1.0,
+            "strict": 1.0
+          },
+          "rows": 11467
+        },
+        "seen_rate": 1.0,
+        "slices": {
+          "candidate": {
+            "n": 1467,
+            "unique": 2,
+            "gold_rate": 0.974097,
+            "conflict_packets": 2,
+            "conflict_rate": 1.0,
+            "entropy": 0.170677,
+            "majority_accuracy": 0.974097,
+            "gold_recall": 1.0,
+            "recurring": {
+              "n": 1467,
+              "unique": 2,
+              "gold_rate": 0.974097,
+              "conflict_packets": 2,
+              "conflict_rate": 1.0,
+              "entropy": 0.170677,
+              "majority_accuracy": 0.974097,
+              "gold_recall": 1.0,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          }
+        }
+      },
+      "ood": {
+        "pool": {
+          "all": {
+            "n": 20000,
+            "top1": 1.0,
+            "strict": 1.0
+          },
+          "present": {
+            "n": 1267,
+            "top1": 1.0,
+            "strict": 1.0
+          },
+          "seen_present": {
+            "n": 1267,
+            "top1": 1.0,
+            "strict": 1.0
+          },
+          "rows": 21267
+        },
+        "seen_rate": 1.0,
+        "slices": {
+          "candidate": {
+            "n": 1267,
+            "unique": 1,
+            "gold_rate": 1.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 1.0,
+            "gold_recall": 1.0,
+            "recurring": {
+              "n": 1267,
+              "unique": 1,
+              "gold_rate": 1.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 1.0,
+              "gold_recall": 1.0,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          }
+        }
+      }
+    },
+    "integer_relational": {
+      "abstain_n": 50000,
+      "abstain_gold_rate": 0.61328,
+      "train": {
+        "packets": {
+          "n": 207781,
+          "unique": 72729,
+          "gold_rate": 0.159201,
+          "conflict_packets": 3107,
+          "conflict_rate": 0.416655,
+          "entropy": 0.258066,
+          "majority_accuracy": 0.9126,
+          "gold_recall": 0.652771,
+          "recurring": {
+            "n": 151813,
+            "unique": 16761,
+            "gold_rate": 0.165645,
+            "conflict_packets": 3107,
+            "conflict_rate": 0.570261,
+            "entropy": 0.353206,
+            "majority_accuracy": 0.880379,
+            "gold_recall": 0.543246,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "pool": {
+          "all": {
+            "n": 50000,
+            "top1": 0.80536,
+            "strict": 0.80408
+          },
+          "present": {
+            "n": 19336,
+            "top1": 0.499017,
+            "strict": 0.495707
+          },
+          "seen_present": {
+            "n": 19336,
+            "top1": 0.499017,
+            "strict": 0.495707
+          },
+          "rows": 257781
+        },
+        "seen_rate": 1.0
+      },
+      "slices": {
+        "hull": {
+          "n": 37047,
+          "unique": 2,
+          "gold_rate": 0.089994,
+          "conflict_packets": 2,
+          "conflict_rate": 1.0,
+          "entropy": 0.419417,
+          "majority_accuracy": 0.910006,
+          "gold_recall": 0.0,
+          "recurring": {
+            "n": 37047,
+            "unique": 2,
+            "gold_rate": 0.089994,
+            "conflict_packets": 2,
+            "conflict_rate": 1.0,
+            "entropy": 0.419417,
+            "majority_accuracy": 0.910006,
+            "gold_recall": 0.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "expansion": {
+          "n": 170505,
+          "unique": 72501,
+          "gold_rate": 0.174376,
+          "conflict_packets": 3105,
+          "conflict_rate": 0.290467,
+          "entropy": 0.223355,
+          "majority_accuracy": 0.913047,
+          "gold_recall": 0.725817,
+          "recurring": {
+            "n": 114760,
+            "unique": 16756,
+            "gold_rate": 0.190075,
+            "conflict_packets": 3105,
+            "conflict_rate": 0.431562,
+            "entropy": 0.33185,
+            "majority_accuracy": 0.870809,
+            "gold_recall": 0.626278,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "miss": {
+          "n": 229,
+          "unique": 226,
+          "gold_rate": 0.056769,
+          "conflict_packets": 0,
+          "conflict_rate": 0.0,
+          "entropy": 0.0,
+          "majority_accuracy": 1.0,
+          "gold_recall": 1.0,
+          "recurring": {
+            "n": 6,
+            "unique": 3,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 1.0,
+            "gold_recall": 0.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "width_exact": {
+          "n": 159918,
+          "unique": 57748,
+          "gold_rate": 0.140735,
+          "conflict_packets": 2671,
+          "conflict_rate": 0.392357,
+          "entropy": 0.224084,
+          "majority_accuracy": 0.930571,
+          "gold_recall": 0.733271,
+          "recurring": {
+            "n": 116220,
+            "unique": 14050,
+            "gold_rate": 0.151686,
+            "conflict_packets": 2671,
+            "conflict_rate": 0.539881,
+            "entropy": 0.308338,
+            "majority_accuracy": 0.904466,
+            "gold_recall": 0.659482,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        },
+        "width_inexact": {
+          "n": 47851,
+          "unique": 14969,
+          "gold_rate": 0.220957,
+          "conflict_packets": 436,
+          "conflict_rate": 0.497962,
+          "entropy": 0.371701,
+          "majority_accuracy": 0.852521,
+          "gold_recall": 0.481415,
+          "recurring": {
+            "n": 35593,
+            "unique": 2711,
+            "gold_rate": 0.211221,
+            "conflict_packets": 436,
+            "conflict_rate": 0.669457,
+            "entropy": 0.499713,
+            "majority_accuracy": 0.801731,
+            "gold_recall": 0.270684,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          }
+        }
+      },
+      "by_family": {
+        "train": {
+          "charset_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.970045,
+              "strict": 0.970045
+            },
+            "present": {
+              "n": 243,
+              "top1": 0.580247,
+              "strict": 0.580247
+            },
+            "seen_present": {
+              "n": 243,
+              "top1": 0.580247,
+              "strict": 0.580247
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 7145,
+              "top1": 0.520924,
+              "strict": 0.520364
+            },
+            "present": {
+              "n": 5955,
+              "top1": 0.426868,
+              "strict": 0.426196
+            },
+            "seen_present": {
+              "n": 5955,
+              "top1": 0.426868,
+              "strict": 0.426196
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 3572,
+              "top1": 0.956187,
+              "strict": 0.956047
+            },
+            "present": {
+              "n": 554,
+              "top1": 0.721119,
+              "strict": 0.720217
+            },
+            "seen_present": {
+              "n": 554,
+              "top1": 0.721119,
+              "strict": 0.720217
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 3565,
+              "top1": 0.96662,
+              "strict": 0.96662
+            },
+            "present": {
+              "n": 298,
+              "top1": 0.614094,
+              "strict": 0.614094
+            },
+            "seen_present": {
+              "n": 298,
+              "top1": 0.614094,
+              "strict": 0.614094
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 7144,
+              "top1": 0.50175,
+              "strict": 0.493841
+            },
+            "present": {
+              "n": 6997,
+              "top1": 0.492139,
+              "strict": 0.484065
+            },
+            "seen_present": {
+              "n": 6997,
+              "top1": 0.492139,
+              "strict": 0.484065
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 0.928871,
+              "strict": 0.928031
+            },
+            "present": {
+              "n": 533,
+              "top1": 0.534709,
+              "strict": 0.529081
+            },
+            "seen_present": {
+              "n": 533,
+              "top1": 0.534709,
+              "strict": 0.529081
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 3572,
+              "top1": 0.979843,
+              "strict": 0.979843
+            },
+            "present": {
+              "n": 535,
+              "top1": 0.865421,
+              "strict": 0.865421
+            },
+            "seen_present": {
+              "n": 535,
+              "top1": 0.865421,
+              "strict": 0.865421
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.784434,
+              "strict": 0.784434
+            },
+            "present": {
+              "n": 1498,
+              "top1": 0.485981,
+              "strict": 0.485981
+            },
+            "seen_present": {
+              "n": 1498,
+              "top1": 0.485981,
+              "strict": 0.485981
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.991321,
+              "strict": 0.991321
+            },
+            "present": {
+              "n": 80,
+              "top1": 0.7625,
+              "strict": 0.7625
+            },
+            "seen_present": {
+              "n": 80,
+              "top1": 0.7625,
+              "strict": 0.7625
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 3571,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.790034,
+              "strict": 0.790034
+            },
+            "present": {
+              "n": 1477,
+              "top1": 0.492214,
+              "strict": 0.492214
+            },
+            "seen_present": {
+              "n": 1477,
+              "top1": 0.492214,
+              "strict": 0.492214
+            }
+          },
+          "width": {
+            "all": {
+              "n": 3572,
+              "top1": 0.862822,
+              "strict": 0.862822
+            },
+            "present": {
+              "n": 1166,
+              "top1": 0.57976,
+              "strict": 0.57976
+            },
+            "seen_present": {
+              "n": 1166,
+              "top1": 0.57976,
+              "strict": 0.57976
+            }
+          }
+        },
+        "val": {
+          "charset_width": {
+            "all": {
+              "n": 716,
+              "top1": 0.925978,
+              "strict": 0.925978
+            },
+            "present": {
+              "n": 54,
+              "top1": 0.037037,
+              "strict": 0.037037
+            },
+            "seen_present": {
+              "n": 31,
+              "top1": 0.064516,
+              "strict": 0.064516
+            }
+          },
+          "interval": {
+            "all": {
+              "n": 1432,
+              "top1": 0.27933,
+              "strict": 0.277933
+            },
+            "present": {
+              "n": 1217,
+              "top1": 0.157765,
+              "strict": 0.156122
+            },
+            "seen_present": {
+              "n": 952,
+              "top1": 0.201681,
+              "strict": 0.19958
+            }
+          },
+          "lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 0.905197,
+              "strict": 0.904494
+            },
+            "present": {
+              "n": 115,
+              "top1": 0.430435,
+              "strict": 0.426087
+            },
+            "seen_present": {
+              "n": 96,
+              "top1": 0.515625,
+              "strict": 0.510417
+            }
+          },
+          "prefix_charset": {
+            "all": {
+              "n": 715,
+              "top1": 0.916084,
+              "strict": 0.916084
+            },
+            "present": {
+              "n": 56,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 46,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_interval": {
+            "all": {
+              "n": 1432,
+              "top1": 0.199721,
+              "strict": 0.189246
+            },
+            "present": {
+              "n": 1397,
+              "top1": 0.182534,
+              "strict": 0.171797
+            },
+            "seen_present": {
+              "n": 1036,
+              "top1": 0.246139,
+              "strict": 0.23166
+            }
+          },
+          "prefix_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 0.883895,
+              "strict": 0.876404
+            },
+            "present": {
+              "n": 121,
+              "top1": 0.325069,
+              "strict": 0.280992
+            },
+            "seen_present": {
+              "n": 113,
+              "top1": 0.348083,
+              "strict": 0.300885
+            }
+          },
+          "prefix_optional": {
+            "all": {
+              "n": 713,
+              "top1": 0.893408,
+              "strict": 0.893408
+            },
+            "present": {
+              "n": 93,
+              "top1": 0.225806,
+              "strict": 0.225806
+            },
+            "seen_present": {
+              "n": 47,
+              "top1": 0.446809,
+              "strict": 0.446809
+            }
+          },
+          "prefix_width": {
+            "all": {
+              "n": 716,
+              "top1": 0.610335,
+              "strict": 0.608939
+            },
+            "present": {
+              "n": 281,
+              "top1": 0.010676,
+              "strict": 0.007117
+            },
+            "seen_present": {
+              "n": 182,
+              "top1": 0.016484,
+              "strict": 0.010989
+            }
+          },
+          "repeat_width": {
+            "all": {
+              "n": 712,
+              "top1": 0.976475,
+              "strict": 0.976124
+            },
+            "present": {
+              "n": 13,
+              "top1": 0.403846,
+              "strict": 0.384615
+            },
+            "seen_present": {
+              "n": 12,
+              "top1": 0.4375,
+              "strict": 0.416667
+            }
+          },
+          "stem_lexicon": {
+            "all": {
+              "n": 712,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "suffix_width": {
+            "all": {
+              "n": 712,
+              "top1": 0.594101,
+              "strict": 0.594101
+            },
+            "present": {
+              "n": 288,
+              "top1": 0.003472,
+              "strict": 0.003472
+            },
+            "seen_present": {
+              "n": 200,
+              "top1": 0.005,
+              "strict": 0.005
+            }
+          },
+          "width": {
+            "all": {
+              "n": 716,
+              "top1": 0.673184,
+              "strict": 0.673184
+            },
+            "present": {
+              "n": 236,
+              "top1": 0.012712,
+              "strict": 0.012712
+            },
+            "seen_present": {
+              "n": 114,
+              "top1": 0.026316,
+              "strict": 0.026316
+            }
+          }
+        },
+        "ood": {
+          "lexicon_suffix": {
+            "all": {
+              "n": 6667,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "prefix_charset_optional": {
+            "all": {
+              "n": 6669,
+              "top1": 1.0,
+              "strict": 1.0
+            },
+            "present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            },
+            "seen_present": {
+              "n": 0,
+              "top1": 0.0,
+              "strict": 0.0
+            }
+          },
+          "repeat_interval": {
+            "all": {
+              "n": 6664,
+              "top1": 0.027986,
+              "strict": 0.027311
+            },
+            "present": {
+              "n": 6664,
+              "top1": 0.027986,
+              "strict": 0.027311
+            },
+            "seen_present": {
+              "n": 4023,
+              "top1": 0.046358,
+              "strict": 0.04524
+            }
+          }
+        }
+      },
+      "val": {
+        "pool": {
+          "all": {
+            "n": 10000,
+            "top1": 0.666408,
+            "strict": 0.664
+          },
+          "present": {
+            "n": 3871,
+            "top1": 0.147529,
+            "strict": 0.141307
+          },
+          "seen_present": {
+            "n": 2829,
+            "top1": 0.201868,
+            "strict": 0.193355
+          },
+          "rows": 51626
+        },
+        "seen_rate": 0.701341,
+        "slices": {
+          "hull": {
+            "n": 7447,
+            "unique": 2,
+            "gold_rate": 0.091312,
+            "conflict_packets": 2,
+            "conflict_rate": 1.0,
+            "entropy": 0.42371,
+            "majority_accuracy": 0.908688,
+            "gold_recall": 0.0,
+            "recurring": {
+              "n": 7447,
+              "unique": 2,
+              "gold_rate": 0.091312,
+              "conflict_packets": 2,
+              "conflict_rate": 1.0,
+              "entropy": 0.42371,
+              "majority_accuracy": 0.908688,
+              "gold_recall": 0.0,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "expansion": {
+            "n": 34141,
+            "unique": 18918,
+            "gold_rate": 0.176093,
+            "conflict_packets": 615,
+            "conflict_rate": 0.211915,
+            "entropy": 0.179038,
+            "majority_accuracy": 0.929293,
+            "gold_recall": 0.815868,
+            "recurring": {
+              "n": 19030,
+              "unique": 3807,
+              "gold_rate": 0.204519,
+              "conflict_packets": 615,
+              "conflict_rate": 0.380189,
+              "entropy": 0.321206,
+              "majority_accuracy": 0.873148,
+              "gold_recall": 0.71557,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "miss": {
+            "n": 38,
+            "unique": 38,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 1.0,
+            "gold_recall": 0.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_packets": 0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          },
+          "width_exact": {
+            "n": 31878,
+            "unique": 15179,
+            "gold_rate": 0.143641,
+            "conflict_packets": 514,
+            "conflict_rate": 0.327906,
+            "entropy": 0.183646,
+            "majority_accuracy": 0.943911,
+            "gold_recall": 0.796025,
+            "recurring": {
+              "n": 19991,
+              "unique": 3292,
+              "gold_rate": 0.157021,
+              "conflict_packets": 514,
+              "conflict_rate": 0.522885,
+              "entropy": 0.292845,
+              "majority_accuracy": 0.91056,
+              "gold_recall": 0.702453,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "width_inexact": {
+            "n": 9744,
+            "unique": 3775,
+            "gold_rate": 0.216851,
+            "conflict_packets": 103,
+            "conflict_rate": 0.434011,
+            "entropy": 0.350334,
+            "majority_accuracy": 0.865969,
+            "gold_recall": 0.596309,
+            "recurring": {
+              "n": 6486,
+              "unique": 517,
+              "gold_rate": 0.220937,
+              "conflict_packets": 103,
+              "conflict_rate": 0.65202,
+              "entropy": 0.52631,
+              "majority_accuracy": 0.798643,
+              "gold_recall": 0.404745,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          }
+        }
+      },
+      "ood": {
+        "pool": {
+          "all": {
+            "n": 20000,
+            "top1": 0.676125,
+            "strict": 0.6759
+          },
+          "present": {
+            "n": 6664,
+            "top1": 0.027986,
+            "strict": 0.027311
+          },
+          "seen_present": {
+            "n": 4023,
+            "top1": 0.046358,
+            "strict": 0.04524
+          },
+          "rows": 114921
+        },
+        "seen_rate": 0.5444,
+        "slices": {
+          "hull": {
+            "n": 19305,
+            "unique": 1,
+            "gold_rate": 0.00663,
+            "conflict_packets": 1,
+            "conflict_rate": 1.0,
+            "entropy": 0.057516,
+            "majority_accuracy": 0.99337,
+            "gold_recall": 0.0,
+            "recurring": {
+              "n": 19305,
+              "unique": 1,
+              "gold_rate": 0.00663,
+              "conflict_packets": 1,
+              "conflict_rate": 1.0,
+              "entropy": 0.057516,
+              "majority_accuracy": 0.99337,
+              "gold_recall": 0.0,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "expansion": {
+            "n": 75616,
+            "unique": 37867,
+            "gold_rate": 0.415838,
+            "conflict_packets": 2172,
+            "conflict_rate": 0.316877,
+            "entropy": 0.260366,
+            "majority_accuracy": 0.907863,
+            "gold_recall": 0.975417,
+            "recurring": {
+              "n": 45004,
+              "unique": 7255,
+              "gold_rate": 0.427695,
+              "conflict_packets": 2172,
+              "conflict_rate": 0.532419,
+              "entropy": 0.437468,
+              "majority_accuracy": 0.845192,
+              "gold_recall": 0.95984,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "miss": {
+            "n": 0,
+            "unique": 0,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 0.0,
+            "gold_recall": 0.0,
+            "recurring": {
+              "n": 0,
+              "unique": 0,
+              "gold_rate": 0.0,
+              "conflict_rate": 0.0,
+              "entropy": 0.0,
+              "majority_accuracy": 0.0,
+              "gold_recall": 0.0
+            }
+          },
+          "width_exact": {
+            "n": 94548,
+            "unique": 37674,
+            "gold_rate": 0.333048,
+            "conflict_packets": 2165,
+            "conflict_rate": 0.457175,
+            "entropy": 0.219684,
+            "majority_accuracy": 0.925054,
+            "gold_recall": 0.971419,
+            "recurring": {
+              "n": 64068,
+              "unique": 7194,
+              "gold_rate": 0.301758,
+              "conflict_packets": 2165,
+              "conflict_rate": 0.674674,
+              "entropy": 0.324198,
+              "majority_accuracy": 0.889399,
+              "gold_recall": 0.953447,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          },
+          "width_inexact": {
+            "n": 373,
+            "unique": 194,
+            "gold_rate": 0.22252,
+            "conflict_packets": 8,
+            "conflict_rate": 0.10992,
+            "entropy": 0.073664,
+            "majority_accuracy": 0.975871,
+            "gold_recall": 0.987952,
+            "recurring": {
+              "n": 241,
+              "unique": 62,
+              "gold_rate": 0.178423,
+              "conflict_packets": 8,
+              "conflict_rate": 0.170124,
+              "entropy": 0.11401,
+              "majority_accuracy": 0.962656,
+              "gold_recall": 0.976744,
+              "recurring": {
+                "n": 0,
+                "unique": 0,
+                "gold_rate": 0.0,
+                "conflict_packets": 0,
+                "conflict_rate": 0.0,
+                "entropy": 0.0,
+                "majority_accuracy": 0.0,
+                "gold_recall": 0.0
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "programs": {
+    "train": {
+      "all": {
+        "n": 50000,
+        "top1": 0.886239,
+        "strict": 0.86066
+      },
+      "seen": {
+        "n": 50000,
+        "top1": 0.886239,
+        "strict": 0.86066
+      },
+      "by_family": {
+        "charset_width": {
+          "n": 3572,
+          "top1": 0.993841,
+          "strict": 0.993841,
+          "seen": {
+            "n": 3572,
+            "top1": 0.993841,
+            "strict": 0.993841
+          }
+        },
+        "interval": {
+          "n": 7145,
+          "top1": 0.90098,
+          "strict": 0.895031,
+          "seen": {
+            "n": 7145,
+            "top1": 0.90098,
+            "strict": 0.895031
+          }
+        },
+        "lexicon": {
+          "n": 3572,
+          "top1": 0.979619,
+          "strict": 0.971165,
+          "seen": {
+            "n": 3572,
+            "top1": 0.979619,
+            "strict": 0.971165
+          }
+        },
+        "prefix_charset": {
+          "n": 3565,
+          "top1": 0.997195,
+          "strict": 0.997195,
+          "seen": {
+            "n": 3565,
+            "top1": 0.997195,
+            "strict": 0.997195
+          }
+        },
+        "prefix_interval": {
+          "n": 7144,
+          "top1": 0.938083,
+          "strict": 0.931831,
+          "seen": {
+            "n": 7144,
+            "top1": 0.938083,
+            "strict": 0.931831
+          }
+        },
+        "prefix_lexicon": {
+          "n": 3571,
+          "top1": 0.987212,
+          "strict": 0.985158,
+          "seen": {
+            "n": 3571,
+            "top1": 0.987212,
+            "strict": 0.985158
+          }
+        },
+        "prefix_optional": {
+          "n": 3572,
+          "top1": 0.286245,
+          "strict": 0.149776,
+          "seen": {
+            "n": 3572,
+            "top1": 0.286245,
+            "strict": 0.149776
+          }
+        },
+        "prefix_width": {
+          "n": 3572,
+          "top1": 0.885545,
+          "strict": 0.809071,
+          "seen": {
+            "n": 3572,
+            "top1": 0.885545,
+            "strict": 0.809071
+          }
+        },
+        "repeat_width": {
+          "n": 3572,
+          "top1": 0.980431,
+          "strict": 0.964446,
+          "seen": {
+            "n": 3572,
+            "top1": 0.980431,
+            "strict": 0.964446
+          }
+        },
+        "stem_lexicon": {
+          "n": 3571,
+          "top1": 0.9986,
+          "strict": 0.9986,
+          "seen": {
+            "n": 3571,
+            "top1": 0.9986,
+            "strict": 0.9986
+          }
+        },
+        "suffix_width": {
+          "n": 3572,
+          "top1": 0.861021,
+          "strict": 0.768477,
+          "seen": {
+            "n": 3572,
+            "top1": 0.861021,
+            "strict": 0.768477
+          }
+        },
+        "width": {
+          "n": 3572,
+          "top1": 0.759787,
+          "strict": 0.758119,
+          "seen": {
+            "n": 3572,
+            "top1": 0.759787,
+            "strict": 0.758119
+          }
+        }
+      },
+      "packets": {
+        "n": 1485257,
+        "unique": 283579,
+        "gold_rate": 0.105897,
+        "conflict_packets": 4905,
+        "conflict_rate": 0.328991,
+        "entropy": 0.129052,
+        "majority_accuracy": 0.963842,
+        "gold_recall": 0.753899,
+        "recurring": {
+          "n": 1255365,
+          "unique": 53687,
+          "gold_rate": 0.106412,
+          "conflict_packets": 4905,
+          "conflict_rate": 0.389238,
+          "entropy": 0.152685,
+          "majority_accuracy": 0.95722,
+          "gold_recall": 0.710239,
+          "recurring": {
+            "n": 0,
+            "unique": 0,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 0.0,
+            "gold_recall": 0.0
+          }
+        }
+      },
+      "seen_rate": 1.0
+    },
+    "unique_signatures": 283579,
+    "base_gold": 0.105897,
+    "val": {
+      "all": {
+        "n": 10000,
+        "top1": 0.754329,
+        "strict": 0.715
+      },
+      "seen": {
+        "n": 9180,
+        "top1": 0.820117,
+        "strict": 0.783987
+      },
+      "by_family": {
+        "charset_width": {
+          "n": 716,
+          "top1": 0.963552,
+          "strict": 0.955307,
+          "seen": {
+            "n": 705,
+            "top1": 0.987234,
+            "strict": 0.987234
+          }
+        },
+        "interval": {
+          "n": 1432,
+          "top1": 0.642549,
+          "strict": 0.618017,
+          "seen": {
+            "n": 1140,
+            "top1": 0.805159,
+            "strict": 0.800877
+          }
+        },
+        "lexicon": {
+          "n": 712,
+          "top1": 0.956765,
+          "strict": 0.939607,
+          "seen": {
+            "n": 699,
+            "top1": 0.964497,
+            "strict": 0.955651
+          }
+        },
+        "prefix_charset": {
+          "n": 715,
+          "top1": 0.964977,
+          "strict": 0.959441,
+          "seen": {
+            "n": 691,
+            "top1": 0.995658,
+            "strict": 0.995658
+          }
+        },
+        "prefix_interval": {
+          "n": 1432,
+          "top1": 0.663978,
+          "strict": 0.655028,
+          "seen": {
+            "n": 1121,
+            "top1": 0.848796,
+            "strict": 0.842105
+          }
+        },
+        "prefix_lexicon": {
+          "n": 712,
+          "top1": 0.91073,
+          "strict": 0.894663,
+          "seen": {
+            "n": 682,
+            "top1": 0.949462,
+            "strict": 0.934018
+          }
+        },
+        "prefix_optional": {
+          "n": 713,
+          "top1": 0.168036,
+          "strict": 0.008415,
+          "seen": {
+            "n": 713,
+            "top1": 0.168036,
+            "strict": 0.008415
+          }
+        },
+        "prefix_width": {
+          "n": 716,
+          "top1": 0.704707,
+          "strict": 0.593575,
+          "seen": {
+            "n": 655,
+            "top1": 0.770611,
+            "strict": 0.650382
+          }
+        },
+        "repeat_width": {
+          "n": 712,
+          "top1": 0.942484,
+          "strict": 0.914326,
+          "seen": {
+            "n": 693,
+            "top1": 0.963276,
+            "strict": 0.939394
+          }
+        },
+        "stem_lexicon": {
+          "n": 712,
+          "top1": 0.990409,
+          "strict": 0.983146,
+          "seen": {
+            "n": 712,
+            "top1": 0.990409,
+            "strict": 0.983146
+          }
+        },
+        "suffix_width": {
+          "n": 712,
+          "top1": 0.671351,
+          "strict": 0.550562,
+          "seen": {
+            "n": 660,
+            "top1": 0.723561,
+            "strict": 0.595455
+          }
+        },
+        "width": {
+          "n": 716,
+          "top1": 0.676292,
+          "strict": 0.666201,
+          "seen": {
+            "n": 709,
+            "top1": 0.675237,
+            "strict": 0.669958
+          }
+        }
+      },
+      "packets": {
+        "n": 297139,
+        "unique": 78542,
+        "gold_rate": 0.10557,
+        "conflict_packets": 1786,
+        "conflict_rate": 0.275662,
+        "entropy": 0.119834,
+        "majority_accuracy": 0.965676,
+        "gold_recall": 0.76668,
+        "recurring": {
+          "n": 238547,
+          "unique": 19950,
+          "gold_rate": 0.106176,
+          "conflict_packets": 1786,
+          "conflict_rate": 0.34337,
+          "entropy": 0.149268,
+          "majority_accuracy": 0.957245,
+          "gold_recall": 0.711031,
+          "recurring": {
+            "n": 0,
+            "unique": 0,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 0.0,
+            "gold_recall": 0.0
+          }
+        }
+      },
+      "seen_rate": 0.835377
+    },
+    "ood": {
+      "all": {
+        "n": 20000,
+        "top1": 0.381624,
+        "strict": 0.33195
+      },
+      "seen": {
+        "n": 6817,
+        "top1": 0.980169,
+        "strict": 0.977263
+      },
+      "by_family": {
+        "lexicon_suffix": {
+          "n": 6667,
+          "top1": 0.963111,
+          "strict": 0.948403,
+          "seen": {
+            "n": 6501,
+            "top1": 0.979205,
+            "strict": 0.976158
+          }
+        },
+        "prefix_charset_optional": {
+          "n": 6669,
+          "top1": 0.031251,
+          "strict": 0.0,
+          "seen": {
+            "n": 0,
+            "top1": 0.0,
+            "strict": 0.0
+          }
+        },
+        "repeat_interval": {
+          "n": 6664,
+          "top1": 0.15051,
+          "strict": 0.047419,
+          "seen": {
+            "n": 316,
+            "top1": 1.0,
+            "strict": 1.0
+          }
+        }
+      },
+      "packets": {
+        "n": 627679,
+        "unique": 187134,
+        "gold_rate": 0.095579,
+        "conflict_packets": 78,
+        "conflict_rate": 0.039273,
+        "entropy": 0.015563,
+        "majority_accuracy": 0.993486,
+        "gold_recall": 0.987815,
+        "recurring": {
+          "n": 463558,
+          "unique": 23013,
+          "gold_rate": 0.073139,
+          "conflict_packets": 78,
+          "conflict_rate": 0.053178,
+          "entropy": 0.021074,
+          "majority_accuracy": 0.991179,
+          "gold_recall": 0.978439,
+          "recurring": {
+            "n": 0,
+            "unique": 0,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 0.0,
+            "gold_recall": 0.0
+          }
+        }
+      },
+      "seen_rate": 0.270383
+    }
+  },
+  "programs_relational": {
+    "train": {
+      "all": {
+        "n": 50000,
+        "top1": 0.865665,
+        "strict": 0.83854
+      },
+      "seen": {
+        "n": 50000,
+        "top1": 0.865665,
+        "strict": 0.83854
+      },
+      "by_family": {
+        "charset_width": {
+          "n": 3572,
+          "top1": 0.990761,
+          "strict": 0.990761,
+          "seen": {
+            "n": 3572,
+            "top1": 0.990761,
+            "strict": 0.990761
+          }
+        },
+        "interval": {
+          "n": 7145,
+          "top1": 0.844857,
+          "strict": 0.839608,
+          "seen": {
+            "n": 7145,
+            "top1": 0.844857,
+            "strict": 0.839608
+          }
+        },
+        "lexicon": {
+          "n": 3572,
+          "top1": 0.979619,
+          "strict": 0.971165,
+          "seen": {
+            "n": 3572,
+            "top1": 0.979619,
+            "strict": 0.971165
+          }
+        },
+        "prefix_charset": {
+          "n": 3565,
+          "top1": 0.995372,
+          "strict": 0.994951,
+          "seen": {
+            "n": 3565,
+            "top1": 0.995372,
+            "strict": 0.994951
+          }
+        },
+        "prefix_interval": {
+          "n": 7144,
+          "top1": 0.915197,
+          "strict": 0.909574,
+          "seen": {
+            "n": 7144,
+            "top1": 0.915197,
+            "strict": 0.909574
+          }
+        },
+        "prefix_lexicon": {
+          "n": 3571,
+          "top1": 0.986512,
+          "strict": 0.984318,
+          "seen": {
+            "n": 3571,
+            "top1": 0.986512,
+            "strict": 0.984318
+          }
+        },
+        "prefix_optional": {
+          "n": 3572,
+          "top1": 0.286245,
+          "strict": 0.149776,
+          "seen": {
+            "n": 3572,
+            "top1": 0.286245,
+            "strict": 0.149776
+          }
+        },
+        "prefix_width": {
+          "n": 3572,
+          "top1": 0.827025,
+          "strict": 0.738242,
+          "seen": {
+            "n": 3572,
+            "top1": 0.827025,
+            "strict": 0.738242
+          }
+        },
+        "repeat_width": {
+          "n": 3572,
+          "top1": 0.980431,
+          "strict": 0.964446,
+          "seen": {
+            "n": 3572,
+            "top1": 0.980431,
+            "strict": 0.964446
+          }
+        },
+        "stem_lexicon": {
+          "n": 3571,
+          "top1": 0.9986,
+          "strict": 0.9986,
+          "seen": {
+            "n": 3571,
+            "top1": 0.9986,
+            "strict": 0.9986
+          }
+        },
+        "suffix_width": {
+          "n": 3572,
+          "top1": 0.796734,
+          "strict": 0.691769,
+          "seen": {
+            "n": 3572,
+            "top1": 0.796734,
+            "strict": 0.691769
+          }
+        },
+        "width": {
+          "n": 3572,
+          "top1": 0.75824,
+          "strict": 0.757559,
+          "seen": {
+            "n": 3572,
+            "top1": 0.75824,
+            "strict": 0.757559
+          }
+        }
+      },
+      "packets": {
+        "n": 1485257,
+        "unique": 194803,
+        "gold_rate": 0.105897,
+        "conflict_packets": 5530,
+        "conflict_rate": 0.366635,
+        "entropy": 0.146852,
+        "majority_accuracy": 0.959464,
+        "gold_recall": 0.721073,
+        "recurring": {
+          "n": 1343943,
+          "unique": 53489,
+          "gold_rate": 0.104863,
+          "conflict_packets": 5530,
+          "conflict_rate": 0.405186,
+          "entropy": 0.162294,
+          "majority_accuracy": 0.955201,
+          "gold_recall": 0.688704,
+          "recurring": {
+            "n": 0,
+            "unique": 0,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 0.0,
+            "gold_recall": 0.0
+          }
+        }
+      },
+      "seen_rate": 1.0
+    },
+    "unique_signatures": 194803,
+    "base_gold": 0.105897,
+    "val": {
+      "all": {
+        "n": 10000,
+        "top1": 0.758698,
+        "strict": 0.7219
+      },
+      "seen": {
+        "n": 9465,
+        "top1": 0.798382,
+        "strict": 0.764501
+      },
+      "by_family": {
+        "charset_width": {
+          "n": 716,
+          "top1": 0.964516,
+          "strict": 0.955307,
+          "seen": {
+            "n": 706,
+            "top1": 0.979698,
+            "strict": 0.978754
+          }
+        },
+        "interval": {
+          "n": 1432,
+          "top1": 0.655352,
+          "strict": 0.632682,
+          "seen": {
+            "n": 1251,
+            "top1": 0.736877,
+            "strict": 0.729017
+          }
+        },
+        "lexicon": {
+          "n": 712,
+          "top1": 0.958076,
+          "strict": 0.942416,
+          "seen": {
+            "n": 705,
+            "top1": 0.961608,
+            "strict": 0.953191
+          }
+        },
+        "prefix_charset": {
+          "n": 715,
+          "top1": 0.975477,
+          "strict": 0.973427,
+          "seen": {
+            "n": 706,
+            "top1": 0.987724,
+            "strict": 0.987252
+          }
+        },
+        "prefix_interval": {
+          "n": 1432,
+          "top1": 0.676957,
+          "strict": 0.662709,
+          "seen": {
+            "n": 1185,
+            "top1": 0.815963,
+            "strict": 0.802532
+          }
+        },
+        "prefix_lexicon": {
+          "n": 712,
+          "top1": 0.917936,
+          "strict": 0.907303,
+          "seen": {
+            "n": 701,
+            "top1": 0.932668,
+            "strict": 0.921541
+          }
+        },
+        "prefix_optional": {
+          "n": 713,
+          "top1": 0.168036,
+          "strict": 0.008415,
+          "seen": {
+            "n": 713,
+            "top1": 0.168036,
+            "strict": 0.008415
+          }
+        },
+        "prefix_width": {
+          "n": 716,
+          "top1": 0.698611,
+          "strict": 0.606145,
+          "seen": {
+            "n": 691,
+            "top1": 0.725277,
+            "strict": 0.63097
+          }
+        },
+        "repeat_width": {
+          "n": 712,
+          "top1": 0.942599,
+          "strict": 0.914326,
+          "seen": {
+            "n": 693,
+            "top1": 0.963276,
+            "strict": 0.939394
+          }
+        },
+        "stem_lexicon": {
+          "n": 712,
+          "top1": 0.990409,
+          "strict": 0.983146,
+          "seen": {
+            "n": 712,
+            "top1": 0.990409,
+            "strict": 0.983146
+          }
+        },
+        "suffix_width": {
+          "n": 712,
+          "top1": 0.666152,
+          "strict": 0.557584,
+          "seen": {
+            "n": 691,
+            "top1": 0.686204,
+            "strict": 0.57453
+          }
+        },
+        "width": {
+          "n": 716,
+          "top1": 0.676972,
+          "strict": 0.668994,
+          "seen": {
+            "n": 711,
+            "top1": 0.674168,
+            "strict": 0.670886
+          }
+        }
+      },
+      "packets": {
+        "n": 297139,
+        "unique": 62344,
+        "gold_rate": 0.10557,
+        "conflict_packets": 1961,
+        "conflict_rate": 0.312995,
+        "entropy": 0.136385,
+        "majority_accuracy": 0.961678,
+        "gold_recall": 0.734419,
+        "recurring": {
+          "n": 255237,
+          "unique": 20442,
+          "gold_rate": 0.104593,
+          "conflict_packets": 1961,
+          "conflict_rate": 0.364379,
+          "entropy": 0.158776,
+          "majority_accuracy": 0.955387,
+          "gold_recall": 0.687931,
+          "recurring": {
+            "n": 0,
+            "unique": 0,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 0.0,
+            "gold_recall": 0.0
+          }
+        }
+      },
+      "seen_rate": 0.900754
+    },
+    "ood": {
+      "all": {
+        "n": 20000,
+        "top1": 0.382454,
+        "strict": 0.33195
+      },
+      "seen": {
+        "n": 6817,
+        "top1": 0.980169,
+        "strict": 0.977263
+      },
+      "by_family": {
+        "lexicon_suffix": {
+          "n": 6667,
+          "top1": 0.963111,
+          "strict": 0.948403,
+          "seen": {
+            "n": 6501,
+            "top1": 0.979205,
+            "strict": 0.976158
+          }
+        },
+        "prefix_charset_optional": {
+          "n": 6669,
+          "top1": 0.031251,
+          "strict": 0.0,
+          "seen": {
+            "n": 0,
+            "top1": 0.0,
+            "strict": 0.0
+          }
+        },
+        "repeat_interval": {
+          "n": 6664,
+          "top1": 0.153002,
+          "strict": 0.047419,
+          "seen": {
+            "n": 316,
+            "top1": 1.0,
+            "strict": 1.0
+          }
+        }
+      },
+      "packets": {
+        "n": 627679,
+        "unique": 110461,
+        "gold_rate": 0.095579,
+        "conflict_packets": 92,
+        "conflict_rate": 0.039353,
+        "entropy": 0.015625,
+        "majority_accuracy": 0.993463,
+        "gold_recall": 0.987815,
+        "recurring": {
+          "n": 531777,
+          "unique": 14559,
+          "gold_rate": 0.071554,
+          "conflict_packets": 92,
+          "conflict_rate": 0.04645,
+          "entropy": 0.018443,
+          "majority_accuracy": 0.992284,
+          "gold_recall": 0.980789,
+          "recurring": {
+            "n": 0,
+            "unique": 0,
+            "gold_rate": 0.0,
+            "conflict_packets": 0,
+            "conflict_rate": 0.0,
+            "entropy": 0.0,
+            "majority_accuracy": 0.0,
+            "gold_recall": 0.0
+          }
+        }
+      },
+      "seen_rate": 0.27801
+    }
+  }
+}

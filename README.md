@@ -44,16 +44,17 @@ uv run python -m unittest discover -s tests
 
 ## Current experiment
 
-The question is whether a node can be ranked from the span it matches. A repeat node sees its own bounds and the observed firing counts. An integer node sees its own endpoints against the numbers it consumed. A charset node sees its alphabet against the characters it consumed. The program score is the sum of those local scores. There is no support embedding.
+The question is whether the float vector given to a candidate node determines the gold label. The audit hashes that vector and reports collisions, conditional entropy, majority-label accuracy, and the Bayes top-1 ceiling of the candidate pool. The 1,158-parameter scorer is unchanged.
 
-Shards are written under `results/prior/shards/` and are not committed. A new checkout regenerates them before the scorer. The packed statistics are local and are not committed.
+The packed statistics are local and are not committed. A new checkout regenerates the shards, then the scorer cache, before the audit.
 
 ```bash
 uv run python -m prior.generate --train 50000 --val 10000 --ood 20000 --seed 2507
 uv run python -m prior.relative --data results/prior/shards --seeds 0 1
+uv run python -m prior.packet_audit --cache /tmp/relative-evidence --out results/prior/packets.json
 ```
 
-The scorer has 1,158 parameters and is CPU-only. It does not train the 1.226M encoder and it does not change `needle()`. The constituent probes and the earlier scorers are in [DOCS.md](DOCS.md).
+The audit is CPU-only. It does not train the 1.226M encoder and it does not change `needle()`. The local scorer and the earlier probes are in [DOCS.md](DOCS.md).
 
 The written record is already in the tree. Regenerating it only concatenates the result pages, including the sealed BENCH-E line:
 
@@ -64,6 +65,7 @@ uv run python scripts/run_needle.py --stage summary
 | Page | What it records |
 | --- | --- |
 | `results/needle/summary.md` | Needle, then the prior curves |
+| `results/prior/packets.md` | Identifiability of the local packets |
 | `results/prior/relative.md` | Candidate-relative node scores |
 | `results/prior/constituents.md` | Constituent probes and the candidate-conditioned matcher |
 | `results/prior/probes.md` | Probes on the frozen 160-d support vector |
@@ -73,4 +75,4 @@ uv run python scripts/run_needle.py --stage summary
 | `results/prior/diversity.md` | Compositional sampler and the flat 10k / 30k / 100k sweep |
 | `results/prior/scaling.md` | Earlier menu-sampler curve |
 
-`repeat_width` is 0.947 / 0.941 and `charset_width` is 0.961 / 0.957. The repeat bounds match the observed counts at 1.000 / 1.000 on `repeat_width` and on `repeat_interval`. The integer window on `repeat_interval` does not: program top-1 is 0.526 / 0.473. `prefix_charset_optional` stays at 0.000 / 0.000. BENCH-E stays sealed.
+Tight repeat bounds have conditional entropy 0.030, and the scorer matches that ceiling. Charset expansion has gold recall 0.263, and `prefix_charset_optional` has a packet ceiling of 0.000. BENCH-E stays sealed.
