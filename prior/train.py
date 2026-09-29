@@ -51,9 +51,9 @@ def run(cfg: TrainConfig, root: Path | None = None) -> dict:
     device = _device(cfg)
     distributed = _distributed(device)
     data_dir = root / cfg.data_dir
-    train_data = load_split(data_dir, "train", cfg.max_train) if cfg.kind == "mlp" else None
-    val_data = load_split(data_dir, "val")
-    ood_data = load_split(data_dir, "ood")
+    train_data = load_split(data_dir, "train", cfg.max_train, cfg.kind) if cfg.kind != "symbolic" else None
+    val_data = load_split(data_dir, "val", kind=cfg.kind)
+    ood_data = load_split(data_dir, "ood", kind=cfg.kind)
     model = PriorModel(cfg).to(device)
     if distributed:
         model = DistributedDataParallel(model, device_ids=[device.index] if device.type == "cuda" else None)

@@ -32,16 +32,16 @@ def evaluate(model: PriorModel, data: PriorDataset, device: torch.device, batch_
     by_family: dict[str, list[float]] = {}
     for start in range(0, len(data), batch_size):
         index = list(range(start, min(len(data), start + batch_size)))
-        batch = move_to_device(
-            {
-                "support": data.support[index],
-                "candidate": data.candidate[index],
-                "mask": data.mask[index],
-                "gold": data.gold[index],
-                "family": [data.family[i] for i in index],
-            },
-            device,
-        )
+        payload = {
+            "support": data.support[index],
+            "candidate": data.candidate[index],
+            "mask": data.mask[index],
+            "gold": data.gold[index],
+            "family": [data.family[i] for i in index],
+        }
+        for key, value in data.extra.items():
+            payload[key] = value[index]
+        batch = move_to_device(payload, device)
         scores = model(batch)
         scores = scores.masked_fill(~batch["mask"], -1e9)
         choice = scores.argmax(dim=-1)
@@ -98,6 +98,25 @@ def renaming_invariance(encoder, model: PriorModel | None = None, n: int = 32, s
             batch = {
                 "support": vectors,
                 "candidate": feats[:, None, :],
+                "mask": torch.ones(2, 1, dtype=torch.bool),
+                "gold": torch.ones(2, 1, dtype=torch.bool),
+            }
+            scores = model(batch)
+            score_hits += int(torch.allclose(scores[0], scores[1], atol=1e-5))
+            scored += 1
+        if model is not None and model.kind == "ast":
+            from prior.tree import pack_candidates
+
+            packed = [pack_candidates([program], group, 1) for group in (supports, renamed)]
+            batch = {
+                "support": vectors,
+                "relation": torch.stack([item["relation"] for item in packed]),
+                "kind": torch.stack([item["kind"] for item in packed]),
+                "params": torch.stack([item["params"] for item in packed]),
+                "left": torch.stack([item["left"] for item in packed]),
+                "right": torch.stack([item["right"] for item in packed]),
+                "depth": torch.stack([item["depth"] for item in packed]),
+                "root": torch.stack([item["root"] for item in packed]),
                 "mask": torch.ones(2, 1, dtype=torch.bool),
                 "gold": torch.ones(2, 1, dtype=torch.bool),
             }
