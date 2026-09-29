@@ -409,8 +409,13 @@ def _summary(root: Path) -> None:
             [
                 "## BENCH-E",
                 "",
-                f"Sealed external split, {seal['n']} tasks, sha256 `{seal['sha256']}`. "
-                "Scored: no. Inspected: no. BENCH-C remains the diagnostic set.",
+                f"External split, {seal['n']} tasks, sha256 `{seal['sha256']}`. "
+                + (
+                    f"Scored once: {seal['accuracy']:.4f}. No tuning after that score. "
+                    "BENCH-C remains the development benchmark."
+                    if seal.get("scored")
+                    else "Scored: no. Inspected: no. BENCH-C remains the diagnostic set."
+                ),
                 "",
             ]
         )

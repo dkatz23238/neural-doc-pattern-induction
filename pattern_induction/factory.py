@@ -24,12 +24,121 @@ from pattern_induction.lexicon import LEXICONS, lexicon_members
 from pattern_induction.program import OPEN, Prog, describe, execute
 from pattern_induction.renaming import apply_mapping
 
-PARSER_VERSION = "factory-3"
+PARSER_VERSION = "factory-4"
 GENERATOR_VERSION = "factory-gen-1"
 TEACHER_MODEL = "gpt-5.6-terra"
 # gpt-6-terra is not on this key. The Terra model that answers is gpt-5.6-terra.
 PRICE_PER_MILLION = {"gpt-5.6-terra": (2.0, 12.0)}
-BUDGET_USD = 4.0
+BUDGET_USD = 10.0
+# Shapes the procedural sampler in prior/generate.py actually emits.
+# A teacher template outside this set is a novel composition.
+PROCEDURAL_SHAPES = frozenset(
+    {
+        "int",
+        "cls",
+        "set",
+        "lex",
+        "seq(lit,int)",
+        "seq(lit,cls)",
+        "seq(cls,lit)",
+        "seq(lit,lit,cls)",
+        "seq(lit,lit,set)",
+        "seq(opt(seq(lit,lit)),cls)",
+        "seq(opt(seq(lit,lit)),set)",
+        "seq(cls,repeat(seq(lit,cls)))",
+        "seq(int,repeat(seq(lit,int)))",
+        "seq(lit,lit,lex)",
+        "seq(cls,lit,lex)",
+        "seq(lex,lit,lit)",
+    }
+)
+CAMPAIGN_DOMAINS = (
+    "software",
+    "finance",
+    "legal",
+    "healthcare",
+    "logistics",
+    "manufacturing",
+    "energy",
+    "agriculture",
+    "retail",
+    "telecom",
+    "government",
+    "scientific_data",
+    "document_processing",
+    "cloud_infrastructure",
+    "education",
+    "insurance",
+)
+_GROUP_STEMS = (
+    ("semantic version", "semver"),
+    ("semver", "semver"),
+    ("iso 6346", "container"),
+    ("container", "container"),
+    ("iso 4217", "currency"),
+    ("iso4217", "currency"),
+    ("currency code", "currency"),
+    ("air waybill", "waybill"),
+    ("waybill", "waybill"),
+    ("un/locode", "locode"),
+    ("locode", "locode"),
+    ("aba routing", "routing"),
+    ("routing transit", "routing"),
+    ("bluebook", "citation"),
+    ("u.s. reports", "citation"),
+    ("westlaw", "citation"),
+    ("nodeport", "kubernetes"),
+    ("kubernetes", "kubernetes"),
+    ("medicare", "medicare"),
+    ("hl7", "hl7"),
+    ("treasury", "treasury"),
+    ("bloomberg", "bloomberg"),
+)
+_GENERIC_TYPES = frozenset({"identifier", "id", "code", "string", "field", "number", "token", "unspecified", ""})
+_TEACHER_REASONS = frozenset(
+    {
+        "duplicate_example",
+        "duplicate",
+        "overlap",
+        "near_miss_accepted",
+        "positive_rejected",
+        "too_few_positives",
+        "missing_identity",
+        "memorized_literal",
+        "ambiguity_rejected",
+        "bad_neighbors",
+        "concept_not_object",
+        "bad_ambiguity",
+    }
+)
+_PARSER_REASONS = frozenset(
+    {
+        "no_json",
+        "no_concepts",
+        "node_not_object",
+        "unknown_op",
+        "bad_class",
+        "bad_int",
+        "bad_set",
+        "bad_opt",
+        "bad_repeat",
+    }
+)
+_DSL_REASONS = frozenset(
+    {
+        "bad_width",
+        "bad_literal",
+        "unbound_literal",
+        "bad_bounds",
+        "repeat_cap",
+        "nested_repeat",
+        "too_many_nodes",
+        "unknown_lexicon",
+        "int_width",
+        "bad_alt",
+        "leading_zero",
+    }
+)
 MAX_NODES = 16
 MAX_TEXT = 32
 LEXICON_NAMES = frozenset(item.name for item in LEXICONS)
@@ -149,6 +258,58 @@ def _set_node(value) -> dict:
     raise FactoryError("bad_set")
 
 
+def _alias_node(item: dict) -> dict:
+    """Rename keys from dialects that already use ``op``."""
+    op = str(item.get("op") or "").lower()
+    if op == "seq" and not isinstance(item.get("children"), list) and isinstance(item.get("args"), list):
+        item = {**item, "op": "seq", "children": item["args"]}
+    if op == "lit" and not isinstance(item.get("text"), str) and isinstance(item.get("value"), str):
+        item = {**item, "text": item["value"]}
+    if op == "cls" and not item.get("class") and item.get("kind"):
+        item = {**item, "class": item["kind"]}
+    if op in {"repeat", "opt"} and not isinstance(item.get("child"), dict) and isinstance(item.get("node"), dict):
+        item = {**item, "child": item["node"]}
+    return item
+
+
+def _lift_multikey(item: dict) -> dict:
+    """A node whose op is a key beside lo, hi, min, or max."""
+    names = {"seq", "cls", "class", "set", "int", "lex", "lit", "literal", "opt", "alt", "repeat"}
+    found = [key for key in item if str(key).lower() in names]
+    if len(found) != 1:
+        raise FactoryError("node_not_object")
+    op = str(found[0]).lower()
+    value = item[found[0]]
+    if op in {"cls", "class"} and isinstance(value, str):
+        return {"op": "cls", "class": value, "lo": item.get("lo", 1), "hi": item.get("hi", 1)}
+    if op in {"lit", "literal"} and isinstance(value, str):
+        return {"op": "lit", "text": value}
+    if op == "int" and not isinstance(value, dict):
+        return {"op": "int", **_int_fields(item)}
+    if op == "lex" and isinstance(value, str):
+        return {"op": "lex", "name": value}
+    if op == "set" and isinstance(value, str):
+        return {"op": "set", "spec": value, "lo": item.get("lo", 1), "hi": item.get("hi", 1)}
+    if op == "seq" and isinstance(value, list):
+        return {"op": "seq", "children": value}
+    if op == "repeat":
+        if isinstance(value, dict) and any(key in value for key in ("child", "node", "lo", "hi")):
+            spec = dict(value)
+        else:
+            spec = {"child": value if isinstance(value, dict) else {}, "lo": item.get("lo", 1), "hi": item.get("hi", 1)}
+        for key in ("lo", "hi"):
+            spec.setdefault(key, item.get(key, 1))
+        if "child" not in spec and "node" in spec:
+            spec["child"] = spec["node"]
+        return {"op": "repeat", "lo": spec.get("lo", 1), "hi": spec.get("hi", 1), "child": spec.get("child")}
+    if op == "opt":
+        child = value if isinstance(value, dict) else None
+        return {"op": "opt", "child": child}
+    if op == "alt" and isinstance(value, list):
+        return {"op": "alt", "children": value}
+    raise FactoryError("node_not_object")
+
+
 def _canonicalize(item: dict) -> dict:
     """Lift the single-key dialect (`{"seq":[...]}`, `{"lit":"-"}`) into op nodes."""
     if not isinstance(item, dict):
@@ -157,13 +318,14 @@ def _canonicalize(item: dict) -> dict:
         item = {key: value for key, value in item.items() if key != "short"}
         item = {**item, "op": item.pop("type")}
     if "op" in item:
+        item = _alias_node(item)
         if item.get("op") == "int" and "min" in item:
             return {**item, **_int_fields(item)}
         if item.get("op") == "lex":
             return {**item, "name": _lex_name(item.get("name") or item.get("spec"))}
         return item
     if len(item) != 1:
-        raise FactoryError("node_not_object")
+        return _canonicalize(_lift_multikey(item))
     op, value = next(iter(item.items()))
     op = str(op).lower()
     if op == "seq":
@@ -175,8 +337,8 @@ def _canonicalize(item: dict) -> dict:
     if op in {"lit", "literal"}:
         if isinstance(value, str):
             return {"op": "lit", "text": value}
-        if isinstance(value, dict) and isinstance(value.get("text"), str):
-            return {"op": "lit", "text": value["text"]}
+        if isinstance(value, dict) and isinstance(value.get("text") or value.get("value"), str):
+            return {"op": "lit", "text": value.get("text") or value["value"]}
         raise FactoryError("bad_literal")
     if op in {"cls", "class"}:
         if isinstance(value, str):
@@ -186,7 +348,7 @@ def _canonicalize(item: dict) -> dict:
         if isinstance(value, dict):
             return {
                 "op": "cls",
-                "class": value.get("class") or value.get("cls"),
+                "class": value.get("class") or value.get("cls") or value.get("kind"),
                 "lo": value.get("lo", 1),
                 "hi": value.get("hi", 1),
             }
@@ -209,9 +371,12 @@ def _canonicalize(item: dict) -> dict:
             raise FactoryError("bad_alt")
         return {"op": "alt", "children": value}
     if op == "repeat":
-        if not isinstance(value, dict) or not isinstance(value.get("child"), dict):
+        child = value.get("child") if isinstance(value, dict) else None
+        if not isinstance(child, dict) and isinstance(value, dict):
+            child = value.get("node")
+        if not isinstance(value, dict) or not isinstance(child, dict):
             raise FactoryError("bad_repeat")
-        return {"op": "repeat", "lo": value.get("lo", 1), "hi": value.get("hi", 1), "child": value["child"]}
+        return {"op": "repeat", "lo": value.get("lo", 1), "hi": value.get("hi", 1), "child": child}
     raise FactoryError("unknown_op")
 
 
@@ -679,7 +844,10 @@ def materialize(record: dict, seed: int = 2507, limit: int = 8) -> list[dict]:
                 configs.append(("renamed", renamed))
     tasks = []
     for name, supports in configs[:limit]:
-        bound = bind_program(program, supports)
+        try:
+            bound = bind_program(program, supports)
+        except FactoryError:
+            continue
         candidates = [bound]
         for neighbor in record.get("neighbors") or []:
             try:
@@ -712,6 +880,130 @@ def _ast_shape(node: dict) -> str:
     return op
 
 
+def prog_shape(prog: Prog) -> str:
+    """Same shape string as ``_ast_shape``, read off an executable program."""
+    names = {
+        "SEQ": "seq",
+        "CLS": "cls",
+        "SET": "set",
+        "INT": "int",
+        "LEX": "lex",
+        "COPY": "lit",
+        "OPT": "opt",
+        "ALT": "alt",
+        "REPEAT": "repeat",
+    }
+    name = names.get(prog.op, prog.op.lower())
+    if not prog.children:
+        return name
+    return name + "(" + ",".join(prog_shape(child) for child in prog.children) + ")"
+
+
+def family_key(record: dict) -> str:
+    """A concept family. SemVer wordings share a key, and the split never breaks one."""
+    blob = f"{record.get('concept') or ''} {record.get('description') or ''}".lower()
+    for stem, key in _GROUP_STEMS:
+        if stem in blob:
+            return key
+    semantic = _slug(str(record.get("semantic_type") or ""))
+    domain = record.get("domain") or "other"
+    if semantic and semantic not in _GENERIC_TYPES:
+        return f"{domain}:{semantic}"
+    concept = _slug(str(record.get("concept") or "concept"))
+    return f"{domain}:{concept}"
+
+
+def _has_variable_int(node: dict) -> bool:
+    if node.get("op") == "int" and node.get("lo") != node.get("hi"):
+        return True
+    child = node.get("child")
+    if isinstance(child, dict) and _has_variable_int(child):
+        return True
+    for item in node.get("children") or []:
+        if isinstance(item, dict) and _has_variable_int(item):
+            return True
+    return False
+
+
+def _leading_zero_failure(row: dict) -> bool:
+    """A variable-width integer rejected a positive that keeps a leading zero."""
+    program = row.get("program")
+    positives = row.get("positives")
+    if not isinstance(program, dict) or not isinstance(positives, list):
+        return False
+    try:
+        compiled = compile_node(program)
+        bound = bind_program(compiled, [text for text in positives if isinstance(text, str)])
+    except FactoryError:
+        return False
+    if not _has_variable_int(compiled):
+        return False
+    failed = [text for text in positives if isinstance(text, str) and not _accepts(bound, text, positives)]
+    return any(re.search(r"(^|[^0-9])0\d", text) for text in failed)
+
+
+def classify_rejection(item: dict) -> dict[str, str]:
+    """Bucket one rejected concept: teacher mistake, DSL limit, or parser miss."""
+    reason = str(item.get("reason") or "unknown")
+    row = item.get("row") if isinstance(item.get("row"), dict) else {}
+    detail = reason
+    if reason == "positive_rejected" and _leading_zero_failure(row):
+        bucket, detail = "dsl", "leading_zero"
+    elif reason == "bad_examples":
+        values = row.get("positives") or row.get("near_misses") or []
+        overlong = isinstance(values, list) and any(isinstance(text, str) and len(text) > MAX_TEXT for text in values)
+        bucket, detail = ("dsl", "max_length") if overlong else ("teacher", reason)
+    elif reason == "bad_seq":
+        children = (row.get("program") or {}).get("children") if isinstance(row.get("program"), dict) else None
+        bucket = "dsl" if isinstance(children, list) and len(children) > 6 else "parser"
+    elif reason in _DSL_REASONS:
+        bucket = "dsl"
+    elif reason in _PARSER_REASONS:
+        bucket = "parser"
+    elif reason in _TEACHER_REASONS:
+        bucket = "teacher"
+    else:
+        bucket = "teacher"
+    labels = {"dsl": "DSL limitation", "parser": "parser limitation", "teacher": "bad teacher output"}
+    return {"bucket": bucket, "bucket_label": labels[bucket], "detail": detail, "reason": reason}
+
+
+def assign_splits(records: list[dict], seed: int = 2507) -> dict:
+    """Put whole concept families into train, validation, or held-out.
+
+    The seed only breaks ties. A family is never divided, so two SemVer
+    wordings cannot land on opposite sides.
+    """
+    groups: dict[str, list[str]] = {}
+    for record in records:
+        groups.setdefault(family_key(record), []).append(record["id"])
+
+    def tie(key: str) -> int:
+        return int(_sha(f"{seed}|{key}")[:8], 16)
+
+    order = sorted(groups, key=lambda key: (-len(groups[key]), tie(key), key))
+    targets = {"train": 0.70, "validation": 0.15, "heldout": 0.15}
+    buckets: dict[str, list[str]] = {name: [] for name in targets}
+    families: dict[str, str] = {}
+    for key in order:
+        ids = groups[key]
+        total = sum(len(rows) for rows in buckets.values())
+        name = max(
+            targets,
+            key=lambda item: (targets[item] - (len(buckets[item]) / max(1, total)), targets[item]),
+        )
+        buckets[name].extend(ids)
+        families[key] = name
+    return {
+        "seed": seed,
+        "train": buckets["train"],
+        "validation": buckets["validation"],
+        "heldout": buckets["heldout"],
+        "families": families,
+        "counts": {name: len(rows) for name, rows in buckets.items()},
+    }
+
+
 def diversity(records: list[dict]) -> dict:
     def entropy(groups: dict[str, int]) -> float:
         total = sum(groups.values())
@@ -732,12 +1024,15 @@ def diversity(records: list[dict]) -> dict:
     families: dict[str, int] = {}
     concepts: dict[str, int] = {}
     positives = 0
+    novel = 0
     for record in records:
         programs[json.dumps(record["program"], sort_keys=True)] = programs.get(json.dumps(record["program"], sort_keys=True), 0) + 1
         domains[record["domain"]] = domains.get(record["domain"], 0) + 1
         signatures[record["signature"]] = signatures.get(record["signature"], 0) + 1
         shape = _ast_shape(record["program"])
         shapes[shape] = shapes.get(shape, 0) + 1
+        if shape not in PROCEDURAL_SHAPES:
+            novel += 1
         family = str(record.get("semantic_type") or "unspecified")
         families[family] = families.get(family, 0) + 1
         concepts[record["concept"]] = concepts.get(record["concept"], 0) + 1
@@ -759,6 +1054,8 @@ def diversity(records: list[dict]) -> dict:
         "top10_family_share": round(share(families, 10), 4),
         "mean_positives": round(positives / len(records), 4) if records else 0.0,
         "witnessed_ambiguity": sum(1 for record in records if record.get("ambiguity_status") == "witnessed"),
+        "novel_compositions": novel,
+        "novel_composition_share": round(novel / len(records), 4) if records else 0.0,
         "domain_counts": dict(sorted(domains.items())),
         "family_counts": dict(sorted(families.items())),
     }
@@ -796,12 +1093,16 @@ def extract_concepts(text: str) -> list[dict]:
         end = rest.find("```")
         fenced = rest[:end] if end >= 0 else rest
     values = _json_values(fenced) or _json_values(raw)
+    concepts: list[dict] = []
     for value in values:
         if isinstance(value, dict) and isinstance(value.get("concepts"), list):
-            return [item for item in value["concepts"] if isinstance(item, dict)]
-    for value in values:
-        if isinstance(value, list) and value and all(isinstance(item, dict) for item in value):
-            return value
+            concepts.extend(item for item in value["concepts"] if isinstance(item, dict))
+        elif isinstance(value, list) and value and all(isinstance(item, dict) for item in value):
+            concepts.extend(item for item in value if isinstance(item, dict))
+        elif isinstance(value, dict) and ("program" in value or "concept" in value):
+            concepts.append(value)
+    if concepts:
+        return concepts
     if not values:
         raise FactoryError("no_json")
     raise FactoryError("no_concepts")
@@ -1000,6 +1301,16 @@ def _write_bank_manifest(root: Path) -> dict:
     return payload
 
 
+def _write_split(root: Path, records: list[dict]) -> dict:
+    payload = assign_splits(records)
+    payload["generator_version"] = GENERATOR_VERSION
+    payload["template_count"] = len(records)
+    path = root / "data" / "factory" / "manifests" / "split_v1.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2) + "\n")
+    return payload
+
+
 def _run_rows(root: Path) -> list[dict]:
     base = root / "data" / "factory" / "runs"
     rows = []
@@ -1055,11 +1366,27 @@ def render_report(root: Path) -> str:
         f"Top-10 operator-combination share {report['top10_signature_share']:.3f}. "
         f"Top-10 semantic-family share {report['top10_family_share']:.3f}. "
         f"Mean positives per language {report['mean_positives']:.2f}. "
-        f"Witnessed ambiguity {report['witnessed_ambiguity']}.",
-        "",
-        "Novel-composition share waits on the compositional generator. This page counts teacher templates.",
+        f"Witnessed ambiguity {report['witnessed_ambiguity']}. "
+        f"Novel-composition share {report['novel_composition_share']:.3f} "
+        f"({report['novel_compositions']} templates whose AST shape is outside the procedural sampler).",
         "",
     ]
+    split = _write_split(root, records)
+    counts = split["counts"]
+    lines.append(
+        f"Concept-level split, seed 2507: train {counts['train']}, "
+        f"validation {counts['validation']}, held out {counts['heldout']}. "
+        "A family stays on one side. The evidence scorer and the expansion prior are not retrained on this bank."
+    )
+    held_families = sorted(key for key, name in split["families"].items() if name == "heldout")
+    if held_families:
+        shown = ", ".join(f"`{name}`" for name in held_families[:12])
+        extra = len(held_families) - 12
+        if extra > 0:
+            shown += f", and {extra} more"
+        lines.append("")
+        lines.append(f"Held-out families: {shown}.")
+    lines.append("")
     runs = _run_rows(root)
     if runs:
         banked_runs: dict[str, int] = {}
@@ -1088,26 +1415,40 @@ def render_report(root: Path) -> str:
         lines.append("")
     rejected = root / "data" / "factory" / "rejected" / "concepts.jsonl"
     reasons: dict[str, int] = {}
+    buckets: dict[str, int] = {}
+    details: dict[tuple[str, str], int] = {}
     if rejected.exists():
         banked = {(record.get("run"), record.get("concept")) for record in records}
-        latest: dict[tuple, str] = {}
-        anonymous: list[str] = []
+        latest_items: dict[tuple, dict] = {}
+        anonymous_items: list[dict] = []
         for line in rejected.read_text().splitlines():
             if not line.strip():
                 continue
             item = json.loads(line)
-            reason = item.get("reason") or "unknown"
             concept = item.get("concept")
             if concept:
-                latest[(item.get("run"), concept)] = reason
+                latest_items[(item.get("run"), concept)] = item
             else:
-                anonymous.append(reason)
-        for key, reason in latest.items():
-            if key in banked:
-                continue
-            reasons[reason] = reasons.get(reason, 0) + 1
-        for reason in anonymous:
-            reasons[reason] = reasons.get(reason, 0) + 1
+                anonymous_items.append(item)
+        kept = [item for key, item in latest_items.items() if key not in banked]
+        kept.extend(anonymous_items)
+        for item in kept:
+            view = classify_rejection(item)
+            buckets[view["bucket_label"]] = buckets.get(view["bucket_label"], 0) + 1
+            pair = (view["bucket_label"], view["detail"])
+            details[pair] = details.get(pair, 0) + 1
+            reasons[view["reason"]] = reasons.get(view["reason"], 0) + 1
+    if buckets:
+        lines.append("| Rejection bucket | Count |")
+        lines.append("| --- | ---: |")
+        for name, count in sorted(buckets.items(), key=lambda item: -item[1]):
+            lines.append(f"| {name} | {count} |")
+        lines.append("")
+        lines.append("| Bucket | Detail | Count |")
+        lines.append("| --- | --- | ---: |")
+        for (bucket, detail), count in sorted(details.items(), key=lambda item: -item[1]):
+            lines.append(f"| {bucket} | {detail} | {count} |")
+        lines.append("")
     if reasons:
         lines.append("| Reject reason | Count |")
         lines.append("| --- | ---: |")
@@ -1171,6 +1512,7 @@ def generate(root: Path, prompt_name: str, domain: str = "", max_output_tokens: 
     )
     ledger = _ledger(root)
     ledger["spent_usd"] = round(ledger["spent_usd"] + cost, 6)
+    ledger["budget_usd"] = BUDGET_USD
     ledger["calls"] = ledger["calls"] + 1
     ledger["events"].append(
         {"run": manifest["run"], "model": model, "cost_usd": round(cost, 6), "usage": usage, "accepted": manifest["accepted"]}
@@ -1182,15 +1524,78 @@ def generate(root: Path, prompt_name: str, domain: str = "", max_output_tokens: 
     return manifest
 
 
+def _completed_pairs(root: Path) -> set[tuple[str, str]]:
+    found: set[tuple[str, str]] = set()
+    base = root / "data" / "factory" / "runs"
+    if not base.exists():
+        return found
+    for path in base.glob("*/request.json"):
+        request = json.loads(path.read_text())
+        prompt = Path(str(request.get("prompt_file") or "")).name
+        domain = str(request.get("domain") or "")
+        if prompt and domain:
+            found.add((prompt, domain))
+    return found
+
+
+def campaign_plan() -> list[tuple[str, str]]:
+    """Prompt and domain pairs. Pairs already stored on disk are skipped by the runner."""
+    plan: list[tuple[str, str]] = []
+    for prompt in ("prior_decisions_v1.md", "real_world_concepts_v2.md", "ambiguity_v2.md"):
+        for domain in CAMPAIGN_DOMAINS:
+            plan.append((prompt, domain))
+    already = {"software", "finance", "legal", "healthcare", "logistics"}
+    for domain in CAMPAIGN_DOMAINS:
+        if domain in already:
+            continue
+        plan.append(("domain_expansion_v1.md", domain))
+    return plan
+
+
+def campaign(root: Path, target: int = 400, max_output_tokens: int = 8000) -> dict:
+    """Keep calling the teacher until the bank reaches ``target`` or the cap."""
+    done = _completed_pairs(root)
+    results = []
+    for prompt, domain in campaign_plan():
+        if (prompt, domain) in done:
+            continue
+        if len(load_templates(root)) >= target:
+            break
+        try:
+            manifest = generate(root, prompt, domain, max_output_tokens)
+        except RuntimeError as exc:
+            results.append({"prompt": prompt, "domain": domain, "error": str(exc)})
+            print(json.dumps(results[-1]), flush=True)
+            if "budget" in str(exc):
+                break
+            continue
+        results.append(
+            {
+                "prompt": prompt,
+                "domain": domain,
+                "run": manifest.get("run"),
+                "accepted": manifest.get("accepted"),
+                "rejected": manifest.get("rejected"),
+                "cost_usd": manifest.get("cost_usd"),
+            }
+        )
+        print(json.dumps(results[-1]), flush=True)
+        page = root / "results" / "factory" / "bank.md"
+        page.parent.mkdir(parents=True, exist_ok=True)
+        page.write_text(render_report(root))
+    return {"templates": len(load_templates(root)), "calls": len(results), "results": results}
+
+
 def main() -> None:
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--stage", choices=("generate", "diversity", "preview", "reprocess"), required=True)
+    parser.add_argument("--stage", choices=("generate", "diversity", "preview", "reprocess", "campaign"), required=True)
     parser.add_argument("--run", default="")
     parser.add_argument("--prompt", default="real_world_concepts_v1.md")
     parser.add_argument("--domain", default="logistics")
     parser.add_argument("--max-output-tokens", type=int, default=5000)
+    parser.add_argument("--target", type=int, default=400)
     parser.add_argument("--limit", type=int, default=8)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
@@ -1207,6 +1612,9 @@ def main() -> None:
         page = root / "results" / "factory" / "bank.md"
         page.parent.mkdir(parents=True, exist_ok=True)
         page.write_text(render_report(root))
+    elif args.stage == "campaign":
+        summary = campaign(root, args.target, max(args.max_output_tokens, 8000))
+        print(json.dumps({"templates": summary["templates"], "calls": summary["calls"]}), flush=True)
     elif args.stage == "diversity":
         page = root / "results" / "factory" / "bank.md"
         page.parent.mkdir(parents=True, exist_ok=True)

@@ -135,8 +135,18 @@ def regex_complexity(pattern: str) -> dict:
     }
 
 
+_COMPILED: dict[str, re.Pattern] = {}
+_COMPILED_CAP = 8192
+
+
 def compile_regex(pattern: str) -> re.Pattern:
-    return re.compile(pattern)
+    cached = _COMPILED.get(pattern)
+    if cached is not None:
+        return cached
+    compiled = re.compile(pattern)
+    if len(_COMPILED) < _COMPILED_CAP:
+        _COMPILED[pattern] = compiled
+    return compiled
 
 
 def _rate(hits: int, total: int) -> float:

@@ -1,8 +1,8 @@
 {
   "run": "2026-09-29_terra_005",
-  "accepted": 3,
+  "accepted": 0,
   "rejected": 3,
-  "parser_version": "factory-3",
+  "parser_version": "factory-4",
   "reject_reasons": [
     "positive_rejected",
     "bad_literal",

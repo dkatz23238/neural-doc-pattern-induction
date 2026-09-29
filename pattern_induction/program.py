@@ -64,8 +64,23 @@ class Prog:
     spec: str = ""
     children: list["Prog"] = field(default_factory=list)
 
+    def __post_init__(self) -> None:
+        child_ids = tuple(child.__dict__["_ast_id"] for child in self.children)
+        key = (self.op, self.slot, self.start, self.end, self.cls, self.lo, self.hi, self.spec, child_ids)
+        ident = _AST.get(key)
+        if ident is None:
+            ident = len(_AST) + 1
+            _AST[key] = ident
+        self.__dict__["_ast_id"] = ident
+        self.__dict__["_nodes"] = 1 + sum(child.__dict__["_nodes"] for child in self.children)
+
     def nodes(self) -> int:
-        return 1 + sum(child.nodes() for child in self.children)
+        count = self.__dict__.get("_nodes")
+        if isinstance(count, int):
+            return count
+        total = 1 + sum(child.nodes() for child in self.children)
+        self.__dict__["_nodes"] = total
+        return total
 
 
 @dataclass
@@ -97,24 +112,51 @@ def _literal(prog: Prog, supports: list[str]) -> str:
 
 _MEMBERSHIP: dict[tuple, object] = {}
 _MEMBERSHIP_CAP = 200_000
+_AST: dict[tuple, int] = {}
+_DESCRIBE: dict[int, str] = {}
+_PIECE: dict[tuple[int, int], str] = {}
+_SUPPORTS: dict[tuple[str, ...], int] = {}
+
+
+def ast_id(prog: Prog) -> int:
+    """Intern a canonical structural identity. Equal trees share one id."""
+    cached = prog.__dict__.get("_ast_id")
+    if isinstance(cached, int):
+        return cached
+    child_ids = tuple(ast_id(child) for child in prog.children)
+    key = (prog.op, prog.slot, prog.start, prog.end, prog.cls, prog.lo, prog.hi, prog.spec, child_ids)
+    ident = _AST.get(key)
+    if ident is None:
+        ident = len(_AST) + 1
+        _AST[key] = ident
+    prog.__dict__["_ast_id"] = ident
+    return ident
+
+
+def supports_id(supports: list[str]) -> int:
+    key = tuple(supports)
+    ident = _SUPPORTS.get(key)
+    if ident is None:
+        ident = len(_SUPPORTS)
+        _SUPPORTS[key] = ident
+    return ident
 
 
 def _membership_key(prog: Prog, text: str, supports: list[str], index: int) -> tuple:
-    return (describe(prog), text, tuple(supports), index)
+    return (ast_id(prog), text, supports_id(supports), index)
 
 
 def advance(prog: Prog, text: str, supports: list[str], index: int = 0) -> tuple[int, ...]:
     """Ends reachable by matching `prog` at `index`. The match need not consume `text`."""
-    key = _membership_key(prog, text, supports, index)
-    cached = _MEMBERSHIP.get(key)
-    if isinstance(cached, tuple):
-        return cached
-    memo: dict[tuple[int, int], tuple[int, ...]] = {}
+    sid = supports_id(supports)
 
     def ends(node: Prog, cursor: int) -> tuple[int, ...]:
-        key = (id(node), cursor)
-        cached = memo.get(key)
-        if cached is not None:
+        ident = node.__dict__.get("_ast_id")
+        if not isinstance(ident, int):
+            ident = ast_id(node)
+        key = (ident, text, sid, cursor)
+        cached = _MEMBERSHIP.get(key)
+        if isinstance(cached, tuple):
             return cached
         if node.op == "COPY":
             literal = _literal(node, supports)
@@ -183,13 +225,11 @@ def advance(prog: Prog, text: str, supports: list[str], index: int = 0) -> tuple
             result = tuple(dict.fromkeys(found))
         else:
             result = ()
-        memo[key] = result
+        if len(_MEMBERSHIP) < _MEMBERSHIP_CAP:
+            _MEMBERSHIP[key] = result
         return result
 
-    result = ends(prog, index)
-    if len(_MEMBERSHIP) < _MEMBERSHIP_CAP:
-        _MEMBERSHIP[key] = result
-    return result
+    return ends(prog, index)
 
 
 def execute(prog: Prog, text: str, supports: list[str]) -> bool:
@@ -209,6 +249,7 @@ def agrees(prog: Prog, supports: list[str], probe: list[tuple[str, bool]]) -> bo
 
 def to_regex(prog: Prog, supports: list[str]) -> str:
     """Render the program against these supports. The executor remains the judge."""
+    sid = supports_id(supports)
 
     def quant(lo: int, hi: int) -> str:
         if lo == hi:
@@ -218,56 +259,71 @@ def to_regex(prog: Prog, supports: list[str]) -> str:
         return "{" + str(lo) + "," + str(hi) + "}"
 
     def piece(node: Prog) -> str:
+        key = (ast_id(node), sid)
+        cached = _PIECE.get(key)
+        if cached is not None:
+            return cached
         if node.op == "COPY":
-            return re.escape(_literal(node, supports))
-        if node.op == "CLS":
+            rendered = re.escape(_literal(node, supports))
+        elif node.op == "CLS":
             body = {"digit": r"\d", "upper": r"[A-Z]", "lower": r"[a-z]"}.get(node.cls, r"\d")
             lo = max(1, min(node.lo, node.hi))
             hi = max(lo, node.hi)
-            return body + quant(lo, hi)
-        if node.op == "SET":
+            rendered = body + quant(lo, hi)
+        elif node.op == "SET":
             lo = max(1, min(node.lo, node.hi))
             hi = max(lo, node.hi)
-            return "[" + node.spec + "]" + quant(lo, hi)
-        if node.op == "INT":
+            rendered = "[" + node.spec + "]" + quant(lo, hi)
+        elif node.op == "INT":
             lo = max(1, min(node.lo, node.hi))
             hi = max(lo, node.hi)
-            return integer_regex(node.spec, lo, hi)
-        if node.op == "LEX":
-            return lexicon_regex(node.spec)
-        if node.op == "OPT" and node.children:
-            return "(?:" + piece(node.children[0]) + ")?"
-        if node.op == "ALT" and len(node.children) >= 2:
-            return "(?:" + piece(node.children[0]) + "|" + piece(node.children[1]) + ")"
-        if node.op == "SEQ":
-            return "".join(piece(child) for child in node.children)
-        if node.op == "REPEAT" and node.children:
-            return "(?:" + piece(node.children[0]) + ")" + quant(node.lo, node.hi)
-        return ""
+            rendered = integer_regex(node.spec, lo, hi)
+        elif node.op == "LEX":
+            rendered = lexicon_regex(node.spec)
+        elif node.op == "OPT" and node.children:
+            rendered = "(?:" + piece(node.children[0]) + ")?"
+        elif node.op == "ALT" and len(node.children) >= 2:
+            rendered = "(?:" + piece(node.children[0]) + "|" + piece(node.children[1]) + ")"
+        elif node.op == "SEQ":
+            rendered = "".join(piece(child) for child in node.children)
+        elif node.op == "REPEAT" and node.children:
+            rendered = "(?:" + piece(node.children[0]) + ")" + quant(node.lo, node.hi)
+        else:
+            rendered = ""
+        if len(_PIECE) < _MEMBERSHIP_CAP:
+            _PIECE[key] = rendered
+        return rendered
 
     return "^" + piece(prog) + "$"
 
 
 def describe(prog: Prog) -> str:
+    ident = ast_id(prog)
+    cached = _DESCRIBE.get(ident)
+    if cached is not None:
+        return cached
     if prog.op == "COPY":
-        return f"COPY({prog.slot}:{prog.start}-{prog.end})"
-    if prog.op == "CLS":
-        return f"{prog.cls}{{{prog.lo},{prog.hi}}}"
-    if prog.op == "SET":
-        return f"SET[{prog.spec}]{{{prog.lo},{prog.hi}}}"
-    if prog.op == "INT":
-        return f"INT[{prog.spec}]{{{prog.lo},{prog.hi}}}"
-    if prog.op == "LEX":
-        return f"LEX[{prog.spec}]"
-    if prog.op == "REPEAT" and prog.children:
-        return f"REP{prog.lo}-{prog.hi}({describe(prog.children[0])})"
-    if prog.op == "OPT" and prog.children:
-        return f"OPT({describe(prog.children[0])})"
-    if prog.op == "ALT":
-        return "ALT(" + ",".join(describe(child) for child in prog.children) + ")"
-    if prog.op == "SEQ":
-        return "SEQ(" + ",".join(describe(child) for child in prog.children) + ")"
-    return "?"
+        text = f"COPY({prog.slot}:{prog.start}-{prog.end})"
+    elif prog.op == "CLS":
+        text = f"{prog.cls}{{{prog.lo},{prog.hi}}}"
+    elif prog.op == "SET":
+        text = f"SET[{prog.spec}]{{{prog.lo},{prog.hi}}}"
+    elif prog.op == "INT":
+        text = f"INT[{prog.spec}]{{{prog.lo},{prog.hi}}}"
+    elif prog.op == "LEX":
+        text = f"LEX[{prog.spec}]"
+    elif prog.op == "REPEAT" and prog.children:
+        text = f"REP{prog.lo}-{prog.hi}({describe(prog.children[0])})"
+    elif prog.op == "OPT" and prog.children:
+        text = f"OPT({describe(prog.children[0])})"
+    elif prog.op == "ALT":
+        text = "ALT(" + ",".join(describe(child) for child in prog.children) + ")"
+    elif prog.op == "SEQ":
+        text = "SEQ(" + ",".join(describe(child) for child in prog.children) + ")"
+    else:
+        text = "?"
+    _DESCRIBE[ident] = text
+    return text
 
 
 def _find_span(supports: list[str], literal: str) -> tuple[int, int, int] | None:

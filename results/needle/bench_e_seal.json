@@ -1,11 +1,14 @@
 {
   "benchmark": "BENCH-E",
-  "role": "untouched external split",
-  "scored": false,
-  "inspected": false,
+  "role": "external split, scored once",
+  "scored": true,
+  "inspected": true,
   "n": 100,
   "sha256": "f370a1707179ede5212d360751c5fb23ae7b6f507ec75665cd727dffc920ba9d",
   "seed": 2507,
   "replicates": 4,
-  "note": "Do not score or inspect until the architecture and the grammar are frozen. BENCH-C is the diagnostic set."
+  "accuracy": 0.9847916666666667,
+  "protocol": "code-length symbolic selector, digit-literal charge, eight presented candidates, all visible strings",
+  "product_clip_accuracy": 0.965625,
+  "note": "Scored once after the v1 freeze. No tuning afterward. BENCH-C remains the development benchmark at 0.9625."
 }

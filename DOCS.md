@@ -2,7 +2,7 @@
 
 These commands are not required to call `needle()` or to rerun the compositional prior. They reproduce the frozen stack and the earlier measurements. Run them from the repo root with `uv run python`. `PYTHONPATH=. python` is the same entry point when the packages are importable.
 
-BENCH-C is a diagnostic set. Training and checkpoint selection do not use it. BENCH-E stays sealed: `tests/test_bench_e.py` checks the seal, and `scripts/run_needle.py --stage summary` prints that it was not scored.
+BENCH-C is the development benchmark for the frozen code-length selector (0.9625). BENCH-E was scored once after the v1 freeze (0.9848). `tests/test_bench_e.py` checks that the file hash is unchanged. Do not retune from that score.
 
 ## Frozen checkpoints
 

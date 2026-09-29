@@ -1,9 +1,8 @@
-"""BENCH-E: a sealed external split.
+"""BENCH-E: external split.
 
-Generated once from a fixed seed. It is not a development set. Do not score
-it, print its tasks, or choose a model, a fact, or a grammar production by
-looking at it. BENCH-C is the diagnostic set. This file stays closed until
-the architecture and the grammar are frozen.
+Generated once from a fixed seed. Scored once after the v1 freeze. Do not
+retune the selector, the grammar, or a checkpoint from this file. BENCH-C
+remains the development benchmark.
 """
 
 from __future__ import annotations
@@ -202,7 +201,10 @@ def generate_bench_e(seed: int = SEED, replicates: int = REPLICATES) -> list[Tas
 
 
 def seal_bench_e(root: Path, seed: int = SEED) -> dict:
-    """Write the split and its seal. The seal records that nothing was scored."""
+    """Write the split and its seal. A scored seal is left as it is."""
+    existing = root / "results" / "needle" / "bench_e_seal.json"
+    if existing.exists() and json.loads(existing.read_text()).get("scored"):
+        raise RuntimeError("BENCH-E was scored once. The seal is not rewritten.")
     tasks = generate_bench_e(seed)
     path = root / "data" / "bench_e.jsonl"
     write_jsonl(path, tasks)

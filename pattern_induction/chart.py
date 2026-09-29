@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from pattern_induction.program import OPEN, Prog, advance, agrees, execute
+from pattern_induction.program import OPEN, Prog, advance, agrees, ast_id, execute
 from pattern_induction.renaming import structural_class
 
 MAX_NGRAM = 3
@@ -454,24 +454,34 @@ def _dedup(programs: list[tuple[Prog, float]], limit: int) -> list[tuple[Prog, f
     return ranked[:limit]
 
 
+_KEYS: dict[int, str] = {}
+
+
 def _key(prog: Prog) -> str:
+    ident = ast_id(prog)
+    cached = _KEYS.get(ident)
+    if cached is not None:
+        return cached
     if prog.op == "COPY":
-        return f"COPY({prog.slot}:{prog.start}-{prog.end})"
-    if prog.op == "CLS":
-        return f"{prog.cls}{{{prog.lo},{prog.hi}}}"
-    if prog.op == "SET":
-        return f"SET[{prog.spec}]{{{prog.lo},{prog.hi}}}"
-    if prog.op == "INT":
-        return f"INT[{prog.spec}]{{{prog.lo},{prog.hi}}}"
-    if prog.op == "REPEAT" and prog.children:
-        return f"REP{prog.lo}-{prog.hi}({_key(prog.children[0])})"
-    if prog.op == "OPT" and prog.children:
-        return f"OPT({_key(prog.children[0])})"
-    if prog.op == "ALT":
-        return "ALT(" + ",".join(_key(child) for child in prog.children) + ")"
-    if prog.op == "SEQ":
-        return "SEQ(" + ",".join(_key(child) for child in prog.children) + ")"
-    return "?"
+        text = f"COPY({prog.slot}:{prog.start}-{prog.end})"
+    elif prog.op == "CLS":
+        text = f"{prog.cls}{{{prog.lo},{prog.hi}}}"
+    elif prog.op == "SET":
+        text = f"SET[{prog.spec}]{{{prog.lo},{prog.hi}}}"
+    elif prog.op == "INT":
+        text = f"INT[{prog.spec}]{{{prog.lo},{prog.hi}}}"
+    elif prog.op == "REPEAT" and prog.children:
+        text = f"REP{prog.lo}-{prog.hi}({_key(prog.children[0])})"
+    elif prog.op == "OPT" and prog.children:
+        text = f"OPT({_key(prog.children[0])})"
+    elif prog.op == "ALT":
+        text = "ALT(" + ",".join(_key(child) for child in prog.children) + ")"
+    elif prog.op == "SEQ":
+        text = "SEQ(" + ",".join(_key(child) for child in prog.children) + ")"
+    else:
+        text = "?"
+    _KEYS[ident] = text
+    return text
 
 
 def same_fact(fact: Hyp, hyp: Hyp, bounds: bool) -> bool:

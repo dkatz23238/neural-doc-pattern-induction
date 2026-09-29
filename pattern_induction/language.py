@@ -12,7 +12,7 @@ import string
 from collections import Counter, deque
 from dataclasses import dataclass, field
 
-from pattern_induction.program import OPEN, Prog, class_ok, describe, execute
+from pattern_induction.program import OPEN, Prog, ast_id, class_ok, describe, execute
 
 DFA_CAP = 1500
 OPS = ("COPY", "CLS", "SEQ", "REPEAT", "OPT", "ALT")
@@ -61,28 +61,48 @@ class Family:
 
 
 def flatten(prog: Prog) -> Prog:
+    cached = prog.__dict__.get("_flat")
+    if cached is not None:
+        return cached
     if prog.op == "SEQ":
         children: list[Prog] = []
+        changed = False
         for child in prog.children:
             flat = flatten(child)
             if flat.op == "SEQ":
                 children.extend(flat.children)
+                changed = True
             else:
+                changed = changed or flat is not child
                 children.append(flat)
         if len(children) == 1:
-            return children[0]
-        return Prog("SEQ", children=children)
-    return Prog(
-        prog.op,
-        slot=prog.slot,
-        start=prog.start,
-        end=prog.end,
-        cls=prog.cls,
-        lo=prog.lo,
-        hi=prog.hi,
-        spec=prog.spec,
-        children=[flatten(child) for child in prog.children],
-    )
+            result = children[0]
+        elif not changed:
+            result = prog
+        else:
+            result = Prog("SEQ", children=children)
+    elif not prog.children:
+        result = prog
+    else:
+        flat_children = [flatten(child) for child in prog.children]
+        if all(flat is child for flat, child in zip(flat_children, prog.children)):
+            result = prog
+        else:
+            result = Prog(
+                prog.op,
+                slot=prog.slot,
+                start=prog.start,
+                end=prog.end,
+                cls=prog.cls,
+                lo=prog.lo,
+                hi=prog.hi,
+                spec=prog.spec,
+                children=flat_children,
+            )
+    prog.__dict__["_flat"] = result
+    if result is not prog:
+        result.__dict__["_flat"] = result
+    return result
 
 
 def _literal(prog: Prog, supports: list[str]) -> str:
@@ -665,8 +685,10 @@ class GrammarPrior:
         self.copy_n = 0
         self.seq_n: Counter[int] = Counter()
         self.seq_total = 0
+        self._score_cache: dict[tuple[int, str], float] = {}
 
     def observe(self, prog: Prog, parent: str = "ROOT", repeat_bounds: bool = False) -> None:
+        self._score_cache.clear()
         prog = flatten(prog)
         self.op[(parent, prog.op)] += 1
         self.parent[parent] += 1
@@ -698,7 +720,14 @@ class GrammarPrior:
         return math.log((count + 0.5) / (total + 0.5 * max(vocab, 1)))
 
     def score(self, prog: Prog, parent: str = "ROOT") -> float:
-        prog = flatten(prog)
+        return self._score_flat(flatten(prog), parent)
+
+    def _score_flat(self, prog: Prog, parent: str) -> float:
+        """Score a tree that flatten has already collapsed. Children stay flat."""
+        key = (ast_id(prog), parent)
+        cached = self._score_cache.get(key)
+        if cached is not None:
+            return cached
         total = 0.0
         total += self._log(self.op[(parent, prog.op)], self.parent[parent], len(OPS))
         if prog.op == "CLS":
@@ -722,7 +751,8 @@ class GrammarPrior:
         elif prog.op == "SEQ":
             total += self._log(self.seq_n[min(4, len(prog.children))], self.seq_total, 3)
         for child in prog.children:
-            total += self.score(child, prog.op)
+            total += self._score_flat(child, prog.op)
+        self._score_cache[key] = total
         return total
 
     def state(self) -> dict:
@@ -822,7 +852,11 @@ def choose_family(
     score_coverage: bool = True,
     evidences: list[float] | None = None,
 ) -> Prog:
-    """Witnesses eliminate languages. The grammar, then stability, breaks a near tie."""
+    """Witnesses eliminate languages. The grammar, then stability, breaks a near tie.
+
+    Grammar scores are computed only inside the witness band. Families outside
+    that band cannot win, so leaving them unscored does not change the pick.
+    """
     stability = stability or {}
     ranked = []
     for index, group in enumerate(families):
@@ -830,16 +864,31 @@ def choose_family(
             evidence = evidences[index]
         else:
             evidence = witness_loglik(group[0], supports, judgments)
-        grammar = max(prior.score(prog) for prog in group)
-        representative = max(group, key=lambda prog: (prior.score(prog), -prog.nodes()))
-        ranked.append((evidence, grammar, stability.get(index, 0.0), representative))
+        ranked.append((evidence, index, group))
     ranked.sort(key=lambda item: item[0], reverse=True)
     best = ranked[0][0]
     band = [item for item in ranked if best - item[0] <= tie]
     battery = boundary_strings(supports) if score_coverage and len(band) <= 64 else []
     scored = []
-    for evidence, grammar, stable, representative in band:
+    for evidence, index, group in band:
+        grammar, representative = _representative(group, prior)
+        stable = stability.get(index, 0.0)
         coverage = sum(bool(execute(representative, text, supports)) for text in battery)
         scored.append((grammar, stable, coverage, representative))
     scored.sort(key=lambda item: (item[0], item[1], item[2]), reverse=True)
     return scored[0][3]
+
+
+def _representative(group: list[Prog], prior: GrammarPrior) -> tuple[float, Prog]:
+    """Highest grammar score, then the smaller tree. Ties keep the earlier program."""
+    grammar = prior.score(group[0])
+    representative = group[0]
+    best_nodes = representative.nodes()
+    for prog in group[1:]:
+        score = prior.score(prog)
+        size = prog.nodes()
+        if score > grammar or (score == grammar and size < best_nodes):
+            grammar = score
+            representative = prog
+            best_nodes = size
+    return grammar, representative
