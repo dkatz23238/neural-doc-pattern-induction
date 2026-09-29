@@ -7,7 +7,16 @@ from pattern_induction.program import Prog
 from prior.config import TrainConfig, load_config
 from prior.features import FEATURE_DIM, candidate_features
 from prior.loss import ranking_loss
-from prior.model import PriorModel, ast_parameter_count, choose_ast, choose_width, trainable_parameters
+from prior.factors import AFFIX, FEAT_DIM, FIELD, OPTIONAL, REPEAT, describe, pack_candidates
+from prior.model import (
+    PriorModel,
+    ast_parameter_count,
+    choose_ast,
+    choose_factor,
+    choose_width,
+    factor_parameter_count,
+    trainable_parameters,
+)
 from prior.support_encode import SUPPORT_DIM
 
 
@@ -141,6 +150,161 @@ class PriorTest(unittest.TestCase):
         batch["support"] = torch.zeros(2, SUPPORT_DIM)
         scores = model(batch)
         self.assertTrue(torch.allclose(scores[0], scores[1], atol=1e-5))
+
+    def test_factor_prior_stays_in_its_band(self):
+        bands = ((15_000, 10_000, 20_000), (40_000, 30_000, 50_000))
+        for target, low, high in bands:
+            hidden = choose_factor(target)
+            model = PriorModel(TrainConfig(kind="factor", target_params=target, name="prior_factor"))
+            count = trainable_parameters(model)
+            self.assertEqual(model.width, hidden)
+            self.assertEqual(count, factor_parameter_count(hidden))
+            self.assertGreaterEqual(count, low)
+            self.assertLessEqual(count, high)
+            self.assertEqual(model.factor.proj[REPEAT].in_features, FEAT_DIM)
+
+    def test_repeat_slot_ignores_the_child(self):
+        supports = ["12-34", "56-78-90", "12-34-56", "78-90"]
+
+        def wrapped(field: Prog) -> Prog:
+            inner = Prog(field.op, cls=field.cls, lo=field.lo, hi=field.hi, spec=field.spec)
+            return Prog(
+                "SEQ",
+                children=[
+                    field,
+                    Prog(
+                        "REPEAT",
+                        lo=1,
+                        hi=3,
+                        children=[Prog("SEQ", children=[Prog("COPY", slot=0, start=2, end=3), inner])],
+                    ),
+                ],
+            )
+
+        digit = wrapped(Prog("CLS", cls="digit", lo=2, hi=2))
+        interval = wrapped(Prog("INT", spec="10:99", lo=2, hi=2))
+        left, left_mask, _left_sig = describe(digit, supports)
+        right, right_mask, _right_sig = describe(interval, supports)
+        self.assertEqual(left[REPEAT], right[REPEAT])
+        self.assertEqual(left_mask[REPEAT], right_mask[REPEAT])
+        self.assertNotEqual(left[FIELD], right[FIELD])
+        optional_digit = Prog(
+            "SEQ",
+            children=[Prog("OPT", children=[Prog("COPY", slot=0, start=0, end=1)]), Prog("CLS", cls="digit", lo=2, hi=2)],
+        )
+        optional_set = Prog(
+            "SEQ",
+            children=[
+                Prog("OPT", children=[Prog("COPY", slot=0, start=0, end=1)]),
+                Prog("SET", spec="digit", lo=2, hi=2),
+            ],
+        )
+        opt_left, _, _ = describe(optional_digit, ["A12", "34", "B56", "78"])
+        opt_right, _, _ = describe(optional_set, ["A12", "34", "B56", "78"])
+        self.assertEqual(opt_left[OPTIONAL], opt_right[OPTIONAL])
+        self.assertEqual(opt_left[AFFIX], opt_right[AFFIX])
+        self.assertNotEqual(opt_left[FIELD], opt_right[FIELD])
+
+    def test_a_wrong_field_can_still_have_the_right_repeat(self):
+        supports = ["12-34", "56-78-90", "12-34-56", "78-90"]
+        gold = Prog(
+            "SEQ",
+            children=[
+                Prog("CLS", cls="digit", lo=2, hi=2),
+                Prog(
+                    "REPEAT",
+                    lo=1,
+                    hi=3,
+                    children=[
+                        Prog(
+                            "SEQ",
+                            children=[
+                                Prog("COPY", slot=0, start=2, end=3),
+                                Prog("CLS", cls="digit", lo=2, hi=2),
+                            ],
+                        )
+                    ],
+                ),
+            ],
+        )
+        wrong = Prog(
+            "SEQ",
+            children=[
+                Prog("CLS", cls="upper", lo=2, hi=2),
+                Prog(
+                    "REPEAT",
+                    lo=1,
+                    hi=3,
+                    children=[
+                        Prog(
+                            "SEQ",
+                            children=[
+                                Prog("COPY", slot=0, start=2, end=3),
+                                Prog("CLS", cls="upper", lo=2, hi=2),
+                            ],
+                        )
+                    ],
+                ),
+            ],
+        )
+        packed = pack_candidates([gold, wrong], supports, [True, False], 2)
+        self.assertEqual(packed["aux"][0, 0].tolist(), [1.0, 1.0, 1.0, 1.0, 1.0])
+        self.assertEqual(packed["aux"][0, 1, FIELD].item(), 0.0)
+        self.assertEqual(packed["aux"][0, 1, REPEAT].item(), 1.0)
+        self.assertEqual(packed["aux"][0, 1, AFFIX].item(), 1.0)
+
+    def test_letter_rename_does_not_change_the_factors(self):
+        program = Prog(
+            "SEQ",
+            children=[
+                Prog("COPY", slot=0, start=0, end=3),
+                Prog("INT", spec="2000:2099", lo=4, hi=4),
+            ],
+        )
+        supports = ["ABC2024", "ABC2025", "ABC2026", "ABC2024"]
+        renamed = ["XYZ2024", "XYZ2025", "XYZ2026", "XYZ2024"]
+        left = pack_candidates([program], supports, [True], 1)
+        right = pack_candidates([program], renamed, [True], 1)
+        for key in left:
+            self.assertTrue(torch.equal(left[key], right[key]), key)
+        model = PriorModel(TrainConfig(kind="factor", target_params=15_000, name="prior_factor"))
+        batch = {
+            "support": torch.zeros(2, SUPPORT_DIM),
+            "feat": torch.cat([left["feat"], right["feat"]]),
+            "present": torch.cat([left["present"], right["present"]]),
+        }
+        scores = model(batch)
+        self.assertTrue(torch.allclose(scores[0], scores[1], atol=1e-5))
+
+    def test_interaction_cannot_exceed_one(self):
+        program = Prog(
+            "SEQ",
+            children=[
+                Prog("CLS", cls="digit", lo=2, hi=2),
+                Prog("REPEAT", lo=1, hi=3, children=[Prog("CLS", cls="digit", lo=2, hi=2)]),
+            ],
+        )
+        packed = pack_candidates([program], ["12", "1234", "123456", "12"], [True], 1)
+        model = PriorModel(TrainConfig(kind="factor", target_params=15_000, name="prior_factor"))
+        for layer in model.factor.proj:
+            torch.nn.init.constant_(layer.weight, 0.1)
+            torch.nn.init.constant_(layer.bias, 0.1)
+        torch.nn.init.constant_(model.factor.support.weight, 0.1)
+        torch.nn.init.constant_(model.factor.support.bias, 0.1)
+        batch = {
+            "support": torch.ones(1, SUPPORT_DIM),
+            "feat": packed["feat"],
+            "present": packed["present"],
+        }
+        model.factor.beta_repeat.data.fill_(0)
+        model.factor.beta_optional.data.fill_(0)
+        with torch.no_grad():
+            base = model(batch)
+            model.factor.beta_repeat.data.fill_(10)
+            shifted = model(batch)
+        delta = (shifted - base).abs()
+        self.assertLessEqual(float(delta.max()), 1.0 + 1e-4)
+        self.assertGreater(float(delta.max()), 0.01)
 
     def test_config_overrides_are_the_only_device_switch(self):
         cfg = load_config("configs/prior_100k.yaml", ["device=cpu", "model_size=30k", "steps=5"])

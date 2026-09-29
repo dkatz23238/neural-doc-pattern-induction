@@ -44,18 +44,17 @@ uv run python -m unittest discover -s tests
 
 ## Current experiment
 
-The AST prior keeps the candidate generator, the compositional corpus, and the trainer fixed, and changes the candidate representation. A program is a tree. Optional, repeat, sequence, and alternation each have one shared composition function. Held out of training: optional prefix plus a character class, a repeated field plus a numeric interval, and a lexicon plus a literal suffix.
+The factorized prior keeps the candidate generator, the compositional corpus, and the trainer fixed. A candidate score is the sum of local pieces: the field, the width, the repeat, the optional, and the affix. The repeat piece does not see its child. Held out of training: optional prefix plus a character class, a repeated field plus a numeric interval, and a lexicon plus a literal suffix.
 
 Shards are written under `results/prior/shards/` and are not committed. A new checkout regenerates them before training.
 
 ```bash
 uv run python -m prior.generate --train 50000 --val 10000 --ood 20000 --seed 2507
-uv run python -m prior.train --config configs/prior_ast_small.yaml device=cpu
-uv run python -m prior.train --config configs/prior_ast_medium.yaml device=cpu
-uv run python -m prior.train --config configs/prior_ast_large.yaml device=cpu
+uv run python -m prior.train --config configs/prior_factor_small.yaml device=cpu
+uv run python -m prior.train --config configs/prior_factor_medium.yaml device=cpu
 ```
 
-`seed=1` repeats a run. `device=cuda` is the same script when CUDA is present; a request for CUDA on a CPU machine exits. Checkpoints go to `results/prior/runs/<name>/seed_<n>/`. `train_prior.py` calls the same main. The flat compositional commands are in [DOCS.md](DOCS.md).
+`seed=1` repeats a run. `device=cuda` is the same script when CUDA is present; a request for CUDA on a CPU machine exits. Checkpoints go to `results/prior/runs/<name>/seed_<n>/`. `train_prior.py` calls the same main. The flat and AST commands are in [DOCS.md](DOCS.md).
 
 The written record is already in the tree. Regenerating it only concatenates the result pages, including the sealed BENCH-E line:
 
@@ -66,8 +65,9 @@ uv run python scripts/run_needle.py --stage summary
 | Page | What it records |
 | --- | --- |
 | `results/needle/summary.md` | Needle, then the prior curves |
-| `results/prior/ast.md` | Recursive candidate encoder, CPU |
+| `results/prior/factor.md` | Sum of local factor scores, CPU |
+| `results/prior/ast.md` | Recursive candidate encoder |
 | `results/prior/diversity.md` | Compositional sampler and the flat 10k / 30k / 100k sweep |
 | `results/prior/scaling.md` | Earlier menu-sampler curve |
 
-On the AST sweep, validation top-1 is 0.937 at 15,065 parameters. Held-out `repeat_interval` reaches 0.341 on the better seed, and `prefix_charset_optional` stays at 0.000. The shared encoder does not clear those compositions. BENCH-E stays sealed.
+On the factorized sweep, validation top-1 is 0.847 at 13,927 parameters and holdout top-1 is 0.513. Held-out `repeat_interval` is 0.730 / 0.701. `prefix_charset_optional` stays at 0.000. BENCH-E stays sealed.

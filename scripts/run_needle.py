@@ -374,6 +374,10 @@ def _summary(root: Path) -> None:
     if ast_path.exists():
         lines.append(ast_path.read_text().rstrip())
         lines.append("")
+    factor_path = root / "results" / "prior" / "factor.md"
+    if factor_path.exists():
+        lines.append(factor_path.read_text().rstrip())
+        lines.append("")
     seal_path = root / "results" / "needle" / "bench_e_seal.json"
     if seal_path.exists():
         seal = json.loads(seal_path.read_text())

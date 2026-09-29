@@ -101,7 +101,7 @@ def load_split(data_dir: Path, split: str, limit: int | None = None, kind: str =
     if not paths:
         raise FileNotFoundError(f"no {split} shards in {data_dir}")
     columns = ["family", "support", "mask", "gold"]
-    if kind == "ast":
+    if kind in {"ast", "factor"}:
         columns.extend(["programs", "supports"])
     else:
         columns.append("candidate")
@@ -113,11 +113,18 @@ def load_split(data_dir: Path, split: str, limit: int | None = None, kind: str =
     gold = torch.tensor(table.column("gold").to_pylist(), dtype=torch.bool)
     family = table.column("family").to_pylist()
     extra: dict[str, torch.Tensor] = {}
-    if kind == "ast":
+    if kind in {"ast", "factor"}:
         if support.shape[-1] != SUPPORT_DIM:
             raise RuntimeError(f"{split} support width {support.shape[-1]} is not {SUPPORT_DIM}")
         candidate = torch.zeros(support.shape[0], MAX_CANDIDATES, FEATURE_DIM)
-        extra = _pack_trees(table.column("programs").to_pylist(), table.column("supports").to_pylist())
+        programs = table.column("programs").to_pylist()
+        support_text = table.column("supports").to_pylist()
+        if kind == "ast":
+            extra = _pack_trees(programs, support_text)
+        else:
+            from prior.factors import pack_rows
+
+            extra = pack_rows(programs, support_text, table.column("gold").to_pylist(), MAX_CANDIDATES)
     else:
         candidate = torch.tensor(table.column("candidate").to_pylist(), dtype=torch.float32)
         if support.shape[-1] != SUPPORT_DIM or candidate.shape[-1] != MAX_CANDIDATES * FEATURE_DIM:
