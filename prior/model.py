@@ -6,7 +6,17 @@ import torch
 from torch import nn
 
 from prior.config import TrainConfig
-from prior.factors import FEAT_DIM, FIELD, N_AUX, N_FACTORS, OPTIONAL as FACTOR_OPTIONAL, REPEAT as FACTOR_REPEAT
+from prior.factors import (
+    AFFIX,
+    FEAT_DIM,
+    FIELD,
+    N_AFFIX_SCOPE,
+    N_AUX,
+    N_FACTORS,
+    N_OPT_SCOPE,
+    OPTIONAL as FACTOR_OPTIONAL,
+    WIDTH,
+)
 from prior.features import FEATURE_DIM, symbolic_score
 from prior.support_encode import SUPPORT_DIM
 from prior.tree import ALT, CHARSET, LEXICON, LEX_NAMES, LITERAL, OPTIONAL, PARAM_DIM, RANGE, REL_DIM, REPEAT, SEQ
@@ -79,16 +89,18 @@ class PriorModel(nn.Module):
             )
             return
         if cfg.kind == "factor":
-            hidden = choose_factor(cfg.target_params)
+            hidden, rank = choose_factor(cfg.target_params)
             self.width = hidden
             self.hidden = hidden
             self.tree_dim = 0
-            self.factor = FactorEncoder(hidden)
+            self.rank = rank
+            self.factor = FactorEncoder(hidden, rank)
             return
         width, hidden = choose_width(cfg.target_params, self.support_dim, self.feat_dim)
         self.width = width
         self.hidden = hidden
         self.tree_dim = 0
+        self.rank = 0
         self.support_proj = nn.Linear(self.support_dim, width)
         self.cand_proj = nn.Linear(self.feat_dim, width)
         self.mlp = nn.Sequential(
@@ -101,7 +113,14 @@ class PriorModel(nn.Module):
 
     def forward(self, batch: dict[str, torch.Tensor], aux: bool = False):
         if self.kind == "factor":
-            return self.factor(batch["support"], batch["feat"], batch["present"], aux=aux)
+            return self.factor(
+                batch["support"],
+                batch["feat"],
+                batch["present"],
+                batch["opt_scope"],
+                batch["affix_scope"],
+                aux=aux,
+            )
         if self.kind == "symbolic":
             values = batch["candidate"].detach().cpu()
             rows = []
@@ -127,30 +146,41 @@ class PriorModel(nn.Module):
 
 
 class FactorEncoder(nn.Module):
-    """Sum of local preference scores.
+    """Sum of local scores plus three typed relations.
 
-    Each factor has its own projection. Repeat features do not include the
-    child, and field features do not include the quantifier. The interaction
-    is ``tanh(beta) * cosine`` of the two hidden states, detached, so it stays
-    inside [-1, 1] and cannot rotate those states into a private pair code.
+    Repeat still does not see its child. Field-width is a low-rank product of
+    those two hidden states. Optional and affix each dot a scope embedding:
+    what the optional governs, and which kind of field the affix attaches to.
+    Scope embeddings start at zero, so an unseen attachment adds nothing.
     """
 
-    def __init__(self, hidden: int):
+    def __init__(self, hidden: int, rank: int):
         super().__init__()
         self.hidden = hidden
+        self.rank = rank
         self.support = nn.Linear(SUPPORT_DIM, hidden)
         self.proj = nn.ModuleList(nn.Linear(FEAT_DIM, hidden) for _ in range(N_FACTORS))
         self.aux_h = nn.Parameter(torch.randn(N_AUX, hidden) * 0.02)
         self.aux_z = nn.Parameter(torch.randn(N_AUX, hidden) * 0.02)
         self.aux_bias = nn.Parameter(torch.zeros(N_AUX))
-        self.beta_repeat = nn.Parameter(torch.zeros(()))
-        self.beta_optional = nn.Parameter(torch.zeros(()))
+        self.field_rel = nn.Linear(hidden, rank)
+        self.width_rel = nn.Linear(hidden, rank)
+        self.optional_rel = nn.Linear(hidden, rank)
+        self.affix_rel = nn.Linear(hidden, rank)
+        self.opt_scope = nn.Embedding(N_OPT_SCOPE, rank)
+        self.affix_scope = nn.Embedding(N_AFFIX_SCOPE, rank)
+        nn.init.zeros_(self.width_rel.weight)
+        nn.init.zeros_(self.width_rel.bias)
+        nn.init.zeros_(self.opt_scope.weight)
+        nn.init.zeros_(self.affix_scope.weight)
 
     def forward(
         self,
         support: torch.Tensor,
         feat: torch.Tensor,
         present: torch.Tensor,
+        opt_scope: torch.Tensor,
+        affix_scope: torch.Tensor,
         aux: bool = False,
     ):
         z = torch.nn.functional.gelu(self.support(support))
@@ -163,8 +193,9 @@ class FactorEncoder(nn.Module):
             score = (z[:, None, :] * hidden).sum(dim=-1) / scale
             total = score if total is None else total + score
             hiddens.append(hidden)
-        total = total + self._interaction(hiddens, present, self.beta_repeat, FACTOR_REPEAT, FIELD)
-        total = total + self._interaction(hiddens, present, self.beta_optional, FACTOR_OPTIONAL, FIELD)
+        total = total + self._field_width(hiddens, present)
+        total = total + self._scope(hiddens[FACTOR_OPTIONAL], self.optional_rel, self.opt_scope, opt_scope, present[..., FACTOR_OPTIONAL])
+        total = total + self._scope(hiddens[AFFIX], self.affix_rel, self.affix_scope, affix_scope, present[..., AFFIX])
         if not aux:
             return total
         stacked = torch.stack(hiddens[:N_AUX], dim=2)
@@ -172,16 +203,17 @@ class FactorEncoder(nn.Module):
         logits = logits + (z[:, None, None, :] * self.aux_z).sum(dim=-1) + self.aux_bias
         return total, logits
 
-    @staticmethod
-    def _interaction(hiddens, present, beta, left: int, right: int) -> torch.Tensor:
-        cosine = _cosine(hiddens[left].detach(), hiddens[right].detach())
-        gate = present[..., left].to(dtype=cosine.dtype) * present[..., right].to(dtype=cosine.dtype)
-        return torch.tanh(beta) * cosine * gate
+    def _field_width(self, hiddens, present: torch.Tensor) -> torch.Tensor:
+        left = self.field_rel(hiddens[FIELD])
+        right = self.width_rel(hiddens[WIDTH])
+        gate = present[..., FIELD].to(dtype=left.dtype) * present[..., WIDTH].to(dtype=left.dtype)
+        return (left * right).sum(dim=-1) / (self.rank ** 0.5) * gate
 
-
-def _cosine(left: torch.Tensor, right: torch.Tensor) -> torch.Tensor:
-    denom = left.norm(dim=-1).clamp_min(1e-6) * right.norm(dim=-1).clamp_min(1e-6)
-    return (left * right).sum(dim=-1) / denom
+    def _scope(self, hidden, proj, table, index: torch.Tensor, present: torch.Tensor) -> torch.Tensor:
+        left = proj(hidden)
+        right = table(index.clamp(min=0))
+        gate = present.to(dtype=left.dtype)
+        return (left * right).sum(dim=-1) / (self.rank ** 0.5) * gate
 
 
 class _Mix(nn.Module):
@@ -335,29 +367,40 @@ def choose_ast(target: int) -> tuple[int, int, int]:
     return best[1], best[2], best[3]
 
 
-def factor_parameter_count(hidden: int) -> int:
+def factor_parameter_count(hidden: int, rank: int) -> int:
     support = SUPPORT_DIM * hidden + hidden
     projections = N_FACTORS * (FEAT_DIM * hidden + hidden)
     auxiliary = N_AUX * (hidden + hidden + 1)
-    return support + projections + auxiliary + 2
+    relations = 4 * (hidden * rank + rank)
+    scopes = (N_OPT_SCOPE + N_AFFIX_SCOPE) * rank
+    return support + projections + auxiliary + relations + scopes
 
 
-def choose_factor(target: int) -> int:
-    """Hidden width whose factorized scorer lands near ``target``."""
+def choose_factor(target: int) -> tuple[int, int]:
+    """Hidden width and relation rank near ``target``.
+
+    The rank stays at most a quarter of the hidden width, so the three typed
+    relations cannot become a second copy of the whole scorer.
+    """
     if target <= 20_000:
         band = (10_000, 20_000)
-    else:
+    elif target <= 50_000:
         band = (30_000, 50_000)
-    best: tuple[int, int] | None = None
-    for hidden in (32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160, 176, 192):
-        count = factor_parameter_count(hidden)
-        if not (band[0] <= count <= band[1]):
-            continue
-        if best is None or abs(count - target) < abs(best[0] - target):
-            best = (count, hidden)
+    else:
+        band = (80_000, 110_000)
+    best: tuple[int, int, int] | None = None
+    for hidden in (32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160, 176, 192, 224, 256, 288, 320, 352):
+        for rank in (8, 16, 32):
+            if rank > hidden // 4:
+                continue
+            count = factor_parameter_count(hidden, rank)
+            if not (band[0] <= count <= band[1]):
+                continue
+            if best is None or abs(count - target) < abs(best[0] - target):
+                best = (count, hidden, rank)
     if best is None:
         raise RuntimeError(f"no factorized shape in band {band} for target {target}")
-    return best[1]
+    return best[1], best[2]
 
 
 def trainable_parameters(model: nn.Module) -> int:

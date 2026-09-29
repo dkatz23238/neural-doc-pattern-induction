@@ -142,6 +142,8 @@ def renaming_invariance(encoder, model: PriorModel | None = None, n: int = 32, s
                 "support": vectors,
                 "feat": torch.stack([item["feat"] for item in packed]),
                 "present": torch.stack([item["present"] for item in packed]),
+                "opt_scope": torch.stack([item["opt_scope"] for item in packed]),
+                "affix_scope": torch.stack([item["affix_scope"] for item in packed]),
                 "mask": torch.ones(2, 1, dtype=torch.bool),
                 "gold": torch.ones(2, 1, dtype=torch.bool),
             }

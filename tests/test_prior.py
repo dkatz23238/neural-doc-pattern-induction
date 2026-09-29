@@ -152,16 +152,19 @@ class PriorTest(unittest.TestCase):
         self.assertTrue(torch.allclose(scores[0], scores[1], atol=1e-5))
 
     def test_factor_prior_stays_in_its_band(self):
-        bands = ((15_000, 10_000, 20_000), (40_000, 30_000, 50_000))
+        bands = ((15_000, 10_000, 20_000), (40_000, 30_000, 50_000), (100_000, 80_000, 110_000))
         for target, low, high in bands:
-            hidden = choose_factor(target)
-            model = PriorModel(TrainConfig(kind="factor", target_params=target, name="prior_factor"))
+            hidden, rank = choose_factor(target)
+            model = PriorModel(TrainConfig(kind="factor", target_params=target, name="prior_rel"))
             count = trainable_parameters(model)
-            self.assertEqual(model.width, hidden)
-            self.assertEqual(count, factor_parameter_count(hidden))
+            self.assertEqual((model.width, model.rank), (hidden, rank))
+            self.assertEqual(count, factor_parameter_count(hidden, rank))
             self.assertGreaterEqual(count, low)
             self.assertLessEqual(count, high)
+            self.assertLessEqual(rank, hidden // 4)
             self.assertEqual(model.factor.proj[REPEAT].in_features, FEAT_DIM)
+            self.assertEqual(model.factor.field_rel.in_features, hidden)
+            self.assertEqual(model.factor.width_rel.in_features, hidden)
 
     def test_repeat_slot_ignores_the_child(self):
         supports = ["12-34", "56-78-90", "12-34-56", "78-90"]
@@ -183,8 +186,8 @@ class PriorTest(unittest.TestCase):
 
         digit = wrapped(Prog("CLS", cls="digit", lo=2, hi=2))
         interval = wrapped(Prog("INT", spec="10:99", lo=2, hi=2))
-        left, left_mask, _left_sig = describe(digit, supports)
-        right, right_mask, _right_sig = describe(interval, supports)
+        left, left_mask, _left_sig, _left_scope = describe(digit, supports)
+        right, right_mask, _right_sig, _right_scope = describe(interval, supports)
         self.assertEqual(left[REPEAT], right[REPEAT])
         self.assertEqual(left_mask[REPEAT], right_mask[REPEAT])
         self.assertNotEqual(left[FIELD], right[FIELD])
@@ -199,8 +202,8 @@ class PriorTest(unittest.TestCase):
                 Prog("SET", spec="digit", lo=2, hi=2),
             ],
         )
-        opt_left, _, _ = describe(optional_digit, ["A12", "34", "B56", "78"])
-        opt_right, _, _ = describe(optional_set, ["A12", "34", "B56", "78"])
+        opt_left, _, _, _ = describe(optional_digit, ["A12", "34", "B56", "78"])
+        opt_right, _, _, _ = describe(optional_set, ["A12", "34", "B56", "78"])
         self.assertEqual(opt_left[OPTIONAL], opt_right[OPTIONAL])
         self.assertEqual(opt_left[AFFIX], opt_right[AFFIX])
         self.assertNotEqual(opt_left[FIELD], opt_right[FIELD])
@@ -272,39 +275,62 @@ class PriorTest(unittest.TestCase):
             "support": torch.zeros(2, SUPPORT_DIM),
             "feat": torch.cat([left["feat"], right["feat"]]),
             "present": torch.cat([left["present"], right["present"]]),
+            "opt_scope": torch.cat([left["opt_scope"], right["opt_scope"]]),
+            "affix_scope": torch.cat([left["affix_scope"], right["affix_scope"]]),
         }
         scores = model(batch)
         self.assertTrue(torch.allclose(scores[0], scores[1], atol=1e-5))
 
-    def test_interaction_cannot_exceed_one(self):
-        program = Prog(
+    def test_typed_scopes_match_the_attachment(self):
+        supports = ["AB-12", "34", "CD-56", "78"]
+        optional_digit = Prog(
+            "SEQ",
+            children=[
+                Prog("OPT", children=[Prog("SEQ", children=[Prog("COPY", slot=0, start=0, end=2), Prog("COPY", slot=0, start=2, end=3)])]),
+                Prog("CLS", cls="digit", lo=2, hi=2),
+            ],
+        )
+        optional_set = Prog(
+            "SEQ",
+            children=[
+                Prog("OPT", children=[Prog("SEQ", children=[Prog("COPY", slot=0, start=0, end=2), Prog("COPY", slot=0, start=2, end=3)])]),
+                Prog("SET", spec="A-Z0-9", lo=2, hi=2),
+            ],
+        )
+        bare_set = Prog(
+            "SEQ",
+            children=[
+                Prog("COPY", slot=0, start=0, end=2),
+                Prog("COPY", slot=0, start=2, end=3),
+                Prog("SET", spec="A-Z0-9", lo=2, hi=2),
+            ],
+        )
+        _feat, _mask, _sig, digit_scope = describe(optional_digit, supports)
+        _feat, _mask, _sig, set_scope = describe(optional_set, supports)
+        _feat, _mask, _sig, bare_scope = describe(bare_set, supports)
+        self.assertEqual(digit_scope[0], set_scope[0])
+        self.assertNotEqual(digit_scope[1], set_scope[1])
+        self.assertEqual(set_scope[1], bare_scope[1])
+        self.assertEqual(bare_scope[0], 0)
+        infix_digit = Prog(
             "SEQ",
             children=[
                 Prog("CLS", cls="digit", lo=2, hi=2),
-                Prog("REPEAT", lo=1, hi=3, children=[Prog("CLS", cls="digit", lo=2, hi=2)]),
+                Prog("COPY", slot=0, start=2, end=3),
+                Prog("CLS", cls="digit", lo=2, hi=2),
             ],
         )
-        packed = pack_candidates([program], ["12", "1234", "123456", "12"], [True], 1)
-        model = PriorModel(TrainConfig(kind="factor", target_params=15_000, name="prior_factor"))
-        for layer in model.factor.proj:
-            torch.nn.init.constant_(layer.weight, 0.1)
-            torch.nn.init.constant_(layer.bias, 0.1)
-        torch.nn.init.constant_(model.factor.support.weight, 0.1)
-        torch.nn.init.constant_(model.factor.support.bias, 0.1)
-        batch = {
-            "support": torch.ones(1, SUPPORT_DIM),
-            "feat": packed["feat"],
-            "present": packed["present"],
-        }
-        model.factor.beta_repeat.data.fill_(0)
-        model.factor.beta_optional.data.fill_(0)
-        with torch.no_grad():
-            base = model(batch)
-            model.factor.beta_repeat.data.fill_(10)
-            shifted = model(batch)
-        delta = (shifted - base).abs()
-        self.assertLessEqual(float(delta.max()), 1.0 + 1e-4)
-        self.assertGreater(float(delta.max()), 0.01)
+        infix_range = Prog(
+            "SEQ",
+            children=[
+                Prog("INT", spec="10:99", lo=2, hi=2),
+                Prog("COPY", slot=0, start=2, end=3),
+                Prog("INT", spec="10:99", lo=2, hi=2),
+            ],
+        )
+        _feat, _mask, _sig, digit_infix = describe(infix_digit, supports)
+        _feat, _mask, _sig, range_infix = describe(infix_range, supports)
+        self.assertNotEqual(digit_infix[1], range_infix[1])
 
     def test_config_overrides_are_the_only_device_switch(self):
         cfg = load_config("configs/prior_100k.yaml", ["device=cpu", "model_size=30k", "steps=5"])
