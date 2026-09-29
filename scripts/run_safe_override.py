@@ -366,19 +366,22 @@ def _reading(report: dict) -> list[str]:
     ]
     lines.append(
         (
-            f"On BENCH-C the override scores {_pct(bench['semantic_accuracy'])}. "
-            f"The symbolic selector scores {_pct(bench['symbolic_accuracy'])}. "
-            f"Needle's alternative scores {_pct(bench['alternative_accuracy'])}. "
-            f"The oracle union of those two scores {_pct(bench['oracle_accuracy'])}. "
-            f"Errors fixed {bench['fixed']}, regressions {bench['regressed']}, net {bench['net']}."
+            f"On BENCH-C the override scores {bench['semantic_accuracy']:.4f}. "
+            f"The symbolic selector scores {bench['symbolic_accuracy']:.4f}. "
+            f"Needle's alternative scores {bench['alternative_accuracy']:.4f}. "
+            f"The oracle union of those two scores {bench['oracle_accuracy']:.4f}. "
+            f"Errors fixed {bench['fixed']}, regressions {bench['regressed']} "
+            f"({bench['regression_rate']:.1%} of tasks), net {bench['net']}."
         )
     )
     easy = next((row for row in bench["families"] if row["failure"] == "success"), None)
     if easy:
+        drop = easy["symbolic"] - easy["chosen"]
         lines.append(
             (
-                f"The easy family (heuristic success, n={easy['n']}) is {_pct(easy['symbolic'])} symbolic "
-                f"and {_pct(easy['chosen'])} with the override."
+                f"The easy family (heuristic success, n={easy['n']}) moves from "
+                f"{easy['symbolic']:.4f} to {easy['chosen']:.4f} (drop {drop:.4f}). "
+                f"The precommitted margin is {EASY_MARGIN:.3f}."
             )
         )
     if bench["cleared_target"]:
@@ -388,18 +391,27 @@ def _reading(report: dict) -> list[str]:
         )
     elif bench["cleared_minimum"]:
         lines.append(
-            "This beats the symbolic baseline without a meaningful easy-family regression. "
+            "This beats the symbolic baseline without breaking the regression budget or the easy-family margin. "
             "It stays short of the 96.7% band."
         )
     else:
         lines.append(
-            "This does not clear the v1 bar. Ship the 96.2% symbolic selector together with the "
+            "This does not clear the v1 bar. The score rises by less than a tenth of a point, "
+            f"while the regression rate is {bench['regression_rate']:.1%}, past the {REGRESSION_BUDGET:.0%} budget. "
+            "It stays short of 96.7%. Ship the 96.2% symbolic selector together with the "
             "learned evidence and confidence machinery. Do not spend another search on the half point."
+        )
+    timeouts = report.get("needle_timeouts")
+    if timeouts:
+        lines.append(
+            f"Needle returned no program within {NEEDLE_LIMIT_S}s on {timeouts} BENCH-C tasks, "
+            "so those rows kept the symbolic winner. This run's oracle union is the fresh Needle program, "
+            "not a replay of the stored 97.7% selector pass."
         )
     lines.append(
         "Epoch and threshold were frozen on held-out formatting variants before BENCH-C was scored. "
         "Training compositions and BENCH-C share document families, so a gain here is an upper bound on transfer. "
-        "BENCH-E was not scored."
+        "BENCH-E was not scored. needle() is unchanged."
     )
     return lines
 
@@ -611,6 +623,7 @@ def main() -> None:
         ],
         "bench_e_scored": False,
         "needle_unchanged": True,
+        "needle_timeouts": sum(1 for row in bench_rows if row.get("timed_out")),
     }
     report["reading"] = _reading(report)
     out = root / "results" / "needle"

@@ -69,6 +69,7 @@ uv run python scripts/run_needle.py --stage summary
 | `results/factory/bank.md` | Accepted concept bank and its diversity |
 | `results/factory/mix.md` | Frozen prior trained with the concept bank |
 | `results/factory/typed.md` | One scale per ambiguity |
+| `results/needle/safe_override.md` | Conservative override of the symbolic selector |
 | `results/prior/expansion.md` | Tiny prior over ambiguous expansions |
 | `results/prior/packets.md` | Identifiability of the local packets |
 | `results/prior/relative.md` | Candidate-relative node scores |
@@ -84,4 +85,6 @@ Sixty-six teacher calls, $3.07 of the $10 cap, left 418 executor-checked templat
 
 The comparison against that bank is in `results/factory/mix.md`. The 1,158-parameter evidence scorer stays frozen. The 1,765-parameter prior is trained again with the same loss, with each batch drawn half from the synthetic ambiguous pool and half from the factory train split. Held-out template top-1 stays with the evidence scorer (mixture 0.417 / 0.438, evidence 0.472 / 0.458).
 
-`results/factory/typed.md` gives each ambiguity its own scale. Factory held-out integer programs beat evidence, and open width no longer falls, but synthetic OOD integer programs still drop by more than 0.02. The teacher bank is not scaled further. BENCH-E stays sealed. `needle()` is unchanged.
+`results/factory/typed.md` gives each ambiguity its own scale. Factory held-out integer programs beat evidence, and open width no longer falls, but synthetic OOD integer programs still drop by more than 0.02. That is a negative result for a v1 prior: the teacher bank is not scaled further.
+
+`results/needle/safe_override.md` keeps the 96.2% symbolic selector and tries a conservative override toward Needle's existing program. On BENCH-C the override scores 0.9633 against 0.9625, with 27 fixes and 26 regressions. The easy family dips from 0.9909 to 0.9862. The v1 bar is missed. Ship the symbolic selector with the learned evidence and confidence machinery. BENCH-E stays sealed. `needle()` is unchanged.
