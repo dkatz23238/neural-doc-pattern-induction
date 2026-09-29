@@ -378,6 +378,11 @@ def render_markdown(payload: dict) -> str:
         f"{_fmt(left['lambda']['charset'])} / {_fmt(left['lambda']['width'])} / {_fmt(left['lambda']['integer'])} / {_fmt(left['lambda']['repeat'])}"
         f" and {_fmt(right['lambda']['charset'])} / {_fmt(right['lambda']['width'])} / {_fmt(right['lambda']['integer'])} / {_fmt(right['lambda']['repeat'])}.",
         "",
+        f"Selected factory validation top-1 {_fmt(left['factory_val_top1'])} / {_fmt(right['factory_val_top1'])} "
+        f"against evidence {_fmt(left['factory_val_evidence_top1'])} / {_fmt(right['factory_val_evidence_top1'])}. "
+        f"Synthetic validation {_fmt(left['val_top1'])} / {_fmt(right['val_top1'])} "
+        f"against evidence {_fmt(left['val_evidence_top1'])} / {_fmt(right['val_evidence_top1'])}.",
+        "",
         f"The gate requires both seeds. On factory held-out, program accuracy on each ambiguity slice is at least the evidence accuracy. Overall held-out accuracy, every synthetic family, and every synthetic ambiguity slice stay within {FAMILY_MARGIN:.2f} of evidence. Retention is separate: integer and loose-repeat held-out programs have to beat evidence.",
         "",
         f"Seed 0 {'clears' if left['passed'] else 'misses'} the gate and {'retains' if left['retained'] else 'does not retain'} integer and loose repeat. "
@@ -500,11 +505,26 @@ def render_markdown(payload: dict) -> str:
         [
             f"Letter-rename invariance {_fmt(left['renaming_invariance'])} / {_fmt(right['renaming_invariance'])}.",
             "",
+            _reading(left, right),
+            "",
             "BENCH-E stays sealed. `needle()` is unchanged. The shared-scale checkpoints are not retrained.",
             "",
         ]
     )
     return "\n".join(lines).rstrip() + "\n"
+
+
+def _reading(left: dict, right: dict) -> str:
+    return "\n\n".join(
+        [
+            "### Reading",
+            "The gate is missed. Separate scales do keep some of the factory signal, and they stop the open-width collapse from the shared scale.",
+            "On factory held-out, integer programs beat evidence on both seeds, 0.556 against 0.500 / 0.463 (n=54). Loose-repeat programs beat evidence on seed 1 by one row, 0.100 against 0.000, and tie evidence at 0.000 on seed 0 (n=10). Charset and open-width programs on those held-out rows tie evidence. Overall held-out is 0.451 / 0.458 against evidence 0.472 / 0.458. Seed 1 matches evidence. Seed 0 is 0.021 under, which is past the 0.02 bar.",
+            "The open-width head no longer drags the synthetic validation slice. Local open-width accuracy stays 0.632 / 0.632, where the shared scale had fallen to 0.525 / 0.404, and the chose-open rate on the synthetic slices stays 0. Charset scale stays small on seed 0 (0.020) and moderate on seed 1 (0.291). Width scale settles near 0.46 / 0.48. Integer scale settles near 1.13 / 1.32. Repeat scale grows to 2.11 / 3.23.",
+            "The integer head still learns a window the synthetic gold does not use. Local integer accuracy on synthetic validation is 0.146 / 0.157. Program accuracy on that validation slice stays within 0.02 of evidence. On synthetic OOD the same slice falls to 0.480 / 0.450 against evidence 0.526 / 0.473, and `repeat_interval` falls with it. Seed 0 also drops `prefix_charset`, `prefix_lexicon`, and `prefix_optional` by just over 0.02. `repeat_width` and `charset_width` stay with evidence.",
+            "Factory integer programs can be kept ahead of evidence without the shared scale's open-width damage. The repeat preference shows up in the head (held-out local accuracy 0.600) and barely in the chosen program. Synthetic OOD integer programs still move by more than 0.02. That is short of a v1 where every other family stays put, so the teacher bank stays at this size.",
+        ]
+    )
 
 
 def main() -> None:

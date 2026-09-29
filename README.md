@@ -68,6 +68,7 @@ uv run python scripts/run_needle.py --stage summary
 | `results/needle/summary.md` | Needle, then the prior curves |
 | `results/factory/bank.md` | Accepted concept bank and its diversity |
 | `results/factory/mix.md` | Frozen prior trained with the concept bank |
+| `results/factory/typed.md` | One scale per ambiguity |
 | `results/prior/expansion.md` | Tiny prior over ambiguous expansions |
 | `results/prior/packets.md` | Identifiability of the local packets |
 | `results/prior/relative.md` | Candidate-relative node scores |
@@ -81,4 +82,6 @@ uv run python scripts/run_needle.py --stage summary
 
 Sixty-six teacher calls, $3.07 of the $10 cap, left 418 executor-checked templates. Unique programs 325, AST shapes 118, semantic families 277, witnessed ambiguity 295, novel-composition share 0.502, top-1 program share 0.084. Whole concept families are assigned to train, validation, or held-out in `data/factory/manifests/split_v1.json`. Rejections are bucketed as bad teacher output, a DSL limitation, or a parser limitation.
 
-The comparison against that bank is in `results/factory/mix.md`. The 1,158-parameter evidence scorer stays frozen. The 1,765-parameter prior is trained again with the same loss, with each batch drawn half from the synthetic ambiguous pool and half from the factory train split. Held-out template top-1 stays with the evidence scorer (mixture 0.417 / 0.438, evidence 0.472 / 0.458). BENCH-E stays sealed. `needle()` is unchanged.
+The comparison against that bank is in `results/factory/mix.md`. The 1,158-parameter evidence scorer stays frozen. The 1,765-parameter prior is trained again with the same loss, with each batch drawn half from the synthetic ambiguous pool and half from the factory train split. Held-out template top-1 stays with the evidence scorer (mixture 0.417 / 0.438, evidence 0.472 / 0.458).
+
+`results/factory/typed.md` gives each ambiguity its own scale. Factory held-out integer programs beat evidence, and open width no longer falls, but synthetic OOD integer programs still drop by more than 0.02. The teacher bank is not scaled further. BENCH-E stays sealed. `needle()` is unchanged.
