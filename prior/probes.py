@@ -15,18 +15,18 @@ from prior.support_encode import SUPPORT_DIM
 
 
 class LinearProbe(nn.Module):
-    def __init__(self, n_out: int):
+    def __init__(self, n_out: int, in_dim: int = SUPPORT_DIM):
         super().__init__()
-        self.fc = nn.Linear(SUPPORT_DIM, n_out)
+        self.fc = nn.Linear(in_dim, n_out)
 
     def forward(self, support: torch.Tensor) -> torch.Tensor:
         return self.fc(support)
 
 
 class TinyProbe(nn.Module):
-    def __init__(self, n_out: int, hidden: int = 32):
+    def __init__(self, n_out: int, hidden: int = 32, in_dim: int = SUPPORT_DIM):
         super().__init__()
-        self.fc1 = nn.Linear(SUPPORT_DIM, hidden)
+        self.fc1 = nn.Linear(in_dim, hidden)
         self.fc2 = nn.Linear(hidden, n_out)
         self.hidden = hidden
 
@@ -34,16 +34,16 @@ class TinyProbe(nn.Module):
         return self.fc2(torch.nn.functional.gelu(self.fc1(support)))
 
 
-def make_probe(kind: str, n_out: int) -> nn.Module:
+def make_probe(kind: str, n_out: int, in_dim: int = SUPPORT_DIM) -> nn.Module:
     if kind == "linear":
-        return LinearProbe(n_out)
+        return LinearProbe(n_out, in_dim)
     if kind == "tiny":
-        return TinyProbe(n_out)
+        return TinyProbe(n_out, in_dim=in_dim)
     raise ValueError(f"unknown probe {kind}")
 
 
-def parameter_count(kind: str, n_out: int) -> int:
-    model = make_probe(kind, n_out)
+def parameter_count(kind: str, n_out: int, in_dim: int = SUPPORT_DIM) -> int:
+    model = make_probe(kind, n_out, in_dim)
     return sum(param.numel() for param in model.parameters())
 
 
@@ -80,7 +80,8 @@ def train_probe(
 ) -> tuple[nn.Module, dict]:
     """Minimize class-balanced cross-entropy. Keep the epoch with the best validation balance."""
     torch.manual_seed(seed)
-    model = make_probe(kind, n_class)
+    in_dim = int(train_x.shape[-1])
+    model = make_probe(kind, n_class, in_dim)
     counts = torch.bincount(train_y, minlength=n_class).float()
     present = counts > 0
     weight = torch.zeros(n_class)
@@ -114,7 +115,7 @@ def train_probe(
             best_state = {key: value.detach().clone() for key, value in model.state_dict().items()}
     model.load_state_dict(best_state)
     model.eval()
-    return model, {"best": best, "history_tail": history[-1], "parameters": parameter_count(kind, n_class)}
+    return model, {"best": best, "history_tail": history[-1], "parameters": parameter_count(kind, n_class, in_dim)}
 
 
 @torch.no_grad()

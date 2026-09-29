@@ -1,0 +1,69 @@
+{
+  "seed": 0,
+  "parameters": 2863,
+  "best_step": 20000,
+  "val_top1": 0.8458,
+  "ood_top1": 0.2773,
+  "val_by_family": {
+    "charset_width": 0.979050279329609,
+    "interval": 0.7863128491620112,
+    "lexicon": 0.9129213483146067,
+    "prefix_charset": 0.9776223776223776,
+    "prefix_interval": 0.7814245810055865,
+    "prefix_lexicon": 0.9115168539325843,
+    "prefix_optional": 1.0,
+    "prefix_width": 0.8910614525139665,
+    "repeat_width": 0.28370786516853935,
+    "stem_lexicon": 0.9859550561797753,
+    "suffix_width": 0.9129213483146067,
+    "width": 0.8505586592178771
+  },
+  "ood_by_family": {
+    "lexicon_suffix": 0.40752962351882405,
+    "prefix_charset_optional": 0.0,
+    "repeat_interval": 0.4245198079231693
+  },
+  "renaming_invariance": 1.0,
+  "history": [
+    {
+      "step": 2000,
+      "val_top1": 0.7679
+    },
+    {
+      "step": 4000,
+      "val_top1": 0.7877
+    },
+    {
+      "step": 6000,
+      "val_top1": 0.8002
+    },
+    {
+      "step": 8000,
+      "val_top1": 0.8052
+    },
+    {
+      "step": 10000,
+      "val_top1": 0.8117
+    },
+    {
+      "step": 12000,
+      "val_top1": 0.8138
+    },
+    {
+      "step": 14000,
+      "val_top1": 0.8198
+    },
+    {
+      "step": 16000,
+      "val_top1": 0.8153
+    },
+    {
+      "step": 18000,
+      "val_top1": 0.8221
+    },
+    {
+      "step": 20000,
+      "val_top1": 0.8458
+    }
+  ]
+}
