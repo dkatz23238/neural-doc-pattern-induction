@@ -7,7 +7,7 @@ from pattern_induction.program import Prog
 from prior.config import TrainConfig, load_config
 from prior.features import FEATURE_DIM, candidate_features
 from prior.loss import ranking_loss
-from prior.model import PriorModel, choose_width, trainable_parameters
+from prior.model import PriorModel, ast_parameter_count, choose_ast, choose_width, trainable_parameters
 from prior.support_encode import SUPPORT_DIM
 
 
@@ -80,6 +80,67 @@ class PriorTest(unittest.TestCase):
             self.assertEqual(task["family"], family)
             self.assertTrue(task["signature"])
             self.assertGreater(sum(task["gold"]), 0)
+            from prior.tree import pack_program, programs_from_json
+
+            for prog in programs_from_json(task["programs"]):
+                pack_program(prog, task["supports"])
+
+    def test_ast_prior_stays_in_its_band(self):
+        bands = ((15_000, 10_000, 20_000), (40_000, 30_000, 50_000), (90_000, 80_000, 100_000))
+        for target, low, high in bands:
+            width, hidden, tree_dim = choose_ast(target)
+            model = PriorModel(TrainConfig(kind="ast", target_params=target, name="prior_ast"))
+            count = trainable_parameters(model)
+            self.assertEqual((model.width, model.hidden, model.tree_dim), (width, hidden, tree_dim))
+            self.assertEqual(count, ast_parameter_count(width, hidden, tree_dim))
+            self.assertGreaterEqual(count, low)
+            self.assertLessEqual(count, high)
+            self.assertGreaterEqual(model.tree_dim, 32)
+            self.assertLessEqual(model.tree_dim, 64)
+
+    def test_repeat_is_one_function_for_a_class_and_a_range(self):
+        model = PriorModel(TrainConfig(kind="ast", target_params=15_000, name="prior_ast"))
+        charset = Prog("REPEAT", lo=1, hi=3, children=[Prog("CLS", cls="upper", lo=2, hi=2)])
+        interval = Prog("REPEAT", lo=1, hi=2, children=[Prog("INT", spec="10:99", lo=2, hi=2)])
+        from prior.tree import pack_candidates
+
+        left = pack_candidates([charset], ["AB", "CD", "EF", "GH"], 1)
+        right = pack_candidates([interval], ["21", "34", "40", "55"], 1)
+        keys = ("kind", "params", "left", "right", "depth", "root", "relation")
+        batch = {key: torch.stack([left[key], right[key]]) for key in keys}
+        batch["support"] = torch.zeros(2, SUPPORT_DIM)
+        scores = model(batch)
+        scores.sum().backward()
+        weight = model.encoder.repeat.net[0].weight
+        self.assertIsNotNone(weight.grad)
+        self.assertGreater(float(weight.grad.abs().sum()), 0.0)
+        self.assertFalse(torch.allclose(scores[0], scores[1], atol=1e-6))
+
+    def test_letter_rename_does_not_change_the_tree(self):
+        program = Prog(
+            "SEQ",
+            children=[
+                Prog("COPY", slot=0, start=0, end=3),
+                Prog("INT", spec="2000:2099", lo=4, hi=4),
+            ],
+        )
+        supports = ["ABC2024", "ABC2025", "ABC2026", "ABC2024"]
+        renamed = ["XYZ2024", "XYZ2025", "XYZ2026", "XYZ2024"]
+        from prior.tree import pack_program
+
+        left = pack_program(program, supports)
+        right = pack_program(program, renamed)
+        for key in left:
+            self.assertTrue(torch.equal(left[key], right[key]), key)
+        model = PriorModel(TrainConfig(kind="ast", target_params=15_000, name="prior_ast"))
+        from prior.tree import pack_candidates
+
+        packed = [pack_candidates([program], group, 1) for group in (supports, renamed)]
+        keys = ("kind", "params", "left", "right", "depth", "root", "relation")
+        batch = {key: torch.stack([item[key] for item in packed]) for key in keys}
+        batch["support"] = torch.zeros(2, SUPPORT_DIM)
+        scores = model(batch)
+        self.assertTrue(torch.allclose(scores[0], scores[1], atol=1e-5))
 
     def test_config_overrides_are_the_only_device_switch(self):
         cfg = load_config("configs/prior_100k.yaml", ["device=cpu", "model_size=30k", "steps=5"])

@@ -31,6 +31,7 @@ from pattern_induction.lexicon import LEXICONS
 from pattern_induction.program import Prog, _MEMBERSHIP, describe, execute
 from prior.dataset import MAX_CANDIDATES
 from prior.features import FEATURE_DIM, candidate_features
+from prior.tree import programs_json
 from prior.support_encode import SUPPORT_DIM, embed_supports, load_frozen_encoder
 
 SEED = 2507
@@ -632,6 +633,7 @@ def build_task(rng: random.Random, family: str, cap: int | None = None) -> dict 
         "signature": signature,
         "supports": supports,
         "candidate": feats,
+        "programs": programs_json(chosen),
         "mask": mask,
         "gold": gold_row,
     }
@@ -684,6 +686,8 @@ def _write_chunk(path: Path, rows: list[dict], embeddings: torch.Tensor) -> None
             "family": [row["family"] for row in rows],
             "support": embeddings.tolist(),
             "candidate": [row["candidate"] for row in rows],
+            "programs": [row["programs"] for row in rows],
+            "supports": [row["supports"] for row in rows],
             "mask": [row["mask"] for row in rows],
             "gold": [row["gold"] for row in rows],
         }

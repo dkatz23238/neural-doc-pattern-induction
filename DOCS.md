@@ -74,9 +74,19 @@ uv run python -m prior.train --config configs/prior_10k.yaml device=cpu name=pri
 uv run python train_prior.py --device cpu --model-size 10k --steps 20000 --batch-size 32
 ```
 
-Overrides are `key=value` or the flags `--device`, `--model-size`, `--steps`, `--batch-size`, and `--mixed-precision`. `name=` chooses the checkpoint directory. `max_train=` keeps a prefix of the training shard. `model_size` is `0`, `10k`, `30k`, `100k`, `300k`, `1m`, `3m`, or `5m`. The compositional sweep stopped at 100k. The menu-sampler curve, including 300k, is `results/prior/scaling.md`.
+Overrides are `key=value` or the flags `--device`, `--model-size`, `--steps`, `--batch-size`, and `--mixed-precision`. `name=` chooses the checkpoint directory. `max_train=` keeps a prefix of the training shard. `model_size` is `0`, `10k`, `30k`, `100k`, `300k`, `1m`, `3m`, or `5m`. `model_size` selects the flat MLP. The AST configs set `kind: ast` and must not be combined with that override. The menu-sampler curve, including 300k, is `results/prior/scaling.md`.
 
-`python -m prior.generate --pilot 8` prints per-family keep rate without writing shards. The full command is in the README.
+`python -m prior.generate --pilot 8` prints per-family keep rate without writing shards. The AST commands are in the README.
+
+The previous representation was a flat 50-d candidate vector on the same compositional corpus. Its record is `results/prior/diversity.md`.
+
+```bash
+uv run python -m prior.train --config configs/prior_0.yaml device=cpu name=prior_div_0
+uv run python -m prior.train --config configs/prior_10k.yaml device=cpu name=prior_div_10k
+uv run python -m prior.train --config configs/prior_30k.yaml device=cpu name=prior_div_30k
+uv run python -m prior.train --config configs/prior_100k.yaml device=cpu name=prior_div_100k
+uv run python -m prior.train --config configs/prior_10k.yaml device=cpu name=prior_div_10k_n5000 max_train=5000
+```
 
 ## How the frozen stack was reached
 

@@ -75,6 +75,6 @@ def load_config(path: str | None, overrides: list[str]) -> TrainConfig:
             setattr(cfg, key, value)
     if cfg.precision not in {"fp32", "bf16"}:
         raise SystemExit(f"precision must be fp32 or bf16, got {cfg.precision}")
-    if cfg.kind not in {"mlp", "symbolic"}:
-        raise SystemExit(f"kind must be mlp or symbolic, got {cfg.kind}")
+    if cfg.kind not in {"mlp", "symbolic", "ast"}:
+        raise SystemExit(f"kind must be mlp, symbolic, or ast, got {cfg.kind}")
     return cfg
