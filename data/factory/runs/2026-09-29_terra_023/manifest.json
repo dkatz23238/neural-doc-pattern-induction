@@ -1,0 +1,11 @@
+{
+  "run": "2026-09-29_terra_023",
+  "model": "gpt-5.6-terra",
+  "prompt": "prior_decisions_v1.md",
+  "prompt_sha256": "af88602a16ea11018649909f3ec4d5ebad66d87d0f599027d4824336bda9286f",
+  "response_sha256": "ea2d0bae9f6da2bd50ae588eed91b682783b1e3249471d269fc4ac2a6dcfd8c8",
+  "parser_version": "factory-3",
+  "accepted": 8,
+  "rejected": 0,
+  "reject_reasons": []
+}

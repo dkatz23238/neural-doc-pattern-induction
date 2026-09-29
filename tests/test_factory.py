@@ -298,12 +298,39 @@ class FactoryTest(unittest.TestCase):
         stored, reason = validate_concept(citation)
         self.assertEqual(reason, "", stored)
         self.assertEqual(stored["program"]["op"], "seq")
-        self.assertEqual(stored["parser_version"], "factory-3")
+        self.assertEqual(stored["parser_version"], "factory-4")
 
     def test_extract_reads_a_fenced_concept_list(self):
         text = "```json\n" + json.dumps({"concepts": [CURRENCY]}) + "\n```"
         rows = extract_concepts(text)
         self.assertEqual(rows[0]["concept"], "invoice currency")
+
+    def test_args_value_and_kind_compile(self):
+        column = {
+            "domain": "software",
+            "concept": "spreadsheet column token",
+            "description": "A column mark and four letters.",
+            "semantic_type": "identifier",
+            "positives": ["col-ABCD", "col-WXYZ"],
+            "near_misses": ["col-ABC", "col-abc"],
+            "program": {
+                "op": "seq",
+                "args": [
+                    {"op": "lit", "value": "col-"},
+                    {"op": "cls", "kind": "upper", "lo": 4, "hi": 4},
+                ],
+            },
+        }
+        stored, reason = validate_concept(column)
+        self.assertEqual(reason, "")
+        self.assertEqual(stored["program"]["children"][0]["text"], "col-")
+        self.assertEqual(stored["program"]["children"][1]["class"], "upper")
+        repeat = compile_node({"op": "repeat", "lo": 1, "hi": 2, "node": {"op": "cls", "kind": "digit", "lo": 1, "hi": 1}})
+        self.assertEqual(repeat["child"]["class"], "digit")
+        self.assertEqual(compile_node({"cls": "upper", "lo": 2, "hi": 2})["class"], "upper")
+        year = compile_node({"int": "year", "min": 1900, "max": 2099, "lo": 4, "hi": 4})
+        self.assertEqual(year["min"], 1900)
+        self.assertEqual(year["lo"], 4)
 
     def test_extract_keeps_concepts_after_a_premature_close(self):
         first = {"concepts": [CURRENCY]}

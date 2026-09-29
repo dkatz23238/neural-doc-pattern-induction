@@ -1,0 +1,13 @@
+{
+  "run": "2026-09-29_terra_042",
+  "model": "gpt-5.6-terra",
+  "prompt": "ambiguity_v2.md",
+  "prompt_sha256": "8d42c7dad0bb4a6dce311bc15593c43e70cb0047efc3fe1c86b70510b45c617e",
+  "response_sha256": "188c5184667c17acb0e38c6688f5bde9c67380a3ef3f5867912095cca75ae6a3",
+  "parser_version": "factory-3",
+  "accepted": 0,
+  "rejected": 1,
+  "reject_reasons": [
+    "no_concepts"
+  ]
+}

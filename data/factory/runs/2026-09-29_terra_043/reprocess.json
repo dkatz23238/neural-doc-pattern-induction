@@ -1,0 +1,9 @@
+{
+  "run": "2026-09-29_terra_043",
+  "accepted": 0,
+  "rejected": 1,
+  "parser_version": "factory-4",
+  "reject_reasons": [
+    "bad_examples"
+  ]
+}

@@ -1,7 +1,7 @@
 {
-  "spent_usd": 0.319842,
-  "calls": 7,
-  "budget_usd": 4.0,
+  "spent_usd": 3.068656,
+  "calls": 66,
+  "budget_usd": 10.0,
   "events": [
     {
       "run": "2026-09-29_terra_001",
@@ -128,6 +128,1068 @@
         "total_tokens": 4855
       },
       "accepted": 3
+    },
+    {
+      "run": "2026-09-29_terra_008",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.0449,
+      "usage": {
+        "input_tokens": 586,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3644,
+        "output_tokens_details": {
+          "reasoning_tokens": 2232
+        },
+        "total_tokens": 4230
+      },
+      "accepted": 7
+    },
+    {
+      "run": "2026-09-29_terra_009",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.043844,
+      "usage": {
+        "input_tokens": 586,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3556,
+        "output_tokens_details": {
+          "reasoning_tokens": 2195
+        },
+        "total_tokens": 4142
+      },
+      "accepted": 7
+    },
+    {
+      "run": "2026-09-29_terra_010",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.05468,
+      "usage": {
+        "input_tokens": 586,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4459,
+        "output_tokens_details": {
+          "reasoning_tokens": 2812
+        },
+        "total_tokens": 5045
+      },
+      "accepted": 7
+    },
+    {
+      "run": "2026-09-29_terra_011",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.054564,
+      "usage": {
+        "input_tokens": 588,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4449,
+        "output_tokens_details": {
+          "reasoning_tokens": 2722
+        },
+        "total_tokens": 5037
+      },
+      "accepted": 7
+    },
+    {
+      "run": "2026-09-29_terra_012",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.043068,
+      "usage": {
+        "input_tokens": 588,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3491,
+        "output_tokens_details": {
+          "reasoning_tokens": 1961
+        },
+        "total_tokens": 4079
+      },
+      "accepted": 6
+    },
+    {
+      "run": "2026-09-29_terra_013",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.047496,
+      "usage": {
+        "input_tokens": 588,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3860,
+        "output_tokens_details": {
+          "reasoning_tokens": 2560
+        },
+        "total_tokens": 4448
+      },
+      "accepted": 8
+    },
+    {
+      "run": "2026-09-29_terra_014",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.04478,
+      "usage": {
+        "input_tokens": 586,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3634,
+        "output_tokens_details": {
+          "reasoning_tokens": 2112
+        },
+        "total_tokens": 4220
+      },
+      "accepted": 7
+    },
+    {
+      "run": "2026-09-29_terra_015",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.043644,
+      "usage": {
+        "input_tokens": 588,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3539,
+        "output_tokens_details": {
+          "reasoning_tokens": 2139
+        },
+        "total_tokens": 4127
+      },
+      "accepted": 8
+    },
+    {
+      "run": "2026-09-29_terra_016",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.04062,
+      "usage": {
+        "input_tokens": 588,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3287,
+        "output_tokens_details": {
+          "reasoning_tokens": 1799
+        },
+        "total_tokens": 3875
+      },
+      "accepted": 7
+    },
+    {
+      "run": "2026-09-29_terra_017",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.043632,
+      "usage": {
+        "input_tokens": 588,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3538,
+        "output_tokens_details": {
+          "reasoning_tokens": 2200
+        },
+        "total_tokens": 4126
+      },
+      "accepted": 7
+    },
+    {
+      "run": "2026-09-29_terra_018",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.04484,
+      "usage": {
+        "input_tokens": 586,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3639,
+        "output_tokens_details": {
+          "reasoning_tokens": 1960
+        },
+        "total_tokens": 4225
+      },
+      "accepted": 8
+    },
+    {
+      "run": "2026-09-29_terra_019",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.054318,
+      "usage": {
+        "input_tokens": 591,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4428,
+        "output_tokens_details": {
+          "reasoning_tokens": 2983
+        },
+        "total_tokens": 5019
+      },
+      "accepted": 1
+    },
+    {
+      "run": "2026-09-29_terra_020",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.043538,
+      "usage": {
+        "input_tokens": 589,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3530,
+        "output_tokens_details": {
+          "reasoning_tokens": 2070
+        },
+        "total_tokens": 4119
+      },
+      "accepted": 8
+    },
+    {
+      "run": "2026-09-29_terra_021",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.052868,
+      "usage": {
+        "input_tokens": 592,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4307,
+        "output_tokens_details": {
+          "reasoning_tokens": 2920
+        },
+        "total_tokens": 4899
+      },
+      "accepted": 8
+    },
+    {
+      "run": "2026-09-29_terra_022",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.049316,
+      "usage": {
+        "input_tokens": 586,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4012,
+        "output_tokens_details": {
+          "reasoning_tokens": 2572
+        },
+        "total_tokens": 4598
+      },
+      "accepted": 7
+    },
+    {
+      "run": "2026-09-29_terra_023",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.0428,
+      "usage": {
+        "input_tokens": 586,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3469,
+        "output_tokens_details": {
+          "reasoning_tokens": 2070
+        },
+        "total_tokens": 4055
+      },
+      "accepted": 8
+    },
+    {
+      "run": "2026-09-29_terra_024",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.053376,
+      "usage": {
+        "input_tokens": 594,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4349,
+        "output_tokens_details": {
+          "reasoning_tokens": 2308
+        },
+        "total_tokens": 4943
+      },
+      "accepted": 0
+    },
+    {
+      "run": "2026-09-29_terra_025",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.0546,
+      "usage": {
+        "input_tokens": 594,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4451,
+        "output_tokens_details": {
+          "reasoning_tokens": 2507
+        },
+        "total_tokens": 5045
+      },
+      "accepted": 7
+    },
+    {
+      "run": "2026-09-29_terra_026",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.042372,
+      "usage": {
+        "input_tokens": 594,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3432,
+        "output_tokens_details": {
+          "reasoning_tokens": 1837
+        },
+        "total_tokens": 4026
+      },
+      "accepted": 8
+    },
+    {
+      "run": "2026-09-29_terra_027",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.050032,
+      "usage": {
+        "input_tokens": 596,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4070,
+        "output_tokens_details": {
+          "reasoning_tokens": 2293
+        },
+        "total_tokens": 4666
+      },
+      "accepted": 8
+    },
+    {
+      "run": "2026-09-29_terra_028",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.048976,
+      "usage": {
+        "input_tokens": 596,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3982,
+        "output_tokens_details": {
+          "reasoning_tokens": 2349
+        },
+        "total_tokens": 4578
+      },
+      "accepted": 8
+    },
+    {
+      "run": "2026-09-29_terra_029",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.047188,
+      "usage": {
+        "input_tokens": 596,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3833,
+        "output_tokens_details": {
+          "reasoning_tokens": 2352
+        },
+        "total_tokens": 4429
+      },
+      "accepted": 7
+    },
+    {
+      "run": "2026-09-29_terra_030",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.0417,
+      "usage": {
+        "input_tokens": 594,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3376,
+        "output_tokens_details": {
+          "reasoning_tokens": 1777
+        },
+        "total_tokens": 3970
+      },
+      "accepted": 8
+    },
+    {
+      "run": "2026-09-29_terra_031",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.048196,
+      "usage": {
+        "input_tokens": 596,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3917,
+        "output_tokens_details": {
+          "reasoning_tokens": 2440
+        },
+        "total_tokens": 4513
+      },
+      "accepted": 0
+    },
+    {
+      "run": "2026-09-29_terra_032",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.048268,
+      "usage": {
+        "input_tokens": 596,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3923,
+        "output_tokens_details": {
+          "reasoning_tokens": 2307
+        },
+        "total_tokens": 4519
+      },
+      "accepted": 8
+    },
+    {
+      "run": "2026-09-29_terra_033",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.054904,
+      "usage": {
+        "input_tokens": 596,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4476,
+        "output_tokens_details": {
+          "reasoning_tokens": 2376
+        },
+        "total_tokens": 5072
+      },
+      "accepted": 0
+    },
+    {
+      "run": "2026-09-29_terra_034",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.046464,
+      "usage": {
+        "input_tokens": 594,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3773,
+        "output_tokens_details": {
+          "reasoning_tokens": 2101
+        },
+        "total_tokens": 4367
+      },
+      "accepted": 5
+    },
+    {
+      "run": "2026-09-29_terra_035",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.04513,
+      "usage": {
+        "input_tokens": 599,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3661,
+        "output_tokens_details": {
+          "reasoning_tokens": 2070
+        },
+        "total_tokens": 4260
+      },
+      "accepted": 8
+    },
+    {
+      "run": "2026-09-29_terra_036",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.045606,
+      "usage": {
+        "input_tokens": 597,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3701,
+        "output_tokens_details": {
+          "reasoning_tokens": 2302
+        },
+        "total_tokens": 4298
+      },
+      "accepted": 7
+    },
+    {
+      "run": "2026-09-29_terra_037",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.055272,
+      "usage": {
+        "input_tokens": 600,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4506,
+        "output_tokens_details": {
+          "reasoning_tokens": 2569
+        },
+        "total_tokens": 5106
+      },
+      "accepted": 8
+    },
+    {
+      "run": "2026-09-29_terra_038",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.051876,
+      "usage": {
+        "input_tokens": 594,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4224,
+        "output_tokens_details": {
+          "reasoning_tokens": 2318
+        },
+        "total_tokens": 4818
+      },
+      "accepted": 7
+    },
+    {
+      "run": "2026-09-29_terra_039",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.041316,
+      "usage": {
+        "input_tokens": 594,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3344,
+        "output_tokens_details": {
+          "reasoning_tokens": 1812
+        },
+        "total_tokens": 3938
+      },
+      "accepted": 0
+    },
+    {
+      "run": "2026-09-29_terra_040",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.050252,
+      "usage": {
+        "input_tokens": 472,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4109,
+        "output_tokens_details": {
+          "reasoning_tokens": 2458
+        },
+        "total_tokens": 4581
+      },
+      "accepted": 2
+    },
+    {
+      "run": "2026-09-29_terra_041",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.04364,
+      "usage": {
+        "input_tokens": 472,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3558,
+        "output_tokens_details": {
+          "reasoning_tokens": 2245
+        },
+        "total_tokens": 4030
+      },
+      "accepted": 3
+    },
+    {
+      "run": "2026-09-29_terra_042",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.0341,
+      "usage": {
+        "input_tokens": 472,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2763,
+        "output_tokens_details": {
+          "reasoning_tokens": 1289
+        },
+        "total_tokens": 3235
+      },
+      "accepted": 0
+    },
+    {
+      "run": "2026-09-29_terra_043",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.039228,
+      "usage": {
+        "input_tokens": 474,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3190,
+        "output_tokens_details": {
+          "reasoning_tokens": 1738
+        },
+        "total_tokens": 3664
+      },
+      "accepted": 5
+    },
+    {
+      "run": "2026-09-29_terra_044",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.048252,
+      "usage": {
+        "input_tokens": 474,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3942,
+        "output_tokens_details": {
+          "reasoning_tokens": 2334
+        },
+        "total_tokens": 4416
+      },
+      "accepted": 7
+    },
+    {
+      "run": "2026-09-29_terra_045",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.04038,
+      "usage": {
+        "input_tokens": 474,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3286,
+        "output_tokens_details": {
+          "reasoning_tokens": 1779
+        },
+        "total_tokens": 3760
+      },
+      "accepted": 5
+    },
+    {
+      "run": "2026-09-29_terra_046",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.048728,
+      "usage": {
+        "input_tokens": 472,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3982,
+        "output_tokens_details": {
+          "reasoning_tokens": 2588
+        },
+        "total_tokens": 4454
+      },
+      "accepted": 3
+    },
+    {
+      "run": "2026-09-29_terra_047",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.048792,
+      "usage": {
+        "input_tokens": 474,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3987,
+        "output_tokens_details": {
+          "reasoning_tokens": 2223
+        },
+        "total_tokens": 4461
+      },
+      "accepted": 2
+    },
+    {
+      "run": "2026-09-29_terra_048",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.048012,
+      "usage": {
+        "input_tokens": 474,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3922,
+        "output_tokens_details": {
+          "reasoning_tokens": 2150
+        },
+        "total_tokens": 4396
+      },
+      "accepted": 0
+    },
+    {
+      "run": "2026-09-29_terra_049",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.033444,
+      "usage": {
+        "input_tokens": 474,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2708,
+        "output_tokens_details": {
+          "reasoning_tokens": 1599
+        },
+        "total_tokens": 3182
+      },
+      "accepted": 4
+    },
+    {
+      "run": "2026-09-29_terra_050",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.046736,
+      "usage": {
+        "input_tokens": 472,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3816,
+        "output_tokens_details": {
+          "reasoning_tokens": 2588
+        },
+        "total_tokens": 4288
+      },
+      "accepted": 1
+    },
+    {
+      "run": "2026-09-29_terra_051",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.051954,
+      "usage": {
+        "input_tokens": 477,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4250,
+        "output_tokens_details": {
+          "reasoning_tokens": 3025
+        },
+        "total_tokens": 4727
+      },
+      "accepted": 3
+    },
+    {
+      "run": "2026-09-29_terra_052",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.045038,
+      "usage": {
+        "input_tokens": 475,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3674,
+        "output_tokens_details": {
+          "reasoning_tokens": 1968
+        },
+        "total_tokens": 4149
+      },
+      "accepted": 1
+    },
+    {
+      "run": "2026-09-29_terra_053",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.043508,
+      "usage": {
+        "input_tokens": 478,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3546,
+        "output_tokens_details": {
+          "reasoning_tokens": 2318
+        },
+        "total_tokens": 4024
+      },
+      "accepted": 5
+    },
+    {
+      "run": "2026-09-29_terra_054",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.040196,
+      "usage": {
+        "input_tokens": 472,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3271,
+        "output_tokens_details": {
+          "reasoning_tokens": 1847
+        },
+        "total_tokens": 3743
+      },
+      "accepted": 0
+    },
+    {
+      "run": "2026-09-29_terra_055",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.04274,
+      "usage": {
+        "input_tokens": 472,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3483,
+        "output_tokens_details": {
+          "reasoning_tokens": 2143
+        },
+        "total_tokens": 3955
+      },
+      "accepted": 4
+    },
+    {
+      "run": "2026-09-29_terra_056",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.045694,
+      "usage": {
+        "input_tokens": 341,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3751,
+        "output_tokens_details": {
+          "reasoning_tokens": 2223
+        },
+        "total_tokens": 4092
+      },
+      "accepted": 4
+    },
+    {
+      "run": "2026-09-29_terra_057",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.050252,
+      "usage": {
+        "input_tokens": 340,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4131,
+        "output_tokens_details": {
+          "reasoning_tokens": 2296
+        },
+        "total_tokens": 4471
+      },
+      "accepted": 5
+    },
+    {
+      "run": "2026-09-29_terra_058",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.044662,
+      "usage": {
+        "input_tokens": 341,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3665,
+        "output_tokens_details": {
+          "reasoning_tokens": 2425
+        },
+        "total_tokens": 4006
+      },
+      "accepted": 5
+    },
+    {
+      "run": "2026-09-29_terra_059",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.05041,
+      "usage": {
+        "input_tokens": 341,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4144,
+        "output_tokens_details": {
+          "reasoning_tokens": 2570
+        },
+        "total_tokens": 4485
+      },
+      "accepted": 4
+    },
+    {
+      "run": "2026-09-29_terra_060",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.050518,
+      "usage": {
+        "input_tokens": 341,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4153,
+        "output_tokens_details": {
+          "reasoning_tokens": 2493
+        },
+        "total_tokens": 4494
+      },
+      "accepted": 3
+    },
+    {
+      "run": "2026-09-29_terra_061",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.050576,
+      "usage": {
+        "input_tokens": 340,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4158,
+        "output_tokens_details": {
+          "reasoning_tokens": 2564
+        },
+        "total_tokens": 4498
+      },
+      "accepted": 5
+    },
+    {
+      "run": "2026-09-29_terra_062",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.044282,
+      "usage": {
+        "input_tokens": 343,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3633,
+        "output_tokens_details": {
+          "reasoning_tokens": 1872
+        },
+        "total_tokens": 3976
+      },
+      "accepted": 5
+    },
+    {
+      "run": "2026-09-29_terra_063",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.045144,
+      "usage": {
+        "input_tokens": 342,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3705,
+        "output_tokens_details": {
+          "reasoning_tokens": 2105
+        },
+        "total_tokens": 4047
+      },
+      "accepted": 2
+    },
+    {
+      "run": "2026-09-29_terra_064",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.046624,
+      "usage": {
+        "input_tokens": 344,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3828,
+        "output_tokens_details": {
+          "reasoning_tokens": 2326
+        },
+        "total_tokens": 4172
+      },
+      "accepted": 3
+    },
+    {
+      "run": "2026-09-29_terra_065",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.03788,
+      "usage": {
+        "input_tokens": 340,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3100,
+        "output_tokens_details": {
+          "reasoning_tokens": 1464
+        },
+        "total_tokens": 3440
+      },
+      "accepted": 4
+    },
+    {
+      "run": "2026-09-29_terra_066",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.053588,
+      "usage": {
+        "input_tokens": 340,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4409,
+        "output_tokens_details": {
+          "reasoning_tokens": 2588
+        },
+        "total_tokens": 4749
+      },
+      "accepted": 2
     }
   ]
 }

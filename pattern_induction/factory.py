@@ -24,7 +24,7 @@ from pattern_induction.lexicon import LEXICONS, lexicon_members
 from pattern_induction.program import OPEN, Prog, describe, execute
 from pattern_induction.renaming import apply_mapping
 
-PARSER_VERSION = "factory-3"
+PARSER_VERSION = "factory-4"
 GENERATOR_VERSION = "factory-gen-1"
 TEACHER_MODEL = "gpt-5.6-terra"
 # gpt-6-terra is not on this key. The Terra model that answers is gpt-5.6-terra.
@@ -258,6 +258,58 @@ def _set_node(value) -> dict:
     raise FactoryError("bad_set")
 
 
+def _alias_node(item: dict) -> dict:
+    """Rename keys from dialects that already use ``op``."""
+    op = str(item.get("op") or "").lower()
+    if op == "seq" and not isinstance(item.get("children"), list) and isinstance(item.get("args"), list):
+        item = {**item, "op": "seq", "children": item["args"]}
+    if op == "lit" and not isinstance(item.get("text"), str) and isinstance(item.get("value"), str):
+        item = {**item, "text": item["value"]}
+    if op == "cls" and not item.get("class") and item.get("kind"):
+        item = {**item, "class": item["kind"]}
+    if op in {"repeat", "opt"} and not isinstance(item.get("child"), dict) and isinstance(item.get("node"), dict):
+        item = {**item, "child": item["node"]}
+    return item
+
+
+def _lift_multikey(item: dict) -> dict:
+    """A node whose op is a key beside lo, hi, min, or max."""
+    names = {"seq", "cls", "class", "set", "int", "lex", "lit", "literal", "opt", "alt", "repeat"}
+    found = [key for key in item if str(key).lower() in names]
+    if len(found) != 1:
+        raise FactoryError("node_not_object")
+    op = str(found[0]).lower()
+    value = item[found[0]]
+    if op in {"cls", "class"} and isinstance(value, str):
+        return {"op": "cls", "class": value, "lo": item.get("lo", 1), "hi": item.get("hi", 1)}
+    if op in {"lit", "literal"} and isinstance(value, str):
+        return {"op": "lit", "text": value}
+    if op == "int" and not isinstance(value, dict):
+        return {"op": "int", **_int_fields(item)}
+    if op == "lex" and isinstance(value, str):
+        return {"op": "lex", "name": value}
+    if op == "set" and isinstance(value, str):
+        return {"op": "set", "spec": value, "lo": item.get("lo", 1), "hi": item.get("hi", 1)}
+    if op == "seq" and isinstance(value, list):
+        return {"op": "seq", "children": value}
+    if op == "repeat":
+        if isinstance(value, dict) and any(key in value for key in ("child", "node", "lo", "hi")):
+            spec = dict(value)
+        else:
+            spec = {"child": value if isinstance(value, dict) else {}, "lo": item.get("lo", 1), "hi": item.get("hi", 1)}
+        for key in ("lo", "hi"):
+            spec.setdefault(key, item.get(key, 1))
+        if "child" not in spec and "node" in spec:
+            spec["child"] = spec["node"]
+        return {"op": "repeat", "lo": spec.get("lo", 1), "hi": spec.get("hi", 1), "child": spec.get("child")}
+    if op == "opt":
+        child = value if isinstance(value, dict) else None
+        return {"op": "opt", "child": child}
+    if op == "alt" and isinstance(value, list):
+        return {"op": "alt", "children": value}
+    raise FactoryError("node_not_object")
+
+
 def _canonicalize(item: dict) -> dict:
     """Lift the single-key dialect (`{"seq":[...]}`, `{"lit":"-"}`) into op nodes."""
     if not isinstance(item, dict):
@@ -266,13 +318,14 @@ def _canonicalize(item: dict) -> dict:
         item = {key: value for key, value in item.items() if key != "short"}
         item = {**item, "op": item.pop("type")}
     if "op" in item:
+        item = _alias_node(item)
         if item.get("op") == "int" and "min" in item:
             return {**item, **_int_fields(item)}
         if item.get("op") == "lex":
             return {**item, "name": _lex_name(item.get("name") or item.get("spec"))}
         return item
     if len(item) != 1:
-        raise FactoryError("node_not_object")
+        return _canonicalize(_lift_multikey(item))
     op, value = next(iter(item.items()))
     op = str(op).lower()
     if op == "seq":
@@ -284,8 +337,8 @@ def _canonicalize(item: dict) -> dict:
     if op in {"lit", "literal"}:
         if isinstance(value, str):
             return {"op": "lit", "text": value}
-        if isinstance(value, dict) and isinstance(value.get("text"), str):
-            return {"op": "lit", "text": value["text"]}
+        if isinstance(value, dict) and isinstance(value.get("text") or value.get("value"), str):
+            return {"op": "lit", "text": value.get("text") or value["value"]}
         raise FactoryError("bad_literal")
     if op in {"cls", "class"}:
         if isinstance(value, str):
@@ -295,7 +348,7 @@ def _canonicalize(item: dict) -> dict:
         if isinstance(value, dict):
             return {
                 "op": "cls",
-                "class": value.get("class") or value.get("cls"),
+                "class": value.get("class") or value.get("cls") or value.get("kind"),
                 "lo": value.get("lo", 1),
                 "hi": value.get("hi", 1),
             }
@@ -318,9 +371,12 @@ def _canonicalize(item: dict) -> dict:
             raise FactoryError("bad_alt")
         return {"op": "alt", "children": value}
     if op == "repeat":
-        if not isinstance(value, dict) or not isinstance(value.get("child"), dict):
+        child = value.get("child") if isinstance(value, dict) else None
+        if not isinstance(child, dict) and isinstance(value, dict):
+            child = value.get("node")
+        if not isinstance(value, dict) or not isinstance(child, dict):
             raise FactoryError("bad_repeat")
-        return {"op": "repeat", "lo": value.get("lo", 1), "hi": value.get("hi", 1), "child": value["child"]}
+        return {"op": "repeat", "lo": value.get("lo", 1), "hi": value.get("hi", 1), "child": child}
     raise FactoryError("unknown_op")
 
 
