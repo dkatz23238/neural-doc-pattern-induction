@@ -243,6 +243,57 @@ class FactoryTest(unittest.TestCase):
         self.assertTrue(execute(program, "BAY-Z9", stored["positives"]))
         self.assertFalse(execute(program, "BAY-G", stored["positives"]))
 
+    def test_class_spec_and_width_field_compile(self):
+        tracking = {
+            "domain": "logistics",
+            "concept": "uppercase tracking code",
+            "description": "Four letters after a prefix.",
+            "semantic_type": "identifier",
+            "positives": ["TRK-ABCD", "TRK-WXYZ", "TRK-LOGI"],
+            "near_misses": ["TRK-ABC", "TRK-ABCDE", "TRK-A1B2", "TRK-abcd"],
+            "program": {"seq": [{"lit": "TRK-"}, {"repeat": {"child": {"cls": "A-Z"}, "hi": 4, "lo": 4}}]},
+        }
+        stored, reason = validate_concept(tracking)
+        self.assertEqual(reason, "")
+        self.assertEqual(stored["program"]["children"][1]["child"]["op"], "set")
+        self.assertEqual(stored["program"]["children"][1]["child"]["spec"], "A-Z")
+        bay = {
+            "domain": "logistics",
+            "concept": "loading bay number",
+            "description": "Bays 12 through 18, two digits.",
+            "semantic_type": "identifier",
+            "positives": ["BAY-12", "BAY-15", "BAY-18"],
+            "near_misses": ["BAY-11", "BAY-19", "BAY-09", "BAY-120"],
+            "program": {"seq": [{"lit": "BAY-"}, {"int": {"hi": 18, "lo": 12, "width": 2}}]},
+        }
+        stored, reason = validate_concept(bay)
+        self.assertEqual(reason, "")
+        self.assertEqual(stored["program"]["children"][1]["min"], 12)
+        self.assertEqual(stored["program"]["children"][1]["max"], 18)
+        self.assertEqual(stored["program"]["children"][1]["lo"], 2)
+
+    def test_type_key_is_an_op(self):
+        citation = {
+            "domain": "legal",
+            "concept": "westlaw citation",
+            "description": "Year, WL, serial.",
+            "semantic_type": "citation",
+            "positives": ["2024 WL 1234567", "2023 WL 58291", "2019 WL 87654321"],
+            "near_misses": ["2024WL1234567", "2024 W.L. 1234567", "24 WL 1234567"],
+            "program": {
+                "type": "seq",
+                "children": [
+                    {"type": "int", "hi": 4, "lo": 4, "max": 2099, "min": 1800},
+                    {"type": "lit", "text": " WL ", "short": True},
+                    {"type": "int", "hi": 8, "lo": 1, "max": 99999999, "min": 1},
+                ],
+            },
+        }
+        stored, reason = validate_concept(citation)
+        self.assertEqual(reason, "", stored)
+        self.assertEqual(stored["program"]["op"], "seq")
+        self.assertEqual(stored["parser_version"], "factory-3")
+
     def test_extract_reads_a_fenced_concept_list(self):
         text = "```json\n" + json.dumps({"concepts": [CURRENCY]}) + "\n```"
         rows = extract_concepts(text)

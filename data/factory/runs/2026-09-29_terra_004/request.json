@@ -1,0 +1,9 @@
+{
+  "model": "gpt-5.6-terra",
+  "prompt_file": "data/factory/prompts/domain_expansion_v1.md",
+  "prompt_sha256": "a14828a4f5508646b5278ccb7b7da4cbd23f85e578cdf84b4530efff6c900c8f",
+  "prompt": "Return one JSON object and no prose.\n\nPick the domain software. Invent 6 fields from that domain that the other domains would not have thought of. Name the real convention. Describe what a wrong generalization would be.\n\nCover a spread of structure across the 6 fields: an identifier with a literal separator, a numeric window that is not the observed min and max, a closed vocabulary from the frozen lexicons if one truly fits, an optional revision mark, a repeated section, and a width that samples look fixed.\n\nFrozen lexicon names, and no others: iso4217, month_abbr, month_abbr_upper, month_abbr_lower, month_full, month_full_upper, month_full_lower, http_1_0, http_iana, file_extension, mass_unit, apparel_size.\n\nDSL:\n- seq of 2 to 6 children\n- cls class digit|upper|lower, lo and hi\n- set spec, lo and hi\n- int min, max, lo, hi\n- lex name\n- lit text, short, and present inside a positive\n- opt child\n- alt of exactly two children\n- repeat lo, hi at most 8, one child, not nested\n\nPositives: 3 or 4 realistic strings. Near misses: 3 strings a parser should refuse. Neighbors: at least 2.\n\nResponse shape:\n{\"concepts\":[{\"domain\":\"software\",\"concept\":\"...\",\"description\":\"...\",\"semantic_type\":\"...\",\"positives\":[\"...\"],\"near_misses\":[\"...\"],\"ambiguity_types\":[\"...\"],\"program\":{...},\"neighbors\":[{...}]}]}\n",
+  "domain": "software",
+  "max_output_tokens": 5000,
+  "parser_version": "factory-2"
+}

@@ -24,7 +24,7 @@ from pattern_induction.lexicon import LEXICONS, lexicon_members
 from pattern_induction.program import OPEN, Prog, describe, execute
 from pattern_induction.renaming import apply_mapping
 
-PARSER_VERSION = "factory-2"
+PARSER_VERSION = "factory-3"
 GENERATOR_VERSION = "factory-gen-1"
 TEACHER_MODEL = "gpt-5.6-terra"
 # gpt-6-terra is not on this key. The Terra model that answers is gpt-5.6-terra.
@@ -114,6 +114,9 @@ def _int_fields(item: dict) -> dict:
     if _range_pair(minimum, maximum) and lo is None and hi is None:
         width = max(len(str(minimum)), len(str(maximum)))
         return {"min": minimum, "max": maximum, "lo": width, "hi": width}
+    width = item.get("width")
+    if _is_int(width) and 1 <= width <= 8 and _range_pair(lo, hi) and minimum is None and maximum is None:
+        return {"min": lo, "max": hi, "lo": width, "hi": width}
     raise FactoryError("bad_int")
 
 
@@ -150,6 +153,9 @@ def _canonicalize(item: dict) -> dict:
     """Lift the single-key dialect (`{"seq":[...]}`, `{"lit":"-"}`) into op nodes."""
     if not isinstance(item, dict):
         raise FactoryError("node_not_object")
+    if "op" not in item and isinstance(item.get("type"), str):
+        item = {key: value for key, value in item.items() if key != "short"}
+        item = {**item, "op": item.pop("type")}
     if "op" in item:
         if item.get("op") == "int" and "min" in item:
             return {**item, **_int_fields(item)}
@@ -174,6 +180,8 @@ def _canonicalize(item: dict) -> dict:
         raise FactoryError("bad_literal")
     if op in {"cls", "class"}:
         if isinstance(value, str):
+            if value not in _CLASS_ALPHABET and spec_chars(value):
+                return {"op": "set", "spec": value, "lo": 1, "hi": 1}
             return {"op": "cls", "class": value, "lo": 1, "hi": 1}
         if isinstance(value, dict):
             return {
@@ -1054,11 +1062,16 @@ def render_report(root: Path) -> str:
     ]
     runs = _run_rows(root)
     if runs:
+        banked_runs: dict[str, int] = {}
+        for record in records:
+            name = record.get("run") or ""
+            banked_runs[name] = banked_runs.get(name, 0) + 1
         lines.append("| Run | Prompt | Prompt domain | Accepted | Rejected |")
         lines.append("| --- | --- | --- | ---: | ---: |")
         for row in runs:
+            accepted = banked_runs.get(row["run"], row["accepted"])
             lines.append(
-                f"| {row['run']} | {row['prompt']} | {row['domain']} | {row['accepted']} | {row['rejected']} |"
+                f"| {row['run']} | {row['prompt']} | {row['domain']} | {accepted} | {row['rejected']} |"
             )
         lines.append("")
     ledger = _ledger(root)

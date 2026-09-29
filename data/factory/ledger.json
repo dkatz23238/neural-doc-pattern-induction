@@ -1,6 +1,6 @@
 {
-  "spent_usd": 0.091874,
-  "calls": 2,
+  "spent_usd": 0.319842,
+  "calls": 7,
   "budget_usd": 4.0,
   "events": [
     {
@@ -38,6 +38,96 @@
         "total_tokens": 3572
       },
       "accepted": 0
+    },
+    {
+      "run": "2026-09-29_terra_003",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.041382,
+      "usage": {
+        "input_tokens": 321,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3395,
+        "output_tokens_details": {
+          "reasoning_tokens": 1823
+        },
+        "total_tokens": 3716
+      },
+      "accepted": 1
+    },
+    {
+      "run": "2026-09-29_terra_004",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.045644,
+      "usage": {
+        "input_tokens": 340,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3747,
+        "output_tokens_details": {
+          "reasoning_tokens": 2349
+        },
+        "total_tokens": 4087
+      },
+      "accepted": 2
+    },
+    {
+      "run": "2026-09-29_terra_005",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.045008,
+      "usage": {
+        "input_tokens": 340,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3694,
+        "output_tokens_details": {
+          "reasoning_tokens": 2041
+        },
+        "total_tokens": 4034
+      },
+      "accepted": 0
+    },
+    {
+      "run": "2026-09-29_terra_006",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.041084,
+      "usage": {
+        "input_tokens": 340,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3367,
+        "output_tokens_details": {
+          "reasoning_tokens": 1691
+        },
+        "total_tokens": 3707
+      },
+      "accepted": 4
+    },
+    {
+      "run": "2026-09-29_terra_007",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.05485,
+      "usage": {
+        "input_tokens": 341,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4514,
+        "output_tokens_details": {
+          "reasoning_tokens": 2464
+        },
+        "total_tokens": 4855
+      },
+      "accepted": 3
     }
   ]
 }
