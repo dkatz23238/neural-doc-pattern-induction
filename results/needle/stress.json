@@ -1,0 +1,210 @@
+{
+  "draws": 8,
+  "stability": true,
+  "survives": true,
+  "core": {
+    "n": 96,
+    "top1": 1.0,
+    "semantic": 1.0,
+    "oracle": 1.0,
+    "families": 735.40625,
+    "max_families": 8708
+  },
+  "worst_core": "few_support",
+  "worst_core_top1": 1.0,
+  "cells": [
+    {
+      "n": 40,
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 1037.225,
+      "max_families": 8708,
+      "role": "core",
+      "name": "few_support",
+      "by_family": {
+        "prefix_repeat": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 3299.625,
+          "max_families": 8708
+        },
+        "repeat_optional": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 3.375,
+          "max_families": 5
+        },
+        "prefix_alt": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 76.125,
+          "max_families": 96
+        },
+        "optional_internal": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 221.25,
+          "max_families": 222
+        },
+        "repeat_extra": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 1585.75,
+          "max_families": 2799
+        }
+      }
+    },
+    {
+      "n": 8,
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 474.625,
+      "max_families": 983,
+      "role": "core",
+      "name": "long_probe",
+      "by_family": {
+        "repeat_long": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 474.625,
+          "max_families": 983
+        }
+      }
+    },
+    {
+      "n": 40,
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 390.175,
+      "max_families": 1190,
+      "role": "core",
+      "name": "rename",
+      "by_family": {
+        "prefix_repeat": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 680.125,
+          "max_families": 1190
+        },
+        "repeat_optional": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 5.375,
+          "max_families": 16
+        },
+        "prefix_alt": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 85.75,
+          "max_families": 109
+        },
+        "optional_internal": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 743.125,
+          "max_families": 1151
+        },
+        "repeat_extra": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 436.5,
+          "max_families": 745
+        }
+      }
+    },
+    {
+      "n": 8,
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 1213.25,
+      "max_families": 2388,
+      "role": "core",
+      "name": "adversarial_width",
+      "by_family": {
+        "repeat_width": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 1213.25,
+          "max_families": 2388
+        }
+      }
+    },
+    {
+      "n": 16,
+      "top1": 1.0,
+      "semantic": 1.0,
+      "oracle": 1.0,
+      "families": 463.6875,
+      "max_families": 2495,
+      "role": "report",
+      "name": "lower_prefix",
+      "by_family": {
+        "prefix_repeat": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 845.5,
+          "max_families": 2495
+        },
+        "prefix_alt": {
+          "n": 8,
+          "top1": 1.0,
+          "semantic": 1.0,
+          "oracle": 1.0,
+          "families": 81.875,
+          "max_families": 134
+        }
+      }
+    },
+    {
+      "n": 8,
+      "top1": 0.5,
+      "semantic": 0.5,
+      "oracle": 0.5,
+      "families": 2.0,
+      "max_families": 6,
+      "role": "report",
+      "name": "nested",
+      "by_family": {
+        "prefix_repeat_optional": {
+          "n": 8,
+          "top1": 0.5,
+          "semantic": 0.5,
+          "oracle": 0.5,
+          "families": 2.0,
+          "max_families": 6
+        }
+      }
+    }
+  ],
+  "seconds": 1108.7608230113983
+}

@@ -37,6 +37,15 @@ python scripts/run_experiment1.py
 python -m unittest tests.test_core
 ```
 
+The same commands run under [uv](https://docs.astral.sh/uv/). `uv sync` installs this repo in editable mode plus torch, NumPy, PyYAML, pyarrow, and the fAST pin above, so `PYTHONPATH` is unnecessary. `pip install -r requirements.txt` is unchanged and still installs only the fAST baseline.
+
+```bash
+uv sync
+uv run python scripts/generate_benchmarks.py
+uv run python -m unittest discover -s tests
+uv run python train_prior.py --device cpu --model-size 100k --steps 20000 --batch-size 32
+```
+
 `generate_benchmarks.py` writes a review-sized suite (about 550 BENCH-C tasks, 1,500 BENCH-B, 320 BENCH-D, 1,200 BENCH-A). The BENCH-A generator is the same function used for the 100k/10k/10k corpus; pass `--bench-a-dev 100000 --bench-a-val 10000 --bench-a-test 10000` for the full split. Shape buckets are hashed, so the larger draw keeps the same held-out shapes.
 
 The candidate-oracle run does not train a neural net. It builds a small symbolic neighborhood of the heuristic, scores the best candidate in that neighborhood on the hidden set, and compares that ceiling with two label-free scorers and a ridge regression on visible features.
@@ -86,6 +95,103 @@ PYTHONPATH=. python scripts/run_schema.py
 ```
 
 `results/exp2/schema.md` is the written result.
+
+The membership run is the first stage of a set-conditioned inducer. A token-level model predicts whether a new string belongs to the language of a few examples. Literal identity uses a frozen byte code and a pointer, not a closed output vocabulary. Training and the stopping split use disjoint delimiter bytes. BENCH-C is scored once.
+
+```bash
+PYTHONPATH=. python scripts/run_membership.py
+```
+
+`results/exp2/membership.md` is the written result.
+
+The renaming run asks whether that membership model is using symbol identity. It renames letters, digits, and separators inside a task, including sending `-` to `§`, and scores the probability change. A second encoder replaces raw codepoints with structural class, a task-local symbol id, and alignment relations. BENCH-C is not scored.
+
+```bash
+PYTHONPATH=. python scripts/run_renaming.py
+```
+
+`results/exp2/renaming.md` is the written result.
+
+The composition run freezes those relational features and asks whether the model can learn repetition, optionality, and alternation. A span encoder groups class runs. The generator's own groups are auxiliary labels. Training stays on the atomic operators. Repeats of length 4–5, an optional group in the middle, and mixtures such as prefix+repeat are scored only at the end. BENCH-C is not scored.
+
+```bash
+PYTHONPATH=. python scripts/run_compose.py
+```
+
+`results/exp2/compose.md` is the written result.
+
+The data-recipe run freezes that model. Same parameter band, optimizer, 1200 steps, batch, loss, and evaluation slices. D0 repeats the atomic curriculum. D1 adds other compositions and holds the eval languages out. D2 and D3 train on schemas proposed by `gpt-5.6-terra` and accepted by the compiler. D4 adds templates aimed at the remaining failures. Teacher calls are cached under `teacher_runs/` and `data/teacher/`. The spend cap in code is $12.
+
+```bash
+PYTHONPATH=. python scripts/run_data_recipes.py --stage teacher --prompt composition_v1.md --kind schemas
+PYTHONPATH=. python scripts/run_data_recipes.py --stage train --recipe d0
+```
+
+`results/data_recipe/summary.md` is the written result.
+
+The hierarchy run keeps those recipes and that training budget. H0 is the span model above. H1 adds group pooling and a group transformer. H2 replaces the group mixer with typed parent, sibling, repeat-unit, and alignment edges. The teacher cache is reused and is not called again.
+
+```bash
+PYTHONPATH=. python scripts/run_hierarchy.py --stage train --arch h2 --recipe d0
+```
+
+`results/hierarchy/summary.md` is the written result.
+
+The operator-algebra run keeps those recipes and that budget. H3-oracle folds one shared sequence, repeat, optional, and alternation module over the generator's tree. The query annotation is not an input. Repeat bounds come from the schema, so depths 4–5 stay an extrapolation test. The teacher is not called. Structure induction waits on this oracle.
+
+```bash
+PYTHONPATH=. python scripts/run_operators.py --stage train --arch h3o --recipe d0
+```
+
+`results/operator_algebra/summary.md` is the written result.
+
+The synthesis run stops asking a network to approximate operator semantics. P1 proposes a program with the relational encoder and a small grammar decoder. Literals are copied from a support span. A symbolic executor checks the supports, drops impossible programs, and is the semantic judge. BENCH-C is not scored.
+
+```bash
+PYTHONPATH=. python scripts/run_programs.py --stage train
+```
+
+`results/programs/summary.md` is the written result.
+
+The local-chart run keeps that encoder and stops decoding one tree. L1 scores copy spans, classes, repeat units, optional spans, alternation pairs, and sequence cuts independently, and a chart assembles programs from the hypotheses that stay alive. Local recall is the first gate. BENCH-C is not scored.
+
+```bash
+PYTHONPATH=. python scripts/run_local.py --stage train
+```
+
+`results/local_chart/summary.md` is the written result.
+
+The version-space run leaves that recognizer frozen and asks the chart to stay complete. When every gold local fact is present, extra hypotheses are added one head at a time and then as the model's own top 8. Partials merge when their trees match, distinct repeat bounds both stay, and a partial is kept while it still matches every support. BENCH-C is not scored.
+
+```bash
+PYTHONPATH=. python scripts/run_version_space.py
+```
+
+`results/version_space/summary.md` is the written result.
+
+The scope run freezes that chart and the L1 weights. Relation heads learn the generator's groups — the same repeated unit, containment, group edges, an optional child, an alternation branch, and a shared prefix or suffix — and the objective is local recall at 8. Held-out recall and the version-space oracle on the model's own facts are written after atomic recall picks the checkpoint. BENCH-C is not scored.
+
+```bash
+PYTHONPATH=. python scripts/run_scope.py --stage train
+```
+
+`results/scope/summary.md` is the written result.
+
+The selection run freezes that synthesizer. It merges programs that accept the same strings, scores the survivors with a grammar fit on gold schemas, checks which languages return on support subsets, and trains a small head to judge strings where the remaining languages disagree. Semantic top-1 is the selected program on held-out probes. BENCH-C is not scored.
+
+```bash
+PYTHONPATH=. python scripts/run_select.py --stage train
+```
+
+`results/select/summary.md` is the written result.
+
+The Needle CPU run freezes that selector. A contingent delimiter, present in only some supports, adds the optional suffix the top-8 list can miss. The same checkpoint is then scored on a wider synthetic stress suite. BENCH-C is scored once, and only if that suite stays near the synthetic line.
+
+```bash
+PYTHONPATH=. python scripts/run_needle.py --stage gate
+```
+
+`results/needle/summary.md` is the written result.
 
 Grex configs are `grex_default`, `grex_digits` (`-d`), `grex_words` (`-w`), `grex_repetitions` (`-r`), and `grex_combined` (`-d -w -r`).
 

@@ -1,0 +1,18 @@
+# H2. Same groups as H1. The mixer is typed message passing.
+# Edges are child, parent, next sibling, same repeated unit, and query-to-support alignment.
+arch: h2
+model: GroupNet
+recipes: [d0, d1]
+steps: 1200
+batch: 12
+lr: 0.0008
+weight_decay: 0.01
+select: [primitive, repeat, optional, alternation]
+aux: [kind, span, bound, role, operator, scope, relation]
+relations: [child, parent, next, same, align]
+gate:
+  composition_mean: 0.90
+  worst_mixture: 0.85
+  repeat_extra: 0.90
+  invariance: 0.99
+note: Repeat depth is a child count on one operator node, not a longer flat span index.

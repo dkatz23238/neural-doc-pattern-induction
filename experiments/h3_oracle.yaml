@@ -1,0 +1,20 @@
+# H3-oracle. Shared operator modules over the generator's gold tree.
+# The same REPEAT module is used in every context. It sees schema min/max,
+# not the copy count of the string being scored.
+arch: h3o
+model: OperatorOracle
+recipes: [d0, d1]
+steps: 1200
+batch: 12
+lr: 0.0008
+weight_decay: 0.01
+select: [primitive, repeat, optional, alternation]
+operators: [seq, repeat, optional, alt]
+structure: gold
+gate:
+  oracle_mean: 0.95
+  composition_mean: 0.90
+  worst_mixture: 0.85
+  repeat_extra: 0.90
+  invariance: 0.99
+note: If the oracle mean stays near 0.80, do not build structure induction.

@@ -1,0 +1,22 @@
+recipe: d4
+question: Do templates aimed at the remaining failures close the gap?
+model: SpanNet
+teacher_model: gpt-5.6-terra
+parameters_band: [900000, 1050000]
+steps: 1200
+batch: 12
+lr: 0.0008
+weight_decay: 0.01
+eval_every: 100
+eval_n: 80
+final_n: 160
+selection: mean AUROC of primitive, repeat, optional, alternation
+loss: composition_loss
+mix: half atomic, half D2 plus D3 plus failure templates
+allow_heldout_eval_families: true
+repeat_cap: 3
+templates:
+  - data/teacher/validated/schemas.jsonl
+  - data/teacher/validated/minimal_pairs.jsonl
+  - data/teacher/validated/adversarial_templates.jsonl
+seed: 0

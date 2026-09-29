@@ -1,0 +1,10 @@
+{
+  "model": "gpt-5.6-terra",
+  "prompt_file": "data/teacher/prompts/minimal_pairs_v1.md",
+  "prompt_sha256": "f9db6d0806d7f6f99f375eb910932156cddabf8f9770aff6aafa2fa91307297a",
+  "prompt": "Return JSON only. No prose.\n\nDesign 4 pairs of string languages. The two languages in a pair must differ by one structural attachment, so they can emit similar strings for different reasons.\n\nUse this DSL. The compiler instantiates symbols and decides membership. Do not include example strings.\n\nNode types:\n- {\"type\":\"seq\",\"children\":[...]} with 2 to 4 children\n- {\"type\":\"class\",\"class\":\"digit|upper|lower\",\"min\":1,\"max\":4}\n- {\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper|lower|digit|punct\",\"min\":1,\"max\":4}\n  punct width is 1\n- {\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{...}} and do not nest repeats\n- {\"type\":\"optional\",\"child\":{...}}\n- {\"type\":\"alt\",\"children\":[{...},{...}]}\n\nCover these distinctions across the 6 pairs, one pair each when you can:\n- PREFIX + REPEAT(group) versus REPEAT(PREFIX + group)\n- REPEAT(group) + OPTIONAL(tail) versus REPEAT(group + OPTIONAL(tail))\n- PREFIX + ALT(X, Y) versus ALT(PREFIX+X, PREFIX+Y)\n- a required suffix versus an optional suffix\n- alternation of two structures versus a sequence that merely looks like both\n- a repeated separator versus a separator that occurs once\n\nResponse shape:\n{\"pairs\":[{\"id\":\"short_name\",\"distinction\":\"one sentence\",\"schema_a\":{...},\"schema_b\":{...}}]}\n",
+  "max_output_tokens": 8000,
+  "kind": "pairs",
+  "allow_heldout": true,
+  "compiler_version": "dsl-1"
+}

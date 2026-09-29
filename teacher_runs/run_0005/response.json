@@ -1,0 +1,81 @@
+{
+  "raw": "{\"schemas\":[{\"id\":\"prefixed_delimited_repeat\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"punct\",\"min\":1,\"max\":1},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}]}}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"punct\",\"min\":1,\"max\":1},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}]}]},{\"id\":\"prefixed_compound_chunk_repeat\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":1},{\"type\":\"optional\",\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":1}}]},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"punct\",\"min\":1,\"max\":1},{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":1},{\"type\":\"optional\",\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":1}}]}]}}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"punct\",\"min\":1,\"max\":1}]}}]}]},{\"id\":\"prefixed_suffix_alternation\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"alt\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":3,\"max\":3}]}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"optional\",\"child\":{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2}},{\"type\":\"class\",\"class\":\"digit\",\"min\":3,\"max\":3}]}]},{\"id\":\"prefix_outside_branch_scope\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"alt\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":3,\"max\":3}]}]},\"confusable\":[{\"type\":\"alt\",\"children\":[{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"class\",\"class\":\"upper\",\"min\":2,\"max\":2}]},{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":3,\"max\":3}]}]}]}]}",
+  "usage": {
+    "input_tokens": 954,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 3428,
+    "output_tokens_details": {
+      "reasoning_tokens": 2610
+    },
+    "total_tokens": 4382
+  },
+  "payload": {
+    "id": "resp_04bbd56e77137d79006ab9a249c25887d2934483b4047dc169",
+    "model": "gpt-5.6-terra",
+    "status": "completed",
+    "incomplete_details": null,
+    "error": null,
+    "usage": {
+      "input_tokens": 954,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 0
+      },
+      "output_tokens": 3428,
+      "output_tokens_details": {
+        "reasoning_tokens": 2610
+      },
+      "total_tokens": 4382
+    },
+    "reasoning": {
+      "context": "all_turns",
+      "effort": "low",
+      "mode": "standard",
+      "summary": null
+    },
+    "output": [
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "id": "msg_04bbd56e77137d79006ab9a2693d0887d2bf98ca1c114c3fb3",
+        "type": "message",
+        "status": "completed",
+        "content": [
+          {
+            "type": "output_text",
+            "annotations": [],
+            "logprobs": [],
+            "text": "{\"schemas\":[{\"id\":\"prefixed_delimited_repeat\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"punct\",\"min\":1,\"max\":1},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}]}}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":4},{\"type\":\"class\",\"class\":\"punct\",\"min\":1,\"max\":1},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}]}]},{\"id\":\"prefixed_compound_chunk_repeat\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":1},{\"type\":\"optional\",\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":1}}]},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"punct\",\"min\":1,\"max\":1},{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":1},{\"type\":\"optional\",\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":1}}]}]}}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"punct\",\"min\":1,\"max\":1}]}}]}]},{\"id\":\"prefixed_suffix_alternation\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"alt\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":3,\"max\":3}]}]},\"confusable\":[{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"optional\",\"child\":{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2}},{\"type\":\"class\",\"class\":\"digit\",\"min\":3,\"max\":3}]}]},{\"id\":\"prefix_outside_branch_scope\",\"schema\":{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"alt\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":3,\"max\":3}]}]},\"confusable\":[{\"type\":\"alt\",\"children\":[{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"class\",\"class\":\"upper\",\"min\":2,\"max\":2}]},{\"type\":\"seq\",\"children\":[{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper\",\"min\":2,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":3,\"max\":3}]}]}]}]}"
+          }
+        ],
+        "phase": "final_answer",
+        "role": "assistant"
+      }
+    ]
+  }
+}

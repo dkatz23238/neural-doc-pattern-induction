@@ -1,0 +1,146 @@
+{"family": "prefix_repeat", "support": ["OS23/76", "OS6/06/3", "OS16/6/56/93"], "query": "OS26/88/78", "label": 1, "probability": 0.295626, "pattern": "prefix-repeat;prefix=OS;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["IV72/7", "IV76/4/16", "IV35/72/5/6"], "query": "IV95/90/71/0", "label": 1, "probability": 0.214252, "pattern": "prefix-repeat;prefix=IV;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["GX4-96", "GX88-1-24", "GX4-4-1-51"], "query": "GX5-7", "label": 1, "probability": 0.066596, "pattern": "prefix-repeat;prefix=GX;repeat;sep=-"}
+{"family": "prefix_repeat", "support": ["ZV2.7", "ZV5.74.00", "ZV2.9.56.00"], "query": "ZV66.01.1.88", "label": 1, "probability": 0.001719, "pattern": "prefix-repeat;prefix=ZV;repeat;sep=."}
+{"family": "prefix_repeat", "support": ["DB85/0", "DB6/15/16", "DB1/8/15/9"], "query": "DB22/66", "label": 1, "probability": 0.11013, "pattern": "prefix-repeat;prefix=DB;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["DU1-2", "DU74-3-13", "DU60-99-48-51"], "query": "DU17-47", "label": 1, "probability": 0.43922, "pattern": "prefix-repeat;prefix=DU;repeat;sep=-"}
+{"family": "prefix_repeat", "support": ["SH93/7", "SH47/86/82", "SH2/50/60/60"], "query": "SH2/5/49", "label": 1, "probability": 0.181324, "pattern": "prefix-repeat;prefix=SH;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["SM09.22", "SM21.1.60", "SM4.6.53.0"], "query": "SM55.67.5", "label": 1, "probability": 0.376385, "pattern": "prefix-repeat;prefix=SM;repeat;sep=."}
+{"family": "prefix_repeat", "support": ["WU0-89", "WU49-8-9", "WU3-8-68-24"], "query": "WU79-02-21-4", "label": 1, "probability": 0.01038, "pattern": "prefix-repeat;prefix=WU;repeat;sep=-"}
+{"family": "prefix_repeat", "support": ["XQ4.5", "XQ9.2.62", "XQ3.7.34.2"], "query": "XQ90.4.0", "label": 1, "probability": 0.000468, "pattern": "prefix-repeat;prefix=XQ;repeat;sep=."}
+{"family": "prefix_repeat", "support": ["EW35_25", "EW35_5_2", "EW41_2_0_4"], "query": "EW9_1_2_5", "label": 1, "probability": 0.49905, "pattern": "prefix-repeat;prefix=EW;repeat;sep=_"}
+{"family": "prefix_repeat", "support": ["HN1_40", "HN6_8_52", "HN8_06_0_26"], "query": "HN30_02_16_89", "label": 1, "probability": 0.000393, "pattern": "prefix-repeat;prefix=HN;repeat;sep=_"}
+{"family": "prefix_repeat", "support": ["JY67.97", "JY71.54.13", "JY42.24.0.4"], "query": "JY2.40", "label": 1, "probability": 0.217238, "pattern": "prefix-repeat;prefix=JY;repeat;sep=."}
+{"family": "prefix_repeat", "support": ["UH93-14", "UH50-6-4", "UH35-8-0-83"], "query": "UH92-85-22-6", "label": 1, "probability": 0.090262, "pattern": "prefix-repeat;prefix=UH;repeat;sep=-"}
+{"family": "prefix_repeat", "support": ["BQ49.70", "BQ7.07.49", "BQ7.72.14.08"], "query": "BQ07.48.28", "label": 1, "probability": 0.186107, "pattern": "prefix-repeat;prefix=BQ;repeat;sep=."}
+{"family": "prefix_repeat", "support": ["YF26/44", "YF68/26/56", "YF7/4/4/26"], "query": "YF6/06/4/4", "label": 1, "probability": 0.000412, "pattern": "prefix-repeat;prefix=YF;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["QX2/64", "QX1/5/27", "QX7/67/6/1"], "query": "QX38/7/55", "label": 1, "probability": 0.230852, "pattern": "prefix-repeat;prefix=QX;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["OL65/5", "OL15/1/14", "OL45/1/9/75"], "query": "OL84/84/1", "label": 1, "probability": 0.237623, "pattern": "prefix-repeat;prefix=OL;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["ML28_9", "ML5_6_7", "ML4_93_6_56"], "query": "ML49_99_63", "label": 1, "probability": 0.130728, "pattern": "prefix-repeat;prefix=ML;repeat;sep=_"}
+{"family": "prefix_repeat", "support": ["QC06_6", "QC55_67_8", "QC30_3_84_40"], "query": "QC42_09", "label": 1, "probability": 0.475136, "pattern": "prefix-repeat;prefix=QC;repeat;sep=_"}
+{"family": "prefix_repeat", "support": ["PM0/4", "PM47/36/62", "PM53/9/2/34"], "query": "PM4/55/3", "label": 1, "probability": 0.374727, "pattern": "prefix-repeat;prefix=PM;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["GY09_10", "GY47_27_09", "GY91_73_48_6"], "query": "GY2_5", "label": 1, "probability": 0.047938, "pattern": "prefix-repeat;prefix=GY;repeat;sep=_"}
+{"family": "prefix_repeat", "support": ["ED1_8", "ED01_5_7", "ED75_0_43_12"], "query": "ED8_21_39", "label": 1, "probability": 0.497351, "pattern": "prefix-repeat;prefix=ED;repeat;sep=_"}
+{"family": "prefix_repeat", "support": ["HP19_7", "HP83_4_25", "HP2_5_5_15"], "query": "HP22_2_1_52", "label": 1, "probability": 0.271709, "pattern": "prefix-repeat;prefix=HP;repeat;sep=_"}
+{"family": "prefix_repeat", "support": ["US3.64", "US4.21.60", "US4.8.36.25"], "query": "US26.5.7", "label": 1, "probability": 0.000177, "pattern": "prefix-repeat;prefix=US;repeat;sep=."}
+{"family": "prefix_repeat", "support": ["VA7/5", "VA92/35/7", "VA73/29/07/3"], "query": "VA87/3/5/57", "label": 1, "probability": 0.000515, "pattern": "prefix-repeat;prefix=VA;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["XK87-7", "XK78-93-5", "XK47-13-4-37"], "query": "XK10-7-6", "label": 1, "probability": 0.403765, "pattern": "prefix-repeat;prefix=XK;repeat;sep=-"}
+{"family": "prefix_repeat", "support": ["GR5-88", "GR20-9-29", "GR0-5-1-1"], "query": "GR3-4-2-68", "label": 1, "probability": 0.399401, "pattern": "prefix-repeat;prefix=GR;repeat;sep=-"}
+{"family": "prefix_repeat", "support": ["JQ8-5", "JQ8-74-7", "JQ69-05-70-86"], "query": "JQ70-29-7", "label": 1, "probability": 0.301942, "pattern": "prefix-repeat;prefix=JQ;repeat;sep=-"}
+{"family": "prefix_repeat", "support": ["DP5/4", "DP32/7/37", "DP1/43/3/9"], "query": "DP41/4/79/4", "label": 1, "probability": 0.256863, "pattern": "prefix-repeat;prefix=DP;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["FL8_2", "FL7_13_2", "FL0_84_9_61"], "query": "FL64_69_68", "label": 1, "probability": 0.001294, "pattern": "prefix-repeat;prefix=FL;repeat;sep=_"}
+{"family": "prefix_repeat", "support": ["MK0/5", "MK06/3/0", "MK9/26/3/6"], "query": "MK3/02", "label": 1, "probability": 0.165563, "pattern": "prefix-repeat;prefix=MK;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["XZ7_1", "XZ49_30_4", "XZ32_2_76_9"], "query": "XZ65_94_2_02", "label": 1, "probability": 0.018787, "pattern": "prefix-repeat;prefix=XZ;repeat;sep=_"}
+{"family": "prefix_repeat", "support": ["JK75.8", "JK94.06.5", "JK3.46.52.7"], "query": "JK99.55", "label": 1, "probability": 0.074314, "pattern": "prefix-repeat;prefix=JK;repeat;sep=."}
+{"family": "prefix_repeat", "support": ["HS62/5", "HS47/20/5", "HS66/7/0/4"], "query": "HS66/9/27/12", "label": 1, "probability": 0.000753, "pattern": "prefix-repeat;prefix=HS;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["OO4/8", "OO55/7/21", "OO11/00/5/5"], "query": "OO9/62", "label": 1, "probability": 0.473967, "pattern": "prefix-repeat;prefix=OO;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["FY8_2", "FY89_0_18", "FY71_53_5_3"], "query": "FY3_91_29", "label": 1, "probability": 0.072978, "pattern": "prefix-repeat;prefix=FY;repeat;sep=_"}
+{"family": "prefix_repeat", "support": ["GT3.7", "GT24.58.05", "GT99.16.7.8"], "query": "GT07.0.42", "label": 1, "probability": 0.197224, "pattern": "prefix-repeat;prefix=GT;repeat;sep=."}
+{"family": "prefix_repeat", "support": ["YC9-75", "YC4-89-3", "YC1-07-1-54"], "query": "YC4-3-8-6", "label": 1, "probability": 0.002001, "pattern": "prefix-repeat;prefix=YC;repeat;sep=-"}
+{"family": "prefix_repeat", "support": ["CY3/34", "CY1/4/8", "CY94/8/44/11"], "query": "CY86/2/90/7", "label": 1, "probability": 0.022811, "pattern": "prefix-repeat;prefix=CY;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["UK37/59", "UK80/65/3", "UK04/27/36/13"], "query": "UK5/3/0/7", "label": 1, "probability": 0.001637, "pattern": "prefix-repeat;prefix=UK;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["XT54.70", "XT03.8.0", "XT3.20.86.9"], "query": "XT9.89.09", "label": 1, "probability": 0.215933, "pattern": "prefix-repeat;prefix=XT;repeat;sep=."}
+{"family": "prefix_repeat", "support": ["MI6/74", "MI74/5/0", "MI1/32/05/26"], "query": "MI20/51/5/15", "label": 1, "probability": 0.002504, "pattern": "prefix-repeat;prefix=MI;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["ZL0-41", "ZL03-32-6", "ZL9-48-7-1"], "query": "ZL82-10-08", "label": 1, "probability": 0.027171, "pattern": "prefix-repeat;prefix=ZL;repeat;sep=-"}
+{"family": "prefix_repeat", "support": ["AL1_85", "AL4_81_85", "AL76_12_3_56"], "query": "AL64_17_60", "label": 1, "probability": 0.324228, "pattern": "prefix-repeat;prefix=AL;repeat;sep=_"}
+{"family": "prefix_repeat", "support": ["TL27_2", "TL7_68_3", "TL7_6_3_6"], "query": "TL98_9_48", "label": 1, "probability": 0.009632, "pattern": "prefix-repeat;prefix=TL;repeat;sep=_"}
+{"family": "prefix_repeat", "support": ["NY1/20", "NY80/87/33", "NY97/2/71/98"], "query": "NY92/58/90/2", "label": 1, "probability": 0.00053, "pattern": "prefix-repeat;prefix=NY;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["SH6_03", "SH1_4_39", "SH12_63_1_97"], "query": "SH0_98_10_5", "label": 1, "probability": 0.079846, "pattern": "prefix-repeat;prefix=SH;repeat;sep=_"}
+{"family": "prefix_repeat", "support": ["ZJ38-0", "ZJ56-73-6", "ZJ5-8-0-0"], "query": "ZJ8-65-51-27", "label": 1, "probability": 0.000669, "pattern": "prefix-repeat;prefix=ZJ;repeat;sep=-"}
+{"family": "prefix_repeat", "support": ["IC9-91", "IC5-05-5", "IC42-18-62-9"], "query": "IC6-8-7-28", "label": 1, "probability": 0.271527, "pattern": "prefix-repeat;prefix=IC;repeat;sep=-"}
+{"family": "prefix_repeat", "support": ["TP63-41", "TP82-6-98", "TP52-93-04-75"], "query": "TP02-1", "label": 1, "probability": 0.313349, "pattern": "prefix-repeat;prefix=TP;repeat;sep=-"}
+{"family": "prefix_repeat", "support": ["TO8.88", "TO76.8.80", "TO43.1.23.03"], "query": "TO7.9", "label": 1, "probability": 0.01593, "pattern": "prefix-repeat;prefix=TO;repeat;sep=."}
+{"family": "prefix_repeat", "support": ["NX4.96", "NX71.9.20", "NX5.1.40.5"], "query": "NX51.57", "label": 1, "probability": 0.27545, "pattern": "prefix-repeat;prefix=NX;repeat;sep=."}
+{"family": "prefix_repeat", "support": ["OI1/49", "OI36/9/8", "OI6/7/96/56"], "query": "OI5-62", "label": 0, "probability": 0.991589, "pattern": "prefix-repeat;prefix=OI;repeat;sep=/"}
+{"family": "prefix_repeat", "support": ["IX4_8", "IX23_08_4", "IX6_3_67_19"], "query": "IX80_65", "label": 1, "probability": 0.196605, "pattern": "prefix-repeat;prefix=IX;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["0_2", "23_83_19-YM", "0_2_6_92", "78_0_8"], "query": "8_98-YM", "label": 1, "probability": 0.006815, "pattern": "repeat-optional;suffix=YM;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["03.63", "85.7.5-JE", "3.20.7.4", "92.5.50"], "query": "93.47.99.17-JE", "label": 1, "probability": 0.004796, "pattern": "repeat-optional;suffix=JE;repeat;sep=."}
+{"family": "repeat_optional", "support": ["61_5", "35_2_37-LS", "9_5_54_2", "50_38_13"], "query": "5_6_33-LS", "label": 1, "probability": 0.022406, "pattern": "repeat-optional;suffix=LS;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["7.9", "4.8.24-DA", "31.0.13.03", "0.08.59"], "query": "79.75-DA", "label": 1, "probability": 0.024141, "pattern": "repeat-optional;suffix=DA;repeat;sep=."}
+{"family": "repeat_optional", "support": ["22-08", "8-9-96-IU", "49-8-71-1", "94-35-6"], "query": "1-2-35-IU", "label": 1, "probability": 0.342363, "pattern": "repeat-optional;suffix=IU;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["58/5", "1/27/2-DB", "02/88/11/77", "6/4/66"], "query": "4/5/88/14-DB", "label": 1, "probability": 0.017828, "pattern": "repeat-optional;suffix=DB;repeat;sep=/"}
+{"family": "repeat_optional", "support": ["2_2", "8_2_1-VM", "8_0_46_2", "7_1_7"], "query": "63_8-VM", "label": 1, "probability": 0.02061, "pattern": "repeat-optional;suffix=VM;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["40.17", "8.0.28-AZ", "1.7.76.20", "08.0.7"], "query": "80.68.0-AZ", "label": 1, "probability": 0.005886, "pattern": "repeat-optional;suffix=AZ;repeat;sep=."}
+{"family": "repeat_optional", "support": ["2.54", "0.54.73-NC", "51.53.7.03", "4.0.3"], "query": "5.7", "label": 1, "probability": 0.345279, "pattern": "repeat-optional;suffix=NC;repeat;sep=."}
+{"family": "repeat_optional", "support": ["01_8", "6_20_96-BY", "91_52_18_41", "0_0_81"], "query": "2_40_0-BY", "label": 1, "probability": 0.011578, "pattern": "repeat-optional;suffix=BY;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["10_78", "9_0_2-VB", "44_67_1_35", "1_59_7"], "query": "52_69_2_8-VB", "label": 1, "probability": 0.012321, "pattern": "repeat-optional;suffix=VB;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["34_37", "59_67_74-FW", "3_3_9_20", "4_26_4"], "query": "00_6_8_64", "label": 1, "probability": 0.330105, "pattern": "repeat-optional;suffix=FW;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["6-9", "38-50-0-CJ", "9-3-9-37", "64-22-61"], "query": "07-87-1-58-CJ", "label": 1, "probability": 0.020308, "pattern": "repeat-optional;suffix=CJ;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["4-05", "58-4-00-FT", "54-6-6-03", "9-58-11"], "query": "77-80-19", "label": 1, "probability": 0.489057, "pattern": "repeat-optional;suffix=FT;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["6-35", "0-0-2-HJ", "99-88-5-31", "63-73-6"], "query": "8-43-92", "label": 1, "probability": 0.199292, "pattern": "repeat-optional;suffix=HJ;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["95-3", "0-70-06-GW", "37-7-3-67", "32-7-20"], "query": "0-58-34-GW", "label": 1, "probability": 0.166757, "pattern": "repeat-optional;suffix=GW;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["6_0", "63_50_07-CH", "2_7_67_0", "79_98_57"], "query": "29_3", "label": 1, "probability": 0.350366, "pattern": "repeat-optional;suffix=CH;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["74.83", "7.0.75-LN", "21.49.9.50", "8.4.7"], "query": "87.2-LN", "label": 1, "probability": 0.004642, "pattern": "repeat-optional;suffix=LN;repeat;sep=."}
+{"family": "repeat_optional", "support": ["8-33", "74-34-56-OF", "94-3-46-16", "4-06-38"], "query": "33-90-OF", "label": 1, "probability": 0.011697, "pattern": "repeat-optional;suffix=OF;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["28/0", "1/3/2-KB", "3/05/27/5", "34/9/67"], "query": "57/9", "label": 1, "probability": 0.389083, "pattern": "repeat-optional;suffix=KB;repeat;sep=/"}
+{"family": "repeat_optional", "support": ["7_9", "33_8_22-WV", "75_2_85_2", "5_9_7"], "query": "39_71_0_1-WV", "label": 1, "probability": 0.024307, "pattern": "repeat-optional;suffix=WV;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["8_2", "25_8_1-MK", "0_4_10_79", "30_40_37"], "query": "14_2", "label": 1, "probability": 0.308599, "pattern": "repeat-optional;suffix=MK;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["10/46", "2/00/2-TR", "5/16/0/77", "4/14/72"], "query": "74/9/2/13-TR", "label": 1, "probability": 0.006571, "pattern": "repeat-optional;suffix=TR;repeat;sep=/"}
+{"family": "repeat_optional", "support": ["32-1", "27-9-29-GF", "4-3-2-02", "9-41-57"], "query": "59-7-2", "label": 1, "probability": 0.335503, "pattern": "repeat-optional;suffix=GF;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["6.8", "40.60.2-EU", "33.9.7.3", "0.3.7"], "query": "2.24.6-EU", "label": 1, "probability": 0.063814, "pattern": "repeat-optional;suffix=EU;repeat;sep=."}
+{"family": "repeat_optional", "support": ["90-8", "28-50-93-TU", "5-27-21-4", "9-0-6"], "query": "2-7-5-5-TU", "label": 1, "probability": 0.07611, "pattern": "repeat-optional;suffix=TU;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["7-49", "05-09-2-ZL", "34-7-6-4", "9-18-2"], "query": "11-34-54", "label": 1, "probability": 0.394193, "pattern": "repeat-optional;suffix=ZL;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["01_0", "0_0_7-XZ", "2_47_15_8", "67_2_9"], "query": "8_5_7_6-XZ", "label": 1, "probability": 0.048727, "pattern": "repeat-optional;suffix=XZ;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["99/29", "9/2/1-WC", "12/29/25/9", "8/52/4"], "query": "77/02/35-WC", "label": 1, "probability": 0.061483, "pattern": "repeat-optional;suffix=WC;repeat;sep=/"}
+{"family": "repeat_optional", "support": ["4-9", "37-7-4-UF", "37-4-51-52", "18-81-48"], "query": "7-0-9-UF", "label": 1, "probability": 0.260904, "pattern": "repeat-optional;suffix=UF;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["25-17", "2-1-2-OM", "49-62-4-3", "4-4-3"], "query": "92-53-98-97-OM", "label": 1, "probability": 0.020008, "pattern": "repeat-optional;suffix=OM;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["22.33", "67.3.40-IA", "01.3.3.0", "24.4.9"], "query": "4.29.77.58", "label": 1, "probability": 0.343529, "pattern": "repeat-optional;suffix=IA;repeat;sep=."}
+{"family": "repeat_optional", "support": ["47-03", "63-6-4-WS", "8-3-9-08", "02-5-08"], "query": "5-74-80-5", "label": 1, "probability": 0.178651, "pattern": "repeat-optional;suffix=WS;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["25_4", "7_13_69-ZB", "08_7_06_57", "8_74_15"], "query": "8_1-ZB", "label": 1, "probability": 0.00119, "pattern": "repeat-optional;suffix=ZB;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["1_3", "71_7_6-MU", "7_7_2_4", "5_5_6"], "query": "57_25_7_15-MU", "label": 1, "probability": 0.018638, "pattern": "repeat-optional;suffix=MU;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["57_8", "5_97_24-MZ", "4_82_0_2", "75_9_4"], "query": "14_33_91", "label": 1, "probability": 0.299091, "pattern": "repeat-optional;suffix=MZ;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["31-89", "5-0-00-OT", "75-2-7-65", "3-27-47"], "query": "62-87-2-OT", "label": 1, "probability": 0.042453, "pattern": "repeat-optional;suffix=OT;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["2_3", "79_6_0-XC", "73_5_03_97", "65_06_8"], "query": "0_68_2_5-XC", "label": 1, "probability": 0.022874, "pattern": "repeat-optional;suffix=XC;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["46-58", "8-3-51-XS", "35-01-4-4", "68-03-98"], "query": "06-46-27-XS", "label": 1, "probability": 0.027988, "pattern": "repeat-optional;suffix=XS;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["1-6", "12-52-16-FD", "98-92-46-24", "8-7-8"], "query": "34-87-69-3", "label": 1, "probability": 0.176714, "pattern": "repeat-optional;suffix=FD;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["2/9", "8/1/49-BN", "3/9/92/1", "3/5/81"], "query": "10/34/27/7-BN", "label": 1, "probability": 0.002044, "pattern": "repeat-optional;suffix=BN;repeat;sep=/"}
+{"family": "repeat_optional", "support": ["8/23", "95/3/3-SV", "07/1/1/06", "0/38/01"], "query": "1/17-SV", "label": 1, "probability": 0.008214, "pattern": "repeat-optional;suffix=SV;repeat;sep=/"}
+{"family": "repeat_optional", "support": ["4.41", "08.86.4-GZ", "73.6.00.0", "4.14.11"], "query": "65.6.3", "label": 1, "probability": 0.469835, "pattern": "repeat-optional;suffix=GZ;repeat;sep=."}
+{"family": "repeat_optional", "support": ["90.31", "6.8.4-QK", "61.7.5.63", "13.0.47"], "query": "93.9.8-QK", "label": 1, "probability": 0.01783, "pattern": "repeat-optional;suffix=QK;repeat;sep=."}
+{"family": "repeat_optional", "support": ["5/9", "38/1/55-CT", "7/8/7/6", "4/12/25"], "query": "0/9/26-CT", "label": 1, "probability": 0.054058, "pattern": "repeat-optional;suffix=CT;repeat;sep=/"}
+{"family": "repeat_optional", "support": ["9_0", "7_14_11-GE", "17_3_60_05", "66_32_9"], "query": "8_40", "label": 1, "probability": 0.425305, "pattern": "repeat-optional;suffix=GE;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["3-32", "8-02-5-HD", "4-1-65-6", "21-62-30"], "query": "37-7-97-43", "label": 1, "probability": 0.240704, "pattern": "repeat-optional;suffix=HD;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["88.2", "55.0.08-TS", "22.2.53.9", "75.54.10"], "query": "72.3.43-TS", "label": 1, "probability": 0.170376, "pattern": "repeat-optional;suffix=TS;repeat;sep=."}
+{"family": "repeat_optional", "support": ["2/39", "48/36/8-XH", "13/3/70/2", "02/7/9"], "query": "4/34", "label": 1, "probability": 0.441054, "pattern": "repeat-optional;suffix=XH;repeat;sep=/"}
+{"family": "repeat_optional", "support": ["29_4", "5_18_0-OS", "3_8_0_69", "40_34_20"], "query": "8_47-OS", "label": 1, "probability": 0.006162, "pattern": "repeat-optional;suffix=OS;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["83/2", "06/4/0-LV", "68/7/5/1", "65/5/27"], "query": "67/6/68-LV", "label": 1, "probability": 0.01042, "pattern": "repeat-optional;suffix=LV;repeat;sep=/"}
+{"family": "repeat_optional", "support": ["6-4", "7-2-22-WY", "45-2-34-68", "4-09-69"], "query": "57-37", "label": 1, "probability": 0.441777, "pattern": "repeat-optional;suffix=WY;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["05.40", "3.01.3-HW", "9.5.6.4", "0.10.7"], "query": "85.88.0-HW", "label": 1, "probability": 0.020316, "pattern": "repeat-optional;suffix=HW;repeat;sep=."}
+{"family": "repeat_optional", "support": ["3_94", "66_6_38-RF", "7_7_74_8", "27_18_37"], "query": "2_15-RF", "label": 1, "probability": 0.014808, "pattern": "repeat-optional;suffix=RF;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["95_60", "36_5_18-OS", "19_5_72_70", "52_3_9"], "query": "7_2_7", "label": 1, "probability": 0.014465, "pattern": "repeat-optional;suffix=OS;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["49_55", "45_57_67-IT", "0_0_15_49", "0_51_12"], "query": "4_5_1_35-IT", "label": 1, "probability": 0.087756, "pattern": "repeat-optional;suffix=IT;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["3-19", "2-5-5-BB", "5-82-6-00", "70-3-29"], "query": "1-3-BB", "label": 1, "probability": 0.029965, "pattern": "repeat-optional;suffix=BB;repeat;sep=-"}
+{"family": "repeat_optional", "support": ["80_5", "82_2_5-CT", "34_1_88_00", "70_0_12"], "query": "8_87", "label": 1, "probability": 0.314186, "pattern": "repeat-optional;suffix=CT;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["6.4", "2.02.55-CG", "1.7.62.2", "5.96.3"], "query": "17.7", "label": 1, "probability": 0.210022, "pattern": "repeat-optional;suffix=CG;repeat;sep=."}
+{"family": "repeat_optional", "support": ["00.43", "52.88.47-LP", "9.7.70.24", "8.77.39"], "query": "9.5.4.6", "label": 1, "probability": 0.304838, "pattern": "repeat-optional;suffix=LP;repeat;sep=."}
+{"family": "repeat_optional", "support": ["76/02", "96/1/48-RQ", "68/76/72/09", "34/80/2"], "query": "4/6/5/16-RQ", "label": 1, "probability": 0.006609, "pattern": "repeat-optional;suffix=RQ;repeat;sep=/"}
+{"family": "repeat_optional", "support": ["52_25", "07_6_9-FA", "00_1_9_05", "41_17_23"], "query": "41_3_60_34", "label": 1, "probability": 0.277971, "pattern": "repeat-optional;suffix=FA;repeat;sep=_"}
+{"family": "repeat_optional", "support": ["14_9", "01_64_03-LP", "94_07_1_4", "65_36_49"], "query": "85_0_51-LP", "label": 1, "probability": 0.016802, "pattern": "repeat-optional;suffix=LP;repeat;sep=_"}
+{"family": "prefix_alt", "support": ["HIGF", "HI680", "HIGF"], "query": "IMGF", "label": 0, "probability": 0.989562, "pattern": "prefix-alt;prefix=HI;lit=GF;width=3"}
+{"family": "prefix_alt", "support": ["HMGV", "HM527", "HMGV"], "query": "MRGV", "label": 0, "probability": 0.989562, "pattern": "prefix-alt;prefix=HM;lit=GV;width=3"}
+{"family": "prefix_alt", "support": ["LULM", "LU416", "LULM"], "query": "XOLM", "label": 0, "probability": 0.988912, "pattern": "prefix-alt;prefix=LU;lit=LM;width=3"}
+{"family": "prefix_alt", "support": ["VVEF", "VV511", "VVEF"], "query": "LZEF", "label": 0, "probability": 0.942626, "pattern": "prefix-alt;prefix=VV;lit=EF;width=3"}
+{"family": "prefix_alt", "support": ["EVNT", "EV736", "EVNT"], "query": "EVNN", "label": 0, "probability": 0.999986, "pattern": "prefix-alt;prefix=EV;lit=NT;width=3"}
+{"family": "prefix_alt", "support": ["TXTE", "TX798", "TXTE"], "query": "MJTE", "label": 0, "probability": 0.988912, "pattern": "prefix-alt;prefix=TX;lit=TE;width=3"}
+{"family": "prefix_alt", "support": ["VDSS", "VD549", "VDSS"], "query": "VDZQ", "label": 0, "probability": 0.990448, "pattern": "prefix-alt;prefix=VD;lit=SS;width=3"}
+{"family": "prefix_alt", "support": ["KWVQ", "KW250", "KWVQ"], "query": "KWLQ", "label": 0, "probability": 0.99624, "pattern": "prefix-alt;prefix=KW;lit=VQ;width=3"}
+{"family": "prefix_alt", "support": ["ZQUQ", "ZQ800", "ZQUQ"], "query": "BRUQ", "label": 0, "probability": 0.981051, "pattern": "prefix-alt;prefix=ZQ;lit=UQ;width=3"}
+{"family": "prefix_alt", "support": ["NGBJ", "NG420", "NGBJ"], "query": "GPBJ", "label": 0, "probability": 0.989562, "pattern": "prefix-alt;prefix=NG;lit=BJ;width=3"}
+{"family": "prefix_alt", "support": ["NYZL", "NY637", "NYZL"], "query": "NYNO", "label": 0, "probability": 0.993312, "pattern": "prefix-alt;prefix=NY;lit=ZL;width=3"}
+{"family": "prefix_alt", "support": ["BPQO", "BP499", "BPQO"], "query": "BPWJ", "label": 0, "probability": 0.993854, "pattern": "prefix-alt;prefix=BP;lit=QO;width=3"}
+{"family": "prefix_alt", "support": ["CBEU", "CB465", "CBEU"], "query": "WFEU", "label": 0, "probability": 0.955616, "pattern": "prefix-alt;prefix=CB;lit=EU;width=3"}
+{"family": "prefix_alt", "support": ["DOJT", "DO579", "DOJT"], "query": "LZJT", "label": 0, "probability": 0.955616, "pattern": "prefix-alt;prefix=DO;lit=JT;width=3"}
+{"family": "prefix_alt", "support": ["KUMO", "KU060", "KUMO"], "query": "KUNM", "label": 0, "probability": 0.999157, "pattern": "prefix-alt;prefix=KU;lit=MO;width=3"}
+{"family": "prefix_alt", "support": ["BITL", "BI248", "BITL"], "query": "BISF", "label": 0, "probability": 0.975111, "pattern": "prefix-alt;prefix=BI;lit=TL;width=3"}
+{"family": "prefix_alt", "support": ["IPMX", "IP436", "IPMX"], "query": "XJMX", "label": 0, "probability": 0.977489, "pattern": "prefix-alt;prefix=IP;lit=MX;width=3"}
+{"family": "prefix_alt", "support": ["BZWY", "BZ993", "BZWY"], "query": "KGWY", "label": 0, "probability": 0.98964, "pattern": "prefix-alt;prefix=BZ;lit=WY;width=3"}
+{"family": "prefix_alt", "support": ["AHNU", "AH380", "AHNU"], "query": "JBNU", "label": 0, "probability": 0.955616, "pattern": "prefix-alt;prefix=AH;lit=NU;width=3"}
+{"family": "prefix_alt", "support": ["OABM", "OA897", "OABM"], "query": "OAJS", "label": 0, "probability": 0.975111, "pattern": "prefix-alt;prefix=OA;lit=BM;width=3"}
+{"family": "prefix_alt", "support": ["ZKSB", "ZK228", "ZKSB"], "query": "VPSB", "label": 0, "probability": 0.98964, "pattern": "prefix-alt;prefix=ZK;lit=SB;width=3"}
+{"family": "prefix_alt", "support": ["DHIM", "DH303", "DHIM"], "query": "DHKA", "label": 0, "probability": 0.993571, "pattern": "prefix-alt;prefix=DH;lit=IM;width=3"}
+{"family": "prefix_alt", "support": ["RNNC", "RN482", "RNNC"], "query": "RNQF", "label": 0, "probability": 0.987613, "pattern": "prefix-alt;prefix=RN;lit=NC;width=3"}
+{"family": "prefix_alt", "support": ["KWOW", "KW924", "KWOW"], "query": "NLOW", "label": 0, "probability": 0.993843, "pattern": "prefix-alt;prefix=KW;lit=OW;width=3"}
+{"family": "prefix_alt", "support": ["VURL", "VU283", "VURL"], "query": "BVRL", "label": 0, "probability": 0.985205, "pattern": "prefix-alt;prefix=VU;lit=RL;width=3"}
+{"family": "prefix_alt", "support": ["TBGZ", "TB721", "TBGZ"], "query": "TBIY", "label": 0, "probability": 0.975111, "pattern": "prefix-alt;prefix=TB;lit=GZ;width=3"}
+{"family": "prefix_alt", "support": ["CNRI", "CN398", "CNRI"], "query": "CNQI", "label": 0, "probability": 0.99624, "pattern": "prefix-alt;prefix=CN;lit=RI;width=3"}
+{"family": "prefix_alt", "support": ["ZBAW", "ZB767", "ZBAW"], "query": "NCAW", "label": 0, "probability": 0.990082, "pattern": "prefix-alt;prefix=ZB;lit=AW;width=3"}

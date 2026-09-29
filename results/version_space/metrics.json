@@ -1,0 +1,334 @@
+{
+  "families": {
+    "gold": {
+      "primitive": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 1.0,
+        "truncated": 0,
+        "n": 16
+      },
+      "repeat": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 1.0,
+        "programs": 1.0,
+        "truncated": 0,
+        "n": 16
+      },
+      "optional": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 1.0,
+        "truncated": 0,
+        "n": 16
+      },
+      "alternation": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 1.0,
+        "truncated": 0,
+        "n": 16
+      },
+      "prefix_repeat": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 1.0,
+        "programs": 1.0,
+        "truncated": 0,
+        "n": 16
+      },
+      "repeat_optional": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 1.0,
+        "programs": 1.0,
+        "truncated": 0,
+        "n": 16
+      },
+      "prefix_alt": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 1.0,
+        "truncated": 0,
+        "n": 16
+      },
+      "optional_internal": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 1.0,
+        "truncated": 0,
+        "n": 16
+      },
+      "repeat_extra": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 1.0,
+        "programs": 1.0,
+        "truncated": 0,
+        "n": 16
+      }
+    },
+    "plus1": {
+      "primitive": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0625,
+        "programs": 1.5625,
+        "truncated": 0,
+        "n": 16
+      },
+      "repeat": {
+        "oracle": 1.0,
+        "beam": 0.875,
+        "open_repeat": 1.0,
+        "programs": 1.375,
+        "truncated": 0,
+        "n": 16
+      },
+      "optional": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 1.1875,
+        "truncated": 0,
+        "n": 16
+      },
+      "alternation": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 1.125,
+        "truncated": 0,
+        "n": 16
+      },
+      "prefix_repeat": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 1.0,
+        "programs": 1.8125,
+        "truncated": 0,
+        "n": 16
+      },
+      "repeat_optional": {
+        "oracle": 1.0,
+        "beam": 0.625,
+        "open_repeat": 1.0,
+        "programs": 1.0,
+        "truncated": 0,
+        "n": 16
+      },
+      "prefix_alt": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 1.375,
+        "truncated": 0,
+        "n": 16
+      },
+      "optional_internal": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 1.1875,
+        "truncated": 0,
+        "n": 16
+      },
+      "repeat_extra": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 1.0,
+        "programs": 1.75,
+        "truncated": 0,
+        "n": 16
+      }
+    },
+    "plus2": {
+      "primitive": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.25,
+        "programs": 2.25,
+        "truncated": 0,
+        "n": 16
+      },
+      "repeat": {
+        "oracle": 1.0,
+        "beam": 0.5,
+        "open_repeat": 1.0,
+        "programs": 2.4375,
+        "truncated": 0,
+        "n": 16
+      },
+      "optional": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0625,
+        "programs": 1.6875,
+        "truncated": 0,
+        "n": 16
+      },
+      "alternation": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 1.25,
+        "truncated": 0,
+        "n": 16
+      },
+      "prefix_repeat": {
+        "oracle": 1.0,
+        "beam": 0.6875,
+        "open_repeat": 1.0,
+        "programs": 2.4375,
+        "truncated": 0,
+        "n": 16
+      },
+      "repeat_optional": {
+        "oracle": 1.0,
+        "beam": 0.5,
+        "open_repeat": 1.0,
+        "programs": 1.0625,
+        "truncated": 0,
+        "n": 16
+      },
+      "prefix_alt": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 1.8125,
+        "truncated": 0,
+        "n": 16
+      },
+      "optional_internal": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0625,
+        "programs": 2.0,
+        "truncated": 0,
+        "n": 16
+      },
+      "repeat_extra": {
+        "oracle": 1.0,
+        "beam": 0.5625,
+        "open_repeat": 1.0,
+        "programs": 2.5,
+        "truncated": 0,
+        "n": 16
+      }
+    },
+    "model": {
+      "primitive": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 334.0,
+        "truncated": 0,
+        "n": 16
+      },
+      "repeat": {
+        "oracle": 1.0,
+        "beam": 0.25,
+        "open_repeat": 1.0,
+        "programs": 123.9375,
+        "truncated": 0,
+        "n": 16
+      },
+      "optional": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 33.25,
+        "truncated": 0,
+        "n": 16
+      },
+      "alternation": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 26.1875,
+        "truncated": 0,
+        "n": 16
+      },
+      "prefix_repeat": {
+        "oracle": 1.0,
+        "beam": 0.0,
+        "open_repeat": 1.0,
+        "programs": 770.0,
+        "truncated": 0,
+        "n": 16
+      },
+      "repeat_optional": {
+        "oracle": 1.0,
+        "beam": 0.0,
+        "open_repeat": 1.0,
+        "programs": 8.25,
+        "truncated": 0,
+        "n": 16
+      },
+      "prefix_alt": {
+        "oracle": 1.0,
+        "beam": 0.4375,
+        "open_repeat": 0.0,
+        "programs": 9.6875,
+        "truncated": 0,
+        "n": 16
+      },
+      "optional_internal": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 0.0,
+        "programs": 126.75,
+        "truncated": 0,
+        "n": 16
+      },
+      "repeat_extra": {
+        "oracle": 1.0,
+        "beam": 1.0,
+        "open_repeat": 1.0,
+        "programs": 131.625,
+        "truncated": 0,
+        "n": 16
+      }
+    }
+  },
+  "d1": {
+    "gold": {
+      "oracle": 1.0,
+      "beam": 0.90625,
+      "programs": 1.03125,
+      "truncated": 0,
+      "n": 32
+    },
+    "plus1": {
+      "oracle": 1.0,
+      "beam": 0.84375,
+      "programs": 1.28125,
+      "truncated": 0,
+      "n": 32
+    },
+    "plus2": {
+      "oracle": 1.0,
+      "beam": 0.78125,
+      "programs": 1.90625,
+      "truncated": 0,
+      "n": 32
+    },
+    "model": {
+      "oracle": 1.0,
+      "beam": 0.78125,
+      "programs": 52.0625,
+      "truncated": 0,
+      "n": 32
+    }
+  },
+  "seconds": 93.14052867889404,
+  "arch": "version-space",
+  "checkpoint": "results/local_chart/l1/seed_0/checkpoint.pt",
+  "draws": 16
+}

@@ -1,0 +1,18 @@
+# P1. The network proposes a program. The executor decides membership.
+arch: p1
+model: Proposer
+train: [atomic, d1]
+held_out: [prefix_repeat, repeat_optional, prefix_alt, optional_internal, repeat_extra]
+steps: 1200
+batch: 8
+lr: 0.0008
+beam: 16
+literals: copy_support_span
+gate:
+  invariance: 0.99
+  support_acceptance: 1.0
+  ood_top1: 0.90
+  oracle4: 0.95
+  oracle16: 0.98
+  repeat_extra: 0.90
+note: BENCH-C is outside this grammar. Score it only after the synthetic oracle gate.

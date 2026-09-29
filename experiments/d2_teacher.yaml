@@ -1,0 +1,19 @@
+recipe: d2
+question: Do teacher-proposed schemas, checked by the compiler, beat the hand matrix?
+model: SpanNet
+teacher_model: gpt-5.6-terra
+parameters_band: [900000, 1050000]
+steps: 1200
+batch: 12
+lr: 0.0008
+weight_decay: 0.01
+eval_every: 100
+eval_n: 80
+final_n: 160
+selection: mean AUROC of primitive, repeat, optional, alternation
+loss: composition_loss
+mix: half atomic, half validated schemas
+allow_heldout_eval_families: false
+repeat_cap: 3
+templates: data/teacher/validated/schemas.jsonl
+seed: 0

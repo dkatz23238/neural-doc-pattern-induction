@@ -1,0 +1,15 @@
+# L1. Local hypotheses stay alive. A chart assembles programs.
+arch: l1
+model: LocalNet
+train: [atomic, d1]
+held_out: [prefix_repeat, repeat_optional, prefix_alt, optional_internal, repeat_extra]
+steps: 1200
+batch: 8
+lr: 0.0008
+local_k: 8
+literals: copy_support_span
+gate:
+  invariance: 0.99
+  local_recall_at_8: recognizer bottleneck below 0.50
+  program_oracle_at_8: chart bottleneck below 0.40 when local recall is high
+note: BENCH-C is outside this pass. Score local recall before program oracle.

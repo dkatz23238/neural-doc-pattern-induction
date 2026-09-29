@@ -1,0 +1,528 @@
+{
+  "parameters": 945464,
+  "selected_step": 1200,
+  "select_auroc": 0.9924999999999999,
+  "steps": 1200,
+  "composition_auroc": 0.7483333333333334,
+  "min_invariance": 1.0,
+  "slices": {
+    "primitive": {
+      "original": {
+        "n": 160,
+        "accuracy": 0.9875,
+        "balanced": 0.9875,
+        "tpr": 1.0,
+        "tnr": 0.975,
+        "kinds": {
+          "primitive": {
+            "n": 160,
+            "accuracy": 0.9875
+          }
+        },
+        "auroc": 0.996171875,
+        "member_acceptance": 1.0
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 0.9875,
+        "balanced": 0.9875,
+        "tpr": 1.0,
+        "tnr": 0.975,
+        "kinds": {
+          "primitive": {
+            "n": 160,
+            "accuracy": 0.9875
+          }
+        },
+        "auroc": 0.996171875,
+        "member_acceptance": 1.0
+      },
+      "symmetry": {
+        "invariance": 1.0,
+        "mean_abs_delta": 0.0,
+        "decision_agreement": 1.0
+      }
+    },
+    "repeat": {
+      "original": {
+        "n": 160,
+        "accuracy": 0.975,
+        "balanced": 0.9750000000000001,
+        "tpr": 0.9625,
+        "tnr": 0.9875,
+        "kinds": {
+          "repeat": {
+            "n": 160,
+            "accuracy": 0.975
+          }
+        },
+        "auroc": 0.99875,
+        "member_acceptance": 0.9625
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 0.975,
+        "balanced": 0.9750000000000001,
+        "tpr": 0.9625,
+        "tnr": 0.9875,
+        "kinds": {
+          "repeat": {
+            "n": 160,
+            "accuracy": 0.975
+          }
+        },
+        "auroc": 0.99875,
+        "member_acceptance": 0.9625
+      },
+      "symmetry": {
+        "invariance": 1.0,
+        "mean_abs_delta": 0.0,
+        "decision_agreement": 1.0
+      }
+    },
+    "optional": {
+      "original": {
+        "n": 160,
+        "accuracy": 1.0,
+        "balanced": 1.0,
+        "tpr": 1.0,
+        "tnr": 1.0,
+        "kinds": {
+          "optional": {
+            "n": 160,
+            "accuracy": 1.0
+          }
+        },
+        "auroc": 1.0,
+        "member_acceptance": 1.0
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 1.0,
+        "balanced": 1.0,
+        "tpr": 1.0,
+        "tnr": 1.0,
+        "kinds": {
+          "optional": {
+            "n": 160,
+            "accuracy": 1.0
+          }
+        },
+        "auroc": 1.0,
+        "member_acceptance": 1.0
+      },
+      "symmetry": {
+        "invariance": 1.0,
+        "mean_abs_delta": 0.0,
+        "decision_agreement": 1.0
+      }
+    },
+    "alternation": {
+      "original": {
+        "n": 160,
+        "accuracy": 1.0,
+        "balanced": 1.0,
+        "tpr": 1.0,
+        "tnr": 1.0,
+        "kinds": {
+          "alternation": {
+            "n": 160,
+            "accuracy": 1.0
+          }
+        },
+        "auroc": 1.0,
+        "member_acceptance": 1.0
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 1.0,
+        "balanced": 1.0,
+        "tpr": 1.0,
+        "tnr": 1.0,
+        "kinds": {
+          "alternation": {
+            "n": 160,
+            "accuracy": 1.0
+          }
+        },
+        "auroc": 1.0,
+        "member_acceptance": 1.0
+      },
+      "symmetry": {
+        "invariance": 1.0,
+        "mean_abs_delta": 0.0,
+        "decision_agreement": 1.0
+      }
+    },
+    "repeat_extra": {
+      "original": {
+        "n": 160,
+        "accuracy": 0.775,
+        "balanced": 0.775,
+        "tpr": 0.6125,
+        "tnr": 0.9375,
+        "kinds": {
+          "repeat_extra": {
+            "n": 160,
+            "accuracy": 0.775
+          }
+        },
+        "auroc": 0.935,
+        "member_acceptance": 0.6125
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 0.775,
+        "balanced": 0.775,
+        "tpr": 0.6125,
+        "tnr": 0.9375,
+        "kinds": {
+          "repeat_extra": {
+            "n": 160,
+            "accuracy": 0.775
+          }
+        },
+        "auroc": 0.935,
+        "member_acceptance": 0.6125
+      },
+      "symmetry": {
+        "invariance": 1.0,
+        "mean_abs_delta": 0.0,
+        "decision_agreement": 1.0
+      }
+    },
+    "optional_internal": {
+      "original": {
+        "n": 160,
+        "accuracy": 0.75,
+        "balanced": 0.75,
+        "tpr": 0.5,
+        "tnr": 1.0,
+        "kinds": {
+          "optional_internal": {
+            "n": 160,
+            "accuracy": 0.75
+          }
+        },
+        "auroc": 1.0,
+        "member_acceptance": 0.5
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 0.75,
+        "balanced": 0.75,
+        "tpr": 0.5,
+        "tnr": 1.0,
+        "kinds": {
+          "optional_internal": {
+            "n": 160,
+            "accuracy": 0.75
+          }
+        },
+        "auroc": 1.0,
+        "member_acceptance": 0.5
+      },
+      "symmetry": {
+        "invariance": 1.0,
+        "mean_abs_delta": 0.0,
+        "decision_agreement": 1.0
+      }
+    },
+    "prefix_repeat": {
+      "original": {
+        "n": 160,
+        "accuracy": 0.46875,
+        "balanced": 0.46875,
+        "tpr": 0.1875,
+        "tnr": 0.75,
+        "kinds": {
+          "prefix_repeat": {
+            "n": 160,
+            "accuracy": 0.46875
+          }
+        },
+        "auroc": 0.54765625,
+        "member_acceptance": 0.1875
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 0.46875,
+        "balanced": 0.46875,
+        "tpr": 0.1875,
+        "tnr": 0.75,
+        "kinds": {
+          "prefix_repeat": {
+            "n": 160,
+            "accuracy": 0.46875
+          }
+        },
+        "auroc": 0.54765625,
+        "member_acceptance": 0.1875
+      },
+      "symmetry": {
+        "invariance": 1.0,
+        "mean_abs_delta": 0.0,
+        "decision_agreement": 1.0
+      }
+    },
+    "repeat_optional": {
+      "original": {
+        "n": 160,
+        "accuracy": 0.66875,
+        "balanced": 0.66875,
+        "tpr": 0.35,
+        "tnr": 0.9875,
+        "kinds": {
+          "repeat_optional": {
+            "n": 160,
+            "accuracy": 0.66875
+          }
+        },
+        "auroc": 0.71015625,
+        "member_acceptance": 0.35
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 0.66875,
+        "balanced": 0.66875,
+        "tpr": 0.35,
+        "tnr": 0.9875,
+        "kinds": {
+          "repeat_optional": {
+            "n": 160,
+            "accuracy": 0.66875
+          }
+        },
+        "auroc": 0.71015625,
+        "member_acceptance": 0.35
+      },
+      "symmetry": {
+        "invariance": 1.0,
+        "mean_abs_delta": 0.0,
+        "decision_agreement": 1.0
+      }
+    },
+    "prefix_alt": {
+      "original": {
+        "n": 160,
+        "accuracy": 0.84375,
+        "balanced": 0.84375,
+        "tpr": 0.7,
+        "tnr": 0.9875,
+        "kinds": {
+          "prefix_alt": {
+            "n": 160,
+            "accuracy": 0.84375
+          }
+        },
+        "auroc": 0.9871875,
+        "member_acceptance": 0.7
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 0.84375,
+        "balanced": 0.84375,
+        "tpr": 0.7,
+        "tnr": 0.9875,
+        "kinds": {
+          "prefix_alt": {
+            "n": 160,
+            "accuracy": 0.84375
+          }
+        },
+        "auroc": 0.9871875,
+        "member_acceptance": 0.7
+      },
+      "symmetry": {
+        "invariance": 1.0,
+        "mean_abs_delta": 0.0,
+        "decision_agreement": 1.0
+      }
+    }
+  },
+  "gates": [
+    {
+      "name": "primitive AUROC",
+      "target": ">0.93",
+      "result": 0.996171875,
+      "met": true
+    },
+    {
+      "name": "repeats AUROC",
+      "target": ">0.90",
+      "result": 0.99875,
+      "met": true
+    },
+    {
+      "name": "optional spans AUROC",
+      "target": ">0.90",
+      "result": 1.0,
+      "met": true
+    },
+    {
+      "name": "alternations AUROC",
+      "target": ">0.90",
+      "result": 1.0,
+      "met": true
+    },
+    {
+      "name": "held-out compositions AUROC",
+      "target": ">0.90",
+      "result": 0.7483333333333334,
+      "met": false
+    },
+    {
+      "name": "renaming invariance",
+      "target": "~1.00",
+      "result": 1.0,
+      "met": true
+    }
+  ],
+  "curve": [
+    {
+      "step": 100,
+      "loss": 0.999790370464325,
+      "membership": 0.9029979705810547,
+      "aux": 0.005749918520450592,
+      "select_auroc": 0.9315625000000001,
+      "primitive": 0.9575,
+      "repeat": 0.915,
+      "optional": 0.9375,
+      "alternation": 0.91625,
+      "seconds": 11.417730331420898
+    },
+    {
+      "step": 200,
+      "loss": 0.4332144260406494,
+      "membership": 0.35460343956947327,
+      "aux": 0.0020427925046533346,
+      "select_auroc": 0.9409375,
+      "primitive": 0.9825,
+      "repeat": 0.93125,
+      "optional": 0.949375,
+      "alternation": 0.900625,
+      "seconds": 22.764402389526367
+    },
+    {
+      "step": 300,
+      "loss": 0.13833607733249664,
+      "membership": 0.12185904383659363,
+      "aux": 0.000467098958324641,
+      "select_auroc": 0.96421875,
+      "primitive": 0.98625,
+      "repeat": 0.941875,
+      "optional": 0.996875,
+      "alternation": 0.931875,
+      "seconds": 33.971609115600586
+    },
+    {
+      "step": 400,
+      "loss": 0.2514173686504364,
+      "membership": 0.2189120054244995,
+      "aux": 0.0023608615156263113,
+      "select_auroc": 0.97484375,
+      "primitive": 0.991875,
+      "repeat": 0.94875,
+      "optional": 0.999375,
+      "alternation": 0.959375,
+      "seconds": 44.84828567504883
+    },
+    {
+      "step": 500,
+      "loss": 0.6187453269958496,
+      "membership": 0.6033430099487305,
+      "aux": 0.0025225996505469084,
+      "select_auroc": 0.9696875,
+      "primitive": 0.993125,
+      "repeat": 0.941875,
+      "optional": 0.995,
+      "alternation": 0.94875,
+      "seconds": 55.498310565948486
+    },
+    {
+      "step": 600,
+      "loss": 0.08990199863910675,
+      "membership": 0.08129020780324936,
+      "aux": 0.0020681133028119802,
+      "select_auroc": 0.98765625,
+      "primitive": 0.995625,
+      "repeat": 0.955,
+      "optional": 1.0,
+      "alternation": 1.0,
+      "seconds": 66.15829467773438
+    },
+    {
+      "step": 700,
+      "loss": 0.3518161475658417,
+      "membership": 0.33907896280288696,
+      "aux": 0.00037033314583823085,
+      "select_auroc": 0.98265625,
+      "primitive": 0.994375,
+      "repeat": 0.93625,
+      "optional": 1.0,
+      "alternation": 1.0,
+      "seconds": 77.54518485069275
+    },
+    {
+      "step": 800,
+      "loss": 0.0100675905123353,
+      "membership": 0.006340452469885349,
+      "aux": 0.004389592446386814,
+      "select_auroc": 0.99,
+      "primitive": 0.993125,
+      "repeat": 0.966875,
+      "optional": 1.0,
+      "alternation": 1.0,
+      "seconds": 88.39162826538086
+    },
+    {
+      "step": 900,
+      "loss": 0.001004679943434894,
+      "membership": 0.00016448908718302846,
+      "aux": 9.67715895967558e-05,
+      "select_auroc": 0.9909375,
+      "primitive": 0.999375,
+      "repeat": 0.964375,
+      "optional": 1.0,
+      "alternation": 1.0,
+      "seconds": 99.6160397529602
+    },
+    {
+      "step": 1000,
+      "loss": 0.001193201751448214,
+      "membership": 5.7894612837117165e-05,
+      "aux": 6.333569763228297e-05,
+      "select_auroc": 0.98859375,
+      "primitive": 0.9975,
+      "repeat": 0.956875,
+      "optional": 1.0,
+      "alternation": 1.0,
+      "seconds": 110.8492181301117
+    },
+    {
+      "step": 1100,
+      "loss": 0.0008364842506125569,
+      "membership": 1.1980922863585874e-05,
+      "aux": 0.00033398898085579276,
+      "select_auroc": 0.98953125,
+      "primitive": 0.993125,
+      "repeat": 0.965,
+      "optional": 1.0,
+      "alternation": 1.0,
+      "seconds": 121.526282787323
+    },
+    {
+      "step": 1200,
+      "loss": 0.0005900099058635533,
+      "membership": 0.0002854175982065499,
+      "aux": 0.0001126942879636772,
+      "select_auroc": 0.9924999999999999,
+      "primitive": 0.991875,
+      "repeat": 0.978125,
+      "optional": 1.0,
+      "alternation": 1.0,
+      "seconds": 132.53362655639648
+    }
+  ],
+  "reading": "A within-class rename leaves every probability in place. Invariance is 1.000 on every slice, including when a separator becomes a held-out mark.\n\nThe atomic operators clear the AUROC gates. Primitive prefix-plus-class is AUROC 0.996 (balanced 0.988). Repeats of 1\u20133 are AUROC 0.999 (balanced 0.975). Optional tails are AUROC 1.000 (balanced 1.000). Bare alternations are AUROC 1.000 (balanced 1.000).\n\nLonger repeats still rank above broken strings of the same depth: AUROC 0.935, negative rejection 0.938. True-member acceptance falls from 0.963 inside the training depths to 0.613, and balanced accuracy from 0.975 to 0.775. An optional group in the middle, absent from training, keeps AUROC 1.000 and negative rejection 1.000. True-member acceptance there is 0.500, so balanced accuracy is 0.750.\n\nThe three held-out mixtures land in different places. Prefix plus alternation is AUROC 0.987 (balanced 0.844). Repeat plus an optional tail is AUROC 0.710 (balanced 0.669, true-member acceptance 0.350). Prefix plus repeat is AUROC 0.548 (balanced 0.469, true-member acceptance 0.188). The mean of those three AUROCs is 0.748. The composition gate stays open, so the regex decoder stays off."
+}

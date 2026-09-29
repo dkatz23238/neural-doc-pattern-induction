@@ -1,0 +1,465 @@
+{
+  "byte_parameters": 1877186,
+  "relational_parameters": 973121,
+  "best_epoch": 6,
+  "best_clean_renamed": 0.925,
+  "history": [
+    {
+      "epoch": 1,
+      "model": "byte",
+      "stage": "prefix-class",
+      "loss": 1.0766629731655122,
+      "clean_renamed": 0.475
+    },
+    {
+      "epoch": 2,
+      "model": "byte",
+      "stage": "delimited",
+      "loss": 0.9264553798735142,
+      "clean_renamed": 0.5125
+    },
+    {
+      "epoch": 3,
+      "model": "relational",
+      "stage": "mixed-1",
+      "loss": 1.1055016396101565,
+      "consistency": 0.00843906710651936,
+      "clean_renamed": 0.875,
+      "simple_balanced": 0.8
+    },
+    {
+      "epoch": 4,
+      "model": "relational",
+      "stage": "mixed-2",
+      "loss": 0.8746234003221616,
+      "consistency": 0.01627408794738585,
+      "clean_renamed": 1.0,
+      "simple_balanced": 0.90625
+    },
+    {
+      "epoch": 5,
+      "model": "relational",
+      "stage": "mixed-3",
+      "loss": 0.795291395089589,
+      "consistency": 0.016907903640822043,
+      "clean_renamed": 1.0,
+      "simple_balanced": 0.89375
+    },
+    {
+      "epoch": 6,
+      "model": "relational",
+      "stage": "mixed-4",
+      "loss": 0.7674395740497857,
+      "consistency": 0.017006475712696555,
+      "clean_renamed": 1.0,
+      "simple_balanced": 0.925
+    }
+  ],
+  "byte": {
+    "simple": {
+      "original": {
+        "n": 160,
+        "accuracy": 0.7937,
+        "balanced": 0.7937,
+        "tpr": 0.9,
+        "tnr": 0.6875,
+        "kinds": {
+          "class": {
+            "n": 23,
+            "accuracy": 0.6957
+          },
+          "edit": {
+            "n": 37,
+            "accuracy": 0.8919
+          },
+          "positive": {
+            "n": 80,
+            "accuracy": 0.9
+          },
+          "repeat": {
+            "n": 20,
+            "accuracy": 0.3
+          }
+        },
+        "auroc": 0.853,
+        "member_acceptance": 0.9,
+        "holdout_balanced": null,
+        "holdout_member_acceptance": null,
+        "holdout_n": 0
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 0.5437,
+        "balanced": 0.5438,
+        "tpr": 0.8625,
+        "tnr": 0.225,
+        "kinds": {
+          "class": {
+            "n": 23,
+            "accuracy": 0.087
+          },
+          "edit": {
+            "n": 37,
+            "accuracy": 0.2703
+          },
+          "positive": {
+            "n": 80,
+            "accuracy": 0.8625
+          },
+          "repeat": {
+            "n": 20,
+            "accuracy": 0.3
+          }
+        },
+        "auroc": 0.5311,
+        "member_acceptance": 0.8625,
+        "holdout_balanced": 0.1,
+        "holdout_member_acceptance": 0.0,
+        "holdout_n": 5
+      },
+      "symmetry": {
+        "invariance": 0.7487,
+        "mean_abs_delta": 0.2513,
+        "decision_agreement": 0.6125
+      }
+    },
+    "clean": {
+      "original": {
+        "n": 160,
+        "accuracy": 0.725,
+        "balanced": 0.725,
+        "tpr": 1.0,
+        "tnr": 0.45,
+        "kinds": {
+          "edit": {
+            "n": 80,
+            "accuracy": 0.45
+          },
+          "positive": {
+            "n": 80,
+            "accuracy": 1.0
+          }
+        },
+        "auroc": 0.7872,
+        "member_acceptance": 1.0,
+        "holdout_balanced": null,
+        "holdout_member_acceptance": null,
+        "holdout_n": 0
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 0.5125,
+        "balanced": 0.5125,
+        "tpr": 1.0,
+        "tnr": 0.025,
+        "kinds": {
+          "edit": {
+            "n": 80,
+            "accuracy": 0.025
+          },
+          "positive": {
+            "n": 80,
+            "accuracy": 1.0
+          }
+        },
+        "auroc": 0.5241,
+        "member_acceptance": 1.0,
+        "holdout_balanced": 0.5125,
+        "holdout_member_acceptance": 1.0,
+        "holdout_n": 160
+      },
+      "symmetry": {
+        "invariance": 0.8179,
+        "mean_abs_delta": 0.1821,
+        "decision_agreement": 0.7875
+      }
+    },
+    "structural": {
+      "original": {
+        "n": 160,
+        "accuracy": 0.7,
+        "balanced": 0.7,
+        "tpr": 0.95,
+        "tnr": 0.45,
+        "kinds": {
+          "class": {
+            "n": 17,
+            "accuracy": 0.7059
+          },
+          "edit": {
+            "n": 32,
+            "accuracy": 0.5938
+          },
+          "positive": {
+            "n": 80,
+            "accuracy": 0.95
+          },
+          "repeat": {
+            "n": 31,
+            "accuracy": 0.1613
+          }
+        },
+        "auroc": 0.7239,
+        "member_acceptance": 0.95,
+        "holdout_balanced": null,
+        "holdout_member_acceptance": null,
+        "holdout_n": 0
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 0.5,
+        "balanced": 0.5,
+        "tpr": 0.8625,
+        "tnr": 0.1375,
+        "kinds": {
+          "class": {
+            "n": 17,
+            "accuracy": 0.0588
+          },
+          "edit": {
+            "n": 32,
+            "accuracy": 0.125
+          },
+          "positive": {
+            "n": 80,
+            "accuracy": 0.8625
+          },
+          "repeat": {
+            "n": 31,
+            "accuracy": 0.1935
+          }
+        },
+        "auroc": 0.4642,
+        "member_acceptance": 0.8625,
+        "holdout_balanced": 0.4904,
+        "holdout_member_acceptance": 0.7885,
+        "holdout_n": 104
+      },
+      "symmetry": {
+        "invariance": 0.7936,
+        "mean_abs_delta": 0.2064,
+        "decision_agreement": 0.725
+      }
+    }
+  },
+  "relational": {
+    "simple": {
+      "original": {
+        "n": 160,
+        "accuracy": 0.925,
+        "balanced": 0.925,
+        "tpr": 0.925,
+        "tnr": 0.925,
+        "kinds": {
+          "class": {
+            "n": 23,
+            "accuracy": 0.8696
+          },
+          "edit": {
+            "n": 37,
+            "accuracy": 0.9459
+          },
+          "positive": {
+            "n": 80,
+            "accuracy": 0.925
+          },
+          "repeat": {
+            "n": 20,
+            "accuracy": 0.95
+          }
+        },
+        "auroc": 0.9798,
+        "member_acceptance": 0.925,
+        "holdout_balanced": null,
+        "holdout_member_acceptance": null,
+        "holdout_n": 0
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 0.925,
+        "balanced": 0.925,
+        "tpr": 0.925,
+        "tnr": 0.925,
+        "kinds": {
+          "class": {
+            "n": 23,
+            "accuracy": 0.8696
+          },
+          "edit": {
+            "n": 37,
+            "accuracy": 0.9459
+          },
+          "positive": {
+            "n": 80,
+            "accuracy": 0.925
+          },
+          "repeat": {
+            "n": 20,
+            "accuracy": 0.95
+          }
+        },
+        "auroc": 0.9798,
+        "member_acceptance": 0.925,
+        "holdout_balanced": 0.5,
+        "holdout_member_acceptance": 0.0,
+        "holdout_n": 5
+      },
+      "symmetry": {
+        "invariance": 1.0,
+        "mean_abs_delta": 0.0,
+        "decision_agreement": 1.0
+      }
+    },
+    "clean": {
+      "original": {
+        "n": 160,
+        "accuracy": 1.0,
+        "balanced": 1.0,
+        "tpr": 1.0,
+        "tnr": 1.0,
+        "kinds": {
+          "edit": {
+            "n": 80,
+            "accuracy": 1.0
+          },
+          "positive": {
+            "n": 80,
+            "accuracy": 1.0
+          }
+        },
+        "auroc": 1.0,
+        "member_acceptance": 1.0,
+        "holdout_balanced": null,
+        "holdout_member_acceptance": null,
+        "holdout_n": 0
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 1.0,
+        "balanced": 1.0,
+        "tpr": 1.0,
+        "tnr": 1.0,
+        "kinds": {
+          "edit": {
+            "n": 80,
+            "accuracy": 1.0
+          },
+          "positive": {
+            "n": 80,
+            "accuracy": 1.0
+          }
+        },
+        "auroc": 1.0,
+        "member_acceptance": 1.0,
+        "holdout_balanced": 1.0,
+        "holdout_member_acceptance": 1.0,
+        "holdout_n": 160
+      },
+      "symmetry": {
+        "invariance": 1.0,
+        "mean_abs_delta": 0.0,
+        "decision_agreement": 1.0
+      }
+    },
+    "structural": {
+      "original": {
+        "n": 160,
+        "accuracy": 0.7625,
+        "balanced": 0.7625,
+        "tpr": 0.7,
+        "tnr": 0.825,
+        "kinds": {
+          "class": {
+            "n": 17,
+            "accuracy": 1.0
+          },
+          "edit": {
+            "n": 32,
+            "accuracy": 0.7812
+          },
+          "positive": {
+            "n": 80,
+            "accuracy": 0.7
+          },
+          "repeat": {
+            "n": 31,
+            "accuracy": 0.7742
+          }
+        },
+        "auroc": 0.8459,
+        "member_acceptance": 0.7,
+        "holdout_balanced": null,
+        "holdout_member_acceptance": null,
+        "holdout_n": 0
+      },
+      "renamed": {
+        "n": 160,
+        "accuracy": 0.7625,
+        "balanced": 0.7625,
+        "tpr": 0.7,
+        "tnr": 0.825,
+        "kinds": {
+          "class": {
+            "n": 17,
+            "accuracy": 1.0
+          },
+          "edit": {
+            "n": 32,
+            "accuracy": 0.7812
+          },
+          "positive": {
+            "n": 80,
+            "accuracy": 0.7
+          },
+          "repeat": {
+            "n": 31,
+            "accuracy": 0.7742
+          }
+        },
+        "auroc": 0.8459,
+        "member_acceptance": 0.7,
+        "holdout_balanced": 0.75,
+        "holdout_member_acceptance": 0.6731,
+        "holdout_n": 104
+      },
+      "symmetry": {
+        "invariance": 1.0,
+        "mean_abs_delta": 0.0,
+        "decision_agreement": 1.0
+      }
+    }
+  },
+  "gates": [
+    {
+      "name": "simple training alphabet",
+      "target": ">0.90 balanced",
+      "value": 0.925,
+      "met": "yes"
+    },
+    {
+      "name": "symbol-renamed simple score stays within 0.03",
+      "target": "same",
+      "value": 0.925,
+      "met": "yes"
+    },
+    {
+      "name": "unseen-delimiter clean probe",
+      "target": ">0.85 balanced",
+      "value": 1.0,
+      "met": "yes"
+    },
+    {
+      "name": "held-out-byte true-member acceptance",
+      "target": ">0.85",
+      "value": 1.0,
+      "met": "yes"
+    },
+    {
+      "name": "renamed structural AUROC",
+      "target": ">0.90",
+      "value": 0.8459,
+      "met": "no"
+    }
+  ],
+  "reading": "Renaming is no longer able to move the relational model. Invariance is 1.000 on every slice: `p(S, x)` and `p(\u03c0(S), \u03c0(x))` are the same number, including when `-` becomes `\u00a7`.\n\nThe byte-identity diagnostic does move. On letter-separator-digit tasks it scores 0.725 balanced (AUROC 0.787) with the training separator and 0.512 (AUROC 0.524) after that separator leaves the alphabet. Invariance there is 0.818. Negative rejection falls from 0.450 to 0.025. Familiar simple languages fall from 0.794 to 0.544 under a within-class rename.\n\nThe relational model scores 0.925 balanced (AUROC 0.980) on simple languages and the same 0.925 after the rename. The clean delimiter probe, before and after the held-out separator, is 1.000 balanced with true-member acceptance 1.000. That is the symmetry the byte model did not have.\n\nRepeats, optional tails, and alternations are unchanged by the rename as well, and they are not solved. Renamed structural accuracy is 0.762 balanced and AUROC is 0.846, short of the 0.90 mark. A regex decoder stays off until that composition gate moves. The remaining gap is structure, not which symbol plays the separator."
+}

@@ -1,0 +1,53 @@
+{
+  "trained": true,
+  "bench_c_selected": false,
+  "bench_e_scored": false,
+  "device": "cpu",
+  "cuda": false,
+  "steps": 20000,
+  "batch_size": 32,
+  "loss": "listwise_cross_entropy",
+  "support_dim": 160,
+  "feature_dim": 50,
+  "max_candidates": 32,
+  "recognizer_params": 1226128,
+  "generation": {
+    "seed": 2507,
+    "train_kept": 50000,
+    "train_attempts": 50008,
+    "train_oracle": 0.9998400255959047,
+    "val_kept": 10000,
+    "val_oracle": 1.0,
+    "ood_kept": 20000,
+    "ood_oracle": 1.0
+  },
+  "curve": [
+    {"params": 0, "width": 0, "hidden": 0, "val_top1": 0.4604, "ood_top1": 0.5829, "latency_ms": 1.66},
+    {"params": 9737, "width": 32, "hidden": 24, "val_top1": 0.8861, "ood_top1": 0.5103, "latency_ms": 0.13},
+    {"params": 30145, "width": 64, "hidden": 64, "val_top1": 0.8757, "ood_top1": 0.542975, "latency_ms": 0.64},
+    {"params": 105505, "width": 192, "hidden": 96, "val_top1": 0.85035, "ood_top1": 0.6122, "latency_ms": 0.33},
+    {"params": 289601, "width": 320, "hidden": 192, "val_top1": 0.8381, "ood_top1": 0.60965, "latency_ms": 0.82}
+  ],
+  "seeds": {
+    "0": {"params": [0, 9737, 30145, 105505, 289601], "val": [0.4604, 0.8832, 0.8747, 0.8387, 0.835], "ood": [0.5829, 0.49845, 0.5483, 0.64895, 0.63025]},
+    "1": {"params": [0, 9737, 30145, 105505, 289601], "val": [0.4604, 0.889, 0.8767, 0.862, 0.8412], "ood": [0.5829, 0.52215, 0.53765, 0.57545, 0.58905]}
+  },
+  "data_curve_10k": [
+    {"train": 5000, "val_top1": 0.8793, "ood_top1": 0.4957},
+    {"train": 15000, "val_top1": 0.8874, "ood_top1": 0.27845},
+    {"train": 25000, "val_top1": 0.8855, "ood_top1": 0.5087},
+    {"train": 50000, "val_top1": 0.8861, "ood_top1": 0.5103}
+  ],
+  "renaming": {"n": 32, "features": 1.0, "support_embedding": 1.0, "scores": 1.0},
+  "gates": {
+    "synthetic_top1": 0.889,
+    "synthetic_top1_gate": 0.9,
+    "pool_oracle": 1.0,
+    "pool_oracle_gate": 0.99,
+    "ood_top1": 0.612,
+    "ood_top1_gate": 0.85,
+    "renaming": 1.0,
+    "cpu_gate_a": false,
+    "gpu_justified": false
+  }
+}

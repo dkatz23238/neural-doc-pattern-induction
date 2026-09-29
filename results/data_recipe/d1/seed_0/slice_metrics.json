@@ -1,0 +1,335 @@
+{
+  "primitive": {
+    "original": {
+      "n": 160,
+      "accuracy": 0.975,
+      "balanced": 0.975,
+      "tpr": 1.0,
+      "tnr": 0.95,
+      "kinds": {
+        "primitive": {
+          "n": 160,
+          "accuracy": 0.975
+        }
+      },
+      "auroc": 0.9971875,
+      "member_acceptance": 1.0
+    },
+    "renamed": {
+      "n": 160,
+      "accuracy": 0.975,
+      "balanced": 0.975,
+      "tpr": 1.0,
+      "tnr": 0.95,
+      "kinds": {
+        "primitive": {
+          "n": 160,
+          "accuracy": 0.975
+        }
+      },
+      "auroc": 0.9971875,
+      "member_acceptance": 1.0
+    },
+    "symmetry": {
+      "invariance": 1.0,
+      "mean_abs_delta": 0.0,
+      "decision_agreement": 1.0
+    }
+  },
+  "repeat": {
+    "original": {
+      "n": 160,
+      "accuracy": 0.825,
+      "balanced": 0.825,
+      "tpr": 0.9875,
+      "tnr": 0.6625,
+      "kinds": {
+        "repeat": {
+          "n": 160,
+          "accuracy": 0.825
+        }
+      },
+      "auroc": 0.91375,
+      "member_acceptance": 0.9875
+    },
+    "renamed": {
+      "n": 160,
+      "accuracy": 0.825,
+      "balanced": 0.825,
+      "tpr": 0.9875,
+      "tnr": 0.6625,
+      "kinds": {
+        "repeat": {
+          "n": 160,
+          "accuracy": 0.825
+        }
+      },
+      "auroc": 0.91375,
+      "member_acceptance": 0.9875
+    },
+    "symmetry": {
+      "invariance": 1.0,
+      "mean_abs_delta": 0.0,
+      "decision_agreement": 1.0
+    }
+  },
+  "optional": {
+    "original": {
+      "n": 160,
+      "accuracy": 1.0,
+      "balanced": 1.0,
+      "tpr": 1.0,
+      "tnr": 1.0,
+      "kinds": {
+        "optional": {
+          "n": 160,
+          "accuracy": 1.0
+        }
+      },
+      "auroc": 1.0,
+      "member_acceptance": 1.0
+    },
+    "renamed": {
+      "n": 160,
+      "accuracy": 1.0,
+      "balanced": 1.0,
+      "tpr": 1.0,
+      "tnr": 1.0,
+      "kinds": {
+        "optional": {
+          "n": 160,
+          "accuracy": 1.0
+        }
+      },
+      "auroc": 1.0,
+      "member_acceptance": 1.0
+    },
+    "symmetry": {
+      "invariance": 1.0,
+      "mean_abs_delta": 0.0,
+      "decision_agreement": 1.0
+    }
+  },
+  "alternation": {
+    "original": {
+      "n": 160,
+      "accuracy": 0.925,
+      "balanced": 0.925,
+      "tpr": 0.975,
+      "tnr": 0.875,
+      "kinds": {
+        "alternation": {
+          "n": 160,
+          "accuracy": 0.925
+        }
+      },
+      "auroc": 0.99140625,
+      "member_acceptance": 0.975
+    },
+    "renamed": {
+      "n": 160,
+      "accuracy": 0.925,
+      "balanced": 0.925,
+      "tpr": 0.975,
+      "tnr": 0.875,
+      "kinds": {
+        "alternation": {
+          "n": 160,
+          "accuracy": 0.925
+        }
+      },
+      "auroc": 0.99140625,
+      "member_acceptance": 0.975
+    },
+    "symmetry": {
+      "invariance": 1.0,
+      "mean_abs_delta": 0.0,
+      "decision_agreement": 1.0
+    }
+  },
+  "repeat_extra": {
+    "original": {
+      "n": 160,
+      "accuracy": 0.80625,
+      "balanced": 0.8062499999999999,
+      "tpr": 0.95,
+      "tnr": 0.6625,
+      "kinds": {
+        "repeat_extra": {
+          "n": 160,
+          "accuracy": 0.80625
+        }
+      },
+      "auroc": 0.84875,
+      "member_acceptance": 0.95
+    },
+    "renamed": {
+      "n": 160,
+      "accuracy": 0.80625,
+      "balanced": 0.8062499999999999,
+      "tpr": 0.95,
+      "tnr": 0.6625,
+      "kinds": {
+        "repeat_extra": {
+          "n": 160,
+          "accuracy": 0.80625
+        }
+      },
+      "auroc": 0.84875,
+      "member_acceptance": 0.95
+    },
+    "symmetry": {
+      "invariance": 1.0,
+      "mean_abs_delta": 0.0,
+      "decision_agreement": 1.0
+    }
+  },
+  "optional_internal": {
+    "original": {
+      "n": 160,
+      "accuracy": 0.95,
+      "balanced": 0.95,
+      "tpr": 0.9,
+      "tnr": 1.0,
+      "kinds": {
+        "optional_internal": {
+          "n": 160,
+          "accuracy": 0.95
+        }
+      },
+      "auroc": 1.0,
+      "member_acceptance": 0.9
+    },
+    "renamed": {
+      "n": 160,
+      "accuracy": 0.95,
+      "balanced": 0.95,
+      "tpr": 0.9,
+      "tnr": 1.0,
+      "kinds": {
+        "optional_internal": {
+          "n": 160,
+          "accuracy": 0.95
+        }
+      },
+      "auroc": 1.0,
+      "member_acceptance": 0.9
+    },
+    "symmetry": {
+      "invariance": 1.0,
+      "mean_abs_delta": 0.0,
+      "decision_agreement": 1.0
+    }
+  },
+  "prefix_repeat": {
+    "original": {
+      "n": 160,
+      "accuracy": 0.725,
+      "balanced": 0.725,
+      "tpr": 0.475,
+      "tnr": 0.975,
+      "kinds": {
+        "prefix_repeat": {
+          "n": 160,
+          "accuracy": 0.725
+        }
+      },
+      "auroc": 0.76609375,
+      "member_acceptance": 0.475
+    },
+    "renamed": {
+      "n": 160,
+      "accuracy": 0.725,
+      "balanced": 0.725,
+      "tpr": 0.475,
+      "tnr": 0.975,
+      "kinds": {
+        "prefix_repeat": {
+          "n": 160,
+          "accuracy": 0.725
+        }
+      },
+      "auroc": 0.76609375,
+      "member_acceptance": 0.475
+    },
+    "symmetry": {
+      "invariance": 1.0,
+      "mean_abs_delta": 0.0,
+      "decision_agreement": 1.0
+    }
+  },
+  "repeat_optional": {
+    "original": {
+      "n": 160,
+      "accuracy": 0.66875,
+      "balanced": 0.66875,
+      "tpr": 0.35,
+      "tnr": 0.9875,
+      "kinds": {
+        "repeat_optional": {
+          "n": 160,
+          "accuracy": 0.66875
+        }
+      },
+      "auroc": 0.7190625,
+      "member_acceptance": 0.35
+    },
+    "renamed": {
+      "n": 160,
+      "accuracy": 0.66875,
+      "balanced": 0.66875,
+      "tpr": 0.35,
+      "tnr": 0.9875,
+      "kinds": {
+        "repeat_optional": {
+          "n": 160,
+          "accuracy": 0.66875
+        }
+      },
+      "auroc": 0.7190625,
+      "member_acceptance": 0.35
+    },
+    "symmetry": {
+      "invariance": 1.0,
+      "mean_abs_delta": 0.0,
+      "decision_agreement": 1.0
+    }
+  },
+  "prefix_alt": {
+    "original": {
+      "n": 160,
+      "accuracy": 0.83125,
+      "balanced": 0.83125,
+      "tpr": 0.75,
+      "tnr": 0.9125,
+      "kinds": {
+        "prefix_alt": {
+          "n": 160,
+          "accuracy": 0.83125
+        }
+      },
+      "auroc": 0.9521875,
+      "member_acceptance": 0.75
+    },
+    "renamed": {
+      "n": 160,
+      "accuracy": 0.83125,
+      "balanced": 0.83125,
+      "tpr": 0.75,
+      "tnr": 0.9125,
+      "kinds": {
+        "prefix_alt": {
+          "n": 160,
+          "accuracy": 0.83125
+        }
+      },
+      "auroc": 0.9521875,
+      "member_acceptance": 0.75
+    },
+    "symmetry": {
+      "invariance": 1.0,
+      "mean_abs_delta": 0.0,
+      "decision_agreement": 1.0
+    }
+  }
+}

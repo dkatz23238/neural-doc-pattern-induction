@@ -1,0 +1,119 @@
+{
+  "arch": "h2",
+  "recipe": "d0",
+  "seed": 0,
+  "parameters": 1311398,
+  "frozen": {
+    "steps": 1200,
+    "batch": 12,
+    "lr": 0.0008,
+    "weight_decay": 0.01,
+    "eval_every": 100,
+    "eval_n": 80,
+    "final_n": 160,
+    "select_families": [
+      "primitive",
+      "repeat",
+      "optional",
+      "alternation"
+    ]
+  },
+  "generator_version": "dsl-1",
+  "template_bank_hash": "atomic",
+  "templates": 0,
+  "exposes_eval_family": [],
+  "selected_step": 1200,
+  "select_auroc": 0.99703125,
+  "composition_auroc": 0.7803125,
+  "worst_composition": {
+    "family": "prefix_repeat",
+    "auroc": 0.60234375
+  },
+  "repeat_extra_auroc": 0.9771875,
+  "atomic_min_auroc": 0.99875,
+  "min_invariance": 1.0,
+  "interpretation": "hierarchy did not clear the composition gate",
+  "slices": {
+    "primitive": {
+      "balanced": 0.9875,
+      "auroc": 0.99875,
+      "tpr": 1.0,
+      "tnr": 0.975,
+      "member_acceptance": 1.0,
+      "invariance": 1.0,
+      "renamed_auroc": 0.99875
+    },
+    "repeat": {
+      "balanced": 0.9875,
+      "auroc": 0.99984375,
+      "tpr": 0.9875,
+      "tnr": 0.9875,
+      "member_acceptance": 0.9875,
+      "invariance": 1.0,
+      "renamed_auroc": 0.99984375
+    },
+    "optional": {
+      "balanced": 1.0,
+      "auroc": 1.0,
+      "tpr": 1.0,
+      "tnr": 1.0,
+      "member_acceptance": 1.0,
+      "invariance": 1.0,
+      "renamed_auroc": 1.0
+    },
+    "alternation": {
+      "balanced": 1.0,
+      "auroc": 1.0,
+      "tpr": 1.0,
+      "tnr": 1.0,
+      "member_acceptance": 1.0,
+      "invariance": 1.0,
+      "renamed_auroc": 1.0
+    },
+    "repeat_extra": {
+      "balanced": 0.875,
+      "auroc": 0.9771875,
+      "tpr": 0.8,
+      "tnr": 0.95,
+      "member_acceptance": 0.8,
+      "invariance": 1.0,
+      "renamed_auroc": 0.9771875
+    },
+    "optional_internal": {
+      "balanced": 0.75,
+      "auroc": 0.96515625,
+      "tpr": 0.5,
+      "tnr": 1.0,
+      "member_acceptance": 0.5,
+      "invariance": 1.0,
+      "renamed_auroc": 0.96515625
+    },
+    "prefix_repeat": {
+      "balanced": 0.5187499999999999,
+      "auroc": 0.60234375,
+      "tpr": 0.0875,
+      "tnr": 0.95,
+      "member_acceptance": 0.0875,
+      "invariance": 1.0,
+      "renamed_auroc": 0.60234375
+    },
+    "repeat_optional": {
+      "balanced": 0.73125,
+      "auroc": 0.75375,
+      "tpr": 0.475,
+      "tnr": 0.9875,
+      "member_acceptance": 0.475,
+      "invariance": 1.0,
+      "renamed_auroc": 0.75375
+    },
+    "prefix_alt": {
+      "balanced": 0.8875,
+      "auroc": 0.98484375,
+      "tpr": 0.7875,
+      "tnr": 0.9875,
+      "member_acceptance": 0.7875,
+      "invariance": 1.0,
+      "renamed_auroc": 0.98484375
+    }
+  }
+}

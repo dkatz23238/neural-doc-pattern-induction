@@ -1,0 +1,8 @@
+{
+  "arch": "h2",
+  "selected_step": 1000,
+  "select_auroc": 0.9768749999999999,
+  "parameters": 1311398,
+  "file": "checkpoint.pt",
+  "sha256": "f75734759d0c96251d917c9fbec56480a5e9e2ccd2e8f8121468303a16f14ff4"
+}

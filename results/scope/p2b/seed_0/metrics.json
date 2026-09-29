@@ -1,0 +1,323 @@
+{
+  "arch": "p2b",
+  "seed": 0,
+  "parameters": 1123387,
+  "trainable": 55208,
+  "steps": 800,
+  "batch": 8,
+  "lr": 0.001,
+  "local_k": 8,
+  "generator_version": "dsl-1",
+  "template_bank_hash": "e0245d392f894537",
+  "frozen_checkpoint": "results/local_chart/l1/seed_0/checkpoint.pt",
+  "selected_step": 800,
+  "select_local": 1.0,
+  "atomic_local": 1.0,
+  "atomic_oracle": 1.0,
+  "ood_local": 0.990451388888889,
+  "ood_local_at_1": 0.40498638344226573,
+  "ood_oracle": 0.9875,
+  "min_invariance": 1.0,
+  "truncated": 0,
+  "interpretation": "held-out local recall cleared 0.95 and the version-space oracle recovered programs from the model's own facts",
+  "families": {
+    "primitive": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": null,
+        "alt": null,
+        "pair": null,
+        "cut": 1.0,
+        "mean": 1.0
+      },
+      "local_at_1": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": null,
+        "alt": null,
+        "pair": null,
+        "cut": 1.0,
+        "mean": 1.0
+      },
+      "local_recall": 1.0,
+      "local_recall_at_1": 1.0,
+      "oracle": 1.0,
+      "open_repeat": 1.0,
+      "programs": 808.0625,
+      "truncated": 0,
+      "n": 16
+    },
+    "repeat": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": 1.0,
+        "optional": null,
+        "alt": null,
+        "pair": 1.0,
+        "cut": 1.0,
+        "mean": 1.0
+      },
+      "local_at_1": {
+        "copy": 0.5,
+        "cls": 0.3333333333333333,
+        "repeat": 1.0,
+        "optional": null,
+        "alt": null,
+        "pair": 0.6666666666666666,
+        "cut": 0.3333333333333333,
+        "mean": 0.5666666666666667
+      },
+      "local_recall": 1.0,
+      "local_recall_at_1": 0.5666666666666667,
+      "oracle": 1.0,
+      "open_repeat": 1.0,
+      "programs": 672.125,
+      "truncated": 0,
+      "n": 16
+    },
+    "optional": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": 1.0,
+        "alt": null,
+        "pair": null,
+        "cut": 1.0,
+        "mean": 1.0
+      },
+      "local_at_1": {
+        "copy": 0.6575342465753424,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": 1.0,
+        "alt": null,
+        "pair": null,
+        "cut": 0.6575342465753424,
+        "mean": 0.8287671232876712
+      },
+      "local_recall": 1.0,
+      "local_recall_at_1": 0.8287671232876712,
+      "oracle": 1.0,
+      "open_repeat": 1.0,
+      "programs": 156.125,
+      "truncated": 0,
+      "n": 16
+    },
+    "alternation": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": null,
+        "alt": 1.0,
+        "pair": null,
+        "cut": null,
+        "mean": 1.0
+      },
+      "local_at_1": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": null,
+        "alt": 1.0,
+        "pair": null,
+        "cut": null,
+        "mean": 1.0
+      },
+      "local_recall": 1.0,
+      "local_recall_at_1": 1.0,
+      "oracle": 1.0,
+      "open_repeat": 0.0,
+      "programs": 126.0,
+      "truncated": 0,
+      "n": 16
+    },
+    "prefix_repeat": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": 1.0,
+        "optional": null,
+        "alt": null,
+        "pair": 1.0,
+        "cut": 1.0,
+        "mean": 1.0
+      },
+      "local_at_1": {
+        "copy": 0.3333333333333333,
+        "cls": 0.0,
+        "repeat": 0.0,
+        "optional": null,
+        "alt": null,
+        "pair": 0.6666666666666666,
+        "cut": 0.25,
+        "mean": 0.25
+      },
+      "local_recall": 1.0,
+      "local_recall_at_1": 0.25,
+      "oracle": 1.0,
+      "open_repeat": 1.0,
+      "programs": 1034.375,
+      "truncated": 0,
+      "n": 16
+    },
+    "repeat_optional": {
+      "local": {
+        "copy": 1.0,
+        "cls": 0.9947916666666666,
+        "repeat": 1.0,
+        "optional": 0.9375,
+        "alt": null,
+        "pair": 1.0,
+        "cut": 0.78125,
+        "mean": 0.9522569444444445
+      },
+      "local_at_1": {
+        "copy": 0.4444444444444444,
+        "cls": 0.0,
+        "repeat": 0.0,
+        "optional": 0.0625,
+        "alt": null,
+        "pair": 0.75,
+        "cut": 0.25,
+        "mean": 0.2511574074074074
+      },
+      "local_recall": 0.9522569444444445,
+      "local_recall_at_1": 0.2511574074074074,
+      "oracle": 0.9375,
+      "open_repeat": 0.9375,
+      "programs": 8.1875,
+      "truncated": 0,
+      "n": 16
+    },
+    "prefix_alt": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": null,
+        "alt": 1.0,
+        "pair": null,
+        "cut": 1.0,
+        "mean": 1.0
+      },
+      "local_at_1": {
+        "copy": 0.4117647058823529,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": null,
+        "alt": 0.25,
+        "pair": null,
+        "cut": 0.5833333333333334,
+        "mean": 0.5612745098039216
+      },
+      "local_recall": 1.0,
+      "local_recall_at_1": 0.5612745098039216,
+      "oracle": 1.0,
+      "open_repeat": 0.4375,
+      "programs": 176.5,
+      "truncated": 0,
+      "n": 16
+    },
+    "optional_internal": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": null,
+        "optional": 1.0,
+        "alt": null,
+        "pair": null,
+        "cut": 1.0,
+        "mean": 1.0
+      },
+      "local_at_1": {
+        "copy": 0.25,
+        "cls": 0.0,
+        "repeat": null,
+        "optional": 1.0,
+        "alt": null,
+        "pair": null,
+        "cut": 0.3333333333333333,
+        "mean": 0.3958333333333333
+      },
+      "local_recall": 1.0,
+      "local_recall_at_1": 0.3958333333333333,
+      "oracle": 1.0,
+      "open_repeat": 1.0,
+      "programs": 1779.625,
+      "truncated": 0,
+      "n": 16
+    },
+    "repeat_extra": {
+      "local": {
+        "copy": 1.0,
+        "cls": 1.0,
+        "repeat": 1.0,
+        "optional": null,
+        "alt": null,
+        "pair": 1.0,
+        "cut": 1.0,
+        "mean": 1.0
+      },
+      "local_at_1": {
+        "copy": 0.5,
+        "cls": 0.3333333333333333,
+        "repeat": 1.0,
+        "optional": null,
+        "alt": null,
+        "pair": 0.6666666666666666,
+        "cut": 0.3333333333333333,
+        "mean": 0.5666666666666667
+      },
+      "local_recall": 1.0,
+      "local_recall_at_1": 0.5666666666666667,
+      "oracle": 1.0,
+      "open_repeat": 1.0,
+      "programs": 927.25,
+      "truncated": 0,
+      "n": 16
+    }
+  },
+  "curve": [
+    {
+      "step": 0,
+      "loss": null,
+      "pair": null,
+      "select_local": 1.0,
+      "seconds": 8.677980661392212
+    },
+    {
+      "step": 200,
+      "loss": 0.15834976732730865,
+      "pair": 0.03810221701860428,
+      "select_local": 1.0,
+      "seconds": 128.17810893058777
+    },
+    {
+      "step": 400,
+      "loss": 0.09113611280918121,
+      "pair": 0.016557462513446808,
+      "select_local": 1.0,
+      "seconds": 155.61638951301575
+    },
+    {
+      "step": 600,
+      "loss": 0.08012782037258148,
+      "pair": 0.008299406617879868,
+      "select_local": 1.0,
+      "seconds": 166.66806745529175
+    },
+    {
+      "step": 800,
+      "loss": 0.08221086859703064,
+      "pair": 0.007840953767299652,
+      "select_local": 1.0,
+      "seconds": 177.6943438053131
+    }
+  ]
+}

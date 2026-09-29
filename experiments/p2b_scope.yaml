@@ -1,0 +1,19 @@
+# P2b. Scope relations on a frozen recognizer and a frozen chart.
+arch: p2b
+model: ScopeNet
+frozen: results/local_chart/l1/seed_0/checkpoint.pt
+chart: version_space.assemble
+train: [atomic, d1]
+held_out: [prefix_repeat, repeat_optional, prefix_alt, optional_internal, repeat_extra]
+steps: 800
+batch: 8
+lr: 0.001
+local_k: 8
+relations: [same_unit, contains, starts_group, ends_group, optional_child, alt_branch, shared_prefix, shared_suffix]
+objective: recall_at_8
+select: atomic local recall@8
+gate:
+  invariance: 1.000
+  held_out_local_recall_at_8: 0.95
+  program_oracle: measure on the model's own top 8 after the local gate
+note: BENCH-C is outside this pass. The version-space chart stays frozen. Program ranking waits on the oracle.

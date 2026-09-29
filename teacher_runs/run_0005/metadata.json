@@ -1,0 +1,32 @@
+{
+  "model": "gpt-5.6-terra",
+  "prompt": "failure_analysis_v1.md",
+  "response_sha256": "29fa8780a9f0e5b4d57f5b0b56ba2d4d8195dfc70a46babd85f28783f2ac3ba5",
+  "usage": {
+    "input_tokens": 954,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 3428,
+    "output_tokens_details": {
+      "reasoning_tokens": 2610
+    },
+    "total_tokens": 4382
+  },
+  "cost_usd": 0.043044,
+  "cost_estimated": false,
+  "spent_usd": 0.16254,
+  "compiler_version": "dsl-1",
+  "accepted": 2,
+  "rejected": 2,
+  "seconds": 36.276,
+  "accepted_ids": [
+    "prefixed_suffix_alternation",
+    "prefix_outside_branch_scope"
+  ],
+  "reject_reasons": [
+    "bad_class",
+    "bad_class"
+  ]
+}

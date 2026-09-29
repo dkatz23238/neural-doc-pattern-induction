@@ -1,0 +1,650 @@
+"""Select one language from the frozen version space.
+
+The chart and the recognizer stay frozen. A contingent delimiter, present in
+only some supports, adds an optional-suffix hypothesis the top-k list can
+miss. Families that accept the same strings are merged, a grammar fit on gold
+schemas breaks near ties, support subsets vote for stability, and a tiny
+witness head judges strings where families disagree.
+"""
+
+from __future__ import annotations
+
+import json
+import random
+import time
+from pathlib import Path
+
+import torch
+
+from pattern_induction.chart import LOCAL_K, same_fact
+from pattern_induction.contingent import contingent_optionals
+from pattern_induction.document_facts import document_facts
+from pattern_induction.language import (
+    GrammarPrior,
+    boundary_strings,
+    choose_family,
+    disagreements,
+    group_languages,
+    repeat_extension,
+    witness_loglik,
+)
+from pattern_induction.local_train import ALL, ATOMIC, OOD
+from pattern_induction.membership import Episode
+from pattern_induction.program import (
+    MAX_SUPPORT,
+    Task,
+    agrees,
+    execute,
+    feature_batch,
+    sample_compose_task,
+    sample_dsl_task,
+    to_regex,
+)
+from pattern_induction.recipes import d1_bank
+from pattern_induction.renaming import rename_episode
+from pattern_induction.schema_dsl import GENERATOR_VERSION, bank_hash
+from pattern_induction.scope import ScopeNet, collate_scope, hypotheses_from_scope, total_parameter_count
+from pattern_induction.version_space import assemble
+from pattern_induction.witness_net import WitnessNet, collate_witnesses, geometry, witness_loss
+
+SCOPE_CHECKPOINT = "results/scope/p2b/seed_0/checkpoint.pt"
+STEPS = 400
+BATCH = 16
+LR = 1e-3
+TIE = 0.3
+# Above this, equivalence grouping no longer finishes beside subset resynthesis.
+# Same-regex programs are one language. Distinct regexes stay apart.
+LARGE_CHART = 6000
+PARAM_LO = 1_000_000
+PARAM_HI = 2_000_000
+
+
+def _witness_state(witness: WitnessNet) -> dict:
+    return {
+        "head": {key: value.detach().cpu().clone() for key, value in witness.head.state_dict().items()},
+        "geom_head": {key: value.detach().cpu().clone() for key, value in witness.geom_head.state_dict().items()},
+    }
+
+
+def _load_witness_state(witness: WitnessNet, state: dict) -> None:
+    witness.head.load_state_dict(state["head"])
+    witness.geom_head.load_state_dict(state["geom_head"])
+
+
+def _load_scope(root: Path) -> ScopeNet:
+    path = root / SCOPE_CHECKPOINT
+    if not path.exists():
+        raise RuntimeError(f"missing frozen scope recognizer at {path}")
+    model = ScopeNet()
+    state = torch.load(path, map_location="cpu", weights_only=True)
+    model.load_state_dict(state)
+    model.local.eval()
+    for param in model.parameters():
+        param.requires_grad_(False)
+    return model
+
+
+def complete_assembly(supports: list[str], hyps: list, v2: bool = False):
+    """Union alignment facts with the frozen chart, then pack equivalent cells.
+
+    The four supports already show exact class widths, literal heads, optional
+    regions, and binary alternations. Those facts are added even when the
+    neural chart is nonempty, because a populated chart can still be missing
+    the tight program. A chart the alignment does not extend is assembled
+    exactly as before. Equivalent concatenations collapse only on the union,
+    after the facts have been composed.
+
+    ``v2`` adds character-set and integer-range facts. The default leaves
+    Synthesis v1 bit-identical.
+    """
+    viewed = supports[:MAX_SUPPORT]
+    sources = list(document_facts(viewed))
+    if v2:
+        from pattern_induction.charset import v2_facts
+
+        sources.extend(v2_facts(viewed))
+    extra = []
+    kept = list(hyps)
+    for hyp in sources:
+        if any(same_fact(hyp, item, True) for item in kept):
+            continue
+        extra.append(hyp)
+        kept.append(hyp)
+    if not extra:
+        return assemble(supports, hyps)
+    return assemble(supports, hyps + extra, wrap_optional_alt=True, pack=True)
+
+
+def synthesize_assembly(scope: ScopeNet, task: Task, v2: bool = False):
+    supports = task.supports[:MAX_SUPPORT]
+    batch = collate_scope([task])
+    hyps = hypotheses_from_scope(scope, batch, [supports], LOCAL_K)[0]
+    for hyp in contingent_optionals(supports):
+        if any(same_fact(hyp, kept, False) for kept in hyps):
+            continue
+        hyps.append(hyp)
+    return complete_assembly(task.supports, hyps, v2=v2)
+
+
+def synthesize(scope: ScopeNet, task: Task, v2: bool = False) -> list:
+    return [prog for prog, _score in synthesize_assembly(scope, task, v2=v2).programs]
+
+
+def load_selector(root: Path) -> tuple[ScopeNet, WitnessNet, GrammarPrior]:
+    """Frozen scope recognizer, witness head, and the grammar saved with it."""
+    torch.set_num_threads(4)
+    scope = _load_scope(root)
+    witness = WitnessNet(scope.local)
+    path = root / "results" / "select" / "s1" / "seed_0" / "checkpoint.pt"
+    if not path.exists():
+        raise RuntimeError(f"missing frozen selector at {path}")
+    state = torch.load(path, map_location="cpu", weights_only=True)
+    _load_witness_state(witness, state["head"])
+    prior = GrammarPrior.from_state(state["prior"])
+    witness.encoder.eval()
+    return scope, witness, prior
+
+
+def _subsets(supports: list[str]) -> list[list[str]]:
+    rows = []
+    for index in range(len(supports)):
+        subset = [text for cursor, text in enumerate(supports) if cursor != index]
+        if len(subset) >= 2:
+            rows.append(subset)
+    if len(supports) >= 4:
+        rows.append(supports[:-2])
+    if len(supports) >= 2:
+        rows.append(supports[1:] + supports[:1])
+    return rows
+
+
+def _bits(prog, supports: list[str], battery: list[str]) -> tuple[bool, ...]:
+    return tuple(bool(execute(prog, text, supports)) for text in battery)
+
+
+def _stability(scope: ScopeNet, task: Task, families: list[list], v2: bool = False) -> dict[int, float]:
+    battery = boundary_strings(task.supports)
+    target = {index: _bits(group[0], task.supports, battery) for index, group in enumerate(families)}
+    hits = {index: 0 for index in target}
+    subsets = _subsets(task.supports)
+    if not subsets:
+        return {index: 1.0 for index in target}
+    for subset in subsets:
+        programs = synthesize(scope, Task(task.family, subset, task.program, []), v2=v2)
+        found = {_bits(prog, subset, battery) for prog in programs}
+        for index, signature in target.items():
+            if signature in found:
+                hits[index] += 1
+    return {index: hits[index] / len(subsets) for index in target}
+
+
+def _judgments(witness: WitnessNet, supports: list[str], texts: list[str]) -> list[tuple[str, float]]:
+    if not texts:
+        return []
+    batch = collate_witnesses([(supports, text) for text in texts])
+    witness.encoder.eval()
+    with torch.no_grad():
+        probs = torch.sigmoid(witness(batch)).tolist()
+    return list(zip(texts, [float(prob) for prob in probs]))
+
+
+def select_program(
+    scope: ScopeNet,
+    witness: WitnessNet,
+    prior: GrammarPrior,
+    task: Task,
+    with_stability: bool = True,
+    v2: bool = False,
+    stability_mode: str = "resynthesize",
+    operator_witnesses: bool = False,
+) -> tuple:
+    programs = synthesize(scope, task, v2=v2)
+    # The recorded exact-fragment selector resynthesizes and does not split
+    # character sets. That path stays bit-identical.
+    if stability_mode == "resynthesize" and not operator_witnesses:
+        if len(programs) >= LARGE_CHART:
+            chosen, count = _select_large(programs, task.supports, witness, prior)
+            return chosen, programs, count
+        families = group_languages(programs, task.supports)
+        if not families:
+            return None, programs, 0
+        texts = disagreements(families, task.supports) if len(families) > 1 else []
+        judgments = _judgments(witness, task.supports, texts)
+        stability: dict[int, float] = {}
+        # Stability only breaks a tie inside the witness band. A unique witness
+        # winner is already decided, so the subset resynthesis can be skipped.
+        if with_stability and len(families) > 1 and len(task.supports) >= 3 and not _witness_decides(families, task.supports, judgments):
+            stability = _stability(scope, task, families, v2=v2)
+        chosen = choose_family(families, task.supports, judgments, prior, stability, TIE)
+        return chosen, programs, len(families)
+    chosen, programs, count, _info = select_from_programs(
+        programs,
+        task.supports,
+        witness,
+        prior,
+        stability_mode=stability_mode,
+        with_stability=with_stability,
+        operator_witnesses=operator_witnesses,
+        scope=scope,
+        task=task,
+        v2=v2,
+    )
+    return chosen, programs, count
+
+
+def _regex_families(programs: list, supports: list[str]) -> list[list]:
+    """One family per rendered regex. This does not determinize the chart."""
+    grouped: dict[str, list] = {}
+    order: list[str] = []
+    for prog in programs:
+        key = to_regex(prog, supports)
+        if key not in grouped:
+            grouped[key] = []
+            order.append(key)
+        grouped[key].append(prog)
+    return [grouped[key] for key in order]
+
+
+def select_from_programs(
+    programs: list,
+    supports: list[str],
+    witness: WitnessNet,
+    prior: GrammarPrior,
+    stability_mode: str = "direct",
+    with_stability: bool = True,
+    operator_witnesses: bool = False,
+    scope: ScopeNet | None = None,
+    task: Task | None = None,
+    v2: bool = False,
+) -> tuple:
+    """Choose a program from a chart that has already been built.
+
+    ``resynthesize`` is mode A. ``cached`` reuses the chart (mode B).
+    ``direct`` scores each candidate's own constraints (mode C).
+    """
+    # Determinizing every program is the slow part once the chart is built.
+    # Same-regex programs are already one language. Smaller charts still use
+    # the automaton so a stability comparison with resynthesis sees the same families.
+    if len(programs) >= 400:
+        families = _regex_families(programs, supports)
+    else:
+        families = group_languages(programs, supports)
+    if operator_witnesses:
+        from pattern_induction.operator_witness import split_operator_families
+
+        families = split_operator_families(families)
+    if not families:
+        return None, programs, 0, {"stability": 0.0, "confidence": 0.0, "margin": 0.0, "families": 0, "witness_decided": False, "mode": stability_mode}
+    if len(families) > 10000:
+        battery_limit = 4
+    elif len(families) > 2000:
+        battery_limit = 8
+    else:
+        battery_limit = 36
+    texts = disagreements(families, supports, battery_limit=battery_limit) if len(families) > 1 else []
+    judgments = _judgments(witness, supports, texts)
+    if operator_witnesses:
+        from pattern_induction.operator_witness import merge_judgments, operator_judgments
+
+        judgments = merge_judgments(judgments, operator_judgments(families, supports))
+    evidences = [witness_loglik(group[0], supports, judgments) for group in families]
+    decided = _band_is_unique(evidences) if len(families) > 1 else True
+    stability: dict[int, float] = {}
+    # Resynthesis is skipped once the witness has already picked a language.
+    # Direct and cached scores are cheap, so the router can see them either way.
+    measure = with_stability and len(families) > 1 and len(supports) >= 3
+    if measure and (stability_mode in {"direct", "cached"} or not decided):
+        stability = _stability_for(stability_mode, programs, families, supports, scope, task, v2)
+    chosen = choose_family(
+        families,
+        supports,
+        judgments,
+        prior,
+        stability,
+        TIE,
+        score_coverage=len(families) <= 2000,
+        evidences=evidences,
+    )
+    info = _selection_info(chosen, families, evidences, prior, stability, decided, stability_mode)
+    return chosen, programs, len(families), info
+
+
+def _stability_for(mode, programs, families, supports, scope, task, v2: bool) -> dict[int, float]:
+    if mode == "direct":
+        from pattern_induction.stability import direct_stability
+
+        return direct_stability(families, supports)
+    if mode == "cached":
+        from pattern_induction.stability import cached_stability
+
+        signatures = {index: _bits(group[0], supports, boundary_strings(supports)) for index, group in enumerate(families)}
+        return cached_stability(programs, supports, signatures)
+    if scope is None or task is None:
+        raise RuntimeError("resynthesis needs the frozen recognizer and the task")
+    return _stability(scope, task, families, v2=v2)
+
+
+def _band_is_unique(evidences: list[float]) -> bool:
+    if not evidences:
+        return True
+    best = max(evidences)
+    return sum(1 for evidence in evidences if best - evidence <= TIE) <= 1
+
+
+def _selection_info(chosen, families, evidences, prior, stability, decided: bool, mode: str) -> dict:
+    chosen_index = 0
+    for index, group in enumerate(families):
+        if chosen in group:
+            chosen_index = index
+            break
+    best = max(evidences) if evidences else 0.0
+    band = [index for index, evidence in enumerate(evidences) if best - evidence <= TIE]
+    grammar_gap = 0.0
+    if len(band) > 1:
+        grammars = [max(prior.score(prog) for prog in families[index]) for index in band]
+        ordered = sorted(grammars, reverse=True)
+        grammar_gap = ordered[0] - ordered[1]
+    evidence_gap = 0.0
+    if len(evidences) > 1:
+        ordered_evidence = sorted(evidences, reverse=True)
+        evidence_gap = ordered_evidence[0] - ordered_evidence[1]
+    if len(families) <= 1:
+        confidence = 0.95
+    else:
+        import math
+
+        confidence = 1.0 / (1.0 + math.exp(-grammar_gap))
+    measured = chosen_index in stability
+    return {
+        "stability": stability.get(chosen_index, 1.0 if len(families) <= 1 else 0.0),
+        "stability_measured": measured or len(families) <= 1,
+        "confidence": confidence,
+        "margin": evidence_gap if evidence_gap else grammar_gap,
+        "families": len(families),
+        "witness_decided": decided,
+        "mode": mode,
+    }
+
+
+def _select_large(
+    programs: list,
+    supports: list[str],
+    witness: WitnessNet,
+    prior: GrammarPrior,
+    operator_witnesses: bool = False,
+) -> tuple:
+    """Pick a program when the chart is too large to determinize.
+
+    Programs that render to the same regex are one language. Different
+    regexes stay side by side, so a tighter width is not merged into a
+    broader one. Subset resynthesis is skipped: the witness band on these
+    charts is most of the chart, and the grammar is what breaks that tie.
+    """
+    grouped: dict[str, list] = {}
+    for prog in programs:
+        grouped.setdefault(to_regex(prog, supports), []).append(prog)
+    families = list(grouped.values())
+    if not families:
+        return None, 0
+    battery = boundary_strings(supports)
+    matrix = [
+        tuple(bool(execute(group[0], text, supports)) for text in battery) for group in families
+    ]
+    from pattern_induction.witness_net import geometry
+
+    scored = []
+    for text_index, text in enumerate(battery):
+        if repeat_extension(text, supports):
+            continue
+        accepting = sum(row[text_index] for row in matrix)
+        if accepting and accepting != len(matrix):
+            balance = min(accepting, len(matrix) - accepting)
+            digit_retint = 1 if len(geometry(supports, text)) > 16 and geometry(supports, text)[16] > 0 else 0
+            scored.append((digit_retint, balance, -len(text), text))
+    scored.sort(reverse=True)
+    texts = [text for _retint, _balance, _length, text in scored[:8]]
+    judgments = _judgments(witness, supports, texts)
+    if operator_witnesses:
+        from pattern_induction.operator_witness import merge_judgments, operator_judgments
+
+        judgments = merge_judgments(judgments, operator_judgments(families, supports))
+    evidences = [witness_loglik(group[0], supports, judgments) for group in families]
+    best = max(evidences) if evidences else 0.0
+    band = []
+    for evidence, group, row in zip(evidences, families, matrix):
+        if best - evidence <= TIE:
+            grammar = max(prior.score(prog) for prog in group)
+            representative = max(group, key=lambda prog: (prior.score(prog), -prog.nodes()))
+            coverage = sum(row)
+            band.append((grammar, coverage, representative))
+    band.sort(key=lambda item: (item[0], item[1]), reverse=True)
+    return band[0][2], len(families)
+
+
+def _witness_decides(families: list[list], supports: list[str], judgments: list[tuple[str, float]]) -> bool:
+    evidences = [witness_loglik(group[0], supports, judgments) for group in families]
+    best = max(evidences)
+    return sum(1 for evidence in evidences if best - evidence <= TIE) <= 1
+
+
+def _semantic(prog, task: Task) -> float:
+    if prog is None:
+        return 0.0
+    positive = [text for text, label in task.probe if label]
+    negative = [text for text, label in task.probe if not label]
+    recall = sum(bool(execute(prog, text, task.supports)) for text in positive) / max(len(positive), 1)
+    rejection = sum(not execute(prog, text, task.supports) for text in negative) / max(len(negative), 1)
+    return 0.5 * (recall + rejection)
+
+
+def _fit_prior(rng: random.Random, bank) -> GrammarPrior:
+    prior = GrammarPrior()
+    for family in ATOMIC:
+        for draw in range(40):
+            task = sample_compose_task(family, random.Random(rng.randrange(1_000_000)), 1)
+            prior.observe(task.program, repeat_bounds=True)
+    for draw in range(80):
+        compiled = bank[draw % len(bank)]
+        try:
+            task = sample_dsl_task(compiled, random.Random(rng.randrange(1_000_000)), 1)
+        except RuntimeError:
+            continue
+        prior.observe(task.program, repeat_bounds=False)
+    return prior
+
+
+def _collect(scope: ScopeNet, tasks: list[Task]) -> list[tuple[list[str], str, float]]:
+    rows = []
+    for task in tasks:
+        for text in boundary_strings(task.supports):
+            if repeat_extension(text, task.supports):
+                continue
+            label = 1.0 if execute(task.program, text, task.supports) else 0.0
+            rows.append((task.supports, text, label))
+    return rows
+
+
+def _sample_tasks(rng: random.Random, bank, atomic_draws: int, d1_draws: int) -> list[Task]:
+    tasks = []
+    for family in ATOMIC:
+        for _draw in range(atomic_draws):
+            tasks.append(sample_compose_task(family, random.Random(rng.randrange(1_000_000)), 1))
+    for draw in range(d1_draws):
+        compiled = bank[draw % len(bank)]
+        try:
+            tasks.append(sample_dsl_task(compiled, random.Random(rng.randrange(1_000_000)), 1))
+        except RuntimeError:
+            continue
+    return tasks
+
+
+def _score_split(scope, witness, prior, tasks: list[Task], with_stability: bool) -> dict:
+    top1 = semantic = oracle = families = 0.0
+    for task in tasks:
+        chosen, programs, count = select_program(scope, witness, prior, task, with_stability)
+        families += count
+        if any(agrees(prog, task.supports, task.probe) for prog in programs):
+            oracle += 1
+        if chosen is not None and agrees(chosen, task.supports, task.probe):
+            top1 += 1
+        semantic += _semantic(chosen, task)
+    n = max(len(tasks), 1)
+    return {
+        "top1": top1 / n,
+        "semantic": semantic / n,
+        "oracle": oracle / n,
+        "families": families / n,
+        "n": len(tasks),
+    }
+
+
+def _invariance(scope, witness, prior, tasks: list[Task]) -> float:
+    matched = 0
+    for index, task in enumerate(tasks):
+        episode = Episode(task.supports[:4], task.supports[0], 1, task.family, "select", task.family)
+        renamed = rename_episode(episode, random.Random(8100 + index), True)
+        other = Task(task.family, renamed.support, task.program, [])
+        if not all(torch.allclose(a, b) for a, b in zip(feature_batch([task]), feature_batch([other]))):
+            continue
+        left, _programs, _count = select_program(scope, witness, prior, task, with_stability=False)
+        right, _programs, _count = select_program(scope, witness, prior, other, with_stability=False)
+        if left is None or right is None:
+            continue
+        from pattern_induction.program import describe
+        from pattern_induction.language import flatten
+
+        if describe(flatten(left)) == describe(flatten(right)):
+            matched += 1
+    return matched / max(len(tasks), 1)
+
+
+def _interpretation(oracle: float, top1: float, worst: float, invariance: float) -> str:
+    if invariance < 1.0:
+        return "renaming invariance is below 1.000, so this selector waits"
+    if oracle < 0.985:
+        return "the frozen version-space oracle moved, so selection stops and synthesis stays as it was"
+    if top1 >= 0.98 and worst >= 0.95:
+        return "semantic top-1 cleared the stretch line on held-out composition"
+    if top1 >= 0.97 and worst >= 0.90:
+        return "semantic top-1 cleared 97 percent on held-out composition"
+    return "held-out semantic top-1 is still short of 97 percent"
+
+
+def train_selector(root: Path, seed: int = 0) -> dict:
+    bank = d1_bank()
+    out = root / "results" / "select" / "s1" / f"seed_{seed}"
+    out.mkdir(parents=True, exist_ok=True)
+    torch.set_num_threads(4)
+    torch.manual_seed(seed)
+    rng = random.Random(seed)
+    scope = _load_scope(root)
+    witness = WitnessNet(scope.local)
+    witness_parameters = sum(param.numel() for param in witness.parameters())
+    total = total_parameter_count(scope) + witness_parameters
+    if not PARAM_LO <= total <= PARAM_HI:
+        raise RuntimeError(f"selector parameter count {total} left the 1M–2M band")
+    prior = _fit_prior(rng, bank)
+    print("s1 collecting witness strings", flush=True)
+    data_tasks = _sample_tasks(rng, bank, 6, 16)
+    rows = _collect(scope, data_tasks)
+    if len(rows) < BATCH:
+        raise RuntimeError("witness set is too small to train")
+    positives = sum(label for _supports, _text, label in rows)
+    print(f"s1 witnesses {len(rows)} positive {positives / len(rows):.3f}", flush=True)
+    # Contrast rows are the actual disagreements. The geometry head sees them
+    # directly, so it trains a little faster than the pooled encoder tower.
+    weights = [4.0 if any(value > 0.0 for value in geometry(supports, text)[8:]) else 1.0 for supports, text, _label in rows]
+    opt = torch.optim.AdamW(
+        [
+            {"params": list(witness.head.parameters()), "lr": LR},
+            {"params": list(witness.geom_head.parameters()), "lr": LR * 10},
+        ],
+        weight_decay=0.01,
+    )
+    started = time.time()
+    curve = []
+    select_tasks = [
+        sample_compose_task(family, random.Random(1200 + index * 17 + draw), 2)
+        for index, family in enumerate(ATOMIC)
+        for draw in range(2)
+    ]
+    base = _score_split(scope, witness, prior, select_tasks, with_stability=False)
+    best_score = base["top1"]
+    best_step = 0
+    best_head = _witness_state(witness)
+    curve.append({"step": 0, "loss": None, "select_top1": best_score, "seconds": time.time() - started})
+    print(f"s1 seed {seed} step 0: atomic top1 {best_score:.3f} ({curve[-1]['seconds']:.0f}s)", flush=True)
+    for step in range(1, STEPS + 1):
+        batch_rows = rng.choices(rows, weights=weights, k=BATCH)
+        batch = collate_witnesses([(supports, text) for supports, text, _label in batch_rows])
+        target = torch.tensor([label for _supports, _text, label in batch_rows])
+        witness.encoder.eval()
+        loss = witness_loss(witness(batch), target)
+        opt.zero_grad()
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(list(witness.parameters()), 1.0)
+        opt.step()
+        if step % 200 == 0 or step == STEPS:
+            witness.encoder.eval()
+            report = _score_split(scope, witness, prior, select_tasks, with_stability=False)
+            curve.append({"step": step, "loss": float(loss.detach()), "select_top1": report["top1"], "seconds": time.time() - started})
+            print(
+                f"s1 seed {seed} step {step}: loss {float(loss.detach()):.3f} atomic top1 {report['top1']:.3f} ({curve[-1]['seconds']:.0f}s)",
+                flush=True,
+            )
+            if report["top1"] >= best_score:
+                best_score = report["top1"]
+                best_step = step
+                best_head = _witness_state(witness)
+    _load_witness_state(witness, best_head)
+    witness.encoder.eval()
+    final = {}
+    for index, family in enumerate(ALL):
+        tasks = [sample_compose_task(family, random.Random(5000 + index * 50 + draw), 3) for draw in range(16)]
+        final[family] = _score_split(scope, witness, prior, tasks, with_stability=True)
+        print(
+            f"s1 seed {seed} {family}: top1 {final[family]['top1']:.3f} semantic {final[family]['semantic']:.3f} "
+            f"oracle {final[family]['oracle']:.3f} families {final[family]['families']:.1f}",
+            flush=True,
+        )
+    inv_tasks = [sample_compose_task("repeat", random.Random(90 + index), 1) for index in range(4)]
+    invariance = _invariance(scope, witness, prior, inv_tasks)
+    ood_top1 = sum(final[family]["top1"] for family in OOD) / len(OOD)
+    ood_semantic = sum(final[family]["semantic"] for family in OOD) / len(OOD)
+    ood_oracle = sum(final[family]["oracle"] for family in OOD) / len(OOD)
+    worst = min(final[family]["top1"] for family in OOD)
+    worst_family = min(OOD, key=lambda family: final[family]["top1"])
+    atomic_top1 = sum(final[family]["top1"] for family in ATOMIC) / len(ATOMIC)
+    records = [{"id": item.ident, "schema": item.schema} for item in bank]
+    metrics = {
+        "arch": "s1",
+        "seed": seed,
+        "parameters": total,
+        "witness_parameters": witness_parameters,
+        "steps": STEPS,
+        "batch": BATCH,
+        "selected_step": best_step,
+        "select_top1": best_score,
+        "generator_version": GENERATOR_VERSION,
+        "template_bank_hash": bank_hash(records),
+        "frozen_checkpoint": SCOPE_CHECKPOINT,
+        "atomic_top1": atomic_top1,
+        "ood_top1": ood_top1,
+        "ood_semantic": ood_semantic,
+        "ood_oracle": ood_oracle,
+        "worst_family": worst_family,
+        "worst_top1": worst,
+        "min_invariance": invariance,
+        "interpretation": _interpretation(ood_oracle, ood_top1, worst, invariance),
+        "families": final,
+        "curve": curve,
+        "prior": prior.state(),
+    }
+    (out / "metrics.json").write_text(json.dumps(metrics, indent=2) + "\n")
+    torch.save({"head": best_head, "prior": prior.state(), "selected_step": best_step}, out / "checkpoint.pt")
+    print(
+        f"s1 seed {seed}: top1 {ood_top1:.3f} semantic {ood_semantic:.3f} oracle {ood_oracle:.3f} "
+        f"worst {worst_family} {worst:.3f} invariance {invariance:.3f} [{metrics['interpretation']}]",
+        flush=True,
+    )
+    return metrics

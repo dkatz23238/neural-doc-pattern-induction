@@ -1,0 +1,10 @@
+{
+  "model": "gpt-5.6-terra",
+  "prompt_file": "data/teacher/prompts/composition_v1.md",
+  "prompt_sha256": "aa394f887c69ea26c99e5a40d71952474d587ed09aba3db9c1618a5266ade925",
+  "prompt": "Return JSON only. No prose.\n\nYou design string languages for a tiny model that already understands single operators (a constant prefix, a repeated numeric group, an optional mark, a bare alternation) and fails when those operators are attached in new ways.\n\nEmit 4 schemas in this DSL. Each schema is a JSON object the student's compiler will check. Do not emit strings as examples. The compiler instantiates symbols itself.\n\nNode types:\n- {\"type\":\"seq\",\"children\":[...]} with 2 to 4 children\n- {\"type\":\"class\",\"class\":\"digit|upper|lower\",\"min\":1,\"max\":4}\n- {\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"upper|lower|digit|punct\",\"min\":1,\"max\":4}\n  punct width is always 1. A literal_slot is constant inside one task and changes across tasks.\n- {\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{...}}\n  max must be 3 or less. Do not nest a repeat inside a repeat.\n- {\"type\":\"optional\",\"child\":{...}}\n- {\"type\":\"alt\",\"children\":[{...},{...}]}\n\nA class draws fresh characters every string. A literal_slot does not.\n\nDo not emit these held-out shapes. The compiler rejects them:\n- a constant literal prefix followed by a numeric repeat\n- a numeric repeat followed by an optional tail\n- a constant literal prefix followed by an alternation\n- a token, an optional middle, and a token, with no other operator\n\nPrefer attachments that are easy to confuse, and include a confusable schema that differs by one attachment.\n\nResponse shape:\n{\"schemas\":[{\"id\":\"short_name\",\"schema\":{...},\"confusable\":[{...}]}]}\n",
+  "max_output_tokens": 8000,
+  "kind": "schemas",
+  "allow_heldout": false,
+  "compiler_version": "dsl-1"
+}

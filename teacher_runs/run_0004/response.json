@@ -1,0 +1,73 @@
+{
+  "raw": "{\"pairs\":[{\"id\":\"prefix_repeat_group\",\"distinction\":\"Schema A attaches the prefix outside the repetition, while schema B attaches the prefix inside each repeated group.\",\"schema_a\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}]}}]},\"schema_b\":{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}]}}}},{\"id\":\"optional_tail_scope\",\"distinction\":\"Schema A attaches the optional tail after the repeated group, while schema B attaches an optional tail to every repetition.\",\"schema_a\":{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":3}},{\"type\":\"optional\",\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}}]},\"schema_b\":{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":3},{\"type\":\"optional\",\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}}]}}}},{\"id\":\"shared_prefix_alternation\",\"distinction\":\"Schema A shares one prefix before an alternation, while schema B places the prefix separately inside each alternation branch.\",\"schema_a\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"alt\",\"children\":[{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":3},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":3}]}]},\"schema_b\":{\"type\":\"alt\",\"children\":[{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":3}]},{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":3}]}]}}},{\"id\":\"separator_scope\",\"distinction\":\"Schema A repeats a separator with every group, while schema B attaches the separator once after the repeated groups.\",\"schema_a\":{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":3},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]}},\"schema_b\":{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":3}},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]}}}]}",
+  "usage": {
+    "input_tokens": 328,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 2525,
+    "output_tokens_details": {
+      "reasoning_tokens": 1813
+    },
+    "total_tokens": 2853
+  },
+  "payload": {
+    "id": "resp_033322e163080c84006ab99f5aad3487d2be37593500fb3d33",
+    "model": "gpt-5.6-terra",
+    "status": "completed",
+    "incomplete_details": null,
+    "error": null,
+    "usage": {
+      "input_tokens": 328,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 0
+      },
+      "output_tokens": 2525,
+      "output_tokens_details": {
+        "reasoning_tokens": 1813
+      },
+      "total_tokens": 2853
+    },
+    "reasoning": {
+      "context": "all_turns",
+      "effort": "low",
+      "mode": "standard",
+      "summary": null
+    },
+    "output": [
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "type": "reasoning",
+        "summary": []
+      },
+      {
+        "id": "msg_033322e163080c84006ab99f6ee52487d28a679174b0c050e0",
+        "type": "message",
+        "status": "completed",
+        "content": [
+          {
+            "type": "output_text",
+            "annotations": [],
+            "logprobs": [],
+            "text": "{\"pairs\":[{\"id\":\"prefix_repeat_group\",\"distinction\":\"Schema A attaches the prefix outside the repetition, while schema B attaches the prefix inside each repeated group.\",\"schema_a\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}]}}]},\"schema_b\":{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}]}}}},{\"id\":\"optional_tail_scope\",\"distinction\":\"Schema A attaches the optional tail after the repeated group, while schema B attaches an optional tail to every repetition.\",\"schema_a\":{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":3}},{\"type\":\"optional\",\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}}]},\"schema_b\":{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":3},{\"type\":\"optional\",\"child\":{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":2}}]}}}},{\"id\":\"shared_prefix_alternation\",\"distinction\":\"Schema A shares one prefix before an alternation, while schema B places the prefix separately inside each alternation branch.\",\"schema_a\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"alt\",\"children\":[{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":3},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":3}]}]},\"schema_b\":{\"type\":\"alt\",\"children\":[{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":3}]},{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"upper\",\"min\":1,\"max\":2},{\"type\":\"class\",\"class\":\"digit\",\"min\":1,\"max\":3}]}]}}},{\"id\":\"separator_scope\",\"distinction\":\"Schema A repeats a separator with every group, while schema B attaches the separator once after the repeated groups.\",\"schema_a\":{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"seq\",\"children\":[{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":3},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]}},\"schema_b\":{\"type\":\"seq\",\"children\":[{\"type\":\"repeat\",\"min\":1,\"max\":3,\"child\":{\"type\":\"class\",\"class\":\"lower\",\"min\":1,\"max\":3}},{\"type\":\"literal_slot\",\"role\":\"name\",\"class\":\"punct\",\"min\":1,\"max\":1}]}}}]}"
+          }
+        ],
+        "phase": "final_answer",
+        "role": "assistant"
+      }
+    ]
+  }
+}

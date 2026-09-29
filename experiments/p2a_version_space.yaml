@@ -1,0 +1,8 @@
+# P2a. The chart stays complete when gold local facts are present.
+arch: version-space
+recognizer: frozen results/local_chart/l1/seed_0/checkpoint.pt
+conditions: [gold, gold_plus_1, gold_plus_2, gold_union_top8]
+draws: 16
+gate:
+  program_oracle: near 1.0 whenever every gold local fact is included
+note: The recognizer is unchanged. BENCH-C is outside this pass. A pretrained backbone stays off.
