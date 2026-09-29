@@ -21,7 +21,7 @@ from torch.nn.parallel import DistributedDataParallel
 from prior.config import TrainConfig, load_config
 from prior.dataset import load_split, make_loader
 from prior.evaluate import evaluate, move_to_device, renaming_invariance
-from prior.loss import ranking_loss
+from prior.loss import factor_loss, ranking_loss
 from prior.model import PriorModel, trainable_parameters
 from prior.support_encode import load_frozen_encoder
 
@@ -51,9 +51,9 @@ def run(cfg: TrainConfig, root: Path | None = None) -> dict:
     device = _device(cfg)
     distributed = _distributed(device)
     data_dir = root / cfg.data_dir
-    train_data = load_split(data_dir, "train", cfg.max_train) if cfg.kind == "mlp" else None
-    val_data = load_split(data_dir, "val")
-    ood_data = load_split(data_dir, "ood")
+    train_data = load_split(data_dir, "train", cfg.max_train, cfg.kind) if cfg.kind != "symbolic" else None
+    val_data = load_split(data_dir, "val", kind=cfg.kind)
+    ood_data = load_split(data_dir, "ood", kind=cfg.kind)
     model = PriorModel(cfg).to(device)
     if distributed:
         model = DistributedDataParallel(model, device_ids=[device.index] if device.type == "cuda" else None)
@@ -79,8 +79,12 @@ def run(cfg: TrainConfig, root: Path | None = None) -> dict:
                 batch = move_to_device(batch, device)
                 optimizer.zero_grad(set_to_none=True)
                 with torch.autocast(device_type=device.type, dtype=torch.bfloat16, enabled=precision == "bf16"):
-                    scores = model(batch)
-                    loss = ranking_loss(scores, batch["gold"], batch["mask"])
+                    if cfg.kind == "factor":
+                        scores, aux_logits = model(batch, aux=True)
+                        loss = factor_loss(scores, aux_logits, batch["gold"], batch["mask"], batch["aux"])
+                    else:
+                        scores = model(batch)
+                        loss = ranking_loss(scores, batch["gold"], batch["mask"])
                 loss.backward()
                 if cfg.grad_clip > 0:
                     torch.nn.utils.clip_grad_norm_(raw.parameters(), cfg.grad_clip)
@@ -110,7 +114,7 @@ def run(cfg: TrainConfig, root: Path | None = None) -> dict:
     rank = int(os.environ.get("RANK", "0"))
     if rank == 0:
         encoder = load_frozen_encoder(root)
-        invariance = renaming_invariance(encoder, raw if raw.kind == "mlp" else None)
+        invariance = renaming_invariance(encoder, raw if raw.kind in {"mlp", "ast", "factor"} else None)
     payload = {
         "name": cfg.name,
         "kind": cfg.kind,
@@ -121,6 +125,7 @@ def run(cfg: TrainConfig, root: Path | None = None) -> dict:
         "params": params,
         "width": raw.width,
         "hidden": raw.hidden,
+        "tree_dim": raw.tree_dim,
         "steps": step,
         "seconds": time.perf_counter() - started,
         "val": val,

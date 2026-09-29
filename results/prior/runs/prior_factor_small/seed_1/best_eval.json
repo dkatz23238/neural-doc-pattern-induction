@@ -1,0 +1,28 @@
+{
+  "step": 16000,
+  "params": 13927,
+  "width": 48,
+  "val_top1": 0.8476,
+  "ood_top1": 0.51135,
+  "val_aux": 0.9187693301788052,
+  "ood_aux": 0.751952192123681,
+  "val_by_family": {
+    "charset_width": 0.5391061452513967,
+    "interval": 0.7206703910614525,
+    "lexicon": 0.949438202247191,
+    "prefix_charset": 0.813986013986014,
+    "prefix_interval": 0.7430167597765364,
+    "prefix_lexicon": 0.9662921348314607,
+    "prefix_optional": 1.0,
+    "prefix_width": 0.9134078212290503,
+    "repeat_width": 0.9634831460674157,
+    "stem_lexicon": 0.9943820224719101,
+    "suffix_width": 0.9199438202247191,
+    "width": 0.88268156424581
+  },
+  "ood_by_family": {
+    "lexicon_suffix": 0.8305084745762712,
+    "prefix_charset_optional": 0.003148897885739991,
+    "repeat_interval": 0.7006302521008403
+  }
+}

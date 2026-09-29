@@ -1,0 +1,119 @@
+{
+  "name": "prior_ast_large",
+  "kind": "ast",
+  "seed": 0,
+  "device": "cpu",
+  "precision": "fp32",
+  "target_params": 90000,
+  "params": 90609,
+  "width": 112,
+  "hidden": 128,
+  "tree_dim": 64,
+  "steps": 20000,
+  "seconds": 356.61596864499734,
+  "val": {
+    "n": 10000,
+    "top1": 0.9099,
+    "oracle": 1.0,
+    "by_family": {
+      "charset_width": 0.9818435754189944,
+      "interval": 0.7870111731843575,
+      "lexicon": 0.9634831460674157,
+      "prefix_charset": 0.9748251748251748,
+      "prefix_interval": 0.770949720670391,
+      "prefix_lexicon": 0.9564606741573034,
+      "prefix_optional": 0.9985974754558204,
+      "prefix_width": 0.9371508379888268,
+      "repeat_width": 0.9985955056179775,
+      "stem_lexicon": 1.0,
+      "suffix_width": 0.898876404494382,
+      "width": 0.914804469273743
+    }
+  },
+  "ood": {
+    "n": 20000,
+    "top1": 0.14585,
+    "oracle": 1.0,
+    "by_family": {
+      "lexicon_suffix": 0.3898305084745763,
+      "prefix_charset_optional": 0.0,
+      "repeat_interval": 0.047719087635054024
+    }
+  },
+  "best": {
+    "val_top1": 0.9099,
+    "step": 20000,
+    "ood_top1": 0.14585
+  },
+  "history": [
+    {
+      "step": 2000,
+      "loss": 0.6598383188247681,
+      "val_top1": 0.8762,
+      "ood_top1": 0.1697
+    },
+    {
+      "step": 4000,
+      "loss": 0.3898225426673889,
+      "val_top1": 0.8775,
+      "ood_top1": 0.1578
+    },
+    {
+      "step": 6000,
+      "loss": 0.19569405913352966,
+      "val_top1": 0.8841,
+      "ood_top1": 0.16215
+    },
+    {
+      "step": 8000,
+      "loss": 0.15491139888763428,
+      "val_top1": 0.8917,
+      "ood_top1": 0.14005
+    },
+    {
+      "step": 10000,
+      "loss": 0.31489327549934387,
+      "val_top1": 0.897,
+      "ood_top1": 0.14145
+    },
+    {
+      "step": 12000,
+      "loss": 0.12873557209968567,
+      "val_top1": 0.892,
+      "ood_top1": 0.1304
+    },
+    {
+      "step": 14000,
+      "loss": 0.042274653911590576,
+      "val_top1": 0.8974,
+      "ood_top1": 0.1382
+    },
+    {
+      "step": 16000,
+      "loss": 0.299652636051178,
+      "val_top1": 0.9002,
+      "ood_top1": 0.15215
+    },
+    {
+      "step": 18000,
+      "loss": 0.13646788895130157,
+      "val_top1": 0.8989,
+      "ood_top1": 0.14885
+    },
+    {
+      "step": 20000,
+      "loss": 0.40180689096450806,
+      "val_top1": 0.9099,
+      "ood_top1": 0.14585
+    }
+  ],
+  "renaming": {
+    "n": 32,
+    "features": 1.0,
+    "support_embedding": 1.0,
+    "scores": 1.0
+  },
+  "trained": true,
+  "bench_e_scored": false,
+  "bench_c_selected": false
+}

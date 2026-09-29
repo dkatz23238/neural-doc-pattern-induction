@@ -1,0 +1,24 @@
+{
+  "step": 18000,
+  "val_top1": 0.9352,
+  "ood_top1": 0.1784,
+  "val_by_family": {
+    "charset_width": 0.9762569832402235,
+    "interval": 0.8561452513966481,
+    "lexicon": 0.9578651685393258,
+    "prefix_charset": 0.9888111888111888,
+    "prefix_interval": 0.8652234636871509,
+    "prefix_lexicon": 0.9789325842696629,
+    "prefix_optional": 1.0,
+    "prefix_width": 0.9106145251396648,
+    "repeat_width": 1.0,
+    "stem_lexicon": 1.0,
+    "suffix_width": 0.8946629213483146,
+    "width": 0.9441340782122905
+  },
+  "ood_by_family": {
+    "lexicon_suffix": 0.27913604319784013,
+    "prefix_charset_optional": 0.000149947518368571,
+    "repeat_interval": 0.2560024009603842
+  }
+}
