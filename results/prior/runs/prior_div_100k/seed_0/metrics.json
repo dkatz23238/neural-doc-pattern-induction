@@ -1,0 +1,118 @@
+{
+  "name": "prior_div_100k",
+  "kind": "mlp",
+  "seed": 0,
+  "device": "cpu",
+  "precision": "fp32",
+  "target_params": 100000,
+  "params": 105505,
+  "width": 192,
+  "hidden": 96,
+  "steps": 20000,
+  "seconds": 68.83480527000211,
+  "val": {
+    "n": 10000,
+    "top1": 0.8369,
+    "oracle": 1.0,
+    "by_family": {
+      "charset_width": 0.9818435754189944,
+      "interval": 0.6801675977653632,
+      "lexicon": 0.9269662921348315,
+      "prefix_charset": 0.9902097902097902,
+      "prefix_interval": 0.7451117318435754,
+      "prefix_lexicon": 0.9087078651685393,
+      "prefix_optional": 1.0,
+      "prefix_width": 0.9175977653631285,
+      "repeat_width": 0.3707865168539326,
+      "stem_lexicon": 0.9957865168539326,
+      "suffix_width": 0.9129213483146067,
+      "width": 0.861731843575419
+    }
+  },
+  "ood": {
+    "n": 20000,
+    "top1": 0.67475,
+    "oracle": 1.0,
+    "by_family": {
+      "lexicon_suffix": 0.656517174141293,
+      "prefix_charset_optional": 0.9952016794122057,
+      "repeat_interval": 0.3722989195678271
+    }
+  },
+  "best": {
+    "val_top1": 0.8452,
+    "step": 16000,
+    "ood_top1": 0.5399
+  },
+  "history": [
+    {
+      "step": 2000,
+      "loss": 0.5474616289138794,
+      "val_top1": 0.8261,
+      "ood_top1": 0.4501
+    },
+    {
+      "step": 4000,
+      "loss": 0.6209619045257568,
+      "val_top1": 0.8276,
+      "ood_top1": 0.39795
+    },
+    {
+      "step": 6000,
+      "loss": 0.23841510713100433,
+      "val_top1": 0.8342,
+      "ood_top1": 0.3778
+    },
+    {
+      "step": 8000,
+      "loss": 0.31431207060813904,
+      "val_top1": 0.8377,
+      "ood_top1": 0.4
+    },
+    {
+      "step": 10000,
+      "loss": 0.3481264114379883,
+      "val_top1": 0.8392,
+      "ood_top1": 0.37135
+    },
+    {
+      "step": 12000,
+      "loss": 0.15215761959552765,
+      "val_top1": 0.8417,
+      "ood_top1": 0.3232
+    },
+    {
+      "step": 14000,
+      "loss": 0.3597675859928131,
+      "val_top1": 0.8365,
+      "ood_top1": 0.2881
+    },
+    {
+      "step": 16000,
+      "loss": 0.21536745131015778,
+      "val_top1": 0.8452,
+      "ood_top1": 0.5399
+    },
+    {
+      "step": 18000,
+      "loss": 0.22338685393333435,
+      "val_top1": 0.8447,
+      "ood_top1": 0.64425
+    },
+    {
+      "step": 20000,
+      "loss": 0.44693201780319214,
+      "val_top1": 0.8369,
+      "ood_top1": 0.67475
+    }
+  ],
+  "renaming": {
+    "n": 32,
+    "features": 1.0,
+    "support_embedding": 1.0,
+    "scores": 1.0
+  },
+  "trained": true,
+  "bench_e_scored": false,
+  "bench_c_selected": false
+}
