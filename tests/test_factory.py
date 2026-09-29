@@ -1,16 +1,22 @@
 import json
+import random
 import tempfile
 import unittest
 from pathlib import Path
 
 from pattern_induction.factory import (
     FactoryError,
+    PROCEDURAL_SHAPES,
+    assign_splits,
     bind_program,
+    classify_rejection,
     compile_node,
     diversity,
     extract_concepts,
+    family_key,
     ingest_text,
     materialize,
+    prog_shape,
     validate_concept,
 )
 from pattern_induction.program import execute
@@ -298,6 +304,102 @@ class FactoryTest(unittest.TestCase):
         text = "```json\n" + json.dumps({"concepts": [CURRENCY]}) + "\n```"
         rows = extract_concepts(text)
         self.assertEqual(rows[0]["concept"], "invoice currency")
+
+    def test_novel_share_is_zero_for_a_sampler_shape_and_one_for_an_alt(self):
+        stored, reason = validate_concept(YEAR)
+        self.assertEqual(reason, "")
+        report = diversity([stored])
+        self.assertEqual(report["novel_composition_share"], 0.0)
+        self.assertIn("int", PROCEDURAL_SHAPES)
+        alien = {
+            "program": {
+                "op": "alt",
+                "children": [
+                    {"op": "lit", "text": "-"},
+                    {"op": "cls", "class": "digit", "lo": 1, "hi": 1},
+                ],
+            },
+            "domain": "software",
+            "signature": "alt",
+            "concept": "either mark",
+            "semantic_type": "mark",
+            "positives": ["-"],
+            "ambiguity_status": "absent",
+        }
+        report = diversity([alien])
+        self.assertEqual(report["novel_compositions"], 1)
+        self.assertEqual(report["novel_composition_share"], 1.0)
+
+    def test_sampler_shapes_stay_inside_the_recorded_repertoire(self):
+        from prior.generate import _BUILDERS
+
+        rng = random.Random(2507)
+        produced = set()
+        for builder in _BUILDERS.values():
+            for _ in range(40):
+                drawn = builder(rng)
+                if drawn:
+                    produced.add(prog_shape(drawn[3]))
+                    break
+        self.assertTrue(produced)
+        self.assertTrue(produced <= PROCEDURAL_SHAPES, produced - PROCEDURAL_SHAPES)
+
+    def test_semver_wordings_stay_in_one_split(self):
+        records = [
+            {
+                "id": "a",
+                "domain": "software",
+                "concept": "SemVer release",
+                "description": "A semantic version with a release candidate.",
+                "semantic_type": "identifier",
+            },
+            {
+                "id": "b",
+                "domain": "cloud_infrastructure",
+                "concept": "image tag",
+                "description": "The tag is a semver string.",
+                "semantic_type": "identifier",
+            },
+            {
+                "id": "c",
+                "domain": "finance",
+                "concept": "ABA routing transit number",
+                "description": "Nine digits.",
+                "semantic_type": "identifier",
+            },
+        ]
+        self.assertEqual(family_key(records[0]), family_key(records[1]))
+        self.assertNotEqual(family_key(records[0]), family_key(records[2]))
+        split = assign_splits(records, seed=2507)
+        sides = {}
+        for name in ("train", "validation", "heldout"):
+            for ident in split[name]:
+                sides[ident] = name
+        self.assertEqual(sides["a"], sides["b"])
+
+    def test_rejection_buckets_separate_teacher_dsl_and_parser(self):
+        self.assertEqual(classify_rejection({"reason": "near_miss_accepted"})["bucket"], "teacher")
+        self.assertEqual(classify_rejection({"reason": "bad_width"})["bucket"], "dsl")
+        self.assertEqual(classify_rejection({"reason": "node_not_object"})["bucket"], "parser")
+        docket = {
+            "reason": "positive_rejected",
+            "row": {
+                "positives": ["1:24-cv-00123", "2:23-cv-00007"],
+                "program": {
+                    "op": "seq",
+                    "children": [
+                        {"op": "int", "min": 1, "max": 9, "lo": 1, "hi": 1},
+                        {"op": "lit", "text": ":"},
+                        {"op": "int", "min": 0, "max": 99, "lo": 2, "hi": 2},
+                        {"op": "lit", "text": "-cv-"},
+                        {"op": "int", "min": 1, "max": 999999, "lo": 1, "hi": 6},
+                    ],
+                },
+            },
+        }
+        view = classify_rejection(docket)
+        self.assertEqual(view["bucket"], "dsl")
+        self.assertEqual(view["detail"], "leading_zero")
 
 
 if __name__ == "__main__":

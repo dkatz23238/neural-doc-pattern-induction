@@ -1,0 +1,70 @@
+{
+  "seed": 2507,
+  "train": [
+    "f67c76fe4f7666f6",
+    "dfa291239a5dcef0",
+    "a3cf12d94e744a9d",
+    "b88c240a1f2af8a5",
+    "c4b1640b27e18380",
+    "8d2bae2495487225",
+    "3c6920205105fb86",
+    "971a854ef5f0266f",
+    "65f9b017805b75d9",
+    "e2f44dddd48bb311",
+    "0f096bc0edc00686",
+    "c9c58f6d9db6f12a",
+    "2b3d7c70aec8edef",
+    "81781f3804256a39",
+    "841bedf8231ecdb6",
+    "424072da37ba8e11",
+    "ad7d8e9cdb52c39c",
+    "22cf32acf5e5d817",
+    "746194835e2bd83e",
+    "8a8def373d68a4c7"
+  ],
+  "validation": [
+    "b48412524bd98644",
+    "24013aeacde78e9d",
+    "60be39c1e46e5c0e",
+    "0077c8743fcbaf75",
+    "32d90a0872b1f4ce"
+  ],
+  "heldout": [
+    "69635f74659c36a5",
+    "5204f4dd12ca8501",
+    "5daab67e1250a0e8",
+    "4bc75678c1820db5"
+  ],
+  "families": {
+    "currency": "train",
+    "citation": "validation",
+    "container": "heldout",
+    "hl7": "train",
+    "freight_rating:measurement": "train",
+    "delivery_appointment_references:dated_identifier": "train",
+    "kubernetes": "train",
+    "logistics:dock_status_identifier": "train",
+    "logistics:tracking_identifier": "train",
+    "healthcare:clinical_date": "train",
+    "treasury": "heldout",
+    "logistics:route_identifier": "train",
+    "expedited_load_references:expedited_suffix_is_optional_even_though": "train",
+    "bloomberg": "train",
+    "logistics:facility_location": "train",
+    "medicare": "validation",
+    "waybill": "train",
+    "package_seal_identifiers:seal_serial_width_is_open_rather_than_fi": "heldout",
+    "locode": "train",
+    "warehouse_slot_labels:bay_letter_is_any_uppercase_a_z_not_mere": "train",
+    "routing": "train",
+    "semver": "validation",
+    "shipping_documentation:date": "train"
+  },
+  "counts": {
+    "train": 20,
+    "validation": 5,
+    "heldout": 4
+  },
+  "generator_version": "factory-gen-1",
+  "template_count": 29
+}

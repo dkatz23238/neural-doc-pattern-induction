@@ -4,9 +4,11 @@ Terra proposes a field and a program. The raw response is stored before parsing.
 
 Parser `factory-3`. Teacher model `gpt-5.6-terra`. gpt-6-terra is not on this key. Templates 29. Unique latent programs 28. AST shapes 24. Concepts 29. Teacher domains 15. Semantic families 27. Bank hash `2bde522c025cfb36`.
 
-Program entropy 4.789 bits. AST-signature entropy 4.487 bits. Semantic-family entropy 4.694 bits. Operator-combination entropy 3.771 bits. Domain entropy 3.508 bits. Top-1 program share 0.069. Top-10 operator-combination share 0.793. Top-10 semantic-family share 0.414. Mean positives per language 3.00. Witnessed ambiguity 10.
+Program entropy 4.789 bits. AST-signature entropy 4.487 bits. Semantic-family entropy 4.694 bits. Operator-combination entropy 3.771 bits. Domain entropy 3.508 bits. Top-1 program share 0.069. Top-10 operator-combination share 0.793. Top-10 semantic-family share 0.414. Mean positives per language 3.00. Witnessed ambiguity 10. Novel-composition share 0.862 (25 templates whose AST shape is outside the procedural sampler).
 
-Novel-composition share waits on the compositional generator. This page counts teacher templates.
+Concept-level split, seed 2507: train 20, validation 5, held out 4. A family stays on one side. The evidence scorer and the expansion prior are not retrained on this bank.
+
+Held-out families: `container`, `package_seal_identifiers:seal_serial_width_is_open_rather_than_fi`, `treasury`.
 
 | Run | Prompt | Prompt domain | Accepted | Rejected |
 | --- | --- | --- | ---: | ---: |
@@ -18,7 +20,7 @@ Novel-composition share waits on the compositional generator. This page counts t
 | 2026-09-29_terra_006 | domain_expansion_v1.md | finance | 4 | 2 |
 | 2026-09-29_terra_007 | domain_expansion_v1.md | healthcare | 3 | 3 |
 
-Calls 7. Spent $0.3198 of the $4 factory cap.
+Calls 7. Spent $0.3198 of the $10 factory cap.
 
 | Domain | Templates |
 | --- | ---: |
@@ -37,6 +39,23 @@ Calls 7. Spent $0.3198 of the $4 factory cap.
 | shipping_documentation | 1 |
 | software | 2 |
 | warehouse_slot_labels | 1 |
+
+| Rejection bucket | Count |
+| --- | ---: |
+| DSL limitation | 8 |
+| bad teacher output | 5 |
+
+| Bucket | Detail | Count |
+| --- | --- | ---: |
+| DSL limitation | bad_width | 3 |
+| bad teacher output | duplicate_example | 2 |
+| bad teacher output | near_miss_accepted | 2 |
+| DSL limitation | unbound_literal | 1 |
+| bad teacher output | positive_rejected | 1 |
+| DSL limitation | leading_zero | 1 |
+| DSL limitation | bad_literal | 1 |
+| DSL limitation | max_length | 1 |
+| DSL limitation | bad_bounds | 1 |
 
 | Reject reason | Count |
 | --- | ---: |

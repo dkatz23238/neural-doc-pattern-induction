@@ -25,6 +25,8 @@
     "top10_family_share": 0.4138,
     "mean_positives": 3.0,
     "witnessed_ambiguity": 10,
+    "novel_compositions": 25,
+    "novel_composition_share": 0.8621,
     "domain_counts": {
       "air_freight": 1,
       "commercial_invoice": 1,

@@ -50,6 +50,7 @@ gpt-6-terra is not on this key. Calls use gpt-5.6-terra. The spend cap in this m
 
 ```bash
 uv run python -m pattern_induction.factory --stage generate --prompt real_world_concepts_v1.md --domain logistics
+uv run python -m pattern_induction.factory --stage campaign --target 400
 uv run python -m pattern_induction.factory --stage diversity
 uv run python -m pattern_induction.factory --stage preview --limit 4
 ```
@@ -77,4 +78,4 @@ uv run python scripts/run_needle.py --stage summary
 | `results/prior/diversity.md` | Compositional sampler and the flat 10k / 30k / 100k sweep |
 | `results/prior/scaling.md` | Earlier menu-sampler curve |
 
-Seven committed calls, $0.32 of the $4 cap, left 29 executor-checked templates in the bank: logistics conventions, witnessed ambiguities, adversarial neighbors, and fields from software, legal, finance, and healthcare. `results/factory/bank.md` reports unique programs, AST-signature entropy, semantic-family entropy, and operator-combination entropy. A concept whose program accepts a near miss, or whose literal never appears in a support, stays in the rejected log with the raw response. Novel-composition share waits on the compositional generator. BENCH-E stays sealed.
+The factory cap is $10. The bank is scored by unique programs, AST-signature entropy, semantic-family entropy, operator-combination entropy, novel-composition share against the procedural sampler, and a concept-level train, validation, and held-out split. Rejections are bucketed as bad teacher output, a DSL limitation, or a parser limitation. The evidence scorer and the expansion prior stay frozen until that bank is large enough for one comparison. BENCH-E stays sealed.
