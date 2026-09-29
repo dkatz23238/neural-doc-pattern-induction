@@ -398,6 +398,10 @@ def _summary(root: Path) -> None:
     if packet_path.exists():
         lines.append(packet_path.read_text().rstrip())
         lines.append("")
+    expansion_path = root / "results" / "prior" / "expansion.md"
+    if expansion_path.exists():
+        lines.append(expansion_path.read_text().rstrip())
+        lines.append("")
     seal_path = root / "results" / "needle" / "bench_e_seal.json"
     if seal_path.exists():
         seal = json.loads(seal_path.read_text())

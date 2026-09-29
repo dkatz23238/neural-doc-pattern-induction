@@ -44,17 +44,17 @@ uv run python -m unittest discover -s tests
 
 ## Current experiment
 
-The question is whether the float vector given to a candidate node determines the gold label. The audit hashes that vector and reports collisions, conditional entropy, majority-label accuracy, and the Bayes top-1 ceiling of the candidate pool. The 1,158-parameter scorer is unchanged.
+The 1,158-parameter evidence scorer stays frozen. This run asks whether a separate prior, 1,765 parameters, can prefer an unsupported but plausible generalization when that scorer cannot separate the candidates. Its inputs are properties of the proposed expansion: unseen symbols and the superclass, width slack, integer slack and round or conventional endpoints, and a looser repeat. The program score is the evidence score plus λ times that prior. The prior is trained only on those ambiguous expansions.
 
-The packed statistics are local and are not committed. A new checkout regenerates the shards, then the scorer cache, before the audit.
+The packed statistics are local and are not committed. A new checkout regenerates the shards, then the evidence cache, before the prior.
 
 ```bash
 uv run python -m prior.generate --train 50000 --val 10000 --ood 20000 --seed 2507
 uv run python -m prior.relative --data results/prior/shards --seeds 0 1
-uv run python -m prior.packet_audit --cache /tmp/relative-evidence --out results/prior/packets.json
+uv run python -m prior.expansion --data results/prior/shards --seeds 0 1
 ```
 
-The audit is CPU-only. It does not train the 1.226M encoder and it does not change `needle()`. The local scorer and the earlier probes are in [DOCS.md](DOCS.md).
+The prior is CPU-only. It does not train the 1.226M encoder and it does not change `needle()`. The packet audit and the evidence scorer are in [DOCS.md](DOCS.md).
 
 The written record is already in the tree. Regenerating it only concatenates the result pages, including the sealed BENCH-E line:
 
@@ -65,6 +65,7 @@ uv run python scripts/run_needle.py --stage summary
 | Page | What it records |
 | --- | --- |
 | `results/needle/summary.md` | Needle, then the prior curves |
+| `results/prior/expansion.md` | Tiny prior over ambiguous expansions |
 | `results/prior/packets.md` | Identifiability of the local packets |
 | `results/prior/relative.md` | Candidate-relative node scores |
 | `results/prior/constituents.md` | Constituent probes and the candidate-conditioned matcher |
@@ -75,4 +76,4 @@ uv run python scripts/run_needle.py --stage summary
 | `results/prior/diversity.md` | Compositional sampler and the flat 10k / 30k / 100k sweep |
 | `results/prior/scaling.md` | Earlier menu-sampler curve |
 
-Tight repeat bounds have conditional entropy 0.030, and the scorer matches that ceiling. Charset expansion has gold recall 0.263, and `prefix_charset_optional` has a packet ceiling of 0.000. BENCH-E stays sealed.
+The gates are charset expansion, open width, integer-range expansion, prefix width, and loose repeats, plus whole-program accuracy of the sum. Where the packet already determines the label, the frozen scorer stays in front. BENCH-E stays sealed.
