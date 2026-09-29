@@ -1,0 +1,45 @@
+{
+  "dataset": "needle-factory-v1",
+  "parser_version": "factory-1",
+  "generator_version": "factory-gen-1",
+  "teacher_model": "gpt-5.6-terra",
+  "teacher_note": "gpt-6-terra is not on this key; calls use gpt-5.6-terra.",
+  "template_count": 6,
+  "template_bank_hash": "a6759ec71a20f12eae51d4aeb9b314088f04b71d67b336e5834be21e2339e7ab",
+  "seed": 2507,
+  "num_tasks": 0,
+  "diversity": {
+    "templates": 6,
+    "unique_programs": 6,
+    "unique_ast_shapes": 6,
+    "concepts": 6,
+    "domains": 6,
+    "semantic_families": 6,
+    "program_entropy": 2.585,
+    "domain_entropy": 2.585,
+    "ast_signature_entropy": 2.585,
+    "semantic_entropy": 2.585,
+    "signature_entropy": 1.9183,
+    "top1_program_share": 0.1667,
+    "top10_signature_share": 1.0,
+    "top10_family_share": 1.0,
+    "mean_positives": 3.0,
+    "witnessed_ambiguity": 5,
+    "domain_counts": {
+      "air_freight": 1,
+      "commercial_invoice": 1,
+      "container_shipping": 1,
+      "freight_rating": 1,
+      "logistics": 1,
+      "shipping_documentation": 1
+    },
+    "family_counts": {
+      "date": 1,
+      "equipment_identifier": 1,
+      "location_identifier": 1,
+      "measurement": 1,
+      "monetary_amount": 1,
+      "transport_document_identifier": 1
+    }
+  }
+}

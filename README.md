@@ -77,4 +77,4 @@ uv run python scripts/run_needle.py --stage summary
 | `results/prior/diversity.md` | Compositional sampler and the flat 10k / 30k / 100k sweep |
 | `results/prior/scaling.md` | Earlier menu-sampler curve |
 
-The first bank is whatever the executor accepted from the committed Terra runs. Row count is not the diversity measure: the page reports unique programs, domain entropy, and operator-signature entropy. BENCH-E stays sealed.
+The first committed call asked for logistics concepts. The executor accepted 6 of 6: an IATA air waybill, a currency-and-amount customs value, an ISO 6346 container id, a packed-dimensions entry, a UN/LOCODE, and a dispatch date. Those are 6 latent programs, 5 of them with a witnessed ambiguous support, at $0.0527. The teacher labeled them as finer domains than the prompt. `results/factory/bank.md` reports program, AST-signature, semantic-family, and operator-combination entropy. Novel-composition share waits on the compositional generator. BENCH-E stays sealed.

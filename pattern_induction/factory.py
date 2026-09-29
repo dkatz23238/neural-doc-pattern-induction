@@ -558,6 +558,18 @@ def materialize(record: dict, seed: int = 2507, limit: int = 8) -> list[dict]:
     return tasks
 
 
+def _ast_shape(node: dict) -> str:
+    """Tree shape with bounds and vocabularies erased. That is the AST signature."""
+    op = node.get("op") or "?"
+    children = node.get("children")
+    if isinstance(children, list) and children:
+        return op + "(" + ",".join(_ast_shape(child) for child in children if isinstance(child, dict)) + ")"
+    child = node.get("child")
+    if isinstance(child, dict):
+        return op + "(" + _ast_shape(child) + ")"
+    return op
+
+
 def diversity(records: list[dict]) -> dict:
     def entropy(groups: dict[str, int]) -> float:
         total = sum(groups.values())
@@ -574,24 +586,39 @@ def diversity(records: list[dict]) -> dict:
     programs: dict[str, int] = {}
     domains: dict[str, int] = {}
     signatures: dict[str, int] = {}
+    shapes: dict[str, int] = {}
+    families: dict[str, int] = {}
     concepts: dict[str, int] = {}
+    positives = 0
     for record in records:
         programs[json.dumps(record["program"], sort_keys=True)] = programs.get(json.dumps(record["program"], sort_keys=True), 0) + 1
         domains[record["domain"]] = domains.get(record["domain"], 0) + 1
         signatures[record["signature"]] = signatures.get(record["signature"], 0) + 1
+        shape = _ast_shape(record["program"])
+        shapes[shape] = shapes.get(shape, 0) + 1
+        family = str(record.get("semantic_type") or "unspecified")
+        families[family] = families.get(family, 0) + 1
         concepts[record["concept"]] = concepts.get(record["concept"], 0) + 1
+        positives += len(record.get("positives") or [])
     return {
         "templates": len(records),
         "unique_programs": len(programs),
+        "unique_ast_shapes": len(shapes),
         "concepts": len(concepts),
         "domains": len(domains),
+        "semantic_families": len(families),
         "program_entropy": round(entropy(programs), 4),
         "domain_entropy": round(entropy(domains), 4),
+        "ast_signature_entropy": round(entropy(shapes), 4),
+        "semantic_entropy": round(entropy(families), 4),
         "signature_entropy": round(entropy(signatures), 4),
         "top1_program_share": round(share(programs, 1), 4),
         "top10_signature_share": round(share(signatures, 10), 4),
+        "top10_family_share": round(share(families, 10), 4),
+        "mean_positives": round(positives / len(records), 4) if records else 0.0,
         "witnessed_ambiguity": sum(1 for record in records if record.get("ambiguity_status") == "witnessed"),
         "domain_counts": dict(sorted(domains.items())),
+        "family_counts": dict(sorted(families.items())),
     }
 
 
@@ -823,6 +850,29 @@ def _write_bank_manifest(root: Path) -> dict:
     return payload
 
 
+def _run_rows(root: Path) -> list[dict]:
+    base = root / "data" / "factory" / "runs"
+    rows = []
+    if not base.exists():
+        return rows
+    for path in sorted(base.glob("*/manifest.json")):
+        manifest = json.loads(path.read_text())
+        request_path = path.parent / "request.json"
+        domain = ""
+        if request_path.exists():
+            domain = str(json.loads(request_path.read_text()).get("domain") or "")
+        rows.append(
+            {
+                "run": manifest.get("run") or path.parent.name,
+                "prompt": manifest.get("prompt") or "",
+                "domain": domain,
+                "accepted": manifest.get("accepted", 0),
+                "rejected": manifest.get("rejected", 0),
+            }
+        )
+    return rows
+
+
 def render_report(root: Path) -> str:
     records = load_templates(root)
     report = diversity(records)
@@ -833,17 +883,41 @@ def render_report(root: Path) -> str:
         "Terra proposes a field and a program. The raw response is stored before parsing. A concept enters the bank only when Needle's executor accepts every positive and rejects every near miss. Rejected concepts stay in `data/factory/rejected/`. Training shards are not committed; the manifest names the bank hash and the generator version that would rebuild them.",
         "",
         f"Parser `{PARSER_VERSION}`. Teacher model `{TEACHER_MODEL}`. "
-        "gpt-6-terra is not available on this key. "
-        f"Templates {report['templates']}. Unique programs {report['unique_programs']}. "
-        f"Domains {report['domains']}. Bank hash `{manifest['template_bank_hash'][:16]}`.",
+        "gpt-6-terra is not on this key. "
+        f"Templates {report['templates']}. Unique latent programs {report['unique_programs']}. "
+        f"AST shapes {report['unique_ast_shapes']}. Concepts {report['concepts']}. "
+        f"Teacher domains {report['domains']}. Semantic families {report['semantic_families']}. "
+        f"Bank hash `{manifest['template_bank_hash'][:16]}`.",
         "",
         f"Program entropy {report['program_entropy']:.3f} bits. "
+        f"AST-signature entropy {report['ast_signature_entropy']:.3f} bits. "
+        f"Semantic-family entropy {report['semantic_entropy']:.3f} bits. "
+        f"Operator-combination entropy {report['signature_entropy']:.3f} bits. "
         f"Domain entropy {report['domain_entropy']:.3f} bits. "
-        f"Operator-signature entropy {report['signature_entropy']:.3f} bits. "
-        f"Top program share {report['top1_program_share']:.3f}. "
+        f"Top-1 program share {report['top1_program_share']:.3f}. "
+        f"Top-10 operator-combination share {report['top10_signature_share']:.3f}. "
+        f"Top-10 semantic-family share {report['top10_family_share']:.3f}. "
+        f"Mean positives per language {report['mean_positives']:.2f}. "
         f"Witnessed ambiguity {report['witnessed_ambiguity']}.",
         "",
+        "Novel-composition share waits on the compositional generator. This page counts teacher templates.",
+        "",
     ]
+    runs = _run_rows(root)
+    if runs:
+        lines.append("| Run | Prompt | Prompt domain | Accepted | Rejected |")
+        lines.append("| --- | --- | --- | ---: | ---: |")
+        for row in runs:
+            lines.append(
+                f"| {row['run']} | {row['prompt']} | {row['domain']} | {row['accepted']} | {row['rejected']} |"
+            )
+        lines.append("")
+    ledger = _ledger(root)
+    if ledger.get("calls"):
+        lines.append(
+            f"Calls {ledger['calls']}. Spent ${ledger['spent_usd']:.4f} of the ${BUDGET_USD:.0f} factory cap."
+        )
+        lines.append("")
     if report["domain_counts"]:
         lines.append("| Domain | Templates |")
         lines.append("| --- | ---: |")

@@ -1,0 +1,25 @@
+{
+  "spent_usd": 0.05268,
+  "calls": 1,
+  "budget_usd": 4.0,
+  "events": [
+    {
+      "run": "2026-09-29_terra_001",
+      "model": "gpt-5.6-terra",
+      "cost_usd": 0.05268,
+      "usage": {
+        "input_tokens": 846,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4249,
+        "output_tokens_details": {
+          "reasoning_tokens": 2190
+        },
+        "total_tokens": 5095
+      },
+      "accepted": 6
+    }
+  ]
+}

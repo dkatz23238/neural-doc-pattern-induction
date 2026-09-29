@@ -154,6 +154,10 @@ class FactoryTest(unittest.TestCase):
             )
             self.assertEqual(report["templates"], 2)
             self.assertEqual(report["domains"], 2)
+            self.assertEqual(report["unique_programs"], 2)
+            self.assertGreater(report["mean_positives"], 0)
+            self.assertIn("ast_signature_entropy", report)
+            self.assertIn("semantic_entropy", report)
 
     def test_materialize_builds_supports_the_gold_program_accepts(self):
         stored, _ = validate_concept(PALLET)

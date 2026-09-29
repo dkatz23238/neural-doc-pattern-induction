@@ -1,0 +1,11 @@
+{
+  "run": "2026-09-29_terra_001",
+  "model": "gpt-5.6-terra",
+  "prompt": "real_world_concepts_v1.md",
+  "prompt_sha256": "df3a96e192e6d2d6711a8369820cd9d992ea63fcb55f7ed19d2b277d9e62302b",
+  "response_sha256": "6c54a2c3e8ab322a8f35e174b87238e2501edf3309c8d3bdf64a1a5b348c97da",
+  "parser_version": "factory-1",
+  "accepted": 6,
+  "rejected": 0,
+  "reject_reasons": []
+}
