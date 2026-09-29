@@ -1,0 +1,23 @@
+[project]
+name = "neural-doc-pattern-induction"
+version = "0.1.0"
+description = "Infer a compact regular expression from a handful of example strings."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "find-abstract-syntax-tree==0.2.1",
+    "numpy>=2.2.6",
+    "pyarrow>=15",
+    "pyyaml>=6",
+    "torch>=2.2",
+]
+
+[project.scripts]
+train-prior = "prior.train:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["pattern_induction", "prior"]

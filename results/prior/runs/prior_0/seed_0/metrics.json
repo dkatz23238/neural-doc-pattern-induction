@@ -1,0 +1,52 @@
+{
+  "name": "prior_0",
+  "kind": "symbolic",
+  "seed": 0,
+  "device": "cpu",
+  "precision": "fp32",
+  "target_params": 0,
+  "params": 0,
+  "width": 0,
+  "hidden": 0,
+  "steps": 0,
+  "seconds": 1.8795762399968226,
+  "val": {
+    "n": 10000,
+    "top1": 0.4604,
+    "oracle": 1.0,
+    "by_family": {
+      "charset": 0.887,
+      "interval": 0.215,
+      "lexicon": 0.9905,
+      "prefix": 0.206,
+      "width": 0.0035
+    }
+  },
+  "ood": {
+    "n": 20000,
+    "top1": 0.5829,
+    "oracle": 1.0,
+    "by_family": {
+      "charset_ood": 0.62075,
+      "composition_ood": 1.0,
+      "interval_ood": 0.39125,
+      "lexicon_ood": 0.9025,
+      "width_ood": 0.0
+    }
+  },
+  "best": {
+    "val_top1": 0.4604,
+    "step": 0,
+    "ood_top1": 0.5829
+  },
+  "history": [],
+  "renaming": {
+    "n": 32,
+    "features": 1.0,
+    "support_embedding": 1.0,
+    "scores": null
+  },
+  "trained": false,
+  "bench_e_scored": false,
+  "bench_c_selected": false
+}

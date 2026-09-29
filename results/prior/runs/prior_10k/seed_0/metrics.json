@@ -1,0 +1,113 @@
+{
+  "name": "prior_10k",
+  "kind": "mlp",
+  "seed": 0,
+  "device": "cpu",
+  "precision": "fp32",
+  "target_params": 10000,
+  "params": 9737,
+  "width": 32,
+  "hidden": 24,
+  "steps": 20000,
+  "seconds": 34.15496892000374,
+  "val": {
+    "n": 10000,
+    "top1": 0.8832,
+    "oracle": 1.0,
+    "by_family": {
+      "charset": 0.98,
+      "interval": 0.7145,
+      "lexicon": 0.996,
+      "prefix": 0.753,
+      "width": 0.9725
+    }
+  },
+  "ood": {
+    "n": 20000,
+    "top1": 0.49845,
+    "oracle": 1.0,
+    "by_family": {
+      "charset_ood": 0.0135,
+      "composition_ood": 1.0,
+      "interval_ood": 0.03675,
+      "lexicon_ood": 0.88475,
+      "width_ood": 0.55725
+    }
+  },
+  "best": {
+    "val_top1": 0.8832,
+    "step": 20000,
+    "ood_top1": 0.49845
+  },
+  "history": [
+    {
+      "step": 2000,
+      "loss": 0.6394596695899963,
+      "val_top1": 0.8119,
+      "ood_top1": 0.60075
+    },
+    {
+      "step": 4000,
+      "loss": 0.34812846779823303,
+      "val_top1": 0.8175,
+      "ood_top1": 0.61225
+    },
+    {
+      "step": 6000,
+      "loss": 0.45962539315223694,
+      "val_top1": 0.8544,
+      "ood_top1": 0.6822
+    },
+    {
+      "step": 8000,
+      "loss": 0.3774968981742859,
+      "val_top1": 0.8601,
+      "ood_top1": 0.72375
+    },
+    {
+      "step": 10000,
+      "loss": 0.1905287206172943,
+      "val_top1": 0.8515,
+      "ood_top1": 0.6408
+    },
+    {
+      "step": 12000,
+      "loss": 0.2789040207862854,
+      "val_top1": 0.8776,
+      "ood_top1": 0.5454
+    },
+    {
+      "step": 14000,
+      "loss": 0.22240129113197327,
+      "val_top1": 0.8741,
+      "ood_top1": 0.50185
+    },
+    {
+      "step": 16000,
+      "loss": 0.1865689754486084,
+      "val_top1": 0.8776,
+      "ood_top1": 0.498
+    },
+    {
+      "step": 18000,
+      "loss": 0.35578131675720215,
+      "val_top1": 0.8819,
+      "ood_top1": 0.4664
+    },
+    {
+      "step": 20000,
+      "loss": 0.16987746953964233,
+      "val_top1": 0.8832,
+      "ood_top1": 0.49845
+    }
+  ],
+  "renaming": {
+    "n": 32,
+    "features": 1.0,
+    "support_embedding": 1.0,
+    "scores": 1.0
+  },
+  "trained": true,
+  "bench_e_scored": false,
+  "bench_c_selected": false
+}

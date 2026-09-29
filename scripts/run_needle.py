@@ -362,6 +362,10 @@ def _summary(root: Path) -> None:
     if recall_path.exists():
         lines.append(recall_path.read_text().rstrip())
         lines.append("")
+    prior_path = root / "results" / "prior" / "scaling.md"
+    if prior_path.exists():
+        lines.append(prior_path.read_text().rstrip())
+        lines.append("")
     seal_path = root / "results" / "needle" / "bench_e_seal.json"
     if seal_path.exists():
         seal = json.loads(seal_path.read_text())
