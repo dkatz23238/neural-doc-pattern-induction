@@ -6,6 +6,7 @@ import torch
 from torch import nn
 
 from prior.config import TrainConfig
+from prior.factors import FEAT_DIM, FIELD, N_AUX, N_FACTORS, OPTIONAL as FACTOR_OPTIONAL, REPEAT as FACTOR_REPEAT
 from prior.features import FEATURE_DIM, symbolic_score
 from prior.support_encode import SUPPORT_DIM
 from prior.tree import ALT, CHARSET, LEXICON, LEX_NAMES, LITERAL, OPTIONAL, PARAM_DIM, RANGE, REL_DIM, REPEAT, SEQ
@@ -77,6 +78,13 @@ class PriorModel(nn.Module):
                 nn.Linear(hidden, 1),
             )
             return
+        if cfg.kind == "factor":
+            hidden = choose_factor(cfg.target_params)
+            self.width = hidden
+            self.hidden = hidden
+            self.tree_dim = 0
+            self.factor = FactorEncoder(hidden)
+            return
         width, hidden = choose_width(cfg.target_params, self.support_dim, self.feat_dim)
         self.width = width
         self.hidden = hidden
@@ -91,7 +99,9 @@ class PriorModel(nn.Module):
             nn.Linear(hidden, 1),
         )
 
-    def forward(self, batch: dict[str, torch.Tensor]) -> torch.Tensor:
+    def forward(self, batch: dict[str, torch.Tensor], aux: bool = False):
+        if self.kind == "factor":
+            return self.factor(batch["support"], batch["feat"], batch["present"], aux=aux)
         if self.kind == "symbolic":
             values = batch["candidate"].detach().cpu()
             rows = []
@@ -114,6 +124,64 @@ class PriorModel(nn.Module):
         shared = support[:, None, :].expand_as(candidate)
         packed = torch.cat([shared, candidate, shared * candidate], dim=-1)
         return self.mlp(packed).squeeze(-1)
+
+
+class FactorEncoder(nn.Module):
+    """Sum of local preference scores.
+
+    Each factor has its own projection. Repeat features do not include the
+    child, and field features do not include the quantifier. The interaction
+    is ``tanh(beta) * cosine`` of the two hidden states, detached, so it stays
+    inside [-1, 1] and cannot rotate those states into a private pair code.
+    """
+
+    def __init__(self, hidden: int):
+        super().__init__()
+        self.hidden = hidden
+        self.support = nn.Linear(SUPPORT_DIM, hidden)
+        self.proj = nn.ModuleList(nn.Linear(FEAT_DIM, hidden) for _ in range(N_FACTORS))
+        self.aux_h = nn.Parameter(torch.randn(N_AUX, hidden) * 0.02)
+        self.aux_z = nn.Parameter(torch.randn(N_AUX, hidden) * 0.02)
+        self.aux_bias = nn.Parameter(torch.zeros(N_AUX))
+        self.beta_repeat = nn.Parameter(torch.zeros(()))
+        self.beta_optional = nn.Parameter(torch.zeros(()))
+
+    def forward(
+        self,
+        support: torch.Tensor,
+        feat: torch.Tensor,
+        present: torch.Tensor,
+        aux: bool = False,
+    ):
+        z = torch.nn.functional.gelu(self.support(support))
+        present_f = present.to(dtype=feat.dtype).unsqueeze(-1)
+        hiddens = []
+        total = None
+        scale = self.hidden ** 0.5
+        for index, layer in enumerate(self.proj):
+            hidden = torch.nn.functional.gelu(layer(feat[..., index, :])) * present_f[..., index, :]
+            score = (z[:, None, :] * hidden).sum(dim=-1) / scale
+            total = score if total is None else total + score
+            hiddens.append(hidden)
+        total = total + self._interaction(hiddens, present, self.beta_repeat, FACTOR_REPEAT, FIELD)
+        total = total + self._interaction(hiddens, present, self.beta_optional, FACTOR_OPTIONAL, FIELD)
+        if not aux:
+            return total
+        stacked = torch.stack(hiddens[:N_AUX], dim=2)
+        logits = (stacked * self.aux_h).sum(dim=-1)
+        logits = logits + (z[:, None, None, :] * self.aux_z).sum(dim=-1) + self.aux_bias
+        return total, logits
+
+    @staticmethod
+    def _interaction(hiddens, present, beta, left: int, right: int) -> torch.Tensor:
+        cosine = _cosine(hiddens[left].detach(), hiddens[right].detach())
+        gate = present[..., left].to(dtype=cosine.dtype) * present[..., right].to(dtype=cosine.dtype)
+        return torch.tanh(beta) * cosine * gate
+
+
+def _cosine(left: torch.Tensor, right: torch.Tensor) -> torch.Tensor:
+    denom = left.norm(dim=-1).clamp_min(1e-6) * right.norm(dim=-1).clamp_min(1e-6)
+    return (left * right).sum(dim=-1) / denom
 
 
 class _Mix(nn.Module):
@@ -265,6 +333,31 @@ def choose_ast(target: int) -> tuple[int, int, int]:
     if best is None:
         raise RuntimeError(f"no AST shape in band {band} for target {target}")
     return best[1], best[2], best[3]
+
+
+def factor_parameter_count(hidden: int) -> int:
+    support = SUPPORT_DIM * hidden + hidden
+    projections = N_FACTORS * (FEAT_DIM * hidden + hidden)
+    auxiliary = N_AUX * (hidden + hidden + 1)
+    return support + projections + auxiliary + 2
+
+
+def choose_factor(target: int) -> int:
+    """Hidden width whose factorized scorer lands near ``target``."""
+    if target <= 20_000:
+        band = (10_000, 20_000)
+    else:
+        band = (30_000, 50_000)
+    best: tuple[int, int] | None = None
+    for hidden in (32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160, 176, 192):
+        count = factor_parameter_count(hidden)
+        if not (band[0] <= count <= band[1]):
+            continue
+        if best is None or abs(count - target) < abs(best[0] - target):
+            best = (count, hidden)
+    if best is None:
+        raise RuntimeError(f"no factorized shape in band {band} for target {target}")
+    return best[1]
 
 
 def trainable_parameters(model: nn.Module) -> int:
