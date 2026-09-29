@@ -1,0 +1,3219 @@
+{
+  "support_dim": 160,
+  "question": "Does the frozen 160-d support vector contain the factors a compositional prior would need?",
+  "train_rows": 50000,
+  "val_rows": 10000,
+  "ood_rows": 20000,
+  "holdouts": [
+    "prefix_charset_optional",
+    "repeat_interval",
+    "lexicon_suffix"
+  ],
+  "fact_agreement": {
+    "train": {
+      "overall": {
+        "repeat": 1.0,
+        "optional": 0.9999,
+        "affix": 0.99974
+      },
+      "by_family": {
+        "charset_width": {
+          "repeat": 1.0,
+          "optional": 0.9986002239641657,
+          "affix": 0.9977603583426652
+        },
+        "interval": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "lexicon": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "prefix_charset": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 0.9985974754558204
+        },
+        "prefix_interval": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "prefix_lexicon": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "prefix_optional": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "prefix_width": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "repeat_width": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "stem_lexicon": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "suffix_width": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "width": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        }
+      }
+    },
+    "val": {
+      "overall": {
+        "repeat": 1.0,
+        "optional": 0.9999,
+        "affix": 0.9997
+      },
+      "by_family": {
+        "charset_width": {
+          "repeat": 1.0,
+          "optional": 0.9986033519553073,
+          "affix": 0.9958100558659218
+        },
+        "interval": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "lexicon": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "prefix_charset": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "prefix_interval": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "prefix_lexicon": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "prefix_optional": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "prefix_width": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "repeat_width": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "stem_lexicon": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "suffix_width": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "width": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        }
+      }
+    },
+    "ood": {
+      "overall": {
+        "repeat": 1.0,
+        "optional": 0.99705,
+        "affix": 0.99705
+      },
+      "by_family": {
+        "lexicon_suffix": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "prefix_charset_optional": {
+          "repeat": 1.0,
+          "optional": 1.0,
+          "affix": 1.0
+        },
+        "repeat_interval": {
+          "repeat": 1.0,
+          "optional": 0.9911464585834334,
+          "affix": 0.9911464585834334
+        }
+      }
+    }
+  },
+  "probes": {
+    "probes": {
+      "repeat": {
+        "classes": [
+          "absent",
+          "present"
+        ],
+        "linear": {
+          "parameters": 322,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 322,
+              "best_epoch": 30,
+              "val_balanced": 1.0,
+              "ood_balanced": 0.9867276549339294,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.9469026327133179,
+                  "recall": 0.9469026327133179
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 322,
+              "best_epoch": 30,
+              "val_balanced": 1.0,
+              "ood_balanced": 0.9871400594711304,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.9485525488853455,
+                  "recall": 0.9485525488853455
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            }
+          ],
+          "val_balanced": 1.0,
+          "ood_balanced": 0.9869338572025299
+        },
+        "tiny": {
+          "parameters": 5218,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 5218,
+              "best_epoch": 30,
+              "val_balanced": 1.0,
+              "ood_balanced": 1.0,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 5218,
+              "best_epoch": 30,
+              "val_balanced": 1.0,
+              "ood_balanced": 1.0,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            }
+          ],
+          "val_balanced": 1.0,
+          "ood_balanced": 1.0
+        }
+      },
+      "interval": {
+        "classes": [
+          "absent",
+          "present"
+        ],
+        "linear": {
+          "parameters": 322,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 322,
+              "best_epoch": 28,
+              "val_balanced": 0.9975476562976837,
+              "ood_balanced": 0.5896622911095619,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.9818435907363892,
+                  "recall": 0.9818435907363892
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9817415475845337,
+                  "recall": 0.9817415475845337
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 0.9986013770103455,
+                  "recall": 0.9986013770103455
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 0.99301677942276,
+                  "recall": 0.99301677942276
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 0.9958100318908691,
+                  "recall": 0.9958100318908691
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.990400493144989,
+                  "recall": 0.990400493144989
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 0.18412365019321442,
+                  "recall": 0.18412365019321442
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 322,
+              "best_epoch": 30,
+              "val_balanced": 0.9974775910377502,
+              "ood_balanced": 0.5686163306236267,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.9818435907363892,
+                  "recall": 0.9818435907363892
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9803370833396912,
+                  "recall": 0.9803370833396912
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 0.9986013770103455,
+                  "recall": 0.9986013770103455
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 0.99301677942276,
+                  "recall": 0.99301677942276
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 0.9958100318908691,
+                  "recall": 0.9958100318908691
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.9908504486083984,
+                  "recall": 0.9908504486083984
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 0.1418067216873169,
+                  "recall": 0.1418067216873169
+                }
+              }
+            }
+          ],
+          "val_balanced": 0.997512623667717,
+          "ood_balanced": 0.5791393108665943
+        },
+        "tiny": {
+          "parameters": 5218,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 5218,
+              "best_epoch": 21,
+              "val_balanced": 0.9990546703338623,
+              "ood_balanced": 0.5,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.9846368432044983,
+                  "recall": 0.9846368432044983
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 0.9993016719818115,
+                  "recall": 0.9993016719818115
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 0.0,
+                  "recall": 0.0
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 5218,
+              "best_epoch": 30,
+              "val_balanced": 0.999159187078476,
+              "ood_balanced": 0.6346038430929184,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.9846368432044983,
+                  "recall": 0.9846368432044983
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 0.9986013770103455,
+                  "recall": 0.9986013770103455
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 0.2692076861858368,
+                  "recall": 0.2692076861858368
+                }
+              }
+            }
+          ],
+          "val_balanced": 0.9991069287061691,
+          "ood_balanced": 0.5673019215464592
+        }
+      },
+      "optional": {
+        "classes": [
+          "absent",
+          "present"
+        ],
+        "linear": {
+          "parameters": 322,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 322,
+              "best_epoch": 30,
+              "val_balanced": 0.9999461472034454,
+              "ood_balanced": 0.5871195048093796,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.998603343963623,
+                  "recall": 0.998603343963623
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.17423900961875916,
+                  "recall": 0.17423900961875916
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 322,
+              "best_epoch": 30,
+              "val_balanced": 0.9999461472034454,
+              "ood_balanced": 0.5822462141513824,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.998603343963623,
+                  "recall": 0.998603343963623
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.1644924283027649,
+                  "recall": 0.1644924283027649
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            }
+          ],
+          "val_balanced": 0.9999461472034454,
+          "ood_balanced": 0.584682859480381
+        },
+        "tiny": {
+          "parameters": 5218,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 5218,
+              "best_epoch": 30,
+              "val_balanced": 1.0,
+              "ood_balanced": 0.5,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.0,
+                  "recall": 0.0
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 5218,
+              "best_epoch": 30,
+              "val_balanced": 1.0,
+              "ood_balanced": 0.5,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.0,
+                  "recall": 0.0
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            }
+          ],
+          "val_balanced": 1.0,
+          "ood_balanced": 0.5
+        }
+      },
+      "optional_scope": {
+        "classes": [
+          "absent",
+          "prefix",
+          "suffix",
+          "internal"
+        ],
+        "linear": {
+          "parameters": 644,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 644,
+              "best_epoch": 30,
+              "val_balanced": 0.9999461472034454,
+              "ood_balanced": 0.551881842315197,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.998603343963623,
+                  "recall": 0.998603343963623
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.10376368463039398,
+                  "recall": 0.10376368463039398
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 644,
+              "best_epoch": 30,
+              "val_balanced": 0.9999461472034454,
+              "ood_balanced": 0.5593042448163033,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.998603343963623,
+                  "recall": 0.998603343963623
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.1186084896326065,
+                  "recall": 0.1186084896326065
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            }
+          ],
+          "val_balanced": 0.9999461472034454,
+          "ood_balanced": 0.5555930435657501
+        },
+        "tiny": {
+          "parameters": 5284,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 5284,
+              "best_epoch": 30,
+              "val_balanced": 1.0,
+              "ood_balanced": 0.5,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.0,
+                  "recall": 0.0
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 5284,
+              "best_epoch": 30,
+              "val_balanced": 1.0,
+              "ood_balanced": 0.5,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.0,
+                  "recall": 0.0
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            }
+          ],
+          "val_balanced": 1.0,
+          "ood_balanced": 0.5
+        }
+      },
+      "charset": {
+        "classes": [
+          "digit",
+          "upper",
+          "lower",
+          "mixed"
+        ],
+        "linear": {
+          "parameters": 644,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 644,
+              "best_epoch": 30,
+              "val_balanced": 0.9864387065172195,
+              "ood_balanced": 0.8134475747744242,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.994413435459137,
+                  "recall": 0.994413435459137
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9957864880561829,
+                  "recall": 0.9957864880561829
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 0.9958041906356812,
+                  "recall": 0.9958041906356812
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 0.9979050159454346,
+                  "recall": 0.9979050159454346
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9887640476226807,
+                  "recall": 0.9887640476226807
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9311797618865967,
+                  "recall": 0.9311797618865967
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.3067346513271332,
+                  "recall": 0.3067346513271332
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.9662618041038513,
+                  "recall": 0.9662618041038513
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 644,
+              "best_epoch": 27,
+              "val_balanced": 0.9859329611063004,
+              "ood_balanced": 0.7875798543294271,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.9916201233863831,
+                  "recall": 0.9916201233863831
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 0.9972028136253357,
+                  "recall": 0.9972028136253357
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 0.998603343963623,
+                  "recall": 0.998603343963623
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9887640476226807,
+                  "recall": 0.9887640476226807
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 0.9985975027084351,
+                  "recall": 0.9985975027084351
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 0.925561785697937,
+                  "recall": 0.925561785697937
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.2837858200073242,
+                  "recall": 0.2837858200073242
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.9584645628929138,
+                  "recall": 0.9584645628929138
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            }
+          ],
+          "val_balanced": 0.98618583381176,
+          "ood_balanced": 0.8005137145519257
+        },
+        "tiny": {
+          "parameters": 5284,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 5284,
+              "best_epoch": 29,
+              "val_balanced": 0.9990801215171814,
+              "ood_balanced": 0.6294496854146322,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.9972066879272461,
+                  "recall": 0.9972066879272461
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 0.9972028136253357,
+                  "recall": 0.9972028136253357
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9971910119056702,
+                  "recall": 0.9971910119056702
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.40707963705062866,
+                  "recall": 0.40707963705062866
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.4900285005569458,
+                  "recall": 0.4900285005569458
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 5284,
+              "best_epoch": 30,
+              "val_balanced": 0.9986666440963745,
+              "ood_balanced": 0.825224498907725,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.9972066879272461,
+                  "recall": 0.9972066879272461
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 0.9958041906356812,
+                  "recall": 0.9958041906356812
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9957864880561829,
+                  "recall": 0.9957864880561829
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.3430328369140625,
+                  "recall": 0.3430328369140625
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.814964771270752,
+                  "recall": 0.814964771270752
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            }
+          ],
+          "val_balanced": 0.998873382806778,
+          "ood_balanced": 0.7273370921611786
+        }
+      },
+      "width": {
+        "classes": [
+          "fixed",
+          "count",
+          "open"
+        ],
+        "linear": {
+          "parameters": 483,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 483,
+              "best_epoch": 26,
+              "val_balanced": 0.9851894776026408,
+              "ood_balanced": 0.6534486413002014,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.9189944267272949,
+                  "recall": 0.9189944267272949
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9536516666412354,
+                  "recall": 0.9536516666412354
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 0.998603343963623,
+                  "recall": 0.998603343963623
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9213483333587646,
+                  "recall": 0.9213483333587646
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 0.9719101190567017,
+                  "recall": 0.9719101190567017
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 0.9706704020500183,
+                  "recall": 0.9706704020500183
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.8396580219268799,
+                  "recall": 0.8396580219268799
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.18683460354804993,
+                  "recall": 0.18683460354804993
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 483,
+              "best_epoch": 28,
+              "val_balanced": 0.9856683810551962,
+              "ood_balanced": 0.6864884495735168,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.8994413614273071,
+                  "recall": 0.8994413614273071
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9705055952072144,
+                  "recall": 0.9705055952072144
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 0.9972066879272461,
+                  "recall": 0.9972066879272461
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9382022619247437,
+                  "recall": 0.9382022619247437
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 0.9747191071510315,
+                  "recall": 0.9747191071510315
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 0.9790502786636353,
+                  "recall": 0.9790502786636353
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.8657566905021667,
+                  "recall": 0.8657566905021667
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.17903733253479004,
+                  "recall": 0.17903733253479004
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            }
+          ],
+          "val_balanced": 0.9854289293289185,
+          "ood_balanced": 0.6699685454368591
+        },
+        "tiny": {
+          "parameters": 5251,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 5251,
+              "best_epoch": 27,
+              "val_balanced": 0.9986050923665365,
+              "ood_balanced": 0.5986555616060892,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.9748603105545044,
+                  "recall": 0.9748603105545044
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9985954761505127,
+                  "recall": 0.9985954761505127
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.8363581895828247,
+                  "recall": 0.8363581895828247
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.0,
+                  "recall": 0.0
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 0.8841536641120911,
+                  "recall": 0.8841536641120911
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 5251,
+              "best_epoch": 25,
+              "val_balanced": 0.9977306723594666,
+              "ood_balanced": 0.5930314560731252,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.9720670580863953,
+                  "recall": 0.9720670580863953
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9943820238113403,
+                  "recall": 0.9943820238113403
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 0.9958041906356812,
+                  "recall": 0.9958041906356812
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 0.998603343963623,
+                  "recall": 0.998603343963623
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.7156141996383667,
+                  "recall": 0.7156141996383667
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.0016494226874783635,
+                  "recall": 0.0016494226874783635
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 0.9249699711799622,
+                  "recall": 0.9249699711799622
+                }
+              }
+            }
+          ],
+          "val_balanced": 0.9981678823630016,
+          "ood_balanced": 0.5958435088396072
+        }
+      },
+      "affix": {
+        "classes": [
+          "none",
+          "prefix",
+          "suffix"
+        ],
+        "linear": {
+          "parameters": 483,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 483,
+              "best_epoch": 29,
+              "val_balanced": 0.9997889200846354,
+              "ood_balanced": 0.4579642389144283,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.998603343963623,
+                  "recall": 0.998603343963623
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9985954761505127,
+                  "recall": 0.9985954761505127
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 0.998603343963623,
+                  "recall": 0.998603343963623
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.0004499774950090796,
+                  "recall": 0.0004499774950090796
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.47548356652259827,
+                  "recall": 0.47548356652259827
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 0.8979591727256775,
+                  "recall": 0.8979591727256775
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 483,
+              "best_epoch": 30,
+              "val_balanced": 0.9997222622235616,
+              "ood_balanced": 0.5405928855373835,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.9958100318908691,
+                  "recall": 0.9958100318908691
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 0.998603343963623,
+                  "recall": 0.998603343963623
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.0005999699933454394,
+                  "recall": 0.0005999699933454394
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.6930574178695679,
+                  "recall": 0.6930574178695679
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 0.9281212687492371,
+                  "recall": 0.9281212687492371
+                }
+              }
+            }
+          ],
+          "val_balanced": 0.9997555911540985,
+          "ood_balanced": 0.4992785622259059
+        },
+        "tiny": {
+          "parameters": 5251,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 5251,
+              "best_epoch": 30,
+              "val_balanced": 1.0,
+              "ood_balanced": 0.5450067520141602,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.0,
+                  "recall": 0.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.6450742483139038,
+                  "recall": 0.6450742483139038
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 0.9899460077285767,
+                  "recall": 0.9899460077285767
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 5251,
+              "best_epoch": 30,
+              "val_balanced": 1.0,
+              "ood_balanced": 0.5782392621040344,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.0,
+                  "recall": 0.0
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.7681811451911926,
+                  "recall": 0.7681811451911926
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 0.9665366411209106,
+                  "recall": 0.9665366411209106
+                }
+              }
+            }
+          ],
+          "val_balanced": 1.0,
+          "ood_balanced": 0.5616230070590973
+        }
+      },
+      "lexicon": {
+        "classes": [
+          "absent",
+          "present"
+        ],
+        "linear": {
+          "parameters": 322,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 322,
+              "best_epoch": 28,
+              "val_balanced": 0.9807209372520447,
+              "ood_balanced": 0.6103912442922592,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.8184357285499573,
+                  "recall": 0.8184357285499573
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9480336904525757,
+                  "recall": 0.9480336904525757
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 0.9790209531784058,
+                  "recall": 0.9790209531784058
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 0.9692737460136414,
+                  "recall": 0.9692737460136414
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.30733463168144226,
+                  "recall": 0.30733463168144226
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.8278602361679077,
+                  "recall": 0.8278602361679077
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 0.999099612236023,
+                  "recall": 0.999099612236023
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 322,
+              "best_epoch": 28,
+              "val_balanced": 0.9827986359596252,
+              "ood_balanced": 0.5972282141447067,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.7695530652999878,
+                  "recall": 0.7695530652999878
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 0.998603343963623,
+                  "recall": 0.998603343963623
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9803370833396912,
+                  "recall": 0.9803370833396912
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 0.9832167625427246,
+                  "recall": 0.9832167625427246
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 0.998603343963623,
+                  "recall": 0.998603343963623
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 0.9455307126045227,
+                  "recall": 0.9455307126045227
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.31258437037467957,
+                  "recall": 0.31258437037467957
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.7642825245857239,
+                  "recall": 0.7642825245857239
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 0.9995498061180115,
+                  "recall": 0.9995498061180115
+                }
+              }
+            }
+          ],
+          "val_balanced": 0.981759786605835,
+          "ood_balanced": 0.603809729218483
+        },
+        "tiny": {
+          "parameters": 5218,
+          "seeds": [
+            {
+              "seed": 0,
+              "parameters": 5218,
+              "best_epoch": 27,
+              "val_balanced": 0.9945465624332428,
+              "ood_balanced": 0.7671247720718384,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.9357541799545288,
+                  "recall": 0.9357541799545288
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9901685118675232,
+                  "recall": 0.9901685118675232
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 0.9916083812713623,
+                  "recall": 0.9916083812713623
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 0.9888268113136292,
+                  "recall": 0.9888268113136292
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.8507574796676636,
+                  "recall": 0.8507574796676636
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.367221474647522,
+                  "recall": 0.367221474647522
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            },
+            {
+              "seed": 1,
+              "parameters": 5218,
+              "best_epoch": 21,
+              "val_balanced": 0.994549423456192,
+              "ood_balanced": 0.6951621472835541,
+              "val": {
+                "charset_width": {
+                  "n": 716,
+                  "accuracy": 0.9217877388000488,
+                  "recall": 0.9217877388000488
+                },
+                "interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "lexicon": {
+                  "n": 712,
+                  "accuracy": 0.9943820238113403,
+                  "recall": 0.9943820238113403
+                },
+                "prefix_charset": {
+                  "n": 715,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_interval": {
+                  "n": 1432,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_optional": {
+                  "n": 713,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "prefix_width": {
+                  "n": 716,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "repeat_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "stem_lexicon": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "suffix_width": {
+                  "n": 712,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                },
+                "width": {
+                  "n": 716,
+                  "accuracy": 0.9790502786636353,
+                  "recall": 0.9790502786636353
+                }
+              },
+              "ood": {
+                "lexicon_suffix": {
+                  "n": 6667,
+                  "accuracy": 0.8056097030639648,
+                  "recall": 0.8056097030639648
+                },
+                "prefix_charset_optional": {
+                  "n": 6669,
+                  "accuracy": 0.16974058747291565,
+                  "recall": 0.16974058747291565
+                },
+                "repeat_interval": {
+                  "n": 6664,
+                  "accuracy": 1.0,
+                  "recall": 1.0
+                }
+              }
+            }
+          ],
+          "val_balanced": 0.9945479929447174,
+          "ood_balanced": 0.7311434596776962
+        }
+      }
+    },
+    "seeds": [
+      0,
+      1
+    ]
+  },
+  "joints": {
+    "model": "linear",
+    "seed": 0,
+    "val": {
+      "repeat_interval": {
+        "n": 0
+      },
+      "prefix_charset_optional": {
+        "n": 0
+      },
+      "lexicon_suffix": {
+        "n": 0
+      }
+    },
+    "ood": {
+      "repeat_interval": {
+        "n": 6664,
+        "all_correct": 0.18412365019321442,
+        "pieces": {
+          "repeat": 1.0,
+          "interval": 0.18412365019321442
+        }
+      },
+      "prefix_charset_optional": {
+        "n": 6669,
+        "all_correct": 0.10361373424530029,
+        "pieces": {
+          "optional": 0.17423900961875916,
+          "optional_scope": 0.10376368463039398,
+          "charset": 0.9662618041038513
+        }
+      },
+      "lexicon_suffix": {
+        "n": 6667,
+        "all_correct": 0.0002999849966727197,
+        "pieces": {
+          "lexicon": 0.30733463168144226,
+          "affix": 0.0004499774950090796
+        }
+      }
+    }
+  },
+  "explicit": {
+    "val": {
+      "n": 10000,
+      "top1": 0.2885,
+      "tie_hit": 0.6942,
+      "by_family": {
+        "charset_width": 0.4860335195530726,
+        "interval": 0.12569832402234637,
+        "lexicon": 0.35252808988764045,
+        "prefix_charset": 0.45734265734265733,
+        "prefix_interval": 0.2709497206703911,
+        "prefix_lexicon": 0.2556179775280899,
+        "prefix_optional": 0.0,
+        "prefix_width": 0.38687150837988826,
+        "repeat_width": 0.19382022471910113,
+        "stem_lexicon": 0.3806179775280899,
+        "suffix_width": 0.34831460674157305,
+        "width": 0.3840782122905028
+      },
+      "tie_by_family": {
+        "charset_width": 0.973463687150838,
+        "interval": 0.6655027932960894,
+        "lexicon": 0.625,
+        "prefix_charset": 0.5846153846153846,
+        "prefix_interval": 0.9748603351955307,
+        "prefix_lexicon": 0.47191011235955055,
+        "prefix_optional": 0.0,
+        "prefix_width": 0.8659217877094972,
+        "repeat_width": 0.4691011235955056,
+        "stem_lexicon": 0.7457865168539326,
+        "suffix_width": 0.8426966292134831,
+        "width": 0.8547486033519553
+      }
+    },
+    "ood": {
+      "n": 20000,
+      "top1": 0.1604,
+      "tie_hit": 0.5535,
+      "by_family": {
+        "lexicon_suffix": 0.2207889605519724,
+        "prefix_charset_optional": 0.06537711800869696,
+        "repeat_interval": 0.195078031212485
+      },
+      "tie_by_family": {
+        "lexicon_suffix": 0.35983200839958,
+        "prefix_charset_optional": 0.3187884240515819,
+        "repeat_interval": 0.9821428571428571
+      }
+    }
+  },
+  "explicit_rule": "Each of repeat, optional scope, affix, field class, width, and lexicon adds 1 when the candidate agrees with the string fact and subtracts 1 when it contradicts. A set that covers a pure observed class scores 0 on the field piece. Weights are not tuned.",
+  "class_names": {
+    "optional_scope": [
+      "absent",
+      "prefix",
+      "suffix",
+      "internal"
+    ],
+    "charset": [
+      "digit",
+      "upper",
+      "lower",
+      "mixed"
+    ],
+    "width": [
+      "fixed",
+      "count",
+      "open"
+    ],
+    "affix": [
+      "none",
+      "prefix",
+      "suffix"
+    ]
+  }
+}
