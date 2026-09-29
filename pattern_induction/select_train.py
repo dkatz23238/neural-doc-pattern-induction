@@ -263,9 +263,9 @@ def select_from_programs(
     ``direct`` scores each candidate's own constraints (mode C).
     """
     # Determinizing every program is the slow part once the chart is built.
-    # Same-regex programs are already one language. Small charts still use the
-    # automaton so a stability comparison with resynthesis sees the same families.
-    if len(programs) >= 800:
+    # Same-regex programs are already one language. Smaller charts still use
+    # the automaton so a stability comparison with resynthesis sees the same families.
+    if len(programs) >= 400:
         families = _regex_families(programs, supports)
     else:
         families = group_languages(programs, supports)
