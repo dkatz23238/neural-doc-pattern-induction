@@ -79,6 +79,16 @@ class DslCoverTest(unittest.TestCase):
         self.assertGreater((exact + open_) / len(tasks), 0.90)
         self.assertLess(outside, 40)
 
+    def test_verbose_integer_and_literal_alternations_are_one_node(self):
+        octet = cover_regex(r"^(?:25[0-5]|2[0-4]\d|1?\d{1,2})(?:\.(?:25[0-5]|2[0-4]\d|1?\d{1,2})){3}$")
+        self.assertEqual(octet.status, "exact", octet)
+        self.assertLessEqual(octet.nodes, NODE_CAP)
+        months = cover_regex(
+            r"^\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (?:19|20)\d{2}$"
+        )
+        self.assertNotEqual(months.status, "no", months)
+        self.assertLessEqual(months.nodes, NODE_CAP)
+
     def test_every_bench_regex_classifies(self):
         tasks = read_jsonl(Path("data/bench_c.jsonl"))
         seen = {task.gold_regex for task in tasks}

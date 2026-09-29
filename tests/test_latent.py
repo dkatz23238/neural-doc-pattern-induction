@@ -2,6 +2,7 @@ import unittest
 
 from pattern_induction.charset import v2_facts
 from pattern_induction.latent import expand_program, expand_programs, factor_supports
+from pattern_induction.recall_eval import is_closed_set
 from pattern_induction.program import Prog, execute, to_regex
 from pattern_induction.version_space import assemble
 
@@ -110,6 +111,69 @@ class LatentExpansionTest(unittest.TestCase):
         programs = expand_program(program, supports)
         self.assertTrue(any(execute(prog, "QX1234", supports) and not execute(prog, "Qx1234", supports) for prog in programs))
         self.assertFalse(any(prog is left for prog in programs))
+
+    def test_closed_set_label_follows_the_frozen_bank(self):
+        self.assertTrue(is_closed_set(r"^(?:USD|EUR|GBP|JPY|CAD|AUD)$"))
+        self.assertTrue(is_closed_set(r"^\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}$"))
+        self.assertFalse(is_closed_set(r"^INV-\d{4}$"))
+        self.assertFalse(is_closed_set(r"^(?:WEB-|POS-)?\d{8}$"))
+
+    def test_currency_codes_complete_from_a_frozen_list(self):
+        supports = ["AUD", "JPY", "EUR", "CAD"]
+        programs = expand_programs([], supports, cap=80)
+        self.assertTrue(any(prog.op == "LEX" and prog.spec == "iso4217" for prog in programs))
+        self.assertTrue(
+            any(execute(prog, "GBP", supports) and not execute(prog, "YSD", supports) for prog in programs)
+        )
+
+    def test_month_names_complete_inside_the_date(self):
+        supports = ["10 Mar 2005", "6 Aug 2011", "17 Dec 2004", "4 May 2019"]
+        programs = expand_programs([], supports, cap=200)
+        self.assertTrue(
+            any(
+                execute(prog, "3 Sep 2021", supports)
+                and not execute(prog, "4 yec 2002", supports)
+                and not execute(prog, "32 Jan 2000", supports)
+                for prog in programs
+            )
+        )
+
+    def test_filename_suffix_completes_from_the_extension_list(self):
+        supports = ["wqyouxexv_v2.docx", "yysxnzk_final.csv", "apnptgvno_v2.csv", "jcpze_final.pdf"]
+        programs = expand_programs([], supports, cap=80)
+        self.assertTrue(
+            any(
+                execute(prog, "notes_v2.png", supports)
+                and not execute(prog, "notes_v2.tzt", supports)
+                for prog in programs
+            )
+        )
+
+    def test_full_hash_keeps_its_width(self):
+        supports = [
+            "c944ac15b7a9dea4113b55382aaa58c08612f02e45d98d7b1ec3303e1985deee",
+            "588a6fe506ea0d12481875a14582fded4e9b551c20b25ced6d34900128aa0f9c",
+            "f9bbcb5cc0107d96d925a1569d0915b8c3586feb30a2898fe3a6e24aba987c03",
+            "d6de8e3473ddcf40a83322bb82a9079c4f5f36a71fe2d47d8a8696d0f9273a0c",
+        ]
+        programs = expand_programs([], supports, cap=40)
+        other = "31e15e68095d44c911d8c58dde6653cdf0c21d0acdf1f17c69ded65d15379609"
+        short = other[:-1]
+        self.assertTrue(any(execute(prog, other, supports) and not execute(prog, short, supports) for prog in programs))
+
+    def test_full_uuid_keeps_the_version_nibble(self):
+        supports = [
+            "0749dcf2-33f9-4bee-af1b-e039d568fb21",
+            "3ed99002-9ce1-48fd-9411-ffef17323337",
+            "606a98f9-de70-462a-8082-e88c97af6e43",
+            "6c298214-302a-48b5-9b3b-3305870a67e0",
+        ]
+        programs = expand_programs([], supports, cap=80)
+        good = "8cce2d97-58dd-4ecf-8464-dd27686cf263"
+        bad_version = "68864fed-6ed1-15ee-843d-861f1c1d36b8"
+        self.assertTrue(
+            any(execute(prog, good, supports) and not execute(prog, bad_version, supports) for prog in programs)
+        )
 
 
 if __name__ == "__main__":

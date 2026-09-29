@@ -13,6 +13,7 @@ import re
 from dataclasses import dataclass, field
 
 from pattern_induction.charset import integer_matches, integer_regex, spec_matches
+from pattern_induction.lexicon import lexicon_members, lexicon_regex
 from pattern_induction.compose import (
     Alternation,
     OptionalInternal,
@@ -145,6 +146,13 @@ def advance(prog: Prog, text: str, supports: list[str], index: int = 0) -> tuple
                 if len(chunk) == width and integer_matches(node.spec, chunk, lo, hi):
                     found.append(cursor + width)
             result = tuple(found)
+        elif node.op == "LEX":
+            found = [
+                cursor + len(member)
+                for member in lexicon_members(node.spec)
+                if member and text.startswith(member, cursor)
+            ]
+            result = tuple(dict.fromkeys(found))
         elif node.op == "OPT" and node.children:
             result = (cursor,) + ends(node.children[0], cursor)
         elif node.op == "ALT" and len(node.children) >= 2:
@@ -225,6 +233,8 @@ def to_regex(prog: Prog, supports: list[str]) -> str:
             lo = max(1, min(node.lo, node.hi))
             hi = max(lo, node.hi)
             return integer_regex(node.spec, lo, hi)
+        if node.op == "LEX":
+            return lexicon_regex(node.spec)
         if node.op == "OPT" and node.children:
             return "(?:" + piece(node.children[0]) + ")?"
         if node.op == "ALT" and len(node.children) >= 2:
@@ -247,6 +257,8 @@ def describe(prog: Prog) -> str:
         return f"SET[{prog.spec}]{{{prog.lo},{prog.hi}}}"
     if prog.op == "INT":
         return f"INT[{prog.spec}]{{{prog.lo},{prog.hi}}}"
+    if prog.op == "LEX":
+        return f"LEX[{prog.spec}]"
     if prog.op == "REPEAT" and prog.children:
         return f"REP{prog.lo}-{prog.hi}({describe(prog.children[0])})"
     if prog.op == "OPT" and prog.children:

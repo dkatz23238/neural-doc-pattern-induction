@@ -13,6 +13,7 @@ from __future__ import annotations
 import string
 
 from pattern_induction.charset import charset_spec, spec_chars
+from pattern_induction.lexicon import matching_lexicons
 from pattern_induction.program import OPEN, Prog, describe, execute
 
 # Conventional intervals a numeric field often means, independent of any benchmark.
@@ -87,6 +88,9 @@ def _bounds(lo: int, hi: int) -> list[tuple[int, int]]:
             ordered.append((left, right))
 
     # Open sits in the first four so a product of fields can widen them together.
+    # One step shorter is the bound a sample of a digit run most often missed.
+    if lo > 1:
+        add((lo - 1, hi))
     add((1, hi))
     add((lo, 128))
     add((1, 128))
@@ -181,6 +185,11 @@ def _int_nodes(spec: str, lo: int, hi: int) -> list[Prog]:
             continue
         seen.add(key)
         nodes.append(Prog("INT", spec=f"{start}:{end}", lo=span[0], hi=span[1]))
+    # One shorter string than the observed width. It sits just after the first
+    # four intervals, so the four-way cross that dates already use is unchanged
+    # and a five-way cross can still see the shorter bound.
+    if nodes and lo > 1:
+        nodes.insert(min(4, len(nodes)), Prog("CLS", cls="digit", lo=lo - 1, hi=hi))
     nodes.append(Prog("CLS", cls="digit", lo=max(1, lo), hi=max(lo, hi)))
     for bound_lo, bound_hi in _bounds(lo, hi):
         nodes.append(Prog("CLS", cls="digit", lo=bound_lo, hi=bound_hi))
@@ -204,6 +213,8 @@ def _set_nodes(spec: str, lo: int, hi: int) -> list[Prog]:
     if families:
         nodes.append(Prog("SET", spec=families[0], lo=lo, hi=hi))
     open_hi = 128 if hi < 128 else hi
+    if families and (1, open_hi) != (lo, hi):
+        nodes.append(Prog("SET", spec=families[0], lo=1, hi=open_hi))
     if open_hi != hi:
         nodes.append(Prog("SET", spec=spec, lo=lo, hi=open_hi))
         if families:
@@ -232,6 +243,8 @@ def _class_nodes(cls: str, lo: int, hi: int) -> list[Prog]:
         word = {"lower": "0-9a-z_", "upper": "0-9A-Z_"}.get(cls)
         if word and alphabet < spec_chars(word):
             nodes.append(Prog("SET", spec=charset_spec(spec_chars(word)), lo=1, hi=128))
+    if lo == hi and hi < 128:
+        nodes.append(Prog("CLS", cls=cls, lo=lo, hi=hi + 1))
     if hi < 128:
         nodes.append(Prog("CLS", cls=cls, lo=lo, hi=128))
     nodes.extend(Prog("CLS", cls=cls, lo=bound_lo, hi=bound_hi) for bound_lo, bound_hi in _bounds(lo, hi)[1:])
@@ -261,6 +274,43 @@ def _literal(prog: Prog, supports: list[str]) -> str:
     if prog.start < 0 or prog.end > len(text) or prog.end <= prog.start:
         return ""
     return text[prog.start : prog.end]
+
+
+def _first_family(spec: str) -> str | None:
+    chars = spec_chars(spec)
+    if not chars:
+        return None
+    for family in _FAMILIES:
+        if chars <= spec_chars(family):
+            widened = charset_spec(spec_chars(family))
+            if widened != spec:
+                return widened
+            return None
+    return None
+
+
+def _joint_family(prog: Prog) -> Prog | None:
+    """Widen every character set to its first superclass together.
+
+    A product of fields often widens one set and leaves the others on the
+    observed hull. A hex identifier is the superclass of every field at once.
+    """
+    changed = False
+
+    def walk(node: Prog) -> Prog:
+        nonlocal changed
+        if node.op == "SET":
+            family = _first_family(node.spec)
+            if family:
+                changed = True
+                return _clone(node, spec=family)
+            return node
+        if node.children:
+            return _clone(node, children=[walk(child) for child in node.children])
+        return node
+
+    widened = walk(prog)
+    return widened if changed else None
 
 
 def _class_name(char: str) -> str:
@@ -341,7 +391,9 @@ def _product(groups: list[list[Prog]], cap: int) -> list[tuple[Prog, ...]]:
     """
     if not groups:
         return [()]
-    head = [group[:4] if group else [Prog("COPY")] for group in groups]
+    varying = sum(1 for group in groups if len(group) > 1)
+    head_n = 5 if varying and 5**varying <= cap else 4
+    head = [group[:head_n] if group else [Prog("COPY")] for group in groups]
     total = 1
     for group in head:
         total *= len(group)
@@ -353,16 +405,23 @@ def _product(groups: list[list[Prog]], cap: int) -> list[tuple[Prog, ...]]:
         rows = [tuple(group[0] for group in groups)]
         depth = max(len(group) for group in head)
 
-        def pick(group: list[Prog], index: int, hold_alt: bool) -> Prog:
+        def pick(group: list[Prog], index: int, hold_alt: bool, hold_width: bool) -> Prog:
             if hold_alt and group[0].op == "ALT":
                 return group[0]
-            return group[min(index, len(group) - 1)]
+            chosen = group[min(index, len(group) - 1)]
+            # A one-step-longer class rides the same diagonal as a clock
+            # convention. Keeping the observed width still lets the convention
+            # through, and the longer class remains on the unheld diagonal.
+            if hold_width and chosen.hi > group[0].hi:
+                return group[0]
+            return chosen
 
         for index in range(1, depth):
-            rows.append(tuple(pick(group, index, False) for group in head))
-            held = tuple(pick(group, index, True) for group in head)
-            if held not in rows:
-                rows.append(held)
+            rows.append(tuple(pick(group, index, False, False) for group in head))
+            for hold_alt, hold_width in ((True, False), (False, True), (True, True)):
+                held = tuple(pick(group, index, hold_alt, hold_width) for group in head)
+                if held not in rows:
+                    rows.append(held)
     seen = {tuple(describe(item) for item in row) for row in rows}
     identity = tuple(group[0] for group in groups)
     for place, group in enumerate(groups):
@@ -693,9 +752,13 @@ def _observed_set(texts: list[str]) -> Prog:
 
 
 def _digit_node(texts: list[str]) -> Prog:
-    values = [int(text) for text in texts if text.isdigit()]
     lo = min(len(text) for text in texts)
     hi = max(len(text) for text in texts)
+    # A leading zero is a digit string, not an integer. Variable-width integers
+    # reject it, so the field would not even accept the supports.
+    if any(len(text) > 1 and text.startswith("0") for text in texts):
+        return Prog("CLS", cls="digit", lo=lo, hi=hi)
+    values = [int(text) for text in texts if text.isdigit()]
     if not values:
         return Prog("CLS", cls="digit", lo=lo, hi=hi)
     return Prog("INT", spec=f"{min(values)}:{max(values)}", lo=lo, hi=hi)
@@ -1212,13 +1275,53 @@ def _charset_tails(supports: list[str]) -> list[Prog]:
     return programs
 
 
+def _lexicon_programs(supports: list[str]) -> list[Prog]:
+    """Replace an observed field with a frozen closed set that contains it.
+
+    The set is not read off the benchmark. Two distinct observed tokens have
+    to sit inside the set, and the set has to name something they did not show.
+    """
+    if len(supports) < 2:
+        return []
+    programs: list[Prog] = []
+    for name in matching_lexicons(set(supports)):
+        programs.append(Prog("LEX", spec=name))
+    rows = [_tokenize(text) for text in supports]
+    if rows and all(rows) and len({_signature(row) for row in rows}) == 1:
+        _tag_slots(rows)
+        base = _columns(rows)
+        if len(base) == len(rows[0]):
+            for index in range(len(rows[0])):
+                observed = {row[index][1] for row in rows}
+                for name in matching_lexicons(observed):
+                    children = list(base)
+                    children[index] = Prog("LEX", spec=name)
+                    programs.append(_seq(children))
+    if all("." in text and not text.endswith(".") for text in supports):
+        extensions = {text.rsplit(".", 1)[1] for text in supports}
+        stems = [text.rsplit(".", 1)[0] for text in supports]
+        if all(stems) and all(token.isalnum() for token in extensions):
+            chars = {char for stem in stems for char in stem}
+            dot = _find_literal(supports, ".")
+            if chars and dot is not None:
+                stem = Prog(
+                    "SET",
+                    spec=charset_spec(chars),
+                    lo=min(len(text) for text in stems),
+                    hi=max(len(text) for text in stems),
+                )
+                for name in matching_lexicons(extensions):
+                    programs.append(_seq([stem, dot, Prog("LEX", spec=name)]))
+    return programs
+
+
 def factor_supports(supports: list[str]) -> list[Prog]:
     """Field programs read off the supports, before latent widening.
 
     These are generic: shared marks become fields, a thousands group becomes a
     head plus a repeated group of three, a repeated field becomes a quantifier,
-    and a token seen in only some supports becomes optional. No benchmark
-    lexicon is consulted.
+    and a token seen in only some supports becomes optional. Closed sets are
+    added beside these, from the frozen lexicon bank, not from this factorizer.
     """
     if len(supports) < 2:
         return []
@@ -1236,38 +1339,81 @@ def factor_supports(supports: list[str]) -> list[Prog]:
 
 
 def expand_programs(programs: list[Prog], supports: list[str], cap: int = 480) -> list[Prog]:
-    """Union of latent rewrites. Factored supports are widened first.
+    """Union of latent rewrites.
 
-    The input programs stay eligible: callers that already hold the chart
-    still search it. The cap keeps the factored generalizations, which are
-    the ones the chart's shortest program does not contain.
+    Every seed is kept. Each seed then receives the same share of its
+    group's budget, so the first factored program cannot spend the share
+    of a later seed. When the caller passes chart programs, factored
+    supports and that chart each keep half of the cap. With no chart
+    seeds the factored programs keep the whole cap. A joint superclass
+    and a lexicon completion are added beside that budget.
     """
     seeds: list[Prog] = []
     seen = set()
 
-    def add(prog: Prog | None) -> None:
+    def add(prog: Prog | None) -> bool:
         if prog is None:
-            return
+            return False
         key = describe(prog)
         if key in seen:
-            return
+            return False
         seen.add(key)
         seeds.append(prog)
+        return True
 
+    factor: list[Prog] = []
     for prog in factor_supports(supports):
-        add(prog)
+        if add(prog):
+            factor.append(prog)
+    incoming: list[Prog] = []
     for prog in programs:
-        add(prog)
+        if add(prog):
+            incoming.append(prog)
+    joints: list[Prog] = []
+    for prog in list(seeds):
+        joint = _joint_family(prog)
+        if add(joint):
+            joints.append(joint)
     rows: list[Prog] = []
     emitted = set()
-    per = max(96, cap // max(len(seeds), 1))
-    for prog in seeds:
-        for candidate in [prog, *expand_program(prog, supports, per)]:
+
+    def emit(candidate: Prog) -> None:
+        key = describe(candidate)
+        if key in emitted:
+            return
+        emitted.add(key)
+        rows.append(candidate)
+
+    def pour(group: list[Prog], budget: int) -> None:
+        if not group or budget <= 0:
+            return
+        for prog in group:
+            emit(prog)
+        per = max(1, budget // len(group))
+        for prog in group:
+            for candidate in expand_program(prog, supports, per):
+                emit(candidate)
+
+    if incoming and factor:
+        pour(factor, cap // 2)
+        pour(incoming, cap // 2)
+    elif incoming:
+        pour(incoming, cap)
+    else:
+        pour(factor, cap)
+    pour(joints, max(cap // 5, 1))
+    # Lexicon completions keep their own budget so they do not evict a structural rewrite.
+    extra = 0
+    for prog in _lexicon_programs(supports):
+        if not all(execute(prog, text, supports) for text in supports):
+            continue
+        for candidate in [prog, *expand_program(prog, supports, 48)]:
             key = describe(candidate)
             if key in emitted:
                 continue
             emitted.add(key)
             rows.append(candidate)
-            if len(rows) >= cap:
+            extra += 1
+            if extra >= 80:
                 return rows
     return rows

@@ -358,6 +358,10 @@ def _summary(root: Path) -> None:
     if latent_path.exists():
         lines.append(latent_path.read_text().rstrip())
         lines.append("")
+    recall_path = root / "results" / "needle" / "recall_oracle.md"
+    if recall_path.exists():
+        lines.append(recall_path.read_text().rstrip())
+        lines.append("")
     seal_path = root / "results" / "needle" / "bench_e_seal.json"
     if seal_path.exists():
         seal = json.loads(seal_path.read_text())

@@ -6,8 +6,10 @@ digit, upper, or lower class stays a class. A partial range or a mixture
 of those alphabets is one character set. A contiguous integer interval is
 one integer range, compiled to regex by the executor rather than induced
 as an alternation. A repeat of a compound unit stops at 8. A class or a
-character set is one node and may be wider than 8. Word and space classes
-stay outside. Trees larger than 16 nodes are out.
+character set is one node and may be wider than 8. A contiguous integer
+interval is one node even when its printed form is a long alternation, and
+so is an alternation of literals: that is one lexicon, compiled later.
+Word and space classes stay outside. Trees larger than 16 nodes are out.
 
 ``exact`` means the gold language is that fragment. ``open`` means the only
 gap is an unbounded quantifier, which the executor approximates with its
@@ -262,11 +264,39 @@ def _integer_prefix(tokens: list, index: int) -> int:
     return best
 
 
+def _interval_piece(tokens: list) -> _Piece | None:
+    """One integer range, including a zero-padded octet alternation."""
+    language = _finite(tokens)
+    if not language or len(language) < 10 or any(not text.isdigit() for text in language):
+        return None
+    values = {int(text) for text in language}
+    lo, hi = min(values), max(values)
+    if hi - lo < 9 or len(values) != hi - lo + 1 or hi > 100000:
+        return None
+    return _Piece(1, False)
+
+
+def _literal_branch(arms: list) -> bool:
+    if len(arms) < 2:
+        return False
+    for arm in arms:
+        body = _strip_anchors(arm)
+        if not body or any(op is not LITERAL for op, _arg in body):
+            return False
+    return True
+
+
 def _compile(tokens: list) -> _Piece:
     tokens = _strip_anchors(tokens)
     pieces: list[_Piece] = []
     index = 0
     while index < len(tokens):
+        if tokens[index][0] in {BRANCH, SUBPATTERN}:
+            collapsed = _interval_piece([tokens[index]])
+            if collapsed is not None:
+                pieces.append(collapsed)
+                index += 1
+                continue
         taken = _integer_prefix(tokens, index)
         if taken:
             pieces.append(_Piece(1, False))
@@ -290,6 +320,10 @@ def _compile(tokens: list) -> _Piece:
             continue
         if op is BRANCH:
             _flags, arms = arg
+            if _literal_branch(arms):
+                pieces.append(_Piece(1, False))
+                index += 1
+                continue
             compiled = [_compile(arm) for arm in arms]
             if len(compiled) == 1:
                 pieces.append(compiled[0])
