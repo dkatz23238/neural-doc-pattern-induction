@@ -386,6 +386,10 @@ def _summary(root: Path) -> None:
     if probe_path.exists():
         lines.append(probe_path.read_text().rstrip())
         lines.append("")
+    constituent_path = root / "results" / "prior" / "constituents.md"
+    if constituent_path.exists():
+        lines.append(constituent_path.read_text().rstrip())
+        lines.append("")
     seal_path = root / "results" / "needle" / "bench_e_seal.json"
     if seal_path.exists():
         seal = json.loads(seal_path.read_text())
