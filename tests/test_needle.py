@@ -2,12 +2,14 @@ import inspect
 import json
 import re
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
 from pattern_induction.candidates import semantic_key
+from pattern_induction.confidence import NAMES, Signals, fitted_confidence, load_fit
 from pattern_induction.needle import NeedleError, _confidence, needle
-from pattern_induction.program import execute
+from pattern_induction.program import Prog, SearchTimeout, execute, set_deadline
 from pattern_induction.symbolic import symbolic_pick
 from pattern_induction.tasks import Task
 
@@ -77,6 +79,47 @@ class NeedleTest(unittest.TestCase):
         self.assertEqual(result.regex, symbolic_pick(examples).pattern)
         compiled = re.compile(result.regex)
         self.assertTrue(all(compiled.fullmatch(text) for text in examples))
+
+    def test_the_time_limit_keeps_the_symbolic_answer(self) -> None:
+        examples = ["CUS-DE1234", "CUS-SO9281", "CUS-AM0042"]
+        needle(examples, ROOT)
+        started = time.perf_counter()
+        result = needle(examples, ROOT, time_limit=0.0)
+        self.assertLess(time.perf_counter() - started, 2.0)
+        self.assertEqual(result.regex, symbolic_pick(examples).pattern)
+        self.assertIsNone(result.ast)
+        self.assertGreater(result.confidence, 0.0)
+        self.assertLess(result.confidence, 1.0)
+
+    def test_the_deadline_stops_program_construction(self) -> None:
+        set_deadline(time.perf_counter() - 1.0)
+        try:
+            with self.assertRaises(SearchTimeout):
+                for index in range(1000):
+                    Prog("COPY", start=index, end=index + 1)
+        finally:
+            set_deadline(None)
+        Prog("COPY")
+
+    def test_the_fitted_confidence_rewards_agreement(self) -> None:
+        fit = load_fit(ROOT)
+        self.assertIsNotNone(fit)
+        self.assertEqual(tuple(fit["names"]), NAMES)
+        shared = dict(
+            regex=r"^CUS-[A-Z]{2}\d{4}$",
+            supports=["CUS-DE1234", "CUS-SO9281", "CUS-AM0042"],
+            margin=4.0,
+            near_tie=False,
+            n_alternatives=5,
+            cost=90.0,
+            learned=True,
+            prior_conf=0.9,
+            n_programs=100,
+        )
+        agreed = fitted_confidence(Signals(agrees=True, **shared), fit)
+        dissent = fitted_confidence(Signals(agrees=False, **shared), fit)
+        self.assertGreater(agreed, dissent)
+        self.assertTrue(0.0 < dissent < agreed < 1.0)
 
     def test_one_example_abstains(self) -> None:
         result = needle(["CUS-DE1234"], ROOT)

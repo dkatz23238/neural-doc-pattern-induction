@@ -40,7 +40,7 @@ result.ambiguous
 result.alternatives
 ```
 
-The selector sees every example, whole. The recognizer reads the first four, each clipped to 32 characters. A missing checkpoint still returns the symbolic regex; confidence then uses only the code-length margin. Alternatives are other languages, not spellings of the winner. Retraining the recognizer is in [DOCS.md](DOCS.md). The release note is `results/needle/v1.md`. `scripts/profile_needle.py` times the six showcase calls and checks that their regexes are unchanged.
+The selector sees every example, whole. The recognizer reads the first four, each clipped to 32 characters. The recognizer gets 5 seconds (`needle(examples, time_limit=...)`); past that, `needle()` returns the symbolic regex without it. `result.confidence` is a logistic model fit on BENCH-C with whole domains held out: AUROC 0.672 and Brier 0.217 against 0.582 and 0.259 for the hand-set v1 formula under the same limit (`results/needle/confidence.md`). A missing checkpoint still returns the symbolic regex. Alternatives are other languages, not spellings of the winner. Retraining the recognizer is in [DOCS.md](DOCS.md). The release note is `results/needle/v1.md`. `scripts/profile_needle.py` times the six showcase calls and checks that their regexes are unchanged.
 
 ```bash
 uv run python -m unittest discover -s tests
@@ -73,6 +73,7 @@ uv run python scripts/run_needle.py --stage summary
 | `results/needle/v1.md` | Frozen v1 decision, BENCH-C, and BENCH-E |
 | `results/needle/showcase.md` | Six calls and what they return |
 | `results/needle/inference.md` | Latency of the frozen decision after the inference pass |
+| `results/needle/confidence.md` | How well the fitted confidence predicts a correct regex |
 | `results/factory/bank.md` | Accepted concept bank and its diversity |
 | `results/factory/mix.md` | Frozen prior trained with the concept bank |
 | `results/factory/typed.md` | One scale per ambiguity |

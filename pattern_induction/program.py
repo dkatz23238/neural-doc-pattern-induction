@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import random
 import re
+import time
 from dataclasses import dataclass, field
 
 from pattern_induction.charset import integer_matches, integer_regex, spec_matches
@@ -51,6 +52,27 @@ SCOPE_REPEAT = 1
 SCOPE_OPT = 2
 SCOPE_ALT = 3
 
+_BUDGET: dict[str, float | int | None] = {"deadline": None, "ticks": 0}
+
+
+class SearchTimeout(RuntimeError):
+    """The program search passed its deadline."""
+
+
+def set_deadline(deadline: float | None) -> None:
+    """A `time.perf_counter()` value after which program construction raises."""
+    _BUDGET["deadline"] = deadline
+    _BUDGET["ticks"] = 0
+
+
+def _tick() -> None:
+    deadline = _BUDGET["deadline"]
+    if deadline is None:
+        return
+    _BUDGET["ticks"] += 1
+    if not _BUDGET["ticks"] & 255 and time.perf_counter() > deadline:
+        raise SearchTimeout
+
 
 @dataclass
 class Prog:
@@ -65,6 +87,7 @@ class Prog:
     children: list["Prog"] = field(default_factory=list)
 
     def __post_init__(self) -> None:
+        _tick()
         child_ids = tuple(child.__dict__["_ast_id"] for child in self.children)
         key = (self.op, self.slot, self.start, self.end, self.cls, self.lo, self.hi, self.spec, child_ids)
         ident = _AST.get(key)
@@ -148,6 +171,7 @@ def _membership_key(prog: Prog, text: str, supports: list[str], index: int) -> t
 
 def advance(prog: Prog, text: str, supports: list[str], index: int = 0) -> tuple[int, ...]:
     """Ends reachable by matching `prog` at `index`. The match need not consume `text`."""
+    _tick()
     sid = supports_id(supports)
 
     def ends(node: Prog, cursor: int) -> tuple[int, ...]:
