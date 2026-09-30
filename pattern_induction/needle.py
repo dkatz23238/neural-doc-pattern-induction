@@ -37,8 +37,8 @@ class NeedleResult:
 def needle(examples: list[str], root: Path | None = None) -> NeedleResult:
     """Induce a regex from two or more positive examples.
 
-    Each string is clipped to 32 characters. Every non-empty example is shown
-    to the symbolic selector. The recognizer reads the first four of those.
+    Every non-empty example is shown whole to the symbolic selector. The
+    recognizer reads the first four of those, each clipped to 32 characters.
     One example, or none, abstains. The returned regex is the symbolic winner.
     ``ambiguous`` is true when another presented candidate is within one bit
     of that cost, or when the recognizer proposes a different program.
@@ -48,7 +48,8 @@ def needle(examples: list[str], root: Path | None = None) -> NeedleResult:
     if len(supports) < 2:
         return NeedleResult("", None, 0.0, [], "abstain", False)
     pick = symbolic_pick(supports)
-    learned = _learned(supports[:MAX_SUPPORT], Path(root) if root is not None else Path("."))
+    clipped = [text[:MAX_LEN] for text in supports[:MAX_SUPPORT]]
+    learned = _learned(clipped, Path(root) if root is not None else Path("."))
     learned_regex = None if learned is None else learned[0]
     same_language = learned_regex is not None and semantic_key(learned_regex) == semantic_key(pick.pattern)
     agrees = learned is None or same_language
@@ -69,7 +70,7 @@ def _supports(examples: list[str]) -> list[str]:
         if not isinstance(text, str):
             raise NeedleError("every example must be a string")
         if text:
-            cleaned.append(text[:MAX_LEN])
+            cleaned.append(text)
     return cleaned
 
 

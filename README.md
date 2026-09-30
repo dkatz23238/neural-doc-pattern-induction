@@ -40,7 +40,7 @@ result.ambiguous
 result.alternatives
 ```
 
-Each example is clipped to 32 characters. The selector sees every example. The recognizer reads the first four. A missing checkpoint still returns the symbolic regex; confidence then uses only the code-length margin. Alternatives are other languages, not spellings of the winner. Retraining the recognizer is in [DOCS.md](DOCS.md). The release note is `results/needle/v1.md`. `scripts/profile_needle.py` times the six showcase calls and checks that their regexes are unchanged.
+The selector sees every example, whole. The recognizer reads the first four, each clipped to 32 characters. A missing checkpoint still returns the symbolic regex; confidence then uses only the code-length margin. Alternatives are other languages, not spellings of the winner. Retraining the recognizer is in [DOCS.md](DOCS.md). The release note is `results/needle/v1.md`. `scripts/profile_needle.py` times the six showcase calls and checks that their regexes are unchanged.
 
 ```bash
 uv run python -m unittest discover -s tests

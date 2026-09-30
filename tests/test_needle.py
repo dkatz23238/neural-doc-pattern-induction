@@ -1,6 +1,7 @@
 import inspect
 import json
 import re
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -64,6 +65,18 @@ class NeedleTest(unittest.TestCase):
         examples = ["INV-1000", "INV-1001", "INV-1002", "INV-1003", "INV-1004", "INV-1005"]
         result = needle(examples, ROOT)
         self.assertEqual(result.regex, symbolic_pick(examples).pattern)
+
+    def test_long_examples_reach_the_selector_whole(self) -> None:
+        examples = [
+            "3f2b8c1e-9a4d-4e7b-8c2f-1a6d9e0b7c3a",
+            "a1c9e7f3-5b2d-4c8e-9f1a-7d3b6e2c0f4b",
+            "0e8d6c4b-2a1f-4e9d-8c7b-6a5f4e3d2c1b",
+        ]
+        with tempfile.TemporaryDirectory() as empty:
+            result = needle(examples, Path(empty))
+        self.assertEqual(result.regex, symbolic_pick(examples).pattern)
+        compiled = re.compile(result.regex)
+        self.assertTrue(all(compiled.fullmatch(text) for text in examples))
 
     def test_one_example_abstains(self) -> None:
         result = needle(["CUS-DE1234"], ROOT)
