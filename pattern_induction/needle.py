@@ -9,14 +9,27 @@ residual override is not loaded.
 from __future__ import annotations
 
 import math
+import time
 from dataclasses import dataclass
 from pathlib import Path
 
 from pattern_induction.candidates import semantic_key
-from pattern_induction.program import MAX_LEN, MAX_SUPPORT, Prog, Task, _MEMBERSHIP, _PIECE, to_regex
+from pattern_induction.confidence import Signals, fitted_confidence, load_fit
+from pattern_induction.program import (
+    MAX_LEN,
+    MAX_SUPPORT,
+    Prog,
+    SearchTimeout,
+    Task,
+    _MEMBERSHIP,
+    _PIECE,
+    set_deadline,
+    to_regex,
+)
 from pattern_induction.select_train import load_selector, select_program
 from pattern_induction.symbolic import symbolic_pick
 
+TIME_LIMIT = 5.0
 _MODELS: tuple | None = None
 
 
@@ -34,28 +47,48 @@ class NeedleResult:
     ambiguous: bool = False
 
 
-def needle(examples: list[str], root: Path | None = None) -> NeedleResult:
+def needle(examples: list[str], root: Path | None = None, time_limit: float | None = TIME_LIMIT) -> NeedleResult:
     """Induce a regex from two or more positive examples.
 
-    Each string is clipped to 32 characters. Every non-empty example is shown
-    to the symbolic selector. The recognizer reads the first four of those.
-    One example, or none, abstains. The returned regex is the symbolic winner.
-    ``ambiguous`` is true when another presented candidate is within one bit
-    of that cost, or when the recognizer proposes a different program.
-    Alternatives differ in the language they describe, not in spelling.
+    Every non-empty example is shown whole to the symbolic selector. The
+    recognizer reads the first four of those, each clipped to 32 characters,
+    and stops after ``time_limit`` seconds of search; the symbolic winner is
+    returned either way. One example, or none, abstains. ``ambiguous`` is true
+    when another presented candidate is within one bit of that cost, or when
+    the recognizer proposes a different program. Alternatives differ in the
+    language they describe, not in spelling.
     """
     supports = _supports(examples)
     if len(supports) < 2:
         return NeedleResult("", None, 0.0, [], "abstain", False)
+    base = Path(root) if root is not None else Path(".")
     pick = symbolic_pick(supports)
-    learned = _learned(supports[:MAX_SUPPORT], Path(root) if root is not None else Path("."))
-    learned_regex = None if learned is None else learned[0]
+    clipped = [text[:MAX_LEN] for text in supports[:MAX_SUPPORT]]
+    learned = _learned(clipped, base, time_limit)
+    learned_regex = learned.regex if learned is not None else None
     same_language = learned_regex is not None and semantic_key(learned_regex) == semantic_key(pick.pattern)
-    agrees = learned is None or same_language
+    agrees = learned_regex is None or same_language
     alternatives = _alternatives(pick.alternatives, learned_regex, pick.pattern)
-    ast = learned[1] if same_language else None
+    ast = learned.program if same_language else None
     ambiguous = pick.ambiguous or not agrees
-    confidence = _confidence(pick.margin, agrees, None if learned is None else learned[2], pick.ambiguous)
+    fit = load_fit(base)
+    if fit is None:
+        prior_conf = learned.prior_conf if learned_regex is not None else None
+        confidence = _confidence(pick.margin, agrees, prior_conf, pick.ambiguous)
+    else:
+        signals = Signals(
+            regex=pick.pattern,
+            supports=supports,
+            margin=pick.margin,
+            near_tie=pick.ambiguous,
+            n_alternatives=len(pick.alternatives),
+            cost=pick.cost,
+            learned=learned_regex is not None,
+            agrees=same_language,
+            prior_conf=learned.prior_conf if learned is not None else None,
+            n_programs=learned.n_programs if learned is not None else 0,
+        )
+        confidence = fitted_confidence(signals, fit)
     return NeedleResult(pick.pattern, ast, confidence, alternatives, "symbolic", ambiguous)
 
 
@@ -69,7 +102,7 @@ def _supports(examples: list[str]) -> list[str]:
         if not isinstance(text, str):
             raise NeedleError("every example must be a string")
         if text:
-            cleaned.append(text[:MAX_LEN])
+            cleaned.append(text)
     return cleaned
 
 
@@ -81,8 +114,16 @@ def _models(root: Path):
     return _MODELS[1]
 
 
-def _learned(supports: list[str], root: Path) -> tuple[str, Prog | None, float] | None:
-    """Recognizer hypothesis. Missing checkpoints leave the symbolic answer in place."""
+@dataclass(frozen=True)
+class _Learned:
+    regex: str | None
+    program: Prog | None
+    prior_conf: float | None
+    n_programs: int
+
+
+def _learned(supports: list[str], root: Path, time_limit: float | None = TIME_LIMIT) -> _Learned | None:
+    """Recognizer hypothesis. Missing checkpoints, or a search past the time limit, return None."""
     _MEMBERSHIP.clear()
     _PIECE.clear()
     try:
@@ -90,20 +131,26 @@ def _learned(supports: list[str], root: Path) -> tuple[str, Prog | None, float] 
     except (RuntimeError, OSError, FileNotFoundError):
         return None
     task = Task("needle", supports, Prog("COPY"), [])
-    chosen, programs, _count = select_program(
-        scope,
-        witness,
-        prior,
-        task,
-        with_stability=True,
-        v2=True,
-        stability_mode="direct",
-        operator_witnesses=True,
-    )
-    if chosen is None:
+    set_deadline(None if time_limit is None else time.perf_counter() + time_limit)
+    try:
+        chosen, programs, _count = select_program(
+            scope,
+            witness,
+            prior,
+            task,
+            with_stability=True,
+            v2=True,
+            stability_mode="direct",
+            operator_witnesses=True,
+        )
+        if chosen is None:
+            return _Learned(None, None, None, len(programs or []))
+        regex = to_regex(chosen, supports)
+        return _Learned(regex, chosen, _prior_confidence(programs, supports, prior, regex), len(programs))
+    except SearchTimeout:
         return None
-    regex = to_regex(chosen, supports)
-    return regex, chosen, _prior_confidence(programs, supports, prior, regex)
+    finally:
+        set_deadline(None)
 
 
 def _prior_confidence(programs: list[Prog], supports: list[str], prior, chosen: str) -> float:

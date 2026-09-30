@@ -1,12 +1,15 @@
 import inspect
 import json
 import re
+import tempfile
+import time
 import unittest
 from pathlib import Path
 
 from pattern_induction.candidates import semantic_key
+from pattern_induction.confidence import NAMES, Signals, fitted_confidence, load_fit
 from pattern_induction.needle import NeedleError, _confidence, needle
-from pattern_induction.program import execute
+from pattern_induction.program import Prog, SearchTimeout, execute, set_deadline
 from pattern_induction.symbolic import symbolic_pick
 from pattern_induction.tasks import Task
 
@@ -64,6 +67,59 @@ class NeedleTest(unittest.TestCase):
         examples = ["INV-1000", "INV-1001", "INV-1002", "INV-1003", "INV-1004", "INV-1005"]
         result = needle(examples, ROOT)
         self.assertEqual(result.regex, symbolic_pick(examples).pattern)
+
+    def test_long_examples_reach_the_selector_whole(self) -> None:
+        examples = [
+            "3f2b8c1e-9a4d-4e7b-8c2f-1a6d9e0b7c3a",
+            "a1c9e7f3-5b2d-4c8e-9f1a-7d3b6e2c0f4b",
+            "0e8d6c4b-2a1f-4e9d-8c7b-6a5f4e3d2c1b",
+        ]
+        with tempfile.TemporaryDirectory() as empty:
+            result = needle(examples, Path(empty))
+        self.assertEqual(result.regex, symbolic_pick(examples).pattern)
+        compiled = re.compile(result.regex)
+        self.assertTrue(all(compiled.fullmatch(text) for text in examples))
+
+    def test_the_time_limit_keeps_the_symbolic_answer(self) -> None:
+        examples = ["CUS-DE1234", "CUS-SO9281", "CUS-AM0042"]
+        needle(examples, ROOT)
+        started = time.perf_counter()
+        result = needle(examples, ROOT, time_limit=0.0)
+        self.assertLess(time.perf_counter() - started, 2.0)
+        self.assertEqual(result.regex, symbolic_pick(examples).pattern)
+        self.assertIsNone(result.ast)
+        self.assertGreater(result.confidence, 0.0)
+        self.assertLess(result.confidence, 1.0)
+
+    def test_the_deadline_stops_program_construction(self) -> None:
+        set_deadline(time.perf_counter() - 1.0)
+        try:
+            with self.assertRaises(SearchTimeout):
+                for index in range(1000):
+                    Prog("COPY", start=index, end=index + 1)
+        finally:
+            set_deadline(None)
+        Prog("COPY")
+
+    def test_the_fitted_confidence_rewards_agreement(self) -> None:
+        fit = load_fit(ROOT)
+        self.assertIsNotNone(fit)
+        self.assertEqual(tuple(fit["names"]), NAMES)
+        shared = dict(
+            regex=r"^CUS-[A-Z]{2}\d{4}$",
+            supports=["CUS-DE1234", "CUS-SO9281", "CUS-AM0042"],
+            margin=4.0,
+            near_tie=False,
+            n_alternatives=5,
+            cost=90.0,
+            learned=True,
+            prior_conf=0.9,
+            n_programs=100,
+        )
+        agreed = fitted_confidence(Signals(agrees=True, **shared), fit)
+        dissent = fitted_confidence(Signals(agrees=False, **shared), fit)
+        self.assertGreater(agreed, dissent)
+        self.assertTrue(0.0 < dissent < agreed < 1.0)
 
     def test_one_example_abstains(self) -> None:
         result = needle(["CUS-DE1234"], ROOT)
